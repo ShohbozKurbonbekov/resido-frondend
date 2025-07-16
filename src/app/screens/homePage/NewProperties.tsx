@@ -6,7 +6,8 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
 const carouselOptions: EmblaOptionsType = {
-  duration: 35,
+  loop: true,
+  duration: 55,
   align: "center",
 };
 

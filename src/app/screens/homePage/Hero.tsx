@@ -1,7 +1,7 @@
 export default function Hero() {
   return (
     <section
-      className="hero-section w-screen  h-screen overflow-hidden relative
+      className="hero-section w-full  h-screen overflow-hidden relative
     "
     >
       <div

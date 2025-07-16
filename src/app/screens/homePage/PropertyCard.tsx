@@ -9,7 +9,7 @@ import { useCallback, useEffect, useState } from "react";
 const carouselOptions: EmblaOptionsType = {
   loop: true,
   align: "center",
-  duration: 20, // default 25
+  duration: 25, // default 25
 };
 export default function PropertyCard() {
   const [emblaRef, emblaApi] = useEmblaCarousel(carouselOptions, [Autoplay()]);
