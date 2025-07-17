@@ -14,10 +14,10 @@ const carouselOptions: EmblaOptionsType = {
 const CustomersReview: React.FC = () => {
   const [carouselRef, carouselApi] = useEmblaCarousel(carouselOptions, [
     AutoScroll({
-      playOnInit: false,
+      playOnInit: true,
     }),
   ]);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(true);
 
   const toggleAutoPlay = useCallback(() => {
     const autoScroll = carouselApi?.plugins()?.autoScroll;
