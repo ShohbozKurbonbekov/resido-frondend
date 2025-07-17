@@ -7,7 +7,7 @@ type StarProp = {
 };
 
 export default function Stars({ size = "80px" }: StarProp) {
-  const [rating, setRating] = useState<number>(4);
+  const [rating, setRating] = useState<number>(5);
 
   return (
     <Rating
@@ -16,7 +16,7 @@ export default function Stars({ size = "80px" }: StarProp) {
       items={5}
       halfFillMode="svg"
       isRequired
-      style={{ maxWidth: `${size}`, borderColor: "transparent" }}
-    ></Rating>
+      style={{ maxWidth: `${size}` }}
+    />
   );
 }

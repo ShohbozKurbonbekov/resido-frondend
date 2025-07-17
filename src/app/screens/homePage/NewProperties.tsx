@@ -1,9 +1,9 @@
-import { SearchX } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import PropertyCard from "./PropertyCard";
 import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
+import NoFound from "@/app/components/NoFound";
 
 const carouselOptions: EmblaOptionsType = {
   loop: true,
@@ -103,12 +103,7 @@ export default function NewProperties() {
             </div>
           </div>
         ) : (
-          <div className="w-full border-2  flex flex-col py-20 items-center text-[#0c2339]">
-            <h4 className="font-bold italic text-3xl mb-2">
-              No result Found !
-            </h4>
-            <SearchX size="100px" />
-          </div>
+          <NoFound title="no new Properties found !" />
         )}
       </div>
     </section>
