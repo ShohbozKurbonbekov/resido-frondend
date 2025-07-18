@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import SignUp from "../Signup";
 
 export default function Navbar() {
   const authMember = false;
@@ -31,11 +32,14 @@ export default function Navbar() {
         </ul>
 
         {!authMember ? (
-          <div className="flex flex-row gap-2 text-[14px] text-stone-50 font-medium">
-            <button className="border-none bg-transparent outline-none">
-              Sign up
-            </button>
-            <span>Or</span>
+          <div className="flex flex-row gap-2 text-[14px] text-stone-50 font-medium items-center">
+            <SignUp
+              btnTitle={"Signup"}
+              btnClasses={
+                "border-none bg-transparent outline-none  text-slate-50 hover:no-underline hover:opacity-70 transition-opacity duration-100 ease-in-out p-0"
+              }
+            />
+            <span className="middle">Or</span>
             <button className="border-none bg-transparent outline-none">
               Sign in
             </button>
