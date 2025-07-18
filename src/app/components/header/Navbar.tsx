@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import SignUp from "../Signup";
+import Login from "../Login";
 
 export default function Navbar() {
   const authMember = false;
@@ -36,13 +37,14 @@ export default function Navbar() {
             <SignUp
               btnTitle={"Signup"}
               btnClasses={
-                "border-none bg-transparent outline-none  text-slate-50 hover:no-underline hover:opacity-70 transition-opacity duration-100 ease-in-out p-0"
+                "border-none bg-transparent outline-none  text-slate-50 hover:no-underline hover:opacity-70 transition-opacity duration-100 ease-in p-0"
               }
             />
             <span className="middle">Or</span>
-            <button className="border-none bg-transparent outline-none">
-              Sign in
-            </button>
+            <Login
+              btnClasses="border-none bg-transparent outline-none text-slate-50 p-0 hover:no-underline hover:opacity-70 transition-opacity duration-100 ease-in"
+              btnTitle="Signin"
+            />
           </div>
         ) : (
           <div></div>

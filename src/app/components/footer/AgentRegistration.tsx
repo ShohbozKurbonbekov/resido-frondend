@@ -1,3 +1,5 @@
+import SignUp from "../Signup";
+
 export default function AgentRegistration() {
   return (
     <section className="py-[50px] bg-blue-500 flex flex-row justify-center">
@@ -12,9 +14,12 @@ export default function AgentRegistration() {
         </div>
 
         <div>
-          <button className="py-3 px-7 text-darkBlue font-jostFont text-xs font-bold bg-slate-50 rounded-3xl opacity-80 shadow-[0_0_0.1rem_0.2rem_#fff3] cursor-pointer hover:scale-95 transition-all duration-200 ease-in-out hover:opacity-100">
-            Signup Today
-          </button>
+          <SignUp
+            btnTitle={"Signup Today"}
+            btnClasses={
+              "py-3 px-7 text-darkBlue font-jostFont text-xs font-bold bg-slate-50 rounded-3xl shadow-[0_0_0.1rem_0.2rem_#fff3] cursor-pointer hover:scale-95 transition-all duration-200 ease-in-out hover:no-underline"
+            }
+          />
         </div>
       </div>
     </section>
