@@ -1,3 +1,11 @@
+import AgentRegistration from "./AgentRegistration";
+import MainFooterContent from "./MainFooterContent";
+
 export default function Footer() {
-  return <div>FOOTER</div>;
+  return (
+    <>
+      <AgentRegistration />
+      <MainFooterContent />
+    </>
+  );
 }
