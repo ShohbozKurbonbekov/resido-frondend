@@ -111,8 +111,10 @@ export default function OtherNavbar() {
 
       {/* // Shown when scrolled over 80px */}
       <nav
-        className={`py-5 shadow-md shadow-slate-100 fixed top-0 left-0 z-50 w-full transition-transform duration-300 ease-linear bg-[#fff]   ${
-          showNavbar ? "translate-y-0" : "-translate-y-full opacity-0 invisible"
+        className={`py-5 shadow-md shadow-slate-100 fixed -top-1 left-0 z-50 w-full transition-transform duration-300 ease-linear bg-[#fff]   ${
+          showNavbar
+            ? "translate-y-0 "
+            : "-translate-y-full opacity-0 invisible shadow-red-700"
         }`}
       >
         {navbarContent}

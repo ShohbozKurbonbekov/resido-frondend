@@ -3,14 +3,13 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
 
 export default function PropertiesResultSection() {
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage] = useState<number>(1);
   const resultPerPage: number = 9;
 
   const paginationedData: number[] = Array.from(Array(30).keys()).slice(
@@ -19,7 +18,7 @@ export default function PropertiesResultSection() {
   );
 
   return (
-    <section className="pt-20 bg-sky-100  pb-8">
+    <section className="pt-20  bg-sky-100 px-6  pb-8">
       <div className="container grid grid-cols-1 lg:grid-cols-2 mx-auto border-2 bg-white rounded px-5 py-4 gap-5">
         <div className="flex flex-row justify-between items-center">
           <p className="text-sm text-darkBlue font-jostFont font-semibold capitalize">
