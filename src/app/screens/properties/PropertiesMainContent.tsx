@@ -6,9 +6,11 @@ import Divider from "@/app/components/Divider";
 import { useState } from "react";
 import NoFound from "@/app/components/NoFound";
 import PropertiesCard from "./PropertiesCard";
+import { PaginationCom } from "@/app/components/PaginationCom";
 
 export default function PropertiesMainContent() {
   const [properties, setProperties] = useState<number[]>([1, 2, 3, 4, 5, 6]);
+  const [currentPage, setCurrentPage] = useState<number>(2); // second one selected
 
   return (
     <section className="properties px-6 pb-3 bg-sky-100">
@@ -39,11 +41,21 @@ export default function PropertiesMainContent() {
         </div>
         <div className="md:col-span-2 bg-sky-100 rounded-sm pb-5">
           {properties.length ? (
-            <div className="flex flex-col space-y-4">
-              {properties.map((el: number) => (
-                <PropertiesCard key={el} />
-              ))}
-            </div>
+            <>
+              <div className="flex flex-col space-y-4">
+                {properties.map((el: number) => (
+                  <PropertiesCard key={el} />
+                ))}
+              </div>
+
+              {/* // pagination */}
+              <PaginationCom
+                totalPages={4}
+                currentPage={currentPage}
+                onPageChange={(page) => setCurrentPage(page)}
+                styleclasses="flex flex-row mt-5 w-full items-center justify-center gap-2 overflow-hidden py-1"
+              />
+            </>
           ) : (
             <NoFound title="No Properties Found !" borderColor="transparent" />
           )}
