@@ -46,10 +46,10 @@ export default function Properties() {
   return (
     <Card className="grid grid-cols-5 shadow-none">
       <CardHeader className="col-span-2 p-2 md:pr-2">
-        <div className="f-full relative">
-          <div className="wrapper">
-            <div className="overflow-hidden" ref={carouselRef}>
-              <div className="flex">
+        <div className="f-full relative h-full">
+          <div className="wrapper h-full">
+            <div className="overflow-hidden h-full" ref={carouselRef}>
+              <div className="flex h-full">
                 {/* // slide  1 */}
                 <div className="flex-[0_0_100%]">
                   <img
