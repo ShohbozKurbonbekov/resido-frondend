@@ -1,8 +1,9 @@
 import { Input } from "@/components/ui/input";
-import { BadgeCheck, Search, ShieldCheck } from "lucide-react";
+import { BadgeCheck, CircleX, Search, ShieldCheck } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Accordion } from "@/components/ui/accordion";
 import AccordionItemCom from "@/app/components/AccordtionItem";
+import { useState } from "react";
 
 interface CategoriesType {
   itemTitle: string;
@@ -100,17 +101,27 @@ const categoriesData: CategoriesType[] = [
 ];
 
 export default function PropertiesCategory() {
+  const [categoryText, setCategoryText] = useState<string>("");
+
   return (
     <div className="w-full">
       <form action="/properties" className="">
         {/* input element */}
-        <div className="w-full border-2  py-1 px-2 bg-sky-100 flex flex-row  items-stretch gap-2 text-sm rounded-sm">
+        <div className="w-full border-2  py-1 px-2 bg-sky-100 flex flex-row  items-center gap-2 text-sm rounded-sm ">
           <Search className="text-sky-600 self-center " />
           <Input
-            className="flex-[1_1_0%] text-slate-400 font-semibold font-jostFont border-none shadow-none outline-none focus-visible:ring-0 "
+            className="flex-[1_1_0%] text-slate-400 font-semibold font-jostFont border-none shadow-none outline-none focus-visible:ring-0 border-2 placeholder:text-xs ps-0 placeholder:text-slate-400"
             name="searchInput"
+            placeholder="Search By Name"
+            value={categoryText}
+            onChange={(e): void => setCategoryText(e.target.value)}
+          />
+          <CircleX
+            className="text-slate-400   hover:text-slate-500 text-size_10 transition-colors duration-100"
+            onClick={() => setCategoryText("")}
           />
         </div>
+
         {/* // verified element */}
         <div className="w-full border-2  py-3  px-2 bg-white flex flex-row  items-center space-x-1 text-sm rounded-sm mt-3">
           <div className="flex-[1_1_0%] text-start flex flex-row space-x-2 items-center">
