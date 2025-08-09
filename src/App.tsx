@@ -12,7 +12,7 @@ export default function App() {
       {location.pathname === "/" ? <Navbar /> : <OtherNavbar />}
 
       <Routes>
-        <Route path="/properties" element={<Properties />} />
+        <Route path="/properties/*" element={<Properties />} />
         <Route path="/" element={<HomePage />} />
       </Routes>
 
