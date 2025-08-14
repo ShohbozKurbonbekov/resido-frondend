@@ -4,7 +4,7 @@ import {
   NextButton,
   PrevButton,
   usePrevNextButtons,
-} from "@/app/carousel/CarouselArrowButtons";
+} from "@/app/components/carousel/CarouselArrowButtons";
 import type { EmblaOptionsType } from "embla-carousel";
 
 const options: EmblaOptionsType = {

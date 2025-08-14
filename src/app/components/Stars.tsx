@@ -4,10 +4,11 @@ import "@smastrom/react-rating/style.css";
 
 type StarProp = {
   size: string;
+  ratingNum: number;
 };
 
-export default function Stars({ size = "80px" }: StarProp) {
-  const [rating, setRating] = useState<number>(5);
+export default function Stars({ size = "80px", ratingNum }: StarProp) {
+  const [rating, setRating] = useState<number>(ratingNum);
 
   return (
     <Rating
