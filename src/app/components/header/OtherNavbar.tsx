@@ -40,6 +40,16 @@ export default function OtherNavbar() {
         </li>
         <li>
           <NavLink
+            to="/"
+            className={
+              "hover:text-slate-300 transition-all duration-75 ease-in"
+            }
+          >
+            Home
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
             to="/properties"
             className={
               "hover:text-slate-300 transition-all duration-75 ease-in"
