@@ -12,6 +12,14 @@ export type NearbySchoolsType = {
   schoolReviewAmount: number;
 };
 
+export type PropertyDetailFeaturedProperty = {
+  featuredPropertyImage: string;
+  featuredPropertyName: string;
+  featuredPropertyLocation: string;
+  featuredPropertyState?: string;
+  featuredPropertyPrice: string;
+};
+
 export type NearbyFoodRestaurantType = {
   restaurantName: string;
   restaurantDistanceFromProperty: string;

@@ -19,6 +19,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import SaveShareCom from "./SaveShareCom";
+import AgentContact from "./AgentContact";
+import MortageCalculation from "./MortageCalculation";
+import PropertyDetailFeaturedProperty from "./PropertyDetailFeaturedProperty";
 
 const galleryItems: string[] = [
   "/public/img/p-10.jpg",
@@ -32,6 +36,7 @@ const galleryItems: string[] = [
 export default function DetaiLMaincontent() {
   const locationUrl: string =
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d184552.30943582457!2d-79.37805805!3d43.7182412!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89d4cb90d7c63ba5%3A0x323555502ab4c477!2sToronto%2C%20Ontario%2C%20Kanada!5e0!3m2!1suz!2sus!4v1754833881587!5m2!1suz!2sus";
+  const propertyDetailUrl = "https://example.com/properties/123";
   const videoAvailable: boolean = true;
   const [totalReviews, setTotalReviews] = useState<number>(104);
   const [allReviews] = useState<PropertyDetailReviewType[]>([
@@ -76,7 +81,7 @@ export default function DetaiLMaincontent() {
     setTotalReviews(10);
   }, []);
   return (
-    <div className="container pt-20 pb-20 grid grid-cols-1 lg:grid-cols-6 gap-5 px-6 lg:px-3">
+    <div className="container pt-20 pb-20 grid rid-cols-1 lg:grid-cols-6 gap-5 px-6 lg:px-3">
       <div className="lg:col-span-4">
         <DetailShortInfo />
         {/* // collapsible accordion 1 */}
@@ -500,7 +505,15 @@ export default function DetaiLMaincontent() {
           }
         />
       </div>
-      <div className="bg-yellow-300 lg:col-span-2">part2</div>
+      <div className="lg:col-span-2">
+        <SaveShareCom
+          shareUrl={propertyDetailUrl}
+          shareTitle="Check this out!"
+        />
+        <AgentContact />
+        <MortageCalculation />
+        <PropertyDetailFeaturedProperty />
+      </div>
     </div>
   );
 }

@@ -17,7 +17,7 @@ export default function CommonAccordion({
 }: AccordionType) {
   return (
     <Accordion
-      type="single"
+      type={"single"}
       collapsible
       className="w-full px-4 bg-white rounded-md  mt-6"
       defaultValue="item-1 "
