@@ -5,7 +5,7 @@ import NoFound from "@/app/components/NoFound";
 import AgentCard from "../homePage/FeaturedAgent";
 
 export default function AgentsList() {
-  const [agentsList, setAgentsList] = useState<Agent[]>([
+  const [agentsList] = useState<Agent[]>([
     {
       agentImage: "/img/user-1.jpg",
       agentName: "James N. Green",
