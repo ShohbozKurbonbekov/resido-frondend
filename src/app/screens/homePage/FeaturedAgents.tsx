@@ -1,10 +1,44 @@
 import { useState } from "react";
-import FeaturedAgent from "./FeaturedAgent";
 import NoFound from "@/app/components/NoFound";
 import { Link } from "react-router-dom";
+import AgentCard from "./FeaturedAgent";
+import type { Agent } from "@/lib/type/agent";
 
 export default function FeaturedAgents() {
-  const [newAgents, setNewAgents] = useState<number[]>([1, 2, 3, 4, 5, 6]);
+  const [newAgents] = useState<Agent[]>([
+    {
+      agentImage: "/img/user-3.jpg",
+      agentName: "James N. Green",
+      agentProperties: 117,
+      agentPhone: "1234567859",
+      agentRating: 4,
+      agentReviews: 42,
+    },
+    {
+      agentImage: "/img/user-4.jpg",
+      agentName: "Seema Gauranki",
+      agentProperties: 20,
+      agentPhone: "235923598727385",
+      agentRating: 1,
+      agentReviews: 334,
+    },
+    {
+      agentImage: "/img/user-6.jpg",
+      agentName: "Adam Walcorn",
+      agentProperties: 38,
+      agentPhone: "23895235",
+      agentRating: 3,
+      agentReviews: 16,
+    },
+    {
+      agentImage: "/img/user-1.jpg",
+      agentName: "Jasmin Khatri",
+      agentProperties: 51,
+      agentPhone: "235283957",
+      agentRating: 2,
+      agentReviews: 51,
+    },
+  ]);
   return (
     <section className="featured-agents py-20 flex flex-row justify-center">
       <div className="container flex flex-col gap-10">
@@ -23,8 +57,8 @@ export default function FeaturedAgents() {
         ) : (
           <>
             <div className="agents-wrapper grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {newAgents.map((_, index: number) => {
-                return <FeaturedAgent key={index} />;
+              {newAgents.map((agent) => {
+                return <AgentCard agent={agent} />;
               })}
             </div>
             <div className="w-full flex flex-row justify-center items-center">
