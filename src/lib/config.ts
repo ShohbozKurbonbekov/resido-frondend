@@ -1,0 +1,9 @@
+export const serverAPI: string = `${import.meta.env.VITE_SERVER_API}`;
+
+export const ErrorMessages = {
+  error1: "Something went wrong",
+  error2: "Please, Login first!",
+  error3: "Please, Fill in all the inputs!",
+  error4: "Message is emty!",
+  error5: "Only Images with jpeg, jpg formats allowed!",
+};

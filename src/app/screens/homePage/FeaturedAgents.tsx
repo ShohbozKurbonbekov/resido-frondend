@@ -1,7 +1,7 @@
 import { useState } from "react";
 import NoFound from "@/app/components/NoFound";
 import { Link } from "react-router-dom";
-import AgentCard from "./FeaturedAgent";
+import AgentCard from "../../components/Cards/AgentCard";
 import type { Agent } from "@/lib/type/agent";
 
 export default function FeaturedAgents() {

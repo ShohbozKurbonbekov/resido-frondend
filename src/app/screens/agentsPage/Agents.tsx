@@ -2,7 +2,7 @@ import { useState } from "react";
 import { MapPin } from "lucide-react";
 import type { Agent } from "@/lib/type/agent";
 import NoFound from "@/app/components/NoFound";
-import AgentCard from "../homePage/FeaturedAgent";
+import AgentCard from "../../components/Cards/AgentCard";
 
 export default function AgentsList() {
   const [agentsList] = useState<Agent[]>([

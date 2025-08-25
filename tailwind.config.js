@@ -30,6 +30,7 @@ export default {
       },
       fontSize: {
         size_10: "10px",
+        size_15: "15px",
       },
       colors: {
         background: "hsl(var(--background))",
