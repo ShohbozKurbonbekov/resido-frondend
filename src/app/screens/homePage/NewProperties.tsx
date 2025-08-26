@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import PropertyCard from "./PropertyCard";
+import PropertyCard from "../../components/PropertyCard";
 import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";

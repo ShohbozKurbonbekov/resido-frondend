@@ -23,7 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import SaveShareCom from "./SaveShareCom";
-import AgentContact from "./AgentContact";
+import AgentContact from "../../components/AgentContact";
 import MortageCalculation from "./MortageCalculation";
 import type { Agent } from "@/lib/type/agent";
 import PropertyDetailFeaturedProperty from "./PropertyDetailFeaturedProperty";

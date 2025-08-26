@@ -1,7 +1,7 @@
 import type { Agent } from "@/lib/type/agent";
 import type { T } from "@/lib/type/common";
-import PropertyCard from "../homePage/PropertyCard";
-import AgentContact from "../propertiesPage/AgentContact";
+import PropertyCard from "../../components/PropertyCard";
+import AgentContact from "../../components/AgentContact";
 import type { PropertyDetailFeaturedPropertyType } from "@/lib/type/property";
 import PropertyDetailFeaturedProperty from "../propertiesPage/PropertyDetailFeaturedProperty";
 
