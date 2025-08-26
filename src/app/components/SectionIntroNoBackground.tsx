@@ -1,11 +1,11 @@
-interface AgentDetailIntroProp {
+interface SectionIntroNoBackgroundProp {
   title: string;
   subtitle: string;
 }
-export default function AgentDetailIntro({
+export default function SectionIntroNoBackground({
   title,
   subtitle,
-}: AgentDetailIntroProp) {
+}: SectionIntroNoBackgroundProp) {
   return (
     <section className="py-10 bg-blue-800 relative">
       <div className="container">

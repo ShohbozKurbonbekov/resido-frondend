@@ -14,6 +14,8 @@ export interface Agent {
   agentReviews?: number;
 }
 
+export interface AgentInquery {}
+
 export interface AgentSocialContacts {
   facebook: string;
   twitter: string;

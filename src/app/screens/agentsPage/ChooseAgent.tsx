@@ -3,9 +3,9 @@ import type { Agent } from "@/lib/type/agent";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import AgentShortInfo from "./AgentShortInfo";
-import AgentDetailIntro from "./AgentDetailInfo";
 import AgentDetailMainContent from "./AgentDetailMainContent";
 import type { PropertyDetailFeaturedPropertyType } from "@/lib/type/property";
+import SectionIntroNoBackground from "../../components/SectionIntroNoBackground";
 
 const agentProperties = [
   {
@@ -164,7 +164,7 @@ export default function ChooseAgent() {
   return (
     <>
       {/* // Section introduction */}
-      <AgentDetailIntro
+      <SectionIntroNoBackground
         title="Agent Detail"
         subtitle="Adam D. Okraar from Canada"
       />

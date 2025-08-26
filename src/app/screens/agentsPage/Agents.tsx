@@ -2,6 +2,7 @@ import { useState } from "react";
 import { MapPin } from "lucide-react";
 import NoFound from "@/app/components/NoFound";
 import AgentCard from "../../components/Cards/AgentCard";
+import SectionIntroductionBackground from "@/app/components/SectionIntroductionBackground";
 
 export default function AgentsList() {
   const [agentsList] = useState<
@@ -66,29 +67,10 @@ export default function AgentsList() {
   const [searchInput, setSearchInput] = useState<string>("");
   return (
     <>
-      <section className="py-20 bg-blue-800 relative">
-        {/* // background 1 */}
-        <div className="absolute top-0 left-0 mt-6  w-[96px] h-[64px] bg-[#eff4fc] opacity-25 rounded-e-full"></div>
-        {/* // background 2 */}
-        <div className="absolute bottom-0 ms-6  w-[64px] h-[84px] bg-[#eff4fc] opacity-25 rounded-t-full"></div>
-
-        {/* // background 3 */}
-        <div className="absolute right-0 bottom-0 mb-6  w-[96px] h-[64px] bg-[#eff4fc] opacity-25 rounded-s-full"></div>
-
-        {/* // background 4 */}
-        <div className="absolute right-0 top-0 me-6  w-[64px] h-[84px] bg-[#eff4fc] opacity-25 rounded-b-full"></div>
-
-        <div className="container">
-          <div className="py-[30px] flex flex-col items-start gap-y-2">
-            <h2 className="text-white font-bold font-jostFont leading-tight text-3xl">
-              All Agents
-            </h2>
-            <p className="italic text-xl font-light text-slate-300 leading-none">
-              Lists of our all export agents
-            </p>
-          </div>
-        </div>
-      </section>
+      <SectionIntroductionBackground
+        title="All Agents"
+        subtitle="Lists of all expert agents"
+      />
       <section className="bg-sky-100">
         <div className="container">
           {/* // Searching Input Element for the agents list */}

@@ -26,3 +26,5 @@ export type NearbyFoodRestaurantType = {
   restaurantRatings: number;
   restaurantReviewAmount: number;
 };
+
+export interface propertyInquery {}
