@@ -1,24 +1,34 @@
 import { Link } from "react-router-dom";
 
-export default function AgentContact() {
+interface AgentContactProp {
+  agentName: string;
+  agentPhone: string;
+  agentImage: string;
+}
+
+export default function AgentContact({
+  agentName,
+  agentPhone,
+  agentImage,
+}: AgentContactProp) {
   return (
     <div className="flex flex-col mb-[30px]">
       <div className="rounded-tl-md rounded-tr-md bg-blue-800 py-6 px-5 flex flex-row items-center">
         <div className="h-[60px] w-[15px">
           <img
-            src="/img/user-2.jpg"
-            alt=""
+            src={agentImage}
+            alt={agentName}
             className="rounded-full w-ful h-full object-cover"
           />
         </div>
         <div className="flex-1 flex flex-col items-start justify-center ps-5">
           <Link to="#">
             <h4 className="font-bold font-jostFont text-xl text-white capitalize  leading-tight">
-              Shivangi Carlo
+              {agentName}
             </h4>
           </Link>
           <p className="text-slate-300 text-base font-light ms-1 font-jostFont">
-            (010)-39674224
+            {agentPhone}
           </p>
         </div>
       </div>

@@ -9,7 +9,7 @@ export default function AgentShortInfo({ agent }: AgentShortInfoProp) {
   return (
     <section className="agent-shortInfo bg-sky-100 pt-0 pb-14">
       <div className="container mx-auto">
-        <div className="grid lg:grid-cols-[min(19.3vw,288.500px)_1fr] lg:gap-x-[40px] grid-cols-1 box-border bg-white rounded-md -mt-10 mb-[30px] relative z-10">
+        <div className="grid lg:grid-cols-[min(19.3vw,288.500px)_1fr] lg:gap-x-[40px] grid-cols-1 box-border bg-white rounded-md -mt-10  relative z-10">
           <div className="p-4">
             <img
               src={agent?.agentImage}

@@ -1,13 +1,17 @@
 export interface Agent {
   agentImage: string;
   agentName: string;
-  agentProperties: number;
-  agentLocation?: string;
-  agentDescription?: string;
-  agentContacts?: AgentSocialContacts;
+  agentMemberYear: number;
   agentPhone: string;
-  agentRating: number;
-  agentReviews: number;
+  agentLocation: string;
+  agentPosition: string;
+  agentCountry: string;
+  agentCity: string;
+  agentContacts: AgentSocialContacts;
+  agentProperties?: number;
+  agentDescription?: string;
+  agentRating?: number;
+  agentReviews?: number;
 }
 
 export interface AgentSocialContacts {
@@ -15,4 +19,6 @@ export interface AgentSocialContacts {
   twitter: string;
   instagram: string;
   linkedin: string;
+  email: string;
+  skype?: string;
 }

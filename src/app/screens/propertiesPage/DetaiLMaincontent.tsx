@@ -8,7 +8,10 @@ import RatingBox from "@/app/components/progressBar/RatingBox";
 import { useEffect, useState } from "react";
 import PropertyDetailReviews from "./PropertyDetailReviews";
 import moment from "moment";
-import type { PropertyDetailReviewType } from "@/lib/type/property";
+import type {
+  PropertyDetailFeaturedPropertyType,
+  PropertyDetailReviewType,
+} from "@/lib/type/property";
 import PropertyDetailNearbyPlaces from "./PropertyDetailNearbyPlaces";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -22,6 +25,7 @@ import {
 import SaveShareCom from "./SaveShareCom";
 import AgentContact from "./AgentContact";
 import MortageCalculation from "./MortageCalculation";
+import type { Agent } from "@/lib/type/agent";
 import PropertyDetailFeaturedProperty from "./PropertyDetailFeaturedProperty";
 
 const galleryItems: string[] = [
@@ -33,9 +37,16 @@ const galleryItems: string[] = [
   "/public/img/p-15.jpg",
 ];
 
-export default function DetaiLMaincontent() {
+interface DetaiLMaincontentProp {
+  propertyAgent: Agent;
+  featuredProperty: PropertyDetailFeaturedPropertyType[];
+}
+export default function DetaiLMaincontent(props: DetaiLMaincontentProp) {
+  const { featuredProperty } = props;
+  const { agentName, agentPhone, agentImage } = props.propertyAgent;
   const locationUrl: string =
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d184552.30943582457!2d-79.37805805!3d43.7182412!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89d4cb90d7c63ba5%3A0x323555502ab4c477!2sToronto%2C%20Ontario%2C%20Kanada!5e0!3m2!1suz!2sus!4v1754833881587!5m2!1suz!2sus";
+
   const propertyDetailUrl = "https://example.com/properties/123";
   const videoAvailable: boolean = true;
   const [totalReviews, setTotalReviews] = useState<number>(104);
@@ -510,9 +521,13 @@ export default function DetaiLMaincontent() {
           shareUrl={propertyDetailUrl}
           shareTitle="Check this out!"
         />
-        <AgentContact />
+        <AgentContact
+          agentImage={agentImage}
+          agentName={agentName}
+          agentPhone={agentPhone}
+        />
         <MortageCalculation />
-        <PropertyDetailFeaturedProperty />
+        <PropertyDetailFeaturedProperty featuredProperty={featuredProperty} />
       </div>
     </div>
   );

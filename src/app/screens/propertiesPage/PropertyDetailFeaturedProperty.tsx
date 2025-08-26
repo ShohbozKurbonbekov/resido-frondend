@@ -1,37 +1,13 @@
-import type { PropertyDetailFeaturedProperty } from "@/lib/type/property";
 import { MapPin } from "lucide-react";
+import type { PropertyDetailFeaturedPropertyType } from "@/lib/type/property";
 
-const featuredProperty: PropertyDetailFeaturedProperty[] = [
-  {
-    featuredPropertyImage: "/img/p-12.jpg",
-    featuredPropertyName: "Oss vengel New Apartment",
-    featuredPropertyLocation: "Sans Fransico",
-    featuredPropertyPrice: "$4,240",
-  },
-  {
-    featuredPropertyImage: "/img/p-13.jpg",
-    featuredPropertyName: "Montreal Quriqe Apartment",
-    featuredPropertyLocation: "Liverpool, London",
-    featuredPropertyState: "For Rent",
-    featuredPropertyPrice: "$7,380",
-  },
-  {
-    featuredPropertyImage: "/img/p-14.jpg",
-    featuredPropertyName: "Curmic Studio For Office",
-    featuredPropertyLocation: "Montreal, Canada",
-    featuredPropertyState: "For Rent",
-    featuredPropertyPrice: "$8,730",
-  },
-  {
-    featuredPropertyImage: "/img/p-15.jpg",
-    featuredPropertyName: "Montreal Quebec City",
-    featuredPropertyLocation: "Sreek View, New York",
-    featuredPropertyState: "For Rent",
-    featuredPropertyPrice: "$6,240",
-  },
-];
+interface PropertyDetailFeaturedPropertyProp {
+  featuredProperty: PropertyDetailFeaturedPropertyType[];
+}
 
-export default function PropertyDetailFeaturedProperty() {
+export default function PropertyDetailFeaturedProperty({
+  featuredProperty,
+}: PropertyDetailFeaturedPropertyProp) {
   return (
     <div className="flex flex-col gap-y-2">
       <h4 className="text-darkBlue text-xl leading-tight capitalize font-jostFont font-bold ">
@@ -39,7 +15,7 @@ export default function PropertyDetailFeaturedProperty() {
       </h4>
       <ul className="flex flex-col bg-slate-100 gap-y-[15px] items-start">
         {featuredProperty.map(
-          (property: PropertyDetailFeaturedProperty, index: number) => (
+          (property: PropertyDetailFeaturedPropertyType, index: number) => (
             <li
               key={index}
               className="p-4 grid grid-cols-[minmax(83px,104px)_1fr] w-full gap-x-3 content-start justify-items-stretch bg-white rounded-md"

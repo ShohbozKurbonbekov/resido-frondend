@@ -1,11 +1,19 @@
 import { useState } from "react";
 import { MapPin } from "lucide-react";
-import type { Agent } from "@/lib/type/agent";
 import NoFound from "@/app/components/NoFound";
 import AgentCard from "../../components/Cards/AgentCard";
 
 export default function AgentsList() {
-  const [agentsList] = useState<Agent[]>([
+  const [agentsList] = useState<
+    {
+      agentImage: string;
+      agentName: string;
+      agentProperties: number;
+      agentPhone: string;
+      agentRating: number;
+      agentReviews: number;
+    }[]
+  >([
     {
       agentImage: "/img/user-1.jpg",
       agentName: "James N. Green",
@@ -111,9 +119,18 @@ export default function AgentsList() {
           {/* // Agents list */}
           <div className="agents-wrapper grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 pb-10  pt-5">
             {!agentsList.length && <NoFound title={"No Agents Found"} />}
-            {agentsList.map((agent: Agent) => (
-              <AgentCard agent={agent} />
-            ))}
+            {agentsList.map(
+              (agent: {
+                agentImage: string;
+                agentName: string;
+                agentProperties: number;
+                agentPhone: string;
+                agentRating: number;
+                agentReviews: number;
+              }) => (
+                <AgentCard agent={agent} />
+              )
+            )}
           </div>
           <div className="flex flex-row items-center justify-center">
             <button

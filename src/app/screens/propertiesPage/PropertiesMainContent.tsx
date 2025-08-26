@@ -9,7 +9,7 @@ import PropertiesCard from "./PropertiesCard";
 import { PaginationCom } from "@/app/components/PaginationCom";
 
 export default function PropertiesMainContent() {
-  const [properties, setProperties] = useState<number[]>([1, 2, 3, 4, 5, 6]);
+  const [properties] = useState<number[]>([1, 2, 3, 4, 5, 6]);
   const [currentPage, setCurrentPage] = useState<number>(2); // second one selected
 
   return (

@@ -12,7 +12,7 @@ export type NearbySchoolsType = {
   schoolReviewAmount: number;
 };
 
-export type PropertyDetailFeaturedProperty = {
+export type PropertyDetailFeaturedPropertyType = {
   featuredPropertyImage: string;
   featuredPropertyName: string;
   featuredPropertyLocation: string;

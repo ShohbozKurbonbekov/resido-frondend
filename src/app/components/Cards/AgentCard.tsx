@@ -6,12 +6,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type { Agent } from "@/lib/type/agent";
 import { MailQuestionMark } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface AgentCardProp {
-  agent: Agent;
+  agent: {
+    agentImage: string;
+    agentName: string;
+    agentProperties: number;
+    agentPhone: string;
+    agentRating: number;
+    agentReviews: number;
+  };
 }
 
 export default function AgentCard({ agent }: AgentCardProp) {

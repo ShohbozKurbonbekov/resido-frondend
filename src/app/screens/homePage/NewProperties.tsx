@@ -7,18 +7,98 @@ import NoFound from "@/app/components/NoFound";
 
 const carouselOptions: EmblaOptionsType = {
   loop: true,
-  duration: 55,
+  duration: 60,
   align: "center",
 };
 
 export default function NewProperties() {
-  //Building states for caard Carousel
+  //Building states for card Carousel
   const [cardCarouselRef, carouselApi] = useEmblaCarousel(carouselOptions, [
     Autoplay(),
   ]);
   const [carouselIndex, setCarouselIndex] = useState<number>();
   const [allCarouselNumbers, setAllCarouselNumbers] = useState<number[]>();
-  const [newProperties] = useState<number[]>([1, 2, 3]);
+
+  const newProperties = [
+    {
+      propertyStatus: "verified",
+      propertyImages: ["/img/p-16.jpg", "/img/p-17.jpg", "/img/p-15.jpg"],
+      propertyMarketStatus: "for rent",
+      propertyType: "Apartment",
+      propertyName: "The Green Canton Chrysler",
+      propertyLocation: "210 Zirak Road, Canada",
+      PropertyBedroom: 3,
+      propertyHall: 1,
+      propertyKitchen: 2,
+      propertyArea: 1900,
+      propertyPrice: 80000,
+    },
+    {
+      propertyStatus: "superAgent",
+      propertyImages: ["/img/p-1.jpg", "/img/p-2.jpg", "/img/p-3.jpg"],
+      propertyMarketStatus: "for sell",
+      propertyType: "House",
+      propertyName: "Purple Flatiron House",
+      propertyLocation: "210 Zirak Road, Canada",
+      PropertyBedroom: 6,
+      propertyHall: 2,
+      propertyKitchen: 4,
+      propertyArea: 1600,
+      propertyPrice: 30000,
+    },
+    {
+      propertyStatus: "verified",
+      propertyImages: ["/img/p-4.jpg", "/img/p-5.jpg", "/img/p-6.jpg"],
+      propertyMarketStatus: "for rent",
+      propertyType: "building",
+      propertyName: "The Green Canton Chrysler",
+      propertyLocation: "210 Zirak Road, Canada",
+      PropertyBedroom: 2,
+      propertyHall: 1,
+      propertyKitchen: 1,
+      propertyArea: 1200,
+      propertyPrice: 44000,
+    },
+    {
+      propertyStatus: "verified",
+      propertyImages: ["/img/p-16.jpg", "/img/p-17.jpg", "/img/p-15.jpg"],
+      propertyMarketStatus: "for rent",
+      propertyType: "Apartment",
+      propertyName: "The Green Canton Chrysler",
+      propertyLocation: "210 Zirak Road, Canada",
+      PropertyBedroom: 3,
+      propertyHall: 1,
+      propertyKitchen: 2,
+      propertyArea: 1900,
+      propertyPrice: 56000,
+    },
+    {
+      propertyStatus: "superAgent",
+      propertyImages: ["/img/p-1.jpg", "/img/p-2.jpg", "/img/p-3.jpg"],
+      propertyMarketStatus: "for sell",
+      propertyType: "House",
+      propertyName: "Purple Flatiron House",
+      propertyLocation: "210 Zirak Road, Canada",
+      PropertyBedroom: 6,
+      propertyHall: 2,
+      propertyKitchen: 4,
+      propertyArea: 1600,
+      propertyPrice: 99000,
+    },
+    {
+      propertyStatus: "verified",
+      propertyImages: ["/img/p-4.jpg", "/img/p-5.jpg", "/img/p-6.jpg"],
+      propertyMarketStatus: "for rent",
+      propertyType: "building",
+      propertyName: "The Green Canton Chrysler",
+      propertyLocation: "210 Zirak Road, Canada",
+      PropertyBedroom: 2,
+      propertyHall: 1,
+      propertyKitchen: 1,
+      propertyArea: 1200,
+      propertyPrice: 87000,
+    },
+  ];
 
   const onSelect = useCallback((carouselApi: EmblaCarouselType) => {
     setCarouselIndex(carouselApi.selectedScrollSnap());
@@ -59,27 +139,33 @@ export default function NewProperties() {
                 {/* // 3-way slide-1 */}
                 <div className="flex-[0_0_100%]">
                   <div className="w-full  grid grid-cols-2 lg:grid-cols-3  gap-4 place-items-center ">
-                    {[1, 2, 3].map((_, index) => {
-                      return <PropertyCard key={index} />;
-                    })}
+                    {[newProperties[0], newProperties[1], newProperties[2]].map(
+                      (property, index) => {
+                        return <PropertyCard property={property} key={index} />;
+                      }
+                    )}
                   </div>
                 </div>
 
                 {/* // 3-way slide-2 */}
                 <div className="flex-[0_0_100%]">
                   <div className="w-full  grid grid-cols-2 lg:grid-cols-3  gap-4 place-items-center ">
-                    {[1, 2, 3].map((_, index) => {
-                      return <PropertyCard key={index} />;
-                    })}
+                    {[newProperties[4], newProperties[4], newProperties[5]].map(
+                      (property, index) => {
+                        return <PropertyCard property={property} key={index} />;
+                      }
+                    )}
                   </div>
                 </div>
 
                 {/* // 3-way slide-3 */}
                 <div className="flex-[0_0_100%]">
                   <div className="w-full  grid grid-cols-2 lg:grid-cols-3  gap-4 place-items-center ">
-                    {[1, 2, 3].map((_, index) => {
-                      return <PropertyCard key={index} />;
-                    })}
+                    {[newProperties[0], newProperties[1], newProperties[2]].map(
+                      (property, index) => {
+                        return <PropertyCard property={property} key={index} />;
+                      }
+                    )}
                   </div>
                 </div>
               </div>
