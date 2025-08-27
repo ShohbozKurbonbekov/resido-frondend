@@ -11,7 +11,7 @@ export default function PropertyDetailFeaturedProperty({
   return (
     <div className="flex flex-col gap-y-2">
       <h4 className="text-darkBlue text-xl leading-tight capitalize font-jostFont font-bold ">
-        Feautured Property
+        Featured Property
       </h4>
       <ul className="flex flex-col bg-slate-100 gap-y-[15px] items-start">
         {featuredProperty.map(

@@ -26,7 +26,7 @@ import SaveShareCom from "./SaveShareCom";
 import AgentContact from "../../components/AgentContact";
 import MortageCalculation from "./MortageCalculation";
 import type { Agent } from "@/lib/type/agent";
-import PropertyDetailFeaturedProperty from "./PropertyDetailFeaturedProperty";
+import PropertyDetailFeaturedProperty from "../../components/PropertyDetailFeaturedProperty";
 
 const galleryItems: string[] = [
   "/public/img/p-10.jpg",

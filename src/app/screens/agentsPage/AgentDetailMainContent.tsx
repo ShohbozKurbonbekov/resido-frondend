@@ -3,7 +3,8 @@ import type { T } from "@/lib/type/common";
 import PropertyCard from "../../components/PropertyCard";
 import AgentContact from "../../components/AgentContact";
 import type { PropertyDetailFeaturedPropertyType } from "@/lib/type/property";
-import PropertyDetailFeaturedProperty from "../propertiesPage/PropertyDetailFeaturedProperty";
+import PropertyDetailFeaturedProperty from "../../components/PropertyDetailFeaturedProperty";
+import SomeInfoSection from "@/app/components/someInfoSection";
 
 interface AgentDetailMainContentProp {
   agent: Agent;
@@ -17,7 +18,6 @@ export default function AgentDetailMainContent({
   featuredProperty,
 }: AgentDetailMainContentProp) {
   const {
-    agentPosition,
     agentPhone,
     agentLocation,
     agentCountry,
@@ -42,84 +42,19 @@ export default function AgentDetailMainContent({
       <div className="container  pb-20 grid rid-cols-1 lg:grid-cols-6 gap-5 ">
         <div className="lg:col-span-4">
           {/* Agent Some Info */}
-          <div className="bg-white rounded-md  p-[15px_40px_40px] flex flex-col space-y-3 items-stretch">
-            <h4 className="text-base font-bold leading-[26px] text-darkBlue font-jostFont capitalize border-s-0 border-t-0 border-e-0 border-b-slate-200 border-2 pb-2 mb-4">
-              Agent info
-            </h4>
-            <ul className="py-1 list-none grid grid-cols-2 items-start justify-items-start leading-[1.5]  gap-y-3 rounded-sm">
-              <li className="flex flex-col">
-                <strong className="text-darkBlue font-bold font-jostFont text-size_15">
-                  {agentPosition}
-                </strong>
-                <span className="text-size_15 text-blue-500 font-light font-jostFont capitalize">
-                  {agentName}
-                </span>
-              </li>
-
-              <li className="flex flex-col">
-                <strong className="text-darkBlue font-bold font-jostFont text-size_15">
-                  Email
-                </strong>
-                <span className="text-size_15 text-blue-500 font-light font-jostFont capitalize">
-                  {agentContacts.email}
-                </span>
-              </li>
-
-              <li className="flex flex-col">
-                <strong className="text-darkBlue font-bold font-jostFont text-size_15">
-                  Phone
-                </strong>
-                <span className="text-size_15 text-blue-500 font-light font-jostFont capitalize">
-                  {agentPhone}
-                </span>
-              </li>
-
-              <li className="flex flex-col">
-                <strong className="text-darkBlue font-bold font-jostFont text-size_15">
-                  Skype
-                </strong>
-                <span className="text-size_15 text-blue-500 font-light font-jostFont capitalize">
-                  {agentContacts.skype}
-                </span>
-              </li>
-
-              <li className="flex flex-col">
-                <strong className="text-darkBlue font-bold font-jostFont text-size_15">
-                  Address
-                </strong>
-                <span className="text-size_15 text-blue-500 font-light font-jostFont capitalize">
-                  {agentLocation}
-                </span>
-              </li>
-
-              <li className="flex flex-col">
-                <strong className="text-darkBlue font-bold font-jostFont text-size_15">
-                  City
-                </strong>
-                <span className="text-size_15 text-blue-500 font-light font-jostFont capitalize">
-                  {agentCity}
-                </span>
-              </li>
-
-              <li className="flex flex-col">
-                <strong className="text-darkBlue font-bold font-jostFont text-size_15">
-                  Country
-                </strong>
-                <span className="text-size_15 text-blue-500 font-light font-jostFont capitalize">
-                  {agentCountry}
-                </span>
-              </li>
-
-              <li className="flex flex-col">
-                <strong className="text-darkBlue font-bold font-jostFont text-size_15">
-                  Member Since
-                </strong>
-                <span className="text-size_15 text-blue-500 font-light font-jostFont capitalize">
-                  {agentMemberYear}
-                </span>
-              </li>
-            </ul>
-          </div>
+          <SomeInfoSection
+            title={"Agent Info"}
+            data={{
+              valName: agentName,
+              valEmail: agentContacts.email,
+              valPhone: agentPhone,
+              valSkype: agentContacts.skype,
+              valAddress: agentLocation,
+              valCountry: agentCountry,
+              valCity: agentCity,
+              valMemberyear: agentMemberYear,
+            }}
+          />
 
           {/* Agent Properties */}
 

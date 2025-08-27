@@ -2,10 +2,10 @@ import AgentService from "@/app/services/AgentService";
 import type { Agent } from "@/lib/type/agent";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import AgentShortInfo from "./AgentShortInfo";
 import AgentDetailMainContent from "./AgentDetailMainContent";
 import type { PropertyDetailFeaturedPropertyType } from "@/lib/type/property";
 import SectionIntroNoBackground from "../../components/SectionIntroNoBackground";
+import SectionTopShortInfo from "../../components/SectionTopShortInfo";
 
 const agentProperties = [
   {
@@ -145,7 +145,7 @@ export default function ChooseAgent() {
   };
 
   const { agentId } = useParams<{ agentId: string }>();
-
+  console.log(agentId);
   useEffect(() => {
     const agent = new AgentService();
     agent
@@ -168,7 +168,16 @@ export default function ChooseAgent() {
         title="Agent Detail"
         subtitle="Adam D. Okraar from Canada"
       />
-      <AgentShortInfo agent={chosenAgent} />
+      <SectionTopShortInfo
+        shortInfo={{
+          logo: chosenAgent.agentImage,
+          name: chosenAgent.agentName,
+          location: chosenAgent.agentLocation,
+          description: chosenAgent.agentDescription,
+          propertyNumber: chosenAgent.agentProperties,
+          ...chosenAgent.agentContacts,
+        }}
+      />
       <AgentDetailMainContent
         featuredProperty={featuredProperty}
         agentProperties={agentProperties}

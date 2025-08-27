@@ -12,7 +12,7 @@ export interface Agency {
   agencyImage: string;
   agencyLocation: string;
   agencyPropertyNumbers?: number;
-  agencySocialContacts: agencyContactsType[];
+  agencySocialContacts: agencyContactsType;
   agencyDescription?: string;
   agencyOwner: string;
   agencyPhone: string;

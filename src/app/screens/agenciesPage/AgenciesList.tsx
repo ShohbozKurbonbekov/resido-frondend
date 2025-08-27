@@ -12,15 +12,13 @@ const agenciesList: Agency[] = [
     agencyImage: "/img/ag-1.png",
     agencyLocation: "3599 Huntz Lane",
     agencyPropertyNumbers: 140,
-    agencySocialContacts: [
-      {
-        facebook: "https://www.facebook.com/",
-        twitter: "https://www.twitter.com/",
-        instagram: "https://www.instagram.com/",
-        linkedin: "https://www.linkedin.com/",
-        email: "https://www.gmail.com/",
-      },
-    ],
+    agencySocialContacts: {
+      facebook: "https://www.facebook.com/",
+      twitter: "https://www.twitter.com/",
+      instagram: "https://www.instagram.com/",
+      linkedin: "https://www.linkedin.com/",
+      email: "https://www.gmail.com/",
+    },
     agencyOwner: "Mr. Adam Vilawo",
     agencyPhone: "+91 235 658 4758",
     agencyCountry: "United State",
@@ -33,15 +31,14 @@ const agenciesList: Agency[] = [
     agencyImage: "/img/ag-2.png",
     agencyLocation: "3599 Huntz Lane",
     agencyPropertyNumbers: 30,
-    agencySocialContacts: [
-      {
-        facebook: "https://www.facebook.com/",
-        twitter: "https://www.twitter.com/",
-        instagram: "https://www.instagram.com/",
-        linkedin: "https://www.linkedin.com/",
-        email: "https://www.gmail.com/",
-      },
-    ],
+    agencySocialContacts: {
+      facebook: "https://www.facebook.com/",
+      twitter: "https://www.twitter.com/",
+      instagram: "https://www.instagram.com/",
+      linkedin: "https://www.linkedin.com/",
+      email: "https://www.gmail.com/",
+    },
+
     agencyOwner: "Mr. Adam Vilawo",
     agencyPhone: "+91 235 658 4758",
     agencyCountry: "United State",
@@ -54,15 +51,14 @@ const agenciesList: Agency[] = [
     agencyImage: "/img/ag-3.png",
     agencyLocation: "3599 Huntz Lane",
     agencyPropertyNumbers: 18,
-    agencySocialContacts: [
-      {
-        facebook: "https://www.facebook.com/",
-        twitter: "https://www.twitter.com/",
-        instagram: "https://www.instagram.com/",
-        linkedin: "https://www.linkedin.com/",
-        email: "https://www.gmail.com/",
-      },
-    ],
+    agencySocialContacts: {
+      facebook: "https://www.facebook.com/",
+      twitter: "https://www.twitter.com/",
+      instagram: "https://www.instagram.com/",
+      linkedin: "https://www.linkedin.com/",
+      email: "https://www.gmail.com/",
+    },
+
     agencyOwner: "Mr. Adam Vilawo",
     agencyPhone: "+91 235 658 4758",
     agencyCountry: "United State",
@@ -75,15 +71,14 @@ const agenciesList: Agency[] = [
     agencyImage: "/img/ag-4.png",
     agencyLocation: "3599 Huntz Lane",
     agencyPropertyNumbers: 42,
-    agencySocialContacts: [
-      {
-        facebook: "https://www.facebook.com/",
-        twitter: "https://www.twitter.com/",
-        instagram: "https://www.instagram.com/",
-        linkedin: "https://www.linkedin.com/",
-        email: "https://www.gmail.com/",
-      },
-    ],
+    agencySocialContacts: {
+      facebook: "https://www.facebook.com/",
+      twitter: "https://www.twitter.com/",
+      instagram: "https://www.instagram.com/",
+      linkedin: "https://www.linkedin.com/",
+      email: "https://www.gmail.com/",
+    },
+
     agencyOwner: "Mr. Adam Vilawo",
     agencyPhone: "+91 235 658 4758",
     agencyCountry: "United State",
@@ -96,15 +91,14 @@ const agenciesList: Agency[] = [
     agencyImage: "/img/ag-5.png",
     agencyLocation: "3599 Huntz Lane",
     agencyPropertyNumbers: 343,
-    agencySocialContacts: [
-      {
-        facebook: "https://www.facebook.com/",
-        twitter: "https://www.twitter.com/",
-        instagram: "https://www.instagram.com/",
-        linkedin: "https://www.linkedin.com/",
-        email: "https://www.gmail.com/",
-      },
-    ],
+    agencySocialContacts: {
+      facebook: "https://www.facebook.com/",
+      twitter: "https://www.twitter.com/",
+      instagram: "https://www.instagram.com/",
+      linkedin: "https://www.linkedin.com/",
+      email: "https://www.gmail.com/",
+    },
+
     agencyOwner: "Mr. Adam Vilawo",
     agencyPhone: "+91 235 658 4758",
     agencyCountry: "United State",
@@ -117,15 +111,13 @@ const agenciesList: Agency[] = [
     agencyImage: "/img/ag-6.png",
     agencyLocation: "3599 Huntz Lane",
     agencyPropertyNumbers: 31,
-    agencySocialContacts: [
-      {
-        facebook: "https://www.facebook.com/",
-        twitter: "https://www.twitter.com/",
-        instagram: "https://www.instagram.com/",
-        linkedin: "https://www.linkedin.com/",
-        email: "https://www.gmail.com/",
-      },
-    ],
+    agencySocialContacts: {
+      facebook: "https://www.facebook.com/",
+      twitter: "https://www.twitter.com/",
+      instagram: "https://www.instagram.com/",
+      linkedin: "https://www.linkedin.com/",
+      email: "https://www.gmail.com/",
+    },
     agencyOwner: "Mr. Adam Vilawo",
     agencyPhone: "+91 235 658 4758",
     agencyCountry: "United State",

@@ -5,7 +5,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import type { Agency } from "@/lib/type/agency";
-import { ArrowLeft, MoveRight } from "lucide-react";
+import { MoveRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface AgencyCardProp {
