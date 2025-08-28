@@ -8,6 +8,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { ErrorMessages } from "@/lib/config";
+import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import { Images, Info } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -37,7 +39,8 @@ export default function AddAgentForm({ qualityClasses }: AddAgentFormProp) {
     const validTypes = ["image/jpg", "image/jpeg", "image/png"];
 
     if (!validTypes.includes(fileType)) {
-      alert("Please give solid image types like: jpg, jpeg, png");
+      console.log("oops");
+      sweetErrorHandling({ message: ErrorMessages.error5 });
     } else {
       setAgentImage(URL.createObjectURL(file));
       e.target.value = "";
@@ -94,7 +97,7 @@ export default function AddAgentForm({ qualityClasses }: AddAgentFormProp) {
                     </Tooltip>
                   </TooltipProvider>
                 </Label>
-                <Input className="bg-sky-50  py-5 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm" />
+                <Input className="bg-sky-50  py-5 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm " />
               </fieldset>
             </div>
 
