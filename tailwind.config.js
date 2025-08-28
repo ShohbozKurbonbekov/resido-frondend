@@ -27,6 +27,7 @@ export default {
       boxShadow: {
         cardShadow: "0 0 3px rgba(0, 0, 0, 0.1)",
         agentSearchForm: `0 10px 12px #3893ce1a`,
+        addAgentForm: "0 0 20px 0 #1373ea1a",
       },
       fontSize: {
         size_10: "10px",

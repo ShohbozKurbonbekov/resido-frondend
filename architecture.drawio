@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="1NE0HwMgoBIGtMh-vfWP" name="Page-1">
-        <mxGraphModel dx="940" dy="1656" grid="1" gridSize="1" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" background="#ffffff" math="0" shadow="1">
+        <mxGraphModel dx="896" dy="292" grid="1" gridSize="1" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" background="#ffffff" math="0" shadow="1">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -341,6 +341,9 @@
                 <mxCell id="136" value="&lt;span style=&quot;font-size: 20px;&quot;&gt;Agencies card Results&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;fillColor=#e6d0de;gradientColor=#d5739d;strokeColor=#996185;shadow=1;" parent="1" vertex="1">
                     <mxGeometry x="1176" y="1017" width="164" height="92" as="geometry"/>
                 </mxCell>
+                <mxCell id="184" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="138" target="183">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
                 <mxCell id="138" value="Agency detail" style="rhombus;whiteSpace=wrap;html=1;fillColor=#6d8764;strokeColor=#3A5431;rounded=0;arcSize=14;strokeWidth=2;shadow=1;fontColor=#ffffff;" parent="1" vertex="1">
                     <mxGeometry x="1384" y="1005" width="149" height="98" as="geometry"/>
                 </mxCell>
@@ -424,18 +427,18 @@
                 <mxCell id="178" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="165" target="174" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="182" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" target="179">
+                <mxCell id="182" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" target="179" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="2752.8888888888887" y="497" as="sourcePoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="179" value="&lt;span style=&quot;font-size: 20px;&quot;&gt;SignUp&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;fillColor=#d5e8d4;gradientColor=#97d077;strokeColor=#82b366;" vertex="1" parent="1">
+                <mxCell id="179" value="&lt;span style=&quot;font-size: 20px;&quot;&gt;SignUp&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;fillColor=#d5e8d4;gradientColor=#97d077;strokeColor=#82b366;" parent="1" vertex="1">
                     <mxGeometry x="2671" y="542" width="164" height="92" as="geometry"/>
                 </mxCell>
-                <mxCell id="180" value="&lt;span style=&quot;font-size: 20px;&quot;&gt;SignIn&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;fillColor=#d5e8d4;gradientColor=#97d077;strokeColor=#82b366;" vertex="1" parent="1">
+                <mxCell id="180" value="&lt;span style=&quot;font-size: 20px;&quot;&gt;SignIn&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;fillColor=#d5e8d4;gradientColor=#97d077;strokeColor=#82b366;" parent="1" vertex="1">
                     <mxGeometry x="2963" y="543" width="164" height="92" as="geometry"/>
                 </mxCell>
-                <mxCell id="181" value="" style="edgeStyle=segmentEdgeStyle;endArrow=classic;html=1;curved=0;rounded=0;endSize=8;startSize=8;" edge="1" parent="1">
+                <mxCell id="181" value="" style="edgeStyle=segmentEdgeStyle;endArrow=classic;html=1;curved=0;rounded=0;endSize=8;startSize=8;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="1560" y="498" as="sourcePoint"/>
                         <mxPoint x="3049" y="534" as="targetPoint"/>
@@ -443,6 +446,41 @@
                             <mxPoint x="3049" y="498"/>
                         </Array>
                     </mxGeometry>
+                </mxCell>
+                <mxCell id="186" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="183" target="185">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="183" value="Agency info" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6d8764;strokeColor=#3A5431;fontColor=#ffffff;rounded=0;arcSize=14;strokeWidth=2;shadow=1;" vertex="1" parent="1">
+                    <mxGeometry x="1418.5" y="1150" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="188" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="185">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1459" y="1385" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="185" value="agency properties" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6d8764;strokeColor=#3A5431;fontColor=#ffffff;rounded=0;arcSize=14;strokeWidth=2;shadow=1;" vertex="1" parent="1">
+                    <mxGeometry x="1418.5" y="1271" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="190" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="187" target="189">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="187" value="agency agents" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6d8764;strokeColor=#3A5431;fontColor=#ffffff;rounded=0;arcSize=14;strokeWidth=2;shadow=1;" vertex="1" parent="1">
+                    <mxGeometry x="1420" y="1387" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="192" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="189" target="191">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="189" value="contact with agency" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6d8764;strokeColor=#3A5431;fontColor=#ffffff;rounded=0;arcSize=14;strokeWidth=2;shadow=1;" vertex="1" parent="1">
+                    <mxGeometry x="1420" y="1507" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="194" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="191" target="193">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="191" value="agency selected featured properties" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6d8764;strokeColor=#3A5431;fontColor=#ffffff;rounded=0;arcSize=14;strokeWidth=2;shadow=1;" vertex="1" parent="1">
+                    <mxGeometry x="1420" y="1622" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="193" value="addd agent feature" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6d8764;strokeColor=#3A5431;fontColor=#ffffff;rounded=0;arcSize=14;strokeWidth=2;shadow=1;" vertex="1" parent="1">
+                    <mxGeometry x="1420" y="1737" width="80" height="80" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>

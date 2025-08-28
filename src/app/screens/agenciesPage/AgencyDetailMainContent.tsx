@@ -4,7 +4,7 @@ import NoFound from "@/app/components/NoFound";
 import PropertyCard from "@/app/components/PropertyCard";
 import type { Agency } from "@/lib/type/agency";
 import type { T } from "@/lib/type/common";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PropertyDetailFeaturedProperty from "../../components/PropertyDetailFeaturedProperty";
 import type { PropertyDetailFeaturedPropertyType } from "@/lib/type/property";
 import SomeInfoSection from "@/app/components/someInfoSection";
@@ -33,7 +33,8 @@ export default function AgencyDetailMainContent({
   agencyInfo,
   featuredProperty,
 }: AgencyDetailMainContentProp) {
-  console.log(agencyInfo);
+  const navigation = useNavigate(); // For pushing into an url
+
   return (
     <section className="bg-sky-100">
       <div className="container  pb-20 grid grid-cols-1 lg:grid-cols-6 gap-5 ">
@@ -42,12 +43,17 @@ export default function AgencyDetailMainContent({
           <SomeInfoSection
             title="Agency Info"
             extraFeature={
-              <Link
-                to="/agent/create"
+              <button
+                type="button"
                 className="list-none text-base text-white capitalize font-jostFont py-[10px] px-5 rounded-md bg-green-800 leading-tight hover:bg-green-700 active:scale-95 transition-all duration-300 ease-linear"
+                onClick={() => {
+                  navigation(
+                    `/agents/become-an-agent?agencyId=${agency.agencyLocation}&agencyName=${agency.agencyName}`
+                  );
+                }}
               >
                 Add New Agent
-              </Link>
+              </button>
             }
             data={{
               valName: agency.agencyName,

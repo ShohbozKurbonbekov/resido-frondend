@@ -10,10 +10,10 @@ export default function SectionIntroNoBackground({
     <section className="py-10 bg-blue-800 relative">
       <div className="container">
         <div className="py-[30px] flex flex-col items-start gap-y-2">
-          <h2 className="text-white font-bold font-jostFont leading-tight text-3xl">
+          <h2 className="text-white font-bold font-jostFont leading-tight text-3xl capitalize">
             {title}
           </h2>
-          <p className="italic text-lg font-light text-slate-300 leading-none ">
+          <p className="italic text-lg font-light text-slate-300 leading-none capitalize">
             {subtitle}
           </p>
         </div>

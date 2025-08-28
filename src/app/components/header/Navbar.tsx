@@ -94,7 +94,7 @@ export default function Navbar() {
                 "hover:text-slate-300 transition-all duration-75 ease-in"
               }
             >
-              Features
+              Pages
             </NavLink>
           </li>
         </ul>
