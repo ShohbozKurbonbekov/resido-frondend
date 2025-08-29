@@ -15,6 +15,9 @@ export default {
       },
     },
     extend: {
+      backgroundImage: {
+        "section-pattern": "url(`/img/pattern.png`)",
+      },
       fontFamily: {
         jostFont: ["Jost", "sans-serif"],
         loraFont: ["Lora", "serif"],
