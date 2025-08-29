@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/form";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Tooltip,
@@ -78,9 +77,9 @@ const FormSchema = z.object({
     .string()
     .url({ message: "Please enter a valid Tumbler profile link." })
     .optional(),
-  gdpr: z.literal(true, {
-    errorMap: () => ({ message: "You must accept GDPR agreement." }),
-  }), // ✅ Must be true
+  gdpr: z.boolean().refine((val) => val === true, {
+    message: "You must accept GDPR agreement.",
+  }),
 });
 
 interface AddAgentFormProp {
