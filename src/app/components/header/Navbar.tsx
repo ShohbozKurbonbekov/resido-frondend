@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import SignUp from "../Signup";
 import Login from "../Login";
 import { useEffect, useState } from "react";
+import DropdownMenuPages from "./DrowndownMenu";
 
 export default function Navbar() {
   const authMember = false;
@@ -88,14 +89,7 @@ export default function Navbar() {
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/Features"
-              className={
-                "hover:text-slate-300 transition-all duration-75 ease-in"
-              }
-            >
-              Pages
-            </NavLink>
+            <DropdownMenuPages />
           </li>
         </ul>
 

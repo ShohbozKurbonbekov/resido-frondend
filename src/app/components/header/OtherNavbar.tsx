@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import SignUp from "../Signup";
 import Login from "../Login";
+import DropdownMenuPages from "./DrowndownMenu";
 
 export default function OtherNavbar() {
   const [showNavbar, setShowNavbar] = useState<boolean>(false);
@@ -79,14 +80,7 @@ export default function OtherNavbar() {
           </NavLink>
         </li>
         <li>
-          <NavLink
-            to="/Features"
-            className={
-              "hover:text-slate-300 transition-all duration-75 ease-in"
-            }
-          >
-            Pages
-          </NavLink>
+          <DropdownMenuPages />
         </li>
       </ul>
 
