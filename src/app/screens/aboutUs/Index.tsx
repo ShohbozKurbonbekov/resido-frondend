@@ -2,18 +2,9 @@ import SectionIntroNoBackground from "@/app/components/SectionIntroNoBackground"
 import AboutOurStory from "./AboutOurStory";
 import MeetTeam from "./MeetTeam";
 import { useEffect } from "react";
-import type { T } from "@/lib/type/common";
+import MissionWork from "./MissionWork";
+import type { TeamMemberType } from "@/lib/type/about-us";
 
-export type TeamMemberType = {
-  id: string;
-  memberName: string;
-  memberRole: string; // e.g. CEO, CTO, Marketing
-  photoUrl: string;
-  socialLinks: {
-    linkedin?: string;
-    twitter?: string;
-  };
-};
 const members: TeamMemberType[] = [
   {
     id: `${Date.now()}`,
@@ -76,6 +67,10 @@ export default function AboutUsPage() {
         title="meet our team"
         subtitle="professional & Dedicated team"
         members={members}
+      />
+      <MissionWork
+        title="Our mission & work process"
+        subtitle="We always try to provide the best services as we can"
       />
     </>
   );
