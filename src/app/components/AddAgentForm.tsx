@@ -618,7 +618,7 @@ export default function AddAgentForm({ qualityClasses }: AddAgentFormProp) {
 
               <Button
                 type="submit"
-                className="text-sm text-white font-j capitalize py-3 px-6 leading-tight rounded-md 
+                className="text-sm text-white font-jostFont  capitalize py-3 px-6 leading-tight rounded-md 
                      hover:bg-blue-500 bg-blue-900 transition-all duration-300 ease-linear 
                      self-start mt-2 active:shadow-[0_0_0px_5px_rgba(59,130,246,0.4)]"
               >

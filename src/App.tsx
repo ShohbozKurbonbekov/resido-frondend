@@ -7,6 +7,7 @@ import OtherNavbar from "./app/components/header/OtherNavbar";
 import AgentsPage from "./app/screens/agentsPage/Index";
 import AgenciesPage from "./app/screens/agenciesPage/Index";
 import AboutUsPage from "./app/screens/aboutUs/Index";
+import ContactUsPage from "./app/screens/contactUs/Index";
 
 export default function App() {
   const location = useLocation();
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/agents/*" element={<AgentsPage />} />
         <Route path="/agencies/*" element={<AgenciesPage />} />
         <Route path="/about-us" element={<AboutUsPage />} />
+        <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/" element={<HomePage />} />
       </Routes>
 
