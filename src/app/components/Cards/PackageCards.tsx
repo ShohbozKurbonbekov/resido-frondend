@@ -1,46 +1,48 @@
+import type { PackagesType } from "@/lib/type/pricing";
 import PackageCard from "./PackageCard";
-
-export type PackagesType = {
-  fee: number;
-  tariff: string;
-  facility1: string;
-  facility2: string;
-  facility3: string;
-  facility4: string;
-  facility5: string;
-  cardHeaderBg?: string;
-  cardTariffColor?: string;
-};
 
 const packages: PackagesType[] = [
   {
     fee: 49,
     tariff: "Basic Package",
-    facility1: "5+ Listings",
-    facility2: "Contact With Agent",
-    facility3: "3 Month Validity",
-    facility4: "7x24 Fully Support",
-    facility5: "50GB Space",
+    tariffColor: "#074DA3",
+    headerBg: "#172554",
+    features: [
+      "5+ Listings",
+      "Contact With Agent",
+      "3 Month Validity",
+      "7x24 Fully Support",
+      "50GB Space",
+    ],
+    buttonColor: "#172554",
   },
   {
     fee: 99,
-    tariff: "Basic Package",
-    facility1: "5+ Listings",
-    facility2: "Contact With Agent",
-    facility3: "3 Month Validity",
-    facility4: "7x24 Fully Support",
-    facility5: "50GB Space",
-    cardTariffColor: "#FFFFFF",
-    cardHeaderBg: "#074DA3",
+    tariff: "PLATINUM PACKAGE",
+    tariffColor: "#FFFFFF",
+    headerBg: "#074DA3",
+    features: [
+      "5+ Listings",
+      "Contact With Agent",
+      "3 Month Validity",
+      "7x24 Fully Support",
+      "50GB Space",
+    ],
+    buttonColor: "#074DA3",
   },
   {
     fee: 199,
-    tariff: "Basic Package",
-    facility1: "5+ Listings",
-    facility2: "Contact With Agent",
-    facility3: "3 Month Validity",
-    facility4: "7x24 Fully Support",
-    facility5: "50GB Space",
+    tariff: "STANDARD PACKAGE",
+    tariffColor: "#FFFFFF",
+    headerBg: "#000",
+    features: [
+      "5+ Listings",
+      "Contact With Agent",
+      "3 Month Validity",
+      "7x24 Fully Support",
+      "50GB Space",
+    ],
+    buttonColor: "#000",
   },
 ];
 

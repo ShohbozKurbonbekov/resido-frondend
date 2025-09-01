@@ -60,7 +60,7 @@ export default function AboutUsPage() {
     <>
       <SectionIntroNoBackground
         title="About Us"
-        subtitle="who we are & our mission"
+        subtitle="who we are- & our mission"
       />
       <AboutOurStory />
       <MeetTeam

@@ -9,6 +9,7 @@ import AgenciesPage from "./app/screens/agenciesPage/Index";
 import AboutUsPage from "./app/screens/aboutUs/Index";
 import ContactUsPage from "./app/screens/contactUs/Index";
 import FaqPage from "./app/screens/FAQ/Index";
+import PricingPage from "./app/screens/pricing/Index";
 
 export default function App() {
   const location = useLocation();
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/Faqs" element={<FaqPage />} />
+        <Route path="/pricing" element={<PricingPage />} />
         <Route path="/" element={<HomePage />} />
       </Routes>
 
