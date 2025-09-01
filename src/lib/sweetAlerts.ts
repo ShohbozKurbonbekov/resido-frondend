@@ -60,3 +60,12 @@ export const sweetFailureProvider = (
     }
   });
 };
+
+export const emptyInputAlert = (msg: string, show_button: boolean = false) => {
+  Swal.fire({
+    icon: "warning",
+    title: msg,
+    showConfirmButton: show_button,
+    confirmButtonText: "I got it",
+  }).then();
+};

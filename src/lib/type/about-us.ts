@@ -7,6 +7,7 @@ export interface TeamMemberType {
     linkedin?: string;
     twitter?: string;
   };
+  phone?: string;
 }
 export interface CommonSectionType {
   title: string;

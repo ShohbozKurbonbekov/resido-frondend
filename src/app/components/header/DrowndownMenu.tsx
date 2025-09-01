@@ -35,7 +35,7 @@ export default function DropdownMenuPages() {
             { page: "Blogs", path: `/blogs` },
             { page: "Pricing", path: `/pricing` },
             { page: "Contact us", path: `/contact-us` },
-            { page: "FAQ", path: `/FAQ` },
+            { page: "FAQ", path: `/Faqs` },
             { page: "About Us", path: `/about-us` },
           ].map((val: pagesType) => (
             <DropdownMenuItem key={val.path} className="h-auto w-auto p-0">
