@@ -1,7 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import type { T } from "./type/common";
 import type { TeamMemberType } from "./type/about-us";
+import moment from "moment";
+import type { BlogType } from "./type/blogs";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -29,8 +30,8 @@ export const formatPropertyArea = (num: number): string => {
 };
 
 // Chunk array
-export const chunkingArray = (arr: T[], size: number): T[][] => {
-  const result: T[][] = [];
+export const chunkingArray = (arr: BlogType[], size: number): BlogType[][] => {
+  const result: BlogType[][] = [];
   for (let i = 0; i < arr.length; i += size) {
     // i => 0 => 4 => 8 => 12 => 16 => 20
     result.push(arr.slice(i, i + size)); // [[],[],[],[],[]]
@@ -48,4 +49,9 @@ export const findContactMemberRole = (
   );
   if (!member) return null;
   return member;
+};
+
+// Date converter funtion
+export const dateConverter = (str: string, format: string): string => {
+  return moment(str).format(format);
 };

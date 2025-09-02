@@ -1,35 +1,48 @@
-import { ChevronLeft, ChevronRight, Ellipsis } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type PaginationProps = {
   totalPages: number;
   currentPage: number;
   styleclasses?: string;
-  onPageChange: (page: number) => void;
+  onPageChange: React.Dispatch<
+    React.SetStateAction<{ limit: number; page: number }>
+  >;
 };
 
 export function PaginationCom({
-  totalPages = 4,
-  currentPage, // 2
+  totalPages,
+  currentPage,
   onPageChange, // () => {} change page number
   styleclasses = "w-full flex flex-row items-center mt-5 gap-2",
 }: PaginationProps) {
   const handlePrev = () => {
-    if (currentPage > 1) onPageChange(currentPage - 1);
+    if (currentPage > 1)
+      onPageChange((prev) => ({ ...prev, page: prev.page - 1 }));
   };
 
   const handleNext = () => {
-    if (currentPage < totalPages) onPageChange(currentPage + 1);
+    if (currentPage < totalPages)
+      onPageChange((prev) => ({
+        ...prev,
+        page: prev.page + 1,
+      }));
   };
 
   return (
     <div className={`${styleclasses}`}>
       <button
+        type="button"
         onClick={handlePrev}
-        className="w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 bg-white hover:bg-blue-600 hover:text-white duration-100 transition-colors"
+        disabled={currentPage === 1}
+        className={`w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 duration-200 transition-colors  group ${
+          currentPage === 1
+            ? "cursor-not-allowed bg-gray-100 text-slate-300"
+            : "bg-white hover:bg-blue-600 hover:text-white "
+        }`}
         aria-label="Previous page"
       >
-        <ChevronLeft className="w-4 h-4 hover:text-white" />
+        <ChevronLeft className={`w-4 h-4`} />
       </button>
 
       {Array.from({ length: totalPages }).map((_, index) => {
@@ -38,13 +51,16 @@ export function PaginationCom({
 
         return (
           <button
+            type="button"
             key={page}
-            onClick={() => onPageChange(page)}
+            onClick={() => {
+              onPageChange((prev) => ({ ...prev, page: page }));
+            }}
             className={cn(
-              "w-9 h-9 text-sm rounded-md border border-gray-300 hover:bg-blue-600 hover:text-white duration-100 transition-colors font-bold",
+              "w-9 h-9 text-sm rounded-md border border-gray-300 hover:bg-blue-600 hover:text-white duration-200 transition-colors font-semi-bold",
               isActive
                 ? "bg-blue-600 text-white shadow-[0_0_1px_2px_rgba(191,219,254,1)] border-0"
-                : "bg-white text-slate-400 "
+                : "bg-white text-black "
             )}
           >
             {page}
@@ -52,22 +68,17 @@ export function PaginationCom({
         );
       })}
 
-      {/* // ... */}
-
       <button
         onClick={handleNext}
-        className="w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 bg-white hover:bg-blue-600 hover:text-white duration-100 transition-colors"
+        className={`w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 ${
+          currentPage === totalPages
+            ? "cursor-not-allowed bg-gray-100 text-slate-300"
+            : "bg-white hover:bg-blue-600 hover:text-white duration-200 transition-colors"
+        }`}
         aria-label="Next page"
+        type="button"
       >
-        <Ellipsis className="w-4 text-slate-400" />
-      </button>
-
-      <button
-        onClick={handleNext}
-        className="w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 bg-white hover:bg-blue-600 hover:text-white duration-100 transition-colors"
-        aria-label="Next page"
-      >
-        <ChevronRight className="w-4 h-4" />
+        <ChevronRight className={`w-4 h-4`} />
       </button>
     </div>
   );

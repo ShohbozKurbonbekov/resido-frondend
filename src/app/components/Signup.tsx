@@ -44,8 +44,8 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
               Create account on resido
             </h3>
           </DialogHeader>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5">
-            <div className="flex flex-col gap gap-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3">
+            <div className="flex flex-col gap gap-y-2">
               <div>
                 <Label
                   htmlFor="fullname"
@@ -56,7 +56,7 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
                 <Input
                   id="fullname"
                   name="fullName"
-                  className="text-darkBlue  bg-sky-50 py-6 box-border mt-1 focus-visible:ring-0 md:text-xl"
+                  className="text-darkBlue  bg-sky-50 py-6 box-border mt-1 focus-visible:ring-0 md:text-lg"
                   placeholder="Full Name"
                 />
               </div>
@@ -70,7 +70,7 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
                 <Input
                   id="username"
                   name="username"
-                  className="text-darkBlue  bg-sky-50 py-6 box-border mt-1 focus-visible:ring-0 md:text-xl"
+                  className="text-darkBlue  bg-sky-50 py-6 box-border mt-1 focus-visible:ring-0 md:text-lg"
                   placeholder="Username"
                 />
               </div>
@@ -85,12 +85,12 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
                   id="phone"
                   type="number"
                   name="phone"
-                  className="text-darkBlue  bg-sky-50 py-6 box-border mt-1 focus-visible:ring-0 md:text-xl"
+                  className="text-darkBlue  bg-sky-50 py-6 box-border mt-1 focus-visible:ring-0 md:text-lg"
                   placeholder="123-425-55"
                 />
               </div>
             </div>
-            <div className="flex flex-col gap gap-y-4">
+            <div className="flex flex-col gap gap-y-2">
               <div>
                 <Label
                   htmlFor="email"
@@ -101,7 +101,7 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
                 <Input
                   id="email"
                   name="email"
-                  className="text-darkBlue  bg-sky-50 py-6 box-border mt-1 focus-visible:ring-0 md:text-xl"
+                  className="text-darkBlue  bg-sky-50 py-6 box-border mt-1 focus-visible:ring-0 md:text-lg"
                   placeholder="MyEmail@gmail.com"
                 />
               </div>
@@ -117,7 +117,7 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
                   id="password"
                   type="password"
                   name="password"
-                  className="text-darkBlue  bg-sky-50 py-6 box-border mt-1 focus-visible:ring-0 md:text-xl"
+                  className="text-darkBlue  bg-sky-50 py-6 box-border mt-1 focus-visible:ring-0 md:text-lg"
                   placeholder="Password"
                 />
               </div>
@@ -131,7 +131,7 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
                 </Label>
 
                 <Select>
-                  <SelectTrigger className="w-full bg-sky-50 py-6  text-darkBlue   box-border mt-1 focus-visible:ring-0 md:text-xl">
+                  <SelectTrigger className="w-full bg-sky-50 py-6  text-darkBlue   box-border mt-1 focus-visible:ring-0 md:text-lg">
                     <SelectValue placeholder="As a Customer" />
                   </SelectTrigger>
                   <SelectContent>
@@ -147,7 +147,7 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
           </div>
           <DialogFooter className="flex flex-row  mt-4">
             <Button
-              className="bg-blue-900 w-full py-6 hover:bg-sky-700 text-lg  font-bold font-jostFont focus-visible:ring-0"
+              className="bg-blue-900 w-full py-6 hover:bg-sky-700 text-lg  font-semibold font-jostFont focus-visible:ring-0"
               type="submit"
             >
               Create Account

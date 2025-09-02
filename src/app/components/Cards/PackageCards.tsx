@@ -1,10 +1,10 @@
 import type { PackagesType } from "@/lib/type/pricing";
 import PackageCard from "./PackageCard";
 
-const packages: PackagesType[] = [
+const packagesList: PackagesType[] = [
   {
     fee: 49,
-    tariff: "Basic Package",
+    tariff: "BASIC PACKAGE",
     tariffColor: "#074DA3",
     headerBg: "#172554",
     features: [
@@ -64,8 +64,8 @@ export default function Packages() {
         {/* // packages */}
 
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {packages.map((card: PackagesType, index: number) => (
-            <PackageCard {...card} key={index} />
+          {packagesList.map((card: PackagesType) => (
+            <PackageCard {...card} key={card.tariff} />
           ))}
         </div>
       </div>
