@@ -53,9 +53,11 @@ export default function BlogLists() {
       ) : (
         <>
           <div className="cards-wrapper mb-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center px-4">
-            {paginatedBlogs[blogInquery.page - 1].map((blog: BlogType) => (
-              <BlogsCard blogsData={blog} key={blog.id} />
-            ))}
+            {paginatedBlogs[blogInquery.page - 1].map(
+              (blog: BlogType, index) => (
+                <BlogsCard blogsData={blog} key={index} />
+              )
+            )}
           </div>
           <PaginationCom
             totalPages={paginatedBlogs.length}
