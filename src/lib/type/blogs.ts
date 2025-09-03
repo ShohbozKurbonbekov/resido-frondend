@@ -19,6 +19,7 @@ interface WriterType {
   };
 }
 export interface BlogType {
+  tags: string[];
   date: string;
   id: number;
   image: string;

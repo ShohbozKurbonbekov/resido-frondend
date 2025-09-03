@@ -14,7 +14,7 @@ export default function BlogLists() {
     limit: number;
     page: number;
   }>({
-    limit: 3,
+    limit: 4,
     page: 1,
   });
 

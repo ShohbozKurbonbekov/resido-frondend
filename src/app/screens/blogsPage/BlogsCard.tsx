@@ -2,18 +2,14 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { BlogType } from "@/lib/type/blogs";
 import { dateConverter } from "@/lib/utils";
 import { MoveRight } from "lucide-react";
-import moment from "moment";
 import { useNavigate } from "react-router-dom";
-import { id } from "zod/v4/locales";
-
 interface BlogsCardProp {
   blogsData: BlogType;
 }
 
 export default function BlogsCard({ blogsData }: BlogsCardProp) {
   const navigation = useNavigate();
-  const { image, title, description, comments, quote, writer, date } =
-    blogsData;
+  const { image, title, description, id, date } = blogsData;
   return (
     <Card className="max-w-[516px] shadow-sm rounded-md border-0 flex flex-col">
       <CardHeader className="flex flex-row items-center p-[10px]">
@@ -36,7 +32,9 @@ export default function BlogsCard({ blogsData }: BlogsCardProp) {
               {title}
             </h4>
             <p className="mb-2.5 leading-[1.8] text-slate-400 text-start ">
-              {description}
+              {description.length > 150
+                ? description.slice(0, 150) + " ......"
+                : description}
             </p>
           </div>
           <button

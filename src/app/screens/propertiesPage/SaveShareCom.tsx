@@ -32,7 +32,7 @@ export default function SaveShareCom({
   shareTitle,
 }: SaveShareComType) {
   return (
-    <div className="bg-white rounded-md p-5 mb- grid grid-cols-2 gap-3 mb-5">
+    <div className="bg-white rounded-md p-5  grid grid-cols-2 gap-3 mb-5">
       <DropdownMenu>
         <DropdownMenuTrigger>
           <button className="w-full py-4 border-2 border-green-600 rounded-md text-green-500 bg-green-100 flex flex-row gap-2 items-center justify-center font-semibold font-jostFont text-base cursor-pointer active:bg-white transition-colors duration-150 ease-linear">

@@ -27,6 +27,9 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      lineHeight: {
+        onePointEight: "1.8",
+      },
       boxShadow: {
         cardShadow: "0 0 3px rgba(0, 0, 0, 0.1)",
         agentSearchForm: `0 10px 12px #3893ce1a`,
