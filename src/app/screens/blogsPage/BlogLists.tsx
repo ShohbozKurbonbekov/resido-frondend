@@ -6,6 +6,7 @@ import { blogs } from "./blogs-data";
 import NoFound from "@/app/components/NoFound";
 import BlogsCard from "./BlogsCard";
 import { PaginationCom } from "@/app/components/PaginationCom";
+import { chunkingArray } from "@/lib/utils";
 
 export default function BlogLists() {
   const blogsData = blogs;
@@ -14,19 +15,9 @@ export default function BlogLists() {
     limit: number;
     page: number;
   }>({
-    limit: 4,
+    limit: 3,
     page: 1,
   });
-
-  // Chunk array
-  const chunkingArray = (arr: BlogType[], size: number): BlogType[][] => {
-    const result: BlogType[][] = [];
-    for (let i = 0; i < arr.length; i += size) {
-      // i => 0 => 4 => 8 => 12 => 16 => 20
-      result.push(arr.slice(i, i + size)); // [[],[],[],[],[]]
-    }
-    return result;
-  };
 
   const paginatedBlogs = useMemo(
     () => chunkingArray(blogsData, blogInquery.limit),

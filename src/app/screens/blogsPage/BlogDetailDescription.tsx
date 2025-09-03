@@ -145,7 +145,9 @@ export default function BlogDetailDescription({
         width={"100%"}
         marginTop={"40px"}
       />
-      <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5">
+
+      {/* // get data from  database for the next / prev buttons */}
+      <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-3">
         <div className="flex flex-row justify-start items-center">
           <button className="p-4 w-full text-center bg-slate-400 md:w-auto py-4 rounded-md text-white hover:bg-slate-600 duration-300 transition-all ease-linear active:scale-95 capitalize">
             Next post

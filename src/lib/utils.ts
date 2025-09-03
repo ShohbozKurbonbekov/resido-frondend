@@ -29,16 +29,6 @@ export const formatPropertyArea = (num: number): string => {
   return area + " M²";
 };
 
-// Chunk array
-export const chunkingArray = (arr: BlogType[], size: number): BlogType[][] => {
-  const result: BlogType[][] = [];
-  for (let i = 0; i < arr.length; i += size) {
-    // i => 0 => 4 => 8 => 12 => 16 => 20
-    result.push(arr.slice(i, i + size)); // [[],[],[],[],[]]
-  }
-  return result;
-};
-
 export const findContactMemberRole = (
   members: TeamMemberType[],
   role: string
@@ -54,4 +44,14 @@ export const findContactMemberRole = (
 // Date converter funtion
 export const dateConverter = (str: string, format: string): string => {
   return moment(str).format(format);
+};
+
+// Chunk array
+export const chunkingArray = (arr: BlogType[], size: number): BlogType[][] => {
+  const result: BlogType[][] = [];
+  for (let i = 0; i < arr.length; i += size) {
+    // i => 0 => 4 => 8 => 12 => 16 => 20
+    result.push(arr.slice(i, i + size)); // [[],[],[],[],[]]
+  }
+  return result;
 };

@@ -24,7 +24,7 @@ export default function PropertyDetailReviews({
     <>
       <div className="flex flex-col gap-y-5 [&>*:last-child]:border-0">
         {allReviews[0] ? (
-          <div className="flex flex-row gap-x-7 pb-6 border-b-2 border-dotted border-slate-200">
+          <div className="flex flex-row gap-x-7 pb-6  border-b-2 border-dotted border-slate-200">
             <img
               src={allReviews[0].reviewImage}
               alt=""
