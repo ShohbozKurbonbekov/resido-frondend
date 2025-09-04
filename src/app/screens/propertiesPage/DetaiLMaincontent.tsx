@@ -49,7 +49,7 @@ export default function DetaiLMaincontent(props: DetaiLMaincontentProp) {
 
   const propertyDetailUrl = "https://example.com/properties/123";
   const videoAvailable: boolean = true;
-  const [totalReviews, setTotalReviews] = useState<number>(104);
+
   const [allReviews] = useState<PropertyDetailReviewType[]>([
     {
       reviewDate: moment().format(`MMMM Do YYYY`),
@@ -88,9 +88,6 @@ export default function DetaiLMaincontent(props: DetaiLMaincontentProp) {
     },
   ]);
 
-  useEffect(() => {
-    setTotalReviews(10);
-  }, []);
   return (
     <div className="container pt-20 pb-20 grid rid-cols-1 lg:grid-cols-6 gap-5 px-6 lg:px-3">
       <div className="lg:col-span-4">
@@ -429,7 +426,7 @@ export default function DetaiLMaincontent(props: DetaiLMaincontentProp) {
 
         {/* // collapsible Accordion 7 */}
         <CommonAccordion
-          triggerTitle={`${totalReviews} Reviews`}
+          triggerTitle={`${allReviews.length} Reviews`}
           content={<PropertyDetailReviews allReviews={allReviews} />}
         />
 

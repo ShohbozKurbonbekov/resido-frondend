@@ -35,7 +35,7 @@ export default function BlogComments({ comments }: BlogCommentsProp) {
   const [blogQuery, setBlogQuery] = useState<{
     page: number;
     limit: number;
-  }>({ limit: 2, page: 1 });
+  }>({ limit: 1, page: 1 });
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
