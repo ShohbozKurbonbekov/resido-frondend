@@ -35,7 +35,7 @@ export function PaginationCom({
         type="button"
         onClick={handlePrev}
         disabled={currentPage === 1}
-        className={`w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 duration-200 transition-colors  group ${
+        className={`w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 duration-300 transition-colors  group ${
           currentPage === 1
             ? "cursor-not-allowed bg-gray-100 text-slate-300"
             : "bg-white hover:bg-blue-600 hover:text-white "
@@ -57,9 +57,9 @@ export function PaginationCom({
               onPageChange((prev) => ({ ...prev, page: page }));
             }}
             className={cn(
-              "w-9 h-9 text-sm rounded-md border border-gray-300 hover:bg-blue-600 hover:text-white duration-200 transition-colors font-semi-bold",
+              "w-9 h-9 text-sm rounded-md border border-gray-300 hover:bg-blue-600 hover:text-white duration-300 transition-colors font-semi-bold",
               isActive
-                ? "bg-blue-600 text-white shadow-[0_0_1px_2px_rgba(191,219,254,1)] border-0"
+                ? "bg-blue-600 text-white shadow-[0_0_0px_3px_rgba(191,219,254,1)] border-0"
                 : "bg-white text-black "
             )}
           >
@@ -70,13 +70,14 @@ export function PaginationCom({
 
       <button
         onClick={handleNext}
-        className={`w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 ${
+        className={`w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 transition-colors duration-300  ${
           currentPage === totalPages
             ? "cursor-not-allowed bg-gray-100 text-slate-300"
-            : "bg-white hover:bg-blue-600 hover:text-white duration-200 transition-colors"
+            : "bg-white hover:bg-blue-600 hover:text-white "
         }`}
         aria-label="Next page"
         type="button"
+        disabled={currentPage === totalPages}
       >
         <ChevronRight className={`w-4 h-4`} />
       </button>
