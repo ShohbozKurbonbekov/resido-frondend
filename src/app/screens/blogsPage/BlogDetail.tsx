@@ -5,6 +5,8 @@ import { blogs } from "./blogs-data";
 import SectionIntroNoBackground from "@/app/components/SectionIntroNoBackground";
 import BlogDetailDescription from "./BlogDetailDescription";
 import BlogComments from "./BlogComments";
+import SearchBar from "./SearchBar";
+import Category from "./Category";
 
 export default function BlogDetail() {
   const { blogId } = useParams<{ blogId: string }>();
@@ -29,8 +31,9 @@ export default function BlogDetail() {
             <BlogDetailDescription blog={blogFinder} />
             <BlogComments comments={blogFinder?.comments ?? []} />
           </div>
-          <div className="lg:col-span-4 flex flex-col gap-y-10 bg-blue-400">
-            right part
+          <div className="lg:col-span-4 flex flex-col gap-y-10 ">
+            <SearchBar />
+            <Category />
           </div>
         </div>
       </section>

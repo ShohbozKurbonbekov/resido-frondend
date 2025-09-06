@@ -23,6 +23,7 @@ export interface BlogType {
   date: string;
   id: number;
   image: string;
+  category: string;
   title: string;
   description: string;
   quote: string;

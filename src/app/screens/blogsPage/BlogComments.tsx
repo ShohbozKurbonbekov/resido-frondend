@@ -2,7 +2,7 @@ import NoFound from "@/app/components/NoFound";
 import { PaginationCom } from "@/app/components/PaginationCom";
 import type { CommentType } from "@/lib/type/blogs";
 import { dateConverter } from "@/lib/utils";
-import { useMemo, useState, type SetStateAction } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -11,7 +11,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -61,7 +60,7 @@ export default function BlogComments({ comments }: BlogCommentsProp) {
 
   const chunkBlogs = useMemo(
     () => chunkingArray(comments, blogQuery.limit),
-    [blogQuery]
+    [comments, blogQuery]
   );
 
   console.log(chunkBlogs[1]);

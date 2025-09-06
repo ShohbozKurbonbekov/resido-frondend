@@ -5,7 +5,7 @@ import VideoPlayer from "./DetailVideoPalyer";
 import LocationMap from "@/app/components/map/LocationMap";
 import LightboxImages from "@/app/components/lightboxImage/LightboxImages";
 import RatingBox from "@/app/components/progressBar/RatingBox";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PropertyDetailReviews from "./PropertyDetailReviews";
 import moment from "moment";
 import type {
