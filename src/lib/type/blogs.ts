@@ -6,21 +6,22 @@ export interface CommentType {
   avatar: string;
 }
 
-interface WriterType {
+export interface SocialType {
+  facebook: string;
+  twitter: string;
+  instagram: string;
+  youtube: string;
+  linkedin: string;
+}
+export interface WriterType {
   name: string;
   bio: string;
   avatar: string;
-  social: {
-    facebook: string;
-    twitter: string;
-    instagram: string;
-    youtube: string;
-    linkedin: string;
-  };
+  social: SocialType;
 }
 export interface BlogType {
   tags: string[];
-  date: string;
+  date: string | number;
   id: number;
   image: string;
   category: string;

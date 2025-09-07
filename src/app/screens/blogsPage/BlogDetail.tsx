@@ -7,6 +7,8 @@ import BlogDetailDescription from "./BlogDetailDescription";
 import BlogComments from "./BlogComments";
 import SearchBar from "./SearchBar";
 import Category from "./Category";
+import TrendingPost from "./TrendingPost";
+import PostAuther from "./PostAuther";
 
 export default function BlogDetail() {
   const { blogId } = useParams<{ blogId: string }>();
@@ -29,11 +31,13 @@ export default function BlogDetail() {
         <div className="container mb-4 grid grid-cols-1 gap-y-[30px] lg:grid-cols-12  lg:gap-x-6">
           <div className="lg:col-span-8 flex flex-col gap-y-[30px]">
             <BlogDetailDescription blog={blogFinder} />
+            <PostAuther auther={blogFinder?.writer} />
             <BlogComments comments={blogFinder?.comments ?? []} />
           </div>
           <div className="lg:col-span-4 flex flex-col gap-y-10 ">
             <SearchBar />
             <Category />
+            <TrendingPost />
           </div>
         </div>
       </section>

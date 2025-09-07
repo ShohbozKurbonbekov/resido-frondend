@@ -45,7 +45,7 @@ export const blogs: BlogType[] = [
     writer: {
       name: "Alex Johnson",
       bio: "Alex is a real estate consultant with over 10 years of experience helping clients buy and sell properties in South Korea. He specializes in luxury apartments and investment strategies.",
-      avatar: "/images/authors/alex-johnson.jpg",
+      avatar: "/img/user-2.jpg",
       social: {
         facebook: "https://facebook.com/alexjohnson",
         twitter: "https://twitter.com/alexjohnson",
@@ -99,7 +99,7 @@ export const blogs: BlogType[] = [
     writer: {
       name: "Grace Lee",
       bio: "Grace is a financial advisor focusing on property investment in Asia. She helps international clients enter the Korean market safely and profitably.",
-      avatar: "/images/authors/grace-lee.jpg",
+      avatar: "/img/user-3.jpg",
       social: {
         facebook: "https://facebook.com/gracelee",
         twitter: "https://twitter.com/gracelee",
@@ -153,7 +153,7 @@ export const blogs: BlogType[] = [
     writer: {
       name: "David Kim",
       bio: "David is an interior designer turned real estate blogger. He specializes in creating beautiful spaces that sell quickly in Korea’s fast-paced housing market.",
-      avatar: "/images/authors/david-kim.jpg",
+      avatar: "/img/user-4.jpg",
       social: {
         facebook: "https://facebook.com/davidkim",
         twitter: "https://twitter.com/davidkim",
@@ -207,7 +207,7 @@ export const blogs: BlogType[] = [
     writer: {
       name: "Sungmin Oh",
       bio: "Sungmin is a property lawyer in Seoul who writes about rental laws and housing contracts. His articles simplify legal jargon for everyday readers.",
-      avatar: "/images/authors/sungmin-oh.jpg",
+      avatar: "/img/user-5.jpg",
       social: {
         facebook: "https://facebook.com/sungminoh",
         twitter: "https://twitter.com/sungminoh",
@@ -260,7 +260,7 @@ export const blogs: BlogType[] = [
     writer: {
       name: "Hyejin Kim",
       bio: "Hyejin is a sustainability advocate and architect. She writes about eco-friendly housing and the future of smart living in Korea.",
-      avatar: "/images/authors/hyejin-kim.jpg",
+      avatar: "/img/user-6.jpg",
       social: {
         facebook: "https://facebook.com/hyejinkim",
         twitter: "https://twitter.com/hyejinkim",
@@ -314,7 +314,7 @@ export const blogs: BlogType[] = [
     writer: {
       name: "Michael Han",
       bio: "Michael is a real estate analyst based in Seoul. He provides data-driven insights into housing trends and market shifts.",
-      avatar: "/images/authors/michael-han.jpg",
+      avatar: "/img/user-7.jpg",
       social: {
         facebook: "https://facebook.com/michaelhan",
         twitter: "https://twitter.com/michaelhan",
