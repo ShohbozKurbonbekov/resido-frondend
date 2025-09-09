@@ -1,9 +1,6 @@
 import { useGlobals } from "@/app/hooks/useGlobals";
-import { useContext } from "react";
 
 export default function Hero() {
-  const { authmember } = useGlobals();
-  console.log("authmember", authmember);
   return (
     <section
       className="hero-section w-full  h-screen overflow-hidden relative
