@@ -16,7 +16,7 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <GlobalContext.Provider
       value={{
-        authmember: { myName: "Daniel", age: 28, status: "single" },
+        authmember,
         setAuthMember,
       }}
     >

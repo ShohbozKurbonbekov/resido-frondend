@@ -11,9 +11,13 @@ import ContactUsPage from "./app/screens/contactUs/Index";
 import FaqPage from "./app/screens/FAQ/Index";
 import PricingPage from "./app/screens/pricing/Index";
 import BlogsPage from "./app/screens/blogsPage/Index";
+import RequiredAuth from "./app/components/auth/Index";
+import DashboardRouter from "./app/screens/dashboards/Index";
+import { useState } from "react";
 
 export default function App() {
   const location = useLocation();
+
   return (
     <>
       {location.pathname === "/" ? <Navbar /> : <OtherNavbar />}
@@ -27,6 +31,13 @@ export default function App() {
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/Faqs" element={<FaqPage />} />
         <Route path="/pricing" element={<PricingPage />} />
+
+        {/* // Protected */}
+        <Route element={<RequiredAuth />}>
+          <Route path="/dashboard" element={<DashboardRouter />} />
+        </Route>
+
+        {/* // home */}
         <Route path="/" element={<HomePage />} />
       </Routes>
 

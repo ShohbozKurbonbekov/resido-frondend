@@ -11,16 +11,14 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router-dom";
+import { data, Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useGlobals } from "../hooks/useGlobals";
+import { emptyInputAlert } from "@/lib/sweetAlerts";
+import { ErrorMessages } from "@/lib/config";
 
 type SignUpType = {
   btnClasses: string;
@@ -29,33 +27,46 @@ type SignUpType = {
 
 // ✅ Validation schema with Zod
 const FormSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email address." }),
-  password: z
+  memberType: z.string(),
+  memberEmail: z
+    .string()
+    .email({ message: "Please enter a valid email address." }),
+  memberPassword: z
     .string()
     .min(7, "Password must be at least 7 characters")
-    .max(15, "Password must be at most 15 characters")
-    .regex(/[A-Za-z]/, "Password must contain at least one letter")
-    .regex(/\d/, "Password must contain at least one number")
-    .regex(
-      /[^A-Za-z0-9]/,
-      "Password must contain at least one special character"
-    ),
+    .max(40, "Password must be at most 15 characters"),
+  // .regex(/[A-Za-z]/, "Password must contain at least one letter")
+  // .regex(/\d/, "Password must contain at least one number")
+  // .regex(
+  //   /[^A-Za-z0-9]/,
+  //   "Password must contain at least one special character"
+  // ),
 });
 export default function Login({ btnClasses, btnTitle }: SignUpType) {
+  const navigation = useNavigate();
+  const [dialogOpen, setDialogClose] = useState<boolean>(false);
+  const { setAuthMember } = useGlobals();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      memberEmail: "",
+      memberPassword: "",
+      memberType: "USER",
     },
   });
 
   const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    console.log("form data: ", data);
+    const isFullFill = data.memberEmail && data.memberPassword;
+
+    if (!isFullFill) emptyInputAlert(ErrorMessages.error3, true);
+    setAuthMember(data);
+    setDialogClose(false);
+    navigation("/dashboard");
   };
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <Dialog open={dialogOpen} onOpenChange={setDialogClose}>
+      <DialogTrigger asChild className={`${btnClasses}`}>
         <Button className={`${btnClasses}`} variant="link">
           {btnTitle}
         </Button>
@@ -78,7 +89,7 @@ export default function Login({ btnClasses, btnTitle }: SignUpType) {
             <div className="grid grid-cols-1 gap-4">
               <FormField
                 control={form.control}
-                name="email"
+                name="memberEmail"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
@@ -97,7 +108,7 @@ export default function Login({ btnClasses, btnTitle }: SignUpType) {
 
               <FormField
                 control={form.control}
-                name="password"
+                name="memberPassword"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>

@@ -1,5 +1,3 @@
-import { useGlobals } from "@/app/hooks/useGlobals";
-
 export default function Hero() {
   return (
     <section
