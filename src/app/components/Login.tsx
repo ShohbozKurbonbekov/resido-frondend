@@ -51,7 +51,7 @@ export default function Login({ btnClasses, btnTitle }: SignUpType) {
     defaultValues: {
       memberEmail: "",
       memberPassword: "",
-      memberType: "AGENT",
+      memberType: "AGENCY",
     },
   });
 

@@ -1,7 +1,6 @@
 import { useGlobals } from "@/app/hooks/useGlobals";
-import { serverAPI } from "@/lib/config";
 import type { DashboardSidebar } from "@/lib/type/dashboard/dashboard";
-import type { userDashboardSidebarType } from "@/lib/type/dashboard/user";
+import type { UserDashboardSidebarType } from "@/lib/type/dashboard/user";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +8,7 @@ interface DashboardSideBarProps {
   featuresData: DashboardSidebar[];
   wrapperClasses?: string;
   featuresClasses?: string;
-  data: userDashboardSidebarType;
+  data: UserDashboardSidebarType;
 }
 
 export default function DashboardSideBar({
@@ -37,7 +36,7 @@ export default function DashboardSideBar({
   return (
     <div className={wrapperClasses}>
       {/* // header */}
-      <div className="sidebar-header">
+      <div className="sidebar-header flex flex-col items-center">
         <img
           src={image}
           alt=""
