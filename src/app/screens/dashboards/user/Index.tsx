@@ -1,31 +1,63 @@
 import SectionIntroNoBackground from "@/app/components/SectionIntroNoBackground";
 import type { DashboardSidebar } from "@/lib/type/dashboard/dashboard";
 import {
+  Bookmark,
   BookMarked,
+  Edit3,
+  FileText,
   Gauge,
   LogOut,
   MessageSquare,
+  SearchCheck,
+  Sparkles,
   SquareUser,
 } from "lucide-react";
 import DashboardSideBar from "../Dashboard-sidebar";
 import type { userDashboardSidebarType } from "@/lib/type/dashboard/user";
 import SidebarToggleBtn from "./SidebarToggleBtn";
 import UserFeaturesCard from "./UserFeaturesCard";
+import { serverAPI } from "@/lib/config";
 
 const userDashboard: DashboardSidebar[] = [
-  { title: "dashboard", Icon: Gauge },
-  { title: "saved listings", Icon: BookMarked },
+  { title: "Dashboard", Icon: Gauge }, // Overview
+  { title: "Saved Properties", Icon: BookMarked }, // Wishlist / favorites
+  { title: "My Reviews", Icon: SearchCheck }, // User reviews
+  { title: "Messages", Icon: MessageSquare }, // Chat with agents/agencies
+  { title: "My Profile", Icon: SquareUser }, // Account settings
+  { title: "Saved Blogs / Articles", Icon: FileText }, // Saved blog posts
+  { title: "Logout", Icon: LogOut }, // Exit session
+];
+
+const userCads = [
   {
-    title: "my inqueries and appointments",
+    cardTitle: "Saved Properties",
+    cardTitleAmount: 12,
+    cardClasses: "green",
+    url: `${serverAPI}/saved-properties`,
+    Icon: Bookmark,
+  },
+  {
+    cardTitle: "unread messages",
+    cardTitleAmount: 45,
+    cardClasses: "yellow",
+    url: `${serverAPI}/unread-messages`,
     Icon: MessageSquare,
   },
   {
-    title: "my profile",
-    Icon: SquareUser,
+    cardTitle: "reviews written",
+    cardTitleAmount: 41,
+    cardClasses: "red",
+    url: `${serverAPI}/reviews-written`,
+    Icon: Edit3,
   },
-  { title: "logout", Icon: LogOut },
+  {
+    cardTitle: "recomended properties",
+    cardTitleAmount: 12,
+    cardClasses: "blue",
+    url: `${serverAPI}/recommended-properties`,
+    Icon: Sparkles,
+  },
 ];
-
 const userDashboardSidebar: userDashboardSidebarType = {
   memberName: "Adam Harshvardhan",
   memberImage: "/img/user-2.jpg",
@@ -54,8 +86,8 @@ export default function UserDashboard() {
 
           <div className="lg:col-span-9 flex flex-col gap-7">
             <div className="cards  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {[1, 2, 3, 4, 5, 6].map((card, index) => (
-                <UserFeaturesCard key={index} value={card} />
+              {userCads.map((card) => (
+                <UserFeaturesCard values={card} />
               ))}
             </div>
           </div>

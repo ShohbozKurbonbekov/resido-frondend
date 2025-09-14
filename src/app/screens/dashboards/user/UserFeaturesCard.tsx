@@ -1,21 +1,44 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { MapPin } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 
-export default function UserFeaturesCard({ value }: { value: number }) {
+const bgMap: Record<string, string> = {
+  blue: "bg-blue-500",
+  green: "bg-green-500",
+  yellow: "bg-yellow-500",
+  red: "bg-red-500",
+};
+
+interface UserFeaturesCardProps {
+  values: {
+    cardTitle: string;
+    cardTitleAmount: number;
+    cardClasses: string;
+    url: string;
+    Icon?: LucideIcon;
+  };
+}
+export default function UserFeaturesCard({ values }: UserFeaturesCardProps) {
+  const { cardClasses, cardTitle, cardTitleAmount, url, Icon } = values;
   return (
-    <Card className="shadow-none rounded-md bg-green-600 p-10">
-      <CardContent className="flex flex-row items-start justify-between gap-3 p-0">
-        <div className="flex flex-col">
-          <h4 className="text-5xl font-bold tracking-wider text-white  leading-none font-jostFont capitalize">
-            607
-          </h4>
-          <p className="text-lg  font-normal leading-tight capitalize font-jostFont text-white ">
-            saved listing
-          </p>
-        </div>
-        <div>
-          <MapPin className="w-16 h-16 stroke-slate-100 fill-transparent" />
-        </div>
+    <Card className={`shadow-none rounded-md  p-10  ${bgMap[cardClasses]}`}>
+      <CardContent>
+        <Link
+          to={url}
+          className="flex flex-row items-start justify-between gap-3 p-0"
+        >
+          <div className="flex flex-col">
+            <h4 className="text-5xl font-bold tracking-wider text-white  leading-none font-jostFont capitalize">
+              {cardTitleAmount}
+            </h4>
+            <p className="text-lg  font-normal leading-tight capitalize font-jostFont text-white ">
+              {cardTitle}
+            </p>
+          </div>
+          <div>
+            {Icon ? <Icon className={`w-16 h-16  stroke-yellow-300`} /> : null}
+          </div>
+        </Link>
       </CardContent>
     </Card>
   );
