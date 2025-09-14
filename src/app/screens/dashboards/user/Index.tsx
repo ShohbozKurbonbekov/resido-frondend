@@ -13,10 +13,10 @@ import {
   SquareUser,
 } from "lucide-react";
 import DashboardSideBar from "../Dashboard-sidebar";
-import type { userDashboardSidebarType } from "@/lib/type/dashboard/user";
 import SidebarToggleBtn from "./SidebarToggleBtn";
 import UserFeaturesCard from "./UserFeaturesCard";
 import { serverAPI } from "@/lib/config";
+import type { UserDashboardSidebarType } from "@/lib/type/dashboard/user";
 
 const userDashboard: DashboardSidebar[] = [
   { title: "Dashboard", Icon: Gauge }, // Overview
@@ -47,7 +47,7 @@ const userCads = [
     cardTitle: "reviews written",
     cardTitleAmount: 41,
     cardClasses: "red",
-    url: `${serverAPI}/reviews-written`,
+    url: `${serverAPI}/my-reviews`,
     Icon: Edit3,
   },
   {
@@ -57,8 +57,15 @@ const userCads = [
     url: `${serverAPI}/recommended-properties`,
     Icon: Sparkles,
   },
+  {
+    cardTitle: "saved blogs / articles",
+    cardTitleAmount: 54,
+    cardClasses: "black",
+    url: `${serverAPI}/saved-blogs-articles`,
+    Icon: FileText,
+  },
 ];
-const userDashboardSidebar: userDashboardSidebarType = {
+const userDashboardSidebar: UserDashboardSidebarType = {
   memberName: "Adam Harshvardhan",
   memberImage: "/img/user-2.jpg",
   memberLocation: "Canada USA",

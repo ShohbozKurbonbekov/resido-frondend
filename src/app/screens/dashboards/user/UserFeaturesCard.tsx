@@ -7,6 +7,7 @@ const bgMap: Record<string, string> = {
   green: "bg-green-500",
   yellow: "bg-yellow-500",
   red: "bg-red-500",
+  black: "bg-black",
 };
 
 interface UserFeaturesCardProps {
@@ -15,13 +16,15 @@ interface UserFeaturesCardProps {
     cardTitleAmount: number;
     cardClasses: string;
     url: string;
-    Icon?: LucideIcon;
+    Icon: LucideIcon;
   };
 }
 export default function UserFeaturesCard({ values }: UserFeaturesCardProps) {
   const { cardClasses, cardTitle, cardTitleAmount, url, Icon } = values;
   return (
-    <Card className={`shadow-none rounded-md  p-10  ${bgMap[cardClasses]}`}>
+    <Card
+      className={`shadow-none rounded-md  p-10  ${bgMap[cardClasses]} hover:bg-opacity-60 transition-colors duration-300 ease-linear`}
+    >
       <CardContent>
         <Link
           to={url}
@@ -36,7 +39,7 @@ export default function UserFeaturesCard({ values }: UserFeaturesCardProps) {
             </p>
           </div>
           <div>
-            {Icon ? <Icon className={`w-16 h-16  stroke-yellow-300`} /> : null}
+            {Icon && <Icon className={`w-16 h-16  stroke-yellow-300`} />}
           </div>
         </Link>
       </CardContent>

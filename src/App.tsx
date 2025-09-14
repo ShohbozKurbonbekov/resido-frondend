@@ -13,7 +13,6 @@ import PricingPage from "./app/screens/pricing/Index";
 import BlogsPage from "./app/screens/blogsPage/Index";
 import RequiredAuth from "./app/components/auth/Index";
 import DashboardRouter from "./app/screens/dashboards/Index";
-import { useState } from "react";
 
 export default function App() {
   const location = useLocation();

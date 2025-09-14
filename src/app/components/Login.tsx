@@ -14,7 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { data, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useGlobals } from "../hooks/useGlobals";
 import { emptyInputAlert } from "@/lib/sweetAlerts";
@@ -51,7 +51,7 @@ export default function Login({ btnClasses, btnTitle }: SignUpType) {
     defaultValues: {
       memberEmail: "",
       memberPassword: "",
-      memberType: "USER",
+      memberType: "AGENT",
     },
   });
 
@@ -59,6 +59,7 @@ export default function Login({ btnClasses, btnTitle }: SignUpType) {
     const isFullFill = data.memberEmail && data.memberPassword;
 
     if (!isFullFill) emptyInputAlert(ErrorMessages.error3, true);
+    console.log(data);
     setAuthMember(data);
     setDialogClose(false);
     navigation("/dashboard");

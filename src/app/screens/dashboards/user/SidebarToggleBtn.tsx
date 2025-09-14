@@ -2,11 +2,11 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { CircleGauge, Tally3 } from "lucide-react";
 import DashboardSideBar from "../Dashboard-sidebar";
 import type { DashboardSidebar } from "@/lib/type/dashboard/dashboard";
-import type { userDashboardSidebarType } from "@/lib/type/dashboard/user";
+import type { UserDashboardSidebarType } from "@/lib/type/dashboard/user";
 
 interface SidebarToggleBtnProps {
   featuresData: DashboardSidebar[];
-  data: userDashboardSidebarType;
+  data: UserDashboardSidebarType;
 }
 export default function SidebarToggleBtn({
   featuresData,

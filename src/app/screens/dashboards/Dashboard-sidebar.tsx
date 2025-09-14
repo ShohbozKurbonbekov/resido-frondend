@@ -1,3 +1,5 @@
+import { useGlobals } from "@/app/hooks/useGlobals";
+import { serverAPI } from "@/lib/config";
 import type { DashboardSidebar } from "@/lib/type/dashboard/dashboard";
 import type { userDashboardSidebarType } from "@/lib/type/dashboard/user";
 import { useState } from "react";
@@ -16,6 +18,7 @@ export default function DashboardSideBar({
   data,
   featuresClasses = "flex flex-col list-none [&>*:last-child]:border-b-0 w-full",
 }: DashboardSideBarProps) {
+  const { authmember } = useGlobals();
   const navigation = useNavigate();
   const {
     memberImage: image,
@@ -25,7 +28,10 @@ export default function DashboardSideBar({
   const [thisBtnHover, setBtnHover] = useState<string>("");
 
   const makeUrl = (str: string) => {
-    return str.trim().toLowerCase().replace(/\s+/, "-");
+    return str
+      .trim()
+      .toLowerCase()
+      .replace(/[/\s]+/g, "-");
   };
 
   return (
@@ -65,7 +71,11 @@ export default function DashboardSideBar({
               <button
                 className="flex flex-row items-center justify-start gap-2 w-full"
                 onClick={() => {
-                  navigation(`/${makeUrl(feature.title)}`);
+                  navigation(
+                    `/${makeUrl(authmember?.memberType)}/${makeUrl(
+                      feature.title
+                    )}`
+                  );
                 }}
               >
                 <Icon className="h-5 w-5" />

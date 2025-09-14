@@ -3,8 +3,8 @@ import { Navigate, Outlet } from "react-router-dom";
 
 export default function RequiredAuth() {
   const { authmember } = useGlobals();
-  console.log(authmember);
-  return authmember?.memberType === "USER" ? (
+
+  return authmember?.memberType === "AGENT" ? (
     <Outlet />
   ) : (
     <Navigate to="/" replace />
