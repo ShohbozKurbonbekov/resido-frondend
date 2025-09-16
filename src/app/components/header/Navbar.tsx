@@ -3,9 +3,13 @@ import SignUp from "../Signup";
 import Login from "../Login";
 import { useEffect, useState } from "react";
 import DropdownMenuPages from "./DrowndownMenu";
+import { CircleUserRound, TextWrap } from "lucide-react";
+import NavbarToggleBtn from "./NavbarToggleBtn";
 
 export default function Navbar() {
   const authMember = false;
+  const registerBtnClasses =
+    "border-none bg-transparent    hover:no-underline  ease-in p-0 hover:text-slate-300 transition-all duration-75 ease-in font-semibold";
   const [navbarScrolled, setNavbarScrolled] = useState<boolean>(false);
 
   useEffect(() => {
@@ -26,96 +30,122 @@ export default function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto flex flex-row items-center">
-        <ul
-          className={`flex flex-row items-center gap-5   grow font-medium ${
+      <div className="container mx-auto flex flex-row items-center lg:gap-8 justify-between lg:justify-stretch">
+        <NavLink
+          to="/"
+          className={`flex flex-row items-center gap-1 ${
             navbarScrolled ? "text-darkBlue" : "text-stone-50"
-          } text-[14px] font-semibold font-jostFont`}
+          }`}
         >
-          <li>
-            <NavLink to="/" className="flex flex-row items-center">
-              <img
-                src={
-                  navbarScrolled
-                    ? `/public/img/logo.svg`
-                    : `/img/svg/logo-light.svg`
-                }
-                alt=""
-                className="text-stone-50"
-              />
-              <span className="font-bold ms-1 text-[28px] hover:text-slate-300 transition-all duration-75 ease-in">
-                Resido
-              </span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/"
-              className={
-                "hover:text-slate-300 transition-all duration-75 ease-in"
-              }
-            >
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/properties"
-              className={
-                "hover:text-slate-300 transition-all duration-75 ease-in"
-              }
-            >
-              Properties
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/agents"
-              className={
-                "hover:text-slate-300 transition-all duration-75 ease-in"
-              }
-            >
-              Agents
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/agencies"
-              className={
-                "hover:text-slate-300 transition-all duration-75 ease-in"
-              }
-            >
-              Agencies
-            </NavLink>
-          </li>
-          <li>
-            <DropdownMenuPages />
-          </li>
-        </ul>
+          <img
+            src={
+              navbarScrolled
+                ? `/public/img/logo.svg`
+                : `/img/svg/logo-light.svg`
+            }
+            alt="navbar logo"
+          />
+          <span className="font-bold text-2xl hover:text-slate-300 transition-all duration-75 ease-linear">
+            Resido
+          </span>
+        </NavLink>
 
-        {!authMember ? (
-          <div
-            className={`flex flex-row gap-2 text-[14px] ${
-              navbarScrolled ? "text-darkBlue" : "text-stone-50"
-            } text-medium items-center `}
-          >
-            <SignUp
-              btnTitle={"Signup"}
-              btnClasses={`border-none bg-transparent    hover:no-underline  ease-in p-0 hover:text-slate-300 transition-all duration-75 ease-in font-semibold ${
+        {/* // Menu */}
+        <div className="flex-1  hidden lg:block">
+          <div className="flex flex-row items-center  justify-between">
+            <ul
+              className={`flex flex-row items-center gap-5  font-medium ${
                 navbarScrolled ? "text-darkBlue" : "text-stone-50"
-              }`}
-            />
-            <span className="middle">Or</span>
-            <Login
-              btnClasses={`border-none bg-transparent    hover:no-underline  ease-in p-0 hover:text-slate-300 transition-all duration-75 ease-in font-semibold ${
-                navbarScrolled ? "text-darkBlue" : "text-stone-50"
-              }`}
-              btnTitle="Signin"
-            />
+              } text-sm font-semibold font-jostFont`}
+            >
+              <li>
+                <NavLink
+                  to="/"
+                  className={
+                    "hover:text-slate-300 transition-all duration-75 ease-in"
+                  }
+                >
+                  Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/properties"
+                  className={
+                    "hover:text-slate-300 transition-all duration-75 ease-in"
+                  }
+                >
+                  Properties
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/agents"
+                  className={
+                    "hover:text-slate-300 transition-all duration-75 ease-in"
+                  }
+                >
+                  Agents
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/agencies"
+                  className={
+                    "hover:text-slate-300 transition-all duration-75 ease-in"
+                  }
+                >
+                  Agencies
+                </NavLink>
+              </li>
+              <li>
+                <DropdownMenuPages />
+              </li>
+            </ul>
+
+            {!authMember ? (
+              <div
+                className={`flex flex-row gap-2 text-sm ${
+                  navbarScrolled ? "text-darkBlue" : "text-stone-50"
+                }  items-center `}
+              >
+                <SignUp
+                  btnTitle={"Signup"}
+                  btnClasses={` ${registerBtnClasses} ${
+                    navbarScrolled ? "text-darkBlue" : "text-stone-50"
+                  }`}
+                />
+                <span className="middle">Or</span>
+                <Login
+                  btnClasses={`${registerBtnClasses} ${
+                    navbarScrolled ? "text-darkBlue" : "text-stone-50"
+                  }`}
+                  btnTitle="Signin"
+                />
+              </div>
+            ) : (
+              <button
+                className={`${
+                  navbarScrolled ? "text-darkBlue" : "text-stone-50"
+                }    `}
+              >
+                <CircleUserRound className="w-6 h-6" />
+              </button>
+            )}
           </div>
-        ) : (
-          <div></div>
-        )}
+        </div>
+
+        {/* //toggle part */}
+
+        <NavbarToggleBtn
+          btn={
+            <TextWrap
+              className={` lg:hidden block ${
+                navbarScrolled ? "text-darkBlue" : "text-stone-50"
+              } `}
+            />
+          }
+        />
       </div>
     </nav>
   );
