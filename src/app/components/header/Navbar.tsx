@@ -30,7 +30,7 @@ export default function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto flex flex-row items-center lg:gap-8 justify-between lg:justify-stretch">
+      <div className="container mx-auto flex flex-row items-center gap-8">
         <NavLink
           to="/"
           className={`flex flex-row items-center gap-1 ${
@@ -54,7 +54,7 @@ export default function Navbar() {
         <div className="flex-1  hidden lg:block">
           <div className="flex flex-row items-center  justify-between">
             <ul
-              className={`flex flex-row items-center gap-5  font-medium ${
+              className={`flex flex-row items-center gap-5  ${
                 navbarScrolled ? "text-darkBlue" : "text-stone-50"
               } text-sm font-semibold font-jostFont`}
             >

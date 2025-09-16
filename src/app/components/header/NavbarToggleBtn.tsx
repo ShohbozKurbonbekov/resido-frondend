@@ -20,20 +20,20 @@ const navbarPages: { name: string; url: string }[] = [
 ];
 export default function NavbarToggleBtn({ btn }: NavbarToggleBtnProps) {
   const navigation = useNavigate();
-  const authmember = false;
+  const authmember = true;
   const registerBtnClasses =
     "text-white bg-slate-600  px-8 hover:no-underline hover:bg-slate-400 transtion-colors duration-200 ease-linear";
   const [isActive, setIsActive] = useState<string>("");
   return (
     <Sheet>
       <SheetTrigger>{btn}</SheetTrigger>
-      <SheetContent className="max-w-lg  w-3/4 bg-blue-950 border-transparent">
+      <SheetContent className="max-w-lg  w-3/4 bg-blue-950 border-transparent overflow-auto">
         <ul className="flex  flex-col items-stretch list-none mt-5 ">
           {navbarPages.map((page, index) => (
             <NavLink
               key={page.name}
               to={page.url}
-              className={` w-full py-2 px-1 rounded-md  my-1 text-center text-white transition-all duration-200 ease-linear ${
+              className={` w-full py-2 px-1 rounded-md   text-center text-white transition-all duration-200 ease-linear ${
                 isActive === `page-${index + 1}` ? " bg-slate-500" : null
               }`}
               onMouseEnter={() => setIsActive(`page-${index + 1}`)}
@@ -44,7 +44,9 @@ export default function NavbarToggleBtn({ btn }: NavbarToggleBtnProps) {
           ))}
         </ul>
         {authmember ? (
-          <div className={`flex flex-row gap-2  items-center justify-center `}>
+          <div
+            className={`flex flex-row gap-2  items-center justify-center mt-4`}
+          >
             <SignUp btnTitle={"Signup"} btnClasses={registerBtnClasses} />
 
             <Login btnClasses={registerBtnClasses} btnTitle="Signin" />
