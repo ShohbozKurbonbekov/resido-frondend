@@ -1,13 +1,23 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import SignUp from "../Signup";
 import Login from "../Login";
 import { useEffect, useState } from "react";
 import DropdownMenuPages from "./DrowndownMenu";
 import { CircleUserRound, TextWrap } from "lucide-react";
 import NavbarToggleBtn from "./NavbarToggleBtn";
+import { useGlobals } from "@/app/hooks/useGlobals";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export default function Navbar() {
-  const authMember = false;
+  const [isPopover, setIsPopover] = useState<boolean>(false);
+  const { authmember, setAuthMember } = useGlobals();
+  const navigation = useNavigate();
+  const userProfileBtn =
+    "px-5 py-3 hover:bg-slate-400  hover:text-white text-start capitalize font-jostFont text-base font-semibold transition-all duration-300 ease-linear rounded-md";
   const registerBtnClasses =
     "border-none bg-transparent    hover:no-underline  ease-in p-0 hover:text-slate-300 transition-all duration-75 ease-in font-semibold";
   const [navbarScrolled, setNavbarScrolled] = useState<boolean>(false);
@@ -22,6 +32,11 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleNavbarScrolling);
   }, [navbarScrolled]);
 
+  const handleLogout = (): void => {
+    localStorage.removeItem("memberData");
+    setAuthMember(null);
+    navigation("/");
+  };
   return (
     <nav
       className={`py-4 w-full fixed  top-0 z-50 transition-all duration-300 ease-in  ${
@@ -30,10 +45,10 @@ export default function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto flex flex-row items-center gap-8">
+      <div className="container mx-auto flex flex-row items-center gap-8 justify-between lg:justify-start">
         <NavLink
           to="/"
-          className={`flex flex-row items-center gap-1 ${
+          className={`flex flex-row items-center gap-1   ${
             navbarScrolled ? "text-darkBlue" : "text-stone-50"
           }`}
         >
@@ -45,7 +60,7 @@ export default function Navbar() {
             }
             alt="navbar logo"
           />
-          <span className="font-bold text-2xl hover:text-slate-300 transition-all duration-75 ease-linear">
+          <span className="font-bold text-2xl hover:text-slate-300 transition-all duration-75 ease-linear -mt-1.5">
             Resido
           </span>
         </NavLink>
@@ -103,7 +118,7 @@ export default function Navbar() {
               </li>
             </ul>
 
-            {!authMember ? (
+            {!authmember ? (
               <div
                 className={`flex flex-row gap-2 text-sm ${
                   navbarScrolled ? "text-darkBlue" : "text-stone-50"
@@ -124,13 +139,28 @@ export default function Navbar() {
                 />
               </div>
             ) : (
-              <button
-                className={`${
-                  navbarScrolled ? "text-darkBlue" : "text-stone-50"
-                }    `}
-              >
-                <CircleUserRound className="w-6 h-6" />
-              </button>
+              <Popover open={isPopover} onOpenChange={setIsPopover}>
+                <PopoverTrigger
+                  className={`${
+                    navbarScrolled ? "text-darkBlue" : "text-stone-50"
+                  } rounded-md`}
+                >
+                  <CircleUserRound className="w-6 h-6 hover:text-slate-300 transition-all duration-75 ease-in" />
+                </PopoverTrigger>
+                <PopoverContent className="flex flex-col    items-stretch p-2 me-6 mt-4">
+                  <button
+                    className={userProfileBtn}
+                    onClick={() => {
+                      navigation("/dashboard");
+                    }}
+                  >
+                    my dashboard
+                  </button>
+                  <button className={userProfileBtn} onClick={handleLogout}>
+                    logout
+                  </button>
+                </PopoverContent>
+              </Popover>
             )}
           </div>
         </div>

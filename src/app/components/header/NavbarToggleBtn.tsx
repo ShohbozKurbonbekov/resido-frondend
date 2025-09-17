@@ -3,6 +3,7 @@ import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import SignUp from "../Signup";
 import Login from "../Login";
+import { useGlobals } from "@/app/hooks/useGlobals";
 interface NavbarToggleBtnProps {
   btn: React.ReactNode;
 }
@@ -19,11 +20,19 @@ const navbarPages: { name: string; url: string }[] = [
   { name: "About Us", url: "/about-us" },
 ];
 export default function NavbarToggleBtn({ btn }: NavbarToggleBtnProps) {
+  const navbarToggleBtnClasses =
+    "w-full text-white bg-slate-600 p-2 rounded-md hover:bg-slate-400 transition-colors duration-200 ease-linear";
   const navigation = useNavigate();
-  const authmember = true;
+  const { authmember, setAuthMember } = useGlobals();
   const registerBtnClasses =
     "text-white bg-slate-600  px-8 hover:no-underline hover:bg-slate-400 transtion-colors duration-200 ease-linear";
   const [isActive, setIsActive] = useState<string>("");
+
+  const handleLogout = (): void => {
+    localStorage.removeItem("memberData");
+    setAuthMember(null);
+    navigation("/");
+  };
   return (
     <Sheet>
       <SheetTrigger>{btn}</SheetTrigger>
@@ -33,7 +42,7 @@ export default function NavbarToggleBtn({ btn }: NavbarToggleBtnProps) {
             <NavLink
               key={page.name}
               to={page.url}
-              className={` w-full py-2 px-1 rounded-md   text-center text-white transition-all duration-200 ease-linear ${
+              className={` w-full py-2 px-1 rounded-md   text-center text-white transition-all duration-200 ease-linear -mt-1.5 ${
                 isActive === `page-${index + 1}` ? " bg-slate-500" : null
               }`}
               onMouseEnter={() => setIsActive(`page-${index + 1}`)}
@@ -43,7 +52,7 @@ export default function NavbarToggleBtn({ btn }: NavbarToggleBtnProps) {
             </NavLink>
           ))}
         </ul>
-        {authmember ? (
+        {!authmember ? (
           <div
             className={`flex flex-row gap-2  items-center justify-center mt-4`}
           >
@@ -52,14 +61,17 @@ export default function NavbarToggleBtn({ btn }: NavbarToggleBtnProps) {
             <Login btnClasses={registerBtnClasses} btnTitle="Signin" />
           </div>
         ) : (
-          <div className="mt-4">
+          <div className="mt-4 flex flex-col gap-1">
             <button
-              className="w-full text-white bg-slate-600 p-2 rounded-md hover:bg-slate-400 transition-colors duration-200 ease-linear"
+              className={navbarToggleBtnClasses}
               onClick={() => {
                 navigation("/dashboard");
               }}
             >
               My dashboard
+            </button>
+            <button className={navbarToggleBtnClasses} onClick={handleLogout}>
+              logout
             </button>
           </div>
         )}

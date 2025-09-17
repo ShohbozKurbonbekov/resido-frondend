@@ -34,13 +34,13 @@ const FormSchema = z.object({
   memberPassword: z
     .string()
     .min(7, "Password must be at least 7 characters")
-    .max(40, "Password must be at most 15 characters"),
-  // .regex(/[A-Za-z]/, "Password must contain at least one letter")
-  // .regex(/\d/, "Password must contain at least one number")
-  // .regex(
-  //   /[^A-Za-z0-9]/,
-  //   "Password must contain at least one special character"
-  // ),
+    .max(40, "Password must be at most 15 characters")
+    .regex(/[A-Za-z]/, "Password must contain at least one letter")
+    .regex(/\d/, "Password must contain at least one number")
+    .regex(
+      /[^A-Za-z0-9]/,
+      "Password must contain at least one special character"
+    ),
 });
 export default function Login({ btnClasses, btnTitle }: SignUpType) {
   const navigation = useNavigate();
@@ -51,7 +51,7 @@ export default function Login({ btnClasses, btnTitle }: SignUpType) {
     defaultValues: {
       memberEmail: "",
       memberPassword: "",
-      memberType: "AGENCY",
+      memberType: "USER",
     },
   });
 
@@ -59,10 +59,11 @@ export default function Login({ btnClasses, btnTitle }: SignUpType) {
     const isFullFill = data.memberEmail && data.memberPassword;
 
     if (!isFullFill) emptyInputAlert(ErrorMessages.error3, true);
-    console.log(data);
+
+    localStorage.setItem("memberData", JSON.stringify(data));
     setAuthMember(data);
     setDialogClose(false);
-    navigation("/dashboard");
+    navigation("/");
   };
 
   return (

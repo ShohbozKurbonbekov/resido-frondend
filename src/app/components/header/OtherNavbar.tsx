@@ -1,14 +1,23 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import SignUp from "../Signup";
 import Login from "../Login";
 import DropdownMenuPages from "./DrowndownMenu";
 import { CircleUserRound, TextWrap } from "lucide-react";
 import NavbarToggleBtn from "./NavbarToggleBtn";
+import { useGlobals } from "@/app/hooks/useGlobals";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export default function OtherNavbar() {
   const [showNavbar, setShowNavbar] = useState<boolean>(false);
-  const authMember: boolean = true;
+  const { authmember, setAuthMember } = useGlobals();
+  const navigation = useNavigate();
+  const userProfileBtn =
+    "px-5 py-3 hover:bg-slate-400  hover:text-white text-start capitalize font-jostFont text-base font-semibold transition-all duration-300 ease-linear rounded-md";
   const navbarBtnClasses =
     "border-none bg-transparent    hover:no-underline  p-0 hover:text-slate-300 transition-all duration-75 ease-in font-semibold text-darkBlue";
 
@@ -26,9 +35,14 @@ export default function OtherNavbar() {
     return () => window.removeEventListener("scroll", handleNavbarScrolling);
   }, []);
 
+  const handleLogout = (): void => {
+    localStorage.removeItem("memberData");
+    setAuthMember(null);
+    navigation("/");
+  };
   const navbarContent = (
     <div className="container mx-auto flex flex-row items-center lg:gap-8 justify-between lg:justify-stretch">
-      <NavLink to="/" className={`flex flex-row items-center gap-1 `}>
+      <NavLink to="/" className={`flex flex-row items-center gap-1 -mt-1.5 `}>
         <img src={`/public/img/logo.svg`} alt="" className="text-stone-50" />
         <span className="font-bold text-2xl hover:text-slate-300 transition-all duration-75 ease-linear">
           Resido
@@ -87,7 +101,7 @@ export default function OtherNavbar() {
           </ul>
 
           {/* // registration */}
-          {!authMember ? (
+          {!authmember ? (
             <div
               className={`flex flex-row gap-2 text-sm
            text-darkBlue
@@ -98,11 +112,26 @@ export default function OtherNavbar() {
               <Login btnClasses={navbarBtnClasses} btnTitle="Signin" />
             </div>
           ) : (
-            <button
-              className={`text-darkBlue text-sm font-semibold font-jostFont hover:text-slate-300 transition-all duration-75 ease-in`}
-            >
-              <CircleUserRound className="w-6 h-6" />
-            </button>
+            <Popover>
+              <PopoverTrigger
+                className={`text-darkBlue text-sm font-semibold font-jostFont hover:text-slate-300 transition-all duration-75 ease-in`}
+              >
+                <CircleUserRound className="w-6 h-6 hover:text-slate-300 transition-all duration-75 ease-in" />
+              </PopoverTrigger>
+              <PopoverContent className="flex flex-col    items-stretch p-2  ">
+                <button
+                  className={userProfileBtn}
+                  onClick={() => {
+                    navigation("/dashboard");
+                  }}
+                >
+                  my dashboard
+                </button>
+                <button className={userProfileBtn} onClick={handleLogout}>
+                  logout
+                </button>
+              </PopoverContent>
+            </Popover>
           )}
         </div>
       </div>
