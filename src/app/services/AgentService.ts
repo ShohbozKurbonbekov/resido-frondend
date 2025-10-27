@@ -1,4 +1,8 @@
 import { serverAPI } from "@/lib/config";
+import type {
+  featuredAgentsInput,
+  FeaturedAgentsResult,
+} from "@/lib/type/agent";
 import axios from "axios";
 
 class AgentService {
@@ -7,21 +11,16 @@ class AgentService {
     this.path = serverAPI;
   }
 
-  public async getAgents() {
+  public async getFeaturedAgents(
+    input: featuredAgentsInput
+  ): Promise<FeaturedAgentsResult> {
     try {
-      return "";
-    } catch (error) {
-      console.log("Error in getAgents: ", error);
-      throw error;
-    }
-  }
-  public async getAgent(id: string) {
-    try {
-      const url = `${this.path}/agentId/${id}`;
-      const result = await axios.get(url);
+      const url = `${this.path}/agent/featured-agents`;
+      const result = await axios.post(url, input, { withCredentials: true });
+
       return result.data;
     } catch (error) {
-      console.log("Error in getAgent: ", error);
+      console.log("Error in getFeaturedAgents service: ", error);
       throw error;
     }
   }

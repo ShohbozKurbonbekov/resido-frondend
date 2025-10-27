@@ -36,7 +36,7 @@ export default function NavbarToggleBtn({ btn }: NavbarToggleBtnProps) {
   return (
     <Sheet>
       <SheetTrigger>{btn}</SheetTrigger>
-      <SheetContent className="max-w-lg  w-3/4 bg-blue-950 border-transparent overflow-auto">
+      <SheetContent className="max-w-lg  w-3/4 bg-[rgba(0,0,0,0.7)] border-transparent overflow-auto">
         <ul className="flex  flex-col items-stretch list-none mt-5 ">
           {navbarPages.map((page, index) => (
             <NavLink

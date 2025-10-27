@@ -20,5 +20,3 @@ export interface Agency {
   agencyCity: string;
   agencyMemberyear: number;
 }
-
-export interface AgencyInquery {}

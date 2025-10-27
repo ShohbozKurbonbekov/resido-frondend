@@ -1,13 +1,13 @@
 import SectionIntroNoBackground from "@/app/components/SectionIntroNoBackground";
 import SectionTopShortInfo from "@/app/components/SectionTopShortInfo";
-import AgencyService from "@/app/services/AgencyService";
 import type { Agency } from "@/lib/type/agency";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import AgencyDetailMainContent from "./AgencyDetailMainContent";
-import AgentService from "@/app/services/AgentService";
 import PropertyService from "@/app/services/PropertyService";
 import type { PropertyDetailFeaturedPropertyType } from "@/lib/type/property";
+import AgencyService from "@/app/services/AgencyService";
+import AgentService from "@/app/services/AgentService";
 const featuredProperty: PropertyDetailFeaturedPropertyType[] = [
   {
     featuredPropertyImage: "/img/p-12.jpg",
