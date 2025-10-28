@@ -5,22 +5,39 @@ import { Bed, Copy, Hotel } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 import { useCallback, useEffect, useState } from "react";
-import type { T } from "@/lib/type/common";
 import { formatCurrency, formatPropertyArea } from "@/lib/utils";
+import type { Property } from "@/lib/type/property";
+import { serverAPI } from "@/lib/config";
 
 const carouselOptions: EmblaOptionsType = {
   loop: true,
-  align: "center",
-  duration: 25, // default 25
+  align: "start",
+  duration: 40, // default 25
 };
+
 interface PropertyCardType {
-  property: T;
+  property: Property;
 }
 
 export default function PropertyCard(props: PropertyCardType) {
-  const { property } = props;
+  const {
+    _id: id,
+    title,
+    images,
+    daysSinceCreated,
+    sellingOption,
+    address,
+    propertyType,
+    bedrooms,
+    hall,
+    kitchen,
+    area,
+    author: { rank },
+  } = props.property;
 
-  const [emblaRef, emblaApi] = useEmblaCarousel(carouselOptions, [Autoplay()]);
+  const [emblaRef, emblaApi] = useEmblaCarousel(carouselOptions, [
+    Autoplay({ delay: 3000, stopOnInteraction: false }),
+  ]);
 
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
@@ -36,59 +53,47 @@ export default function PropertyCard(props: PropertyCardType) {
 
   useEffect(() => {
     if (!emblaApi) return;
+
     setScrollSnaps(emblaApi.scrollSnapList());
     emblaApi.on("select", () => onSelect(emblaApi));
     onSelect(emblaApi);
   }, [emblaApi, onSelect]);
 
   return (
-    <Card className="h-auto w-full shadow-none">
+    <Card className="h-full w-full shadow-none" key={id} id={id}>
+      {/* Header images */}
       <CardHeader className="pb-3">
-        <div className="card-header-wrapper flex flex-col  max-h-[260px] relative">
+        <div className=" flex flex-col  max-h-[260px] relative">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex">
-              {/* slide 1 */}
-              <div className="flex-[0_0_100%]">
-                <img
-                  src={property.propertyImages[0]}
-                  className="h-full rounded-md"
-                  alt={property.propertyName}
-                />
-              </div>
-
-              {/* slide 2 */}
-              <div className="flex-[0_0_100%]">
-                <img
-                  src={property.propertyImages[1]}
-                  className="h-full rounded-md"
-                  alt={property.propertyName}
-                />
-              </div>
-
-              {/* slide - 3 */}
-              <div className="flex-[0_0_100%]">
-                <img
-                  src={property.propertyImages[2]}
-                  className="h-full rounded-md"
-                  alt={property.propertyName}
-                />
-              </div>
+              {images.map((image: string, index: number) => {
+                const imageUrl: string = `${serverAPI}/${image}`;
+                return (
+                  <div className="flex-[0_0_100%]" key={index}>
+                    <img
+                      src={imageUrl}
+                      className="h-full rounded-md"
+                      alt={title}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
-          <div className="card-header-description flex flex-row  gap-2 top-[20px] left-[15px]  absolute">
+          <div className="card-header-description flex flex-row  gap-2 top-5 left-4  absolute">
             {/* verified sign  */}
             <span className="bg-[#009868] py-1 px-3 rounded-md text-slate-50 font-bold flex flex-row gap-1 items-center">
               <img src="/img/svg/verified.svg" className="" alt="" />
-              <span className="text-[10px] tracking-wide">
-                {property.propertyStatus}
-              </span>
+              <span className="text-[10px] tracking-wide">{rank}</span>
             </span>
 
             {/* new sign */}
-            <span className="bg-[#a70a29] py-1 px-3 rounded-md text-slate-50 font-bold flex flex-row gap-1 items-center">
-              <img src="/img/svg/moon.svg" alt="" />
-              <span className="text-[10px] tracking-wide">new</span>
-            </span>
+            {daysSinceCreated <= 7 && (
+              <span className="bg-[#a70a29] py-1 px-3 rounded-md text-slate-50 font-bold flex flex-row gap-1 items-center">
+                <img src="/img/svg/moon.svg" alt="" />
+                <span className="text-size_10 tracking-wide">new</span>
+              </span>
+            )}
           </div>
 
           {/* DOTS */}
@@ -107,39 +112,41 @@ export default function PropertyCard(props: PropertyCardType) {
           </div>
         </div>
       </CardHeader>
+
+      {/* Main Content Part */}
       <CardContent className="flex flex-col items-start justify-center">
         <div className="flex flex-row w-full gap-4 font-jostFont mb-1">
-          <span className="py-1 px-3 bg-[#0098681A] text-darkBlue text-[12px] rounded-sm font-bold ">
-            {property.propertyMarketStatus}
+          <span className="py-1 px-3 bg-[#0098681A] text-darkBlue text-xs rounded-sm font-bold ">
+            {sellingOption.optionRent?.type ?? sellingOption.optionSell?.type}
           </span>
-          <span className="py-1 px-3 bg-[#3846411a] text-blue-600 text-[12px] rounded-sm font-bold ">
-            {property.propertyType}
+          <span className="py-1 px-3 bg-[#3846411a] text-blue-600 text-xs rounded-sm font-bold ">
+            {propertyType.toUpperCase()}
           </span>
         </div>
         <h3 className="text-darkBlue font-bold font-jostFont text-xl mb-1">
-          {property.propertyName}
+          {title}
         </h3>
         <p className="text-stone-400 flex flex-row  items-center gap-1 mb-2">
-          <img src="/img/svg/map-1.svg" alt="" />
-          {property.propertyLocation}
+          <img src="/img/svg/map-1.svg" alt="map logo" />
+          {`${address?.street}, ${address?.city}, ${address?.country}`}
         </p>
-        <div className=" w-full flex flex-row justify-between items-center text-stone-400 text-[13.5px] font-jostFont mb-3">
+        <div className=" w-full flex flex-row justify-between items-center text-stone-400 text-sm font-jostFont mb-3">
           <span className="flex flex-row gap-1 items-center">
             <Hotel
               size="20px"
               className="bg-blue-100 box-content p-2 rounded-full border-2"
             />
             <span>
-              {property.PropertyBedroom}B{property.propertyHall}H
-              {property.propertyKitchen}K
+              {bedrooms}B{hall}H{kitchen}K
             </span>
           </span>
+
           <span className="flex flex-row gap-1 items-center">
             <Bed
               size="20px"
               className="bg-blue-100 box-content p-2 rounded-full border-2"
             />
-            <span>{property.PropertyBedroom} Beds</span>
+            <span>{bedrooms} Beds</span>
           </span>
 
           <span className="flex flex-row gap-1 items-center">
@@ -147,17 +154,19 @@ export default function PropertyCard(props: PropertyCardType) {
               size="20px"
               className="bg-blue-100 box-content p-2 rounded-full border-2"
             />
-            <span className="">
-              {formatPropertyArea(property.propertyArea)}
-            </span>
+            <span className="">{formatPropertyArea(area)}</span>
           </span>
         </div>
         <div className="w-full flex flex-row justify-between items-center">
           <span className="text-darkBlue text-2xl font-jostFont font-bold">
-            {formatCurrency(property.propertyPrice, "USD")}
+            {formatCurrency(
+              (sellingOption?.optionRent?.overalAmount ??
+                sellingOption?.optionSell?.overalAmunt)!,
+              "USD"
+            )}
           </span>
-          <Link to="/properties/detail">
-            <img src="/img/svg/send.svg" alt="" />
+          <Link to={`${serverAPI}/property/${id}`}>
+            <img src="/img/svg/send.svg" alt="reference" />
           </Link>
         </div>
       </CardContent>

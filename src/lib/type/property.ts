@@ -11,16 +11,21 @@ import type {
 import type { CommonInput, TotalCounter } from "./common";
 
 // BACK END PART
+interface PropertyAuthor {
+  _id: string;
+  fullName: string;
+  rank: string;
+}
 interface SellingType {
   optionRent?: {
     type?: SellingTypeEnum.RENT;
-    overalAmunt?: number;
+    overalAmount?: number;
     monthlyPayment?: number;
     devidedMonths?: number;
   };
   optionSell?: {
     type?: SellingTypeEnum.SALE;
-    overalAmount?: number;
+    overalAmunt?: number;
     discount?: string;
   };
 }
@@ -65,6 +70,9 @@ export interface Property {
   images: string[];
   bathrooms: number;
   bedrooms: number;
+  hall: number;
+  kitchen: number;
+  author: PropertyAuthor;
   address: PropertyAddress;
   description: string;
   heating: PropertyHeating;
@@ -92,6 +100,7 @@ interface CommonPropertyResults {
   properties: Property[];
   totalPropertiesNumber: TotalCounter[];
 }
+
 // RECENT PROPERTY  TYPES
 export type RecentPropertyForRent = CommonInput;
 export type RecentPropertyResult = CommonPropertyResults;

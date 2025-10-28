@@ -38,7 +38,6 @@ class PropertyService {
     try {
       const url = `${this.path}/property/featured-property`;
       const result = await axios.post(url, input, { withCredentials: true });
-      console.log("RESULT", result);
 
       return result.data;
     } catch (error) {

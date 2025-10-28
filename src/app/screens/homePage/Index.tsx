@@ -43,7 +43,7 @@ export default function HomePage() {
     property
       .getRecentRentProperty({
         page: 1,
-        limit: 10,
+        limit: 4,
       })
       .then((data) => {
         console.log("RESUT, ----------", data);

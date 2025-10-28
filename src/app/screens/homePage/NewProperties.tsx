@@ -1,195 +1,162 @@
-import { useCallback, useEffect, useState } from "react";
-import PropertyCard from "../../components/PropertyCard";
+"use client";
+
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { createSelector } from "reselect";
 import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import NoFound from "@/app/components/NoFound";
 
+import PropertyCard from "../../components/PropertyCard";
+import NoFound from "@/app/components/NoFound";
+import { retrieveRecentRentProperties } from "./selector";
+import type { Property } from "@/lib/type/property";
+
+// -------------------- REDUX SELECTOR --------------------
+const recentRentPropertiesRetriever = createSelector(
+  retrieveRecentRentProperties,
+  (recentRentProperties) => ({ recentRentProperties })
+);
+
+// -------------------- EMBLA OPTIONS --------------------
 const carouselOptions: EmblaOptionsType = {
   loop: true,
-  duration: 60,
-  align: "center",
+  align: "start",
+  duration: 35, // smoother transitions
 };
 
-const newProperties = [
-  {
-    propertyStatus: "verified",
-    propertyImages: ["/img/p-16.jpg", "/img/p-17.jpg", "/img/p-15.jpg"],
-    propertyMarketStatus: "for rent",
-    propertyType: "Apartment",
-    propertyName: "The Green Canton Chrysler",
-    propertyLocation: "210 Zirak Road, Canada",
-    PropertyBedroom: 3,
-    propertyHall: 1,
-    propertyKitchen: 2,
-    propertyArea: 1900,
-    propertyPrice: 80000,
-  },
-  {
-    propertyStatus: "superAgent",
-    propertyImages: ["/img/p-1.jpg", "/img/p-2.jpg", "/img/p-3.jpg"],
-    propertyMarketStatus: "for sell",
-    propertyType: "House",
-    propertyName: "Purple Flatiron House",
-    propertyLocation: "210 Zirak Road, Canada",
-    PropertyBedroom: 6,
-    propertyHall: 2,
-    propertyKitchen: 4,
-    propertyArea: 1600,
-    propertyPrice: 30000,
-  },
-  {
-    propertyStatus: "verified",
-    propertyImages: ["/img/p-4.jpg", "/img/p-5.jpg", "/img/p-6.jpg"],
-    propertyMarketStatus: "for rent",
-    propertyType: "building",
-    propertyName: "The Green Canton Chrysler",
-    propertyLocation: "210 Zirak Road, Canada",
-    PropertyBedroom: 2,
-    propertyHall: 1,
-    propertyKitchen: 1,
-    propertyArea: 1200,
-    propertyPrice: 44000,
-  },
-  {
-    propertyStatus: "verified",
-    propertyImages: ["/img/p-16.jpg", "/img/p-17.jpg", "/img/p-15.jpg"],
-    propertyMarketStatus: "for rent",
-    propertyType: "Apartment",
-    propertyName: "The Green Canton Chrysler",
-    propertyLocation: "210 Zirak Road, Canada",
-    PropertyBedroom: 3,
-    propertyHall: 1,
-    propertyKitchen: 2,
-    propertyArea: 1900,
-    propertyPrice: 56000,
-  },
-  {
-    propertyStatus: "superAgent",
-    propertyImages: ["/img/p-1.jpg", "/img/p-2.jpg", "/img/p-3.jpg"],
-    propertyMarketStatus: "for sell",
-    propertyType: "House",
-    propertyName: "Purple Flatiron House",
-    propertyLocation: "210 Zirak Road, Canada",
-    PropertyBedroom: 6,
-    propertyHall: 2,
-    propertyKitchen: 4,
-    propertyArea: 1600,
-    propertyPrice: 99000,
-  },
-  {
-    propertyStatus: "verified",
-    propertyImages: ["/img/p-4.jpg", "/img/p-5.jpg", "/img/p-6.jpg"],
-    propertyMarketStatus: "for rent",
-    propertyType: "building",
-    propertyName: "The Green Canton Chrysler",
-    propertyLocation: "210 Zirak Road, Canada",
-    PropertyBedroom: 2,
-    propertyHall: 1,
-    propertyKitchen: 1,
-    propertyArea: 1200,
-    propertyPrice: 87000,
-  },
-];
+// -------------------- COMPONENT --------------------
 export default function NewProperties() {
-  //Building states for card Carousel
-  const [cardCarouselRef, carouselApi] = useEmblaCarousel(carouselOptions, [
-    Autoplay(),
-  ]);
+  const { recentRentProperties } = useSelector(recentRentPropertiesRetriever);
 
-  const [carouselIndex, setCarouselIndex] = useState<number>(0);
-  const [allCarouselNumbers, setAllCarouselNumbers] = useState<number[]>();
+  const autoplay = useRef(Autoplay({ delay: 4000, stopOnInteraction: false }));
+  const [emblaRef, emblaApi] = useEmblaCarousel(carouselOptions, [
+    autoplay.current,
+  ]);
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
 
   const onSelect = useCallback((carouselApi: EmblaCarouselType) => {
-    setCarouselIndex(carouselApi.selectedScrollSnap());
+    setSelectedIndex(carouselApi.selectedScrollSnap());
   }, []);
 
   useEffect(() => {
-    if (!carouselApi) return;
+    if (!emblaApi) return;
 
-    setAllCarouselNumbers(() => carouselApi.scrollSnapList());
-    carouselApi.on("select", () => onSelect(carouselApi));
-  }, [carouselApi, onSelect]);
+    setScrollSnaps(emblaApi.scrollSnapList());
+    emblaApi.on("select", () => onSelect(emblaApi));
+  }, [emblaApi, onSelect]);
 
   const scrollTo = useCallback(
-    (index: number) => {
-      carouselApi?.scrollTo(index);
-    },
-    [carouselApi]
+    (index: number) => emblaApi?.scrollTo(index),
+    [emblaApi]
   );
+
+  const scrollPrev = () => emblaApi?.scrollPrev();
+  const scrollNext = () => emblaApi?.scrollNext();
+
+  // -------------------- RENDER --------------------
   return (
-    <section className="new-properties pt-0 pb-20">
+    <section className="pt-0 pb-20">
       <div className="container flex flex-col gap-12 items-center">
-        <div className="section-heading max-w-[536px] flex flex-col items-center gap-y-2 text-darkBlue">
-          <h2 className="font-bold capitalize font-jostFont leading-[1.2] text-3xl">
-            recent property for rent
+        {/* TITLE */}
+        <div className="max-w-[536px] flex flex-col items-center gap-y-2 text-darkBlue">
+          <h2 className="font-bold capitalize font-jostFont leading-tight text-3xl">
+            Recent Properties for Rent
           </h2>
-          <p className="mb-2 leading-[1.7] text-center">
-            At vero eos et accusamus et iusto odio dignissimos ducimus qui
-            blanditiis praesentium voluptatum deleniti atque corrupti quos
-            dolores
+          <p className="mb-2 leading-[1.8] text-center">
+            Find your next home from our most recent listings and Don't regret
+            with havig it later
           </p>
         </div>
 
-        {/* if there is no property */}
-        {newProperties.length ? (
-          <div className="carousel-wrapper">
-            <div className="overflow-hidden" ref={cardCarouselRef}>
+        {recentRentProperties.properties.length ? (
+          <div className="carousel-wrapper relative w-full">
+            <div
+              className="overflow-hidden"
+              ref={emblaRef}
+              onMouseEnter={() => autoplay.current.stop()}
+              onMouseLeave={() => autoplay.current.play()}
+            >
               <div className="flex">
-                {/* // 3-way slide-1 */}
-                <div className="flex-[0_0_100%]">
-                  <div className="w-full  grid grid-cols-2 lg:grid-cols-3  gap-4 place-items-center ">
-                    {[newProperties[0], newProperties[1], newProperties[2]].map(
-                      (property, index) => {
-                        return <PropertyCard property={property} key={index} />;
-                      }
-                    )}
-                  </div>
-                </div>
+                {recentRentProperties.properties.map(
+                  (property: Property, index) => (
+                    <div
+                      key={index}
+                      className="
+                        flex-[0_0_100%]
+                        sm:flex-[0_0_50%]
+                        lg:flex-[0_0_33.333%]
+        
+                        p-3
 
-                {/* // 3-way slide-2 */}
-                <div className="flex-[0_0_100%]">
-                  <div className="w-full  grid grid-cols-2 lg:grid-cols-3  gap-4 place-items-center ">
-                    {[newProperties[4], newProperties[4], newProperties[5]].map(
-                      (property, index) => {
-                        return <PropertyCard property={property} key={index} />;
-                      }
-                    )}
-                  </div>
-                </div>
-
-                {/* // 3-way slide-3 */}
-                <div className="flex-[0_0_100%]">
-                  <div className="w-full  grid grid-cols-2 lg:grid-cols-3  gap-4 place-items-center ">
-                    {[newProperties[0], newProperties[1], newProperties[2]].map(
-                      (property, index) => {
-                        return <PropertyCard property={property} key={index} />;
-                      }
-                    )}
-                  </div>
-                </div>
+                      "
+                    >
+                      <PropertyCard property={property} />
+                    </div>
+                  )
+                )}
               </div>
             </div>
 
             {/* DOTS */}
-            <div className="pt-10 w-full flex flex-row items-center justify-center gap-3">
-              {[0, 1, 3].map((_, index: number) => {
-                return (
-                  <button
-                    className={`h-[10px] w-[10px] rounded-full   transition-all ${
-                      index === carouselIndex
-                        ? "bg-gray-600 scale-110 shadow-md shadow-gray-200"
-                        : "bg-gray-400 shadow-none"
-                    }`}
-                    key={index}
-                    onClick={() => scrollTo(index)}
-                  ></button>
-                );
-              })}
+            <div className="flex justify-center mt-6 gap-3">
+              {scrollSnaps.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => scrollTo(index)}
+                  className={`h-3 w-3 rounded-full transition-all duration-300 ${
+                    index === selectedIndex
+                      ? "bg-gray-800 scale-110 shadow-md"
+                      : "bg-gray-400 hover:bg-gray-500"
+                  }`}
+                ></button>
+              ))}
             </div>
+
+            {/* OPTIONAL ARROWS */}
+            <button
+              onClick={scrollPrev}
+              className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white rounded-full shadow-md p-2 hidden sm:flex"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5"
+                fill="none"
+                stroke="black"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            <button
+              onClick={scrollNext}
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white rounded-full shadow-md p-2 hidden sm:flex"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5"
+                fill="none"
+                stroke="black"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
           </div>
         ) : (
-          <NoFound title="no new Properties found !" />
+          <NoFound title="No new properties found!" />
         )}
       </div>
     </section>
