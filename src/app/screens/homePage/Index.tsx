@@ -57,7 +57,7 @@ export default function HomePage() {
     property
       .getFeaturedProperty({
         page: 1,
-        limit: 4,
+        limit: 10,
       })
       .then((data) => {
         setFeaturedProperties(data);

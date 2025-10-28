@@ -1,23 +1,16 @@
-import { useState } from "react";
-import { Rating } from "@smastrom/react-rating";
-import "@smastrom/react-rating/style.css";
+import Rating from "@mui/material/Rating";
 
-type StarProp = {
-  size: string;
-  ratingNum: number;
-};
-
-export default function Stars({ size = "80px", ratingNum }: StarProp) {
-  const [rating, setRating] = useState<number>(ratingNum);
-
+interface StarsType {
+  rating: number;
+}
+export default function Stars({ rating }: StarsType) {
   return (
     <Rating
+      name="property-rating"
       value={rating}
-      onChange={setRating}
-      items={5}
-      halfFillMode="svg"
-      isRequired
-      style={{ maxWidth: `${size}` }}
+      precision={0.5}
+      readOnly
+      className="yellow-500"
     />
   );
 }
