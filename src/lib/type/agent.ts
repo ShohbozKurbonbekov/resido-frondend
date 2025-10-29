@@ -38,6 +38,7 @@ export interface AgentData {
   rank?: string;
   currentStatus: AgentStatus;
   avatar?: string;
+  totalProperties: number;
 }
 
 export interface Agent {

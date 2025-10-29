@@ -49,7 +49,7 @@ export default function FeaturedProperties() {
             </div>
           </>
         ) : (
-          <NoFound title="no featured properties found !" borderColor="#fff" />
+          <NoFound />
         )}
       </div>
     </section>

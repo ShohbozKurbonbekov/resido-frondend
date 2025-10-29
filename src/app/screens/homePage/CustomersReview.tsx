@@ -44,16 +44,15 @@ const CustomersReview: React.FC = () => {
   }, [carouselApi]);
 
   return (
-    <section className="customersReview py-20 bg-i bg-[url(/img/pattern.png)] bg-slate-200 flex  flex-row justify-center">
+    <section className="customersReview py-20  bg-[url(/img/pattern.png)] bg-slate-200 flex  flex-row justify-center">
       <div className="container flex flex-col gap-10">
         <div className="section-heading max-w-[536px] flex flex-col items-center gap-y-2 text-darkBlue mx-auto">
           <h2 className="font-bold capitalize font-jostFont leading-[1.2] text-3xl">
-            See our packages
+            Good Reviews by Customers
           </h2>
           <p className="mb-2 leading-[1.7] text-center">
-            At vero eos et accusamus et iusto odio dignissimos ducimus qui
-            blanditiis praesentium voluptatum deleniti atque corrupti quos
-            dolores
+            Hear from our satisfied clients who have experienced exceptional
+            service and seamless property transactions with our team.
           </p>
         </div>
 

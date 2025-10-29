@@ -156,7 +156,7 @@ export default function NewProperties() {
             </button>
           </div>
         ) : (
-          <NoFound title="No new properties found!" />
+          <NoFound />
         )}
       </div>
     </section>

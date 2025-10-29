@@ -34,50 +34,53 @@ export default function HomePage() {
   const { setRecentRentProperties, setFeaturedProperties, setFeaturedAgents } =
     actionDispatch(useDispatch());
 
-  // GET DATA FROM  DB BY SERVER
   useEffect(() => {
-    const property = new PropertyService();
-    const agent = new AgentService();
+    //------------------------ FETCH DATA ----------------
+    const fetchDataFromDB = () => {
+      const property = new PropertyService();
+      const agent = new AgentService();
 
-    // GET RECENT RENT PROPERTY
-    property
-      .getRecentRentProperty({
-        page: 1,
-        limit: 4,
-      })
-      .then((data) => {
-        console.log("RESUT, ----------", data);
-        setRecentRentProperties(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      // GET RECENT RENT PROPERTY
+      property
+        .getRecentRentProperty({
+          page: 1,
+          limit: 12,
+        })
+        .then((data) => {
+          console.log("RESUT, ----------", data);
+          setRecentRentProperties(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
-    // GET FEATURED PROPERTY
-    property
-      .getFeaturedProperty({
-        page: 1,
-        limit: 10,
-      })
-      .then((data) => {
-        setFeaturedProperties(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      // GET FEATURED PROPERTY
+      property
+        .getFeaturedProperty({
+          page: 1,
+          limit: 4,
+        })
+        .then((data) => {
+          setFeaturedProperties(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
-    // GET FEATURED PROPERTY
-    agent
-      .getFeaturedAgents({
-        page: 1,
-        limit: 10,
-      })
-      .then((data) => {
-        setFeaturedAgents(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      // GET FEATURED PROPERTY
+      agent
+        .getFeaturedAgents({
+          page: 1,
+          limit: 4,
+        })
+        .then((data) => {
+          setFeaturedAgents(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    fetchDataFromDB();
   }, []);
 
   return (
