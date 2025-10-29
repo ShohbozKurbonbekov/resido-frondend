@@ -10,6 +10,7 @@ import {
   setFeaturedAgents,
   setFeaturedProperties,
   setRecentRentProperties,
+  setLatestComments,
 } from "./slice";
 import { useDispatch } from "react-redux";
 import type {
@@ -20,7 +21,8 @@ import { useEffect } from "react";
 import PropertyService from "@/app/services/PropertyService";
 import AgentService from "@/app/services/AgentService";
 import type { FeaturedAgentsResult } from "@/lib/type/agent";
-
+import CommentService from "@/app/services/CommentService";
+import type { Comment } from "@/lib/type/comment";
 // REDUX SLICE $ SELECTOR
 const actionDispatch = (dispatch: Dispatch) => ({
   setRecentRentProperties: (data: RecentPropertyResult) =>
@@ -29,16 +31,23 @@ const actionDispatch = (dispatch: Dispatch) => ({
     dispatch(setFeaturedProperties(data)),
   setFeaturedAgents: (data: FeaturedAgentsResult) =>
     dispatch(setFeaturedAgents(data)),
+  setLatestComments: (data: Comment[]) => dispatch(setLatestComments(data)),
 });
+
 export default function HomePage() {
-  const { setRecentRentProperties, setFeaturedProperties, setFeaturedAgents } =
-    actionDispatch(useDispatch());
+  const {
+    setRecentRentProperties,
+    setFeaturedProperties,
+    setFeaturedAgents,
+    setLatestComments,
+  } = actionDispatch(useDispatch());
 
   useEffect(() => {
     //------------------------ FETCH DATA ----------------
     const fetchDataFromDB = () => {
       const property = new PropertyService();
       const agent = new AgentService();
+      const comment = new CommentService();
 
       // GET RECENT RENT PROPERTY
       property
@@ -75,6 +84,16 @@ export default function HomePage() {
         })
         .then((data) => {
           setFeaturedAgents(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      // GET LATEST 10 COMMENTS
+      comment
+        .getLatestComments()
+        .then((data) => {
+          setLatestComments(data);
         })
         .catch((error) => {
           console.log(error);

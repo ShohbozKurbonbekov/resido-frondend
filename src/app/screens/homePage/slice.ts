@@ -5,6 +5,7 @@ const initialState: HomePageState = {
   recentPropertyForRent: { properties: [], totalPropertiesNumber: [] },
   featuredAgents: { agents: [], totalNumbers: [] },
   featuredProperties: { properties: [], totalPropertiesNumber: [] },
+  latestComments: [],
 };
 
 const homepageSlice = createSlice({
@@ -20,6 +21,9 @@ const homepageSlice = createSlice({
     setFeaturedAgents: (state, action) => {
       state.featuredAgents = action.payload;
     },
+    setLatestComments: (state, action) => {
+      state.latestComments = action.payload;
+    },
   },
 });
 
@@ -27,6 +31,7 @@ export const {
   setFeaturedAgents,
   setRecentRentProperties,
   setFeaturedProperties,
+  setLatestComments,
 } = homepageSlice.actions;
 
 const HomePageReducer = homepageSlice.reducer;

@@ -114,7 +114,7 @@ export default function NewProperties() {
               ))}
             </div>
 
-            {/* OPTIONAL ARROWS */}
+            {/* ARROWS */}
             <button
               onClick={scrollPrev}
               className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white rounded-full shadow-md p-2 hidden sm:flex"

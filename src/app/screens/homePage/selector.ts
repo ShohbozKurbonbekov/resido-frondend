@@ -17,3 +17,8 @@ export const retrieveFeaturedAgents = createSelector(
   selectHomePage,
   (homepage) => homepage.featuredAgents
 );
+
+export const retrieveLatestComments = createSelector(
+  selectHomePage,
+  (homepage) => homepage.latestComments
+);

@@ -1,89 +1,147 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import PreviewCard from "./PreviewCard";
 import useEmblaCarousel from "embla-carousel-react";
-import type { EmblaOptionsType } from "embla-carousel";
-import AutoScroll from "embla-carousel-auto-scroll";
+import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 import NoFound from "@/app/components/NoFound";
+import Autoplay from "embla-carousel-autoplay";
+import { createSelector } from "reselect";
+import { useSelector } from "react-redux";
+import { retrieveLatestComments } from "./selector";
+import type { Comment } from "@/lib/type/comment";
+
+// --------------------- REDUX SELECTOR ----------------------
+const latestCommentsRetriever = createSelector(
+  retrieveLatestComments,
+  (latestComments) => ({ latestComments })
+);
 
 const carouselOptions: EmblaOptionsType = {
   loop: true,
-  duration: 60,
+  duration: 35,
   align: "start",
 };
 
+// ------------------------ COMPONENT ---------------------
+
 const CustomersReview: React.FC = () => {
+  const { latestComments } = useSelector(latestCommentsRetriever);
+
+  // ------------------- CAROUSEL ------------------------
+  const autoPlay = useRef(Autoplay({ delay: 3000, stopOnInteraction: false }));
   const [carouselRef, carouselApi] = useEmblaCarousel(carouselOptions, [
-    AutoScroll({
-      playOnInit: true,
-    }),
+    autoPlay.current,
   ]);
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
 
-  const toggleAutoPlay = useCallback(() => {
-    const autoScroll = carouselApi?.plugins()?.autoScroll;
-    console.log(autoScroll);
-    if (!autoScroll) return;
-
-    const playOrStop = autoScroll.isPlaying()
-      ? autoScroll.stop
-      : autoScroll.play;
-
-    playOrStop();
-  }, [carouselApi]);
+  const onSelect = useCallback((carouselApi: EmblaCarouselType) => {
+    setCurrentIndex(carouselApi.selectedScrollSnap());
+  }, []);
 
   useEffect(() => {
-    const autoScroll = carouselApi?.plugins()?.autoScroll;
+    if (!carouselApi) return;
 
-    if (!autoScroll) return;
+    setScrollSnaps(carouselApi.scrollSnapList());
+    carouselApi.on("select", () => onSelect(carouselApi));
+  }, [onSelect, carouselApi]);
 
-    setIsPlaying(autoScroll.isPlaying());
-    carouselApi
-      .on("autoScroll:play", () => setIsPlaying(true))
-      .on("autoScroll:stop", () => setIsPlaying(false))
-      .on("reInit", () => setIsPlaying(autoScroll.isPlaying()));
-  }, [carouselApi]);
+  const scrollTo = useCallback(
+    (index: number) => carouselApi?.scrollTo(index),
+    [carouselApi]
+  );
 
+  const scrollPrev = () => carouselApi?.scrollPrev();
+  const scrollNext = () => carouselApi?.scrollNext();
+
+  // -------------------------- RENDER -----------------------
   return (
-    <section className="customersReview py-20  bg-[url(/img/pattern.png)] bg-slate-200 flex  flex-row justify-center">
+    <section className="py-20  bg-[url(/img/pattern.png)] bg-slate-200 flex  flex-row justify-center">
       <div className="container flex flex-col gap-10">
-        <div className="section-heading max-w-[536px] flex flex-col items-center gap-y-2 text-darkBlue mx-auto">
-          <h2 className="font-bold capitalize font-jostFont leading-[1.2] text-3xl">
+        <div className="max-w-[536px] flex flex-col items-center gap-y-2 text-darkBlue mx-auto">
+          <h2 className="font-bold capitalize font-jostFont leading-tight text-3xl">
             Good Reviews by Customers
           </h2>
-          <p className="mb-2 leading-[1.7] text-center">
+          <p className="mb-2 leading-onePointEight text-center">
             Hear from our satisfied clients who have experienced exceptional
             service and seamless property transactions with our team.
           </p>
         </div>
 
-        {[1, 3, 4, 5].length ? (
-          <div className="wrapper w-full">
-            <div className="overflow-hidden" ref={carouselRef}>
+        {latestComments.length ? (
+          <div className="w-full relative">
+            <div
+              className="overflow-hidden "
+              ref={carouselRef}
+              onMouseEnter={() => autoPlay.current.stop()}
+              onMouseLeave={() => autoPlay.current.play()}
+            >
               <div className="flex touch-pan-y touch-pinch-zoom ">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((index: number) => (
-                  <div
-                    className="flex-[0_0_100%] sm:flex-[0_0_50%] md:flex-[0_0_33.3333%] lg:flex-[0_0_25%] px-1.5"
-                    key={index}
-                  >
-                    <PreviewCard />
+                {latestComments.map((comment: Comment) => (
+                  <div className="flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.3333%] xl:flex-[0_0_25%] p-3">
+                    <PreviewCard comment={comment} />
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* // start button */}
-            <div className="mt-10 w-full flex flex-row items-center justify-center">
-              <button
-                type="button"
-                className="px-4 py-2 rounded-lg bg-slate-100  text-slate-400 font-bold hover:bg-slate-50  hover:scale-110 transition-all duration-150 ease-in-out"
-                onClick={toggleAutoPlay}
-              >
-                {isPlaying ? "Stop" : "Start"}
-              </button>
+            {/* DOTS */}
+            <div className="flex justify-center mt-6 gap-3">
+              {scrollSnaps.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => scrollTo(index)}
+                  className={`h-3 w-3 rounded-full transition-all duration-300 ${
+                    index === currentIndex
+                      ? "bg-gray-800 scale-110 shadow-md"
+                      : "bg-gray-400 hover:bg-gray-500"
+                  }`}
+                ></button>
+              ))}
             </div>
+
+            {/* ARROWS */}
+            <button
+              onClick={scrollPrev}
+              className="absolute left-2 top-1/2 -translate-y-[70%] bg-white/70 hover:bg-white rounded-full shadow-md p-2 hidden sm:flex"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5"
+                fill="none"
+                stroke="black"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            <button
+              onClick={scrollNext}
+              className="absolute right-2 top-1/2 -translate-y-[70%] bg-white/70 hover:bg-white rounded-full shadow-md p-2 hidden sm:flex"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5"
+                fill="none"
+                stroke="black"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
           </div>
         ) : (
-          <NoFound title="no customer's preview found" borderColor="#fff" />
+          <NoFound />
         )}
       </div>
     </section>
