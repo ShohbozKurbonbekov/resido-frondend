@@ -1,8 +1,14 @@
+interface PackageStyleClasses {
+  container: string;
+  title: string;
+  price: string;
+  button: string;
+}
 export type PackagesType = {
-  fee: number;
-  tariff: string;
-  features: string[];
-  tariffColor?: string;
-  headerBg?: string;
-  buttonColor?: string;
+  id: number;
+  name: string;
+  price: number;
+  paymentType: string;
+  styleClasses: PackageStyleClasses;
+  benefits: string[];
 };

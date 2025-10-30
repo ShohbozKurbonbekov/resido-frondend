@@ -1,71 +1,26 @@
 import type { PackagesType } from "@/lib/type/pricing";
 import PackageCard from "./PackageCard";
-
-const packagesList: PackagesType[] = [
-  {
-    fee: 49,
-    tariff: "BASIC PACKAGE",
-    tariffColor: "#074DA3",
-    headerBg: "#172554",
-    features: [
-      "5+ Listings",
-      "Contact With Agent",
-      "3 Month Validity",
-      "7x24 Fully Support",
-      "50GB Space",
-    ],
-    buttonColor: "#172554",
-  },
-  {
-    fee: 99,
-    tariff: "PLATINUM PACKAGE",
-    tariffColor: "#FFFFFF",
-    headerBg: "#074DA3",
-    features: [
-      "5+ Listings",
-      "Contact With Agent",
-      "3 Month Validity",
-      "7x24 Fully Support",
-      "50GB Space",
-    ],
-    buttonColor: "#074DA3",
-  },
-  {
-    fee: 199,
-    tariff: "STANDARD PACKAGE",
-    tariffColor: "#FFFFFF",
-    headerBg: "#000",
-    features: [
-      "5+ Listings",
-      "Contact With Agent",
-      "3 Month Validity",
-      "7x24 Fully Support",
-      "50GB Space",
-    ],
-    buttonColor: "#000",
-  },
-];
+import { paymentPackages } from "@/app/data/packages";
 
 export default function Packages() {
   return (
     <section className="p-20 bg-slate-50 flex justify-center">
-      <div className="container flex flex-col gap-0 items-center">
-        <div className="section-heading max-w-[536px] flex flex-col items-center gap-y-2 text-darkBlue mx-auto">
+      <div className="container flex flex-col gap-y-10 items-center ">
+        <div className="max-w-[536px] flex flex-col items-center gap-y-2 text-darkBlue mx-auto">
           <h2 className="font-bold capitalize font-jostFont leading-[1.2] text-3xl">
-            Explore Featured Agents
+            See our packages
           </h2>
           <p className="mb-2 leading-[1.7] text-center">
-            At vero eos et accusamus et iusto odio dignissimos ducimus qui
-            blanditiis praesentium voluptatum deleniti atque corrupti quos
-            dolores
+            Explore a variety of property packages tailored to match your needs
+            and budget.
           </p>
         </div>
 
         {/* // packages */}
 
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {packagesList.map((card: PackagesType) => (
-            <PackageCard {...card} key={card.tariff} />
+          {paymentPackages.map((card: PackagesType) => (
+            <PackageCard card={card} />
           ))}
         </div>
       </div>

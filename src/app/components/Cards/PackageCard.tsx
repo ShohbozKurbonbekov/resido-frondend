@@ -8,42 +8,50 @@ import type { PackagesType } from "@/lib/type/pricing";
 import { ShieldCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 
-export default function PackageCard({
-  fee,
-  features,
-  tariff,
-  headerBg,
-  tariffColor,
-  buttonColor,
-}: PackagesType) {
+// -------------------------- COMPONENT -----------------------
+interface PackageCardType {
+  card: PackagesType;
+}
+export default function PackageCard(props: PackageCardType) {
+  const {
+    id,
+    name,
+    price,
+    paymentType,
+    benefits,
+    styleClasses: { container, title, button },
+  } = props.card;
+
+  // ------------------------- RENDER -------------------------
   return (
-    <Card className="shadow-none">
+    <Card className={`${container}`} key={id}>
       <CardHeader>
         <div
-          style={{ backgroundColor: `${headerBg}` }}
           className={`flex flex-col gap-3 justify-center items-center font-jostFont font-bold rounded-md py-9`}
         >
-          <h2 className="text-6xl flex flex-row justify-start text-slate-50">
+          <h2 className={props.card.styleClasses.price}>
             <sup className="text-3xl text-slate-400">$</sup>
-            {fee}
+            {price}
+            <span className="ml-2 text-lg text-slate-300 font-normal font-jostFont">
+              ({paymentType})
+            </span>
           </h2>
-          <p style={{ color: `${tariffColor}` }} className=" uppercase text-sm">
-            {tariff}
-          </p>
+          <p className={title}>{name}</p>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-0">
         <ul className="flex flex-col list-none p-0 mb-5">
-          {features.map((feature: string, index: number) => (
+          {benefits.map((feature: string, index: number) => (
             <li
               key={index}
               className={`py-2 flex flex-row items-center gap-2 ${
-                index === features.length - 1
+                index === benefits.length - 1
                   ? "border-0"
-                  : "border-b-2 border-t-0 border-s-0 border-e-0 border-slate-200 border-dotted"
+                  : "border-b-2 border-t-0 border-s-0 border-e-0 border-slate-100 border-dashed"
               }`}
             >
-              <ShieldCheck className="text-slate-50 box-content p-1.5 bg-blue-800 rounded-full h-4 w-4 " />
+              <ShieldCheck className="text-slate-50 box-content p-1.5 rounded-full h-4 w-4 bg-green-600" />
+
               <span className="text-slate-500 font-jostFont text-sm font-semibold">
                 {feature}
               </span>
@@ -51,12 +59,8 @@ export default function PackageCard({
           ))}
         </ul>
       </CardContent>
-      <CardFooter>
-        <button
-          style={{ backgroundColor: `${buttonColor}` }}
-          type="button"
-          className={`w-full py-3 text-slate-50 text-sm rounded-lg hover:opacity-70 transition-all duration-200 ease-linear active:scale-95`}
-        >
+      <CardFooter className="flex-1 flex flex-row items-end   p-0 ">
+        <button type="button" className={button}>
           <Link to="/payment">Choose Plan</Link>
         </button>
       </CardFooter>

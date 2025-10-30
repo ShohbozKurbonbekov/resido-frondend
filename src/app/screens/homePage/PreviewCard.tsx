@@ -34,7 +34,10 @@ export default function PreviewCard({ comment }: PreviewCardType) {
             alt="comment author avatar"
           />
           <span className="absolute right-0 bottom-0 h-7 w-7 rounded-full bg-blue-700 flex items-center justify-center">
-            <Quote className="h-3 w-3 text-slate-50 origin-center rotate-180" />
+            <Quote
+              className="h-3 w-3 text-slate-50 origin-center rotate-180"
+              fill="white"
+            />
           </span>
         </div>
       </CardHeader>
