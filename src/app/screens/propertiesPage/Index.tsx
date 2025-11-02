@@ -1,20 +1,23 @@
 import { Route, Routes } from "react-router-dom";
-import PropertiesMainContent from "./PropertiesMainContent";
-import PropertiesResultSection from "./PropertiesResultSection";
+// import PropertiesMainContent from "./PropertiesMainContent";
+// import PropertiesResultSection from "./PropertiesResultSection";
 import ChoseProduct from "./ChoseProduct";
+import PropertiesCom from "./PropertiesCom";
 
-export default function Properties() {
+// ------------------------- COMPOENENT ----------------------
+export default function PropertiesPage() {
   return (
     <>
       <Routes>
         <Route path={`/:propertyId`} element={<ChoseProduct />}></Route>
 
         <Route
-          path={`/`}
+          path={`/getAll`}
           element={
             <>
-              <PropertiesResultSection />
-              <PropertiesMainContent />
+              <PropertiesCom />
+              {/* <PropertiesResultSection />
+              <PropertiesMainContent /> */}
             </>
           }
         ></Route>

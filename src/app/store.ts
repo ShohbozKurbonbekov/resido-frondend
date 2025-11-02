@@ -6,6 +6,7 @@ import {
 } from "@reduxjs/toolkit";
 import { createLogger } from "redux-logger";
 import HomePageReducer from "./screens/homePage/slice";
+import PropertiesPageReducer from "./screens/propertiesPage/slice";
 
 // so Middletype says to typescript, trust me logger is a valid Redux middleware
 const logger: Middleware = createLogger();
@@ -16,6 +17,7 @@ export const store = configureStore({
   reducer: {
     // we can write the lists of the reducers here
     homepage: HomePageReducer,
+    propertiesPage: PropertiesPageReducer,
   },
 });
 

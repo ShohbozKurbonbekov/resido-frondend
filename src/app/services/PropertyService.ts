@@ -1,6 +1,8 @@
 import type {
   FeaturedPropertyInput,
   FeaturedPropertyResults,
+  Properties,
+  PropertiesSearchInput,
   RecentPropertyForRent,
   RecentPropertyResult,
 } from "@/lib/type/property";
@@ -42,6 +44,20 @@ class PropertyService {
       return result.data;
     } catch (error) {
       console.log("Error in GetFeaturedProperties");
+      throw error;
+    }
+  }
+  // GET ALL PROPERTIES
+  public async getAllProperties(
+    input: PropertiesSearchInput
+  ): Promise<Properties> {
+    try {
+      const url = `${this.path}/property/getAll`;
+      console.log("url", url);
+      const result = await axios.post(url, input, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in getAllProperties Service: ", error);
       throw error;
     }
   }

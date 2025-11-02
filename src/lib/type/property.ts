@@ -4,6 +4,7 @@ import type {
   PropertyHeating,
   PropertyMood,
   PropertySecurity,
+  PropertySortOrder,
   PropertyStatus,
   PropertyType,
   SellingTypeEnum,
@@ -96,7 +97,7 @@ export interface Property {
   mood?: PropertyMood;
 }
 
-interface CommonPropertyResults {
+export interface CommonPropertyResults {
   properties: Property[];
   totalPropertiesNumber: TotalCounter[];
 }
@@ -108,6 +109,37 @@ export type RecentPropertyResult = CommonPropertyResults;
 // FEATURED PROPERTY TYPES
 export type FeaturedPropertyInput = CommonInput;
 export type FeaturedPropertyResults = CommonPropertyResults;
+
+// GET ALL PROPERTIES
+export enum MajorCites {
+  Seoul = "Seoul",
+  Incheon = "Incheon",
+  Busan = "Busan",
+  Daegu = "Daegu",
+  Daejeon = "Daejeon",
+  Gwangju = "Gwangju",
+  Ulsan = "Ulsan",
+  Sejong = "Sejong",
+  Jeju = "Jeju",
+}
+export interface PropertySearchFeatures {
+  propertySearch?: string;
+  propertyVerified?: boolean;
+  propertyAgentLevel?: boolean;
+  propertyLocation?: MajorCites;
+  propertyType?: PropertyType;
+  propertyBedrooms?: number;
+  propertyAmenities?: PropertyAmenities;
+  propertyMood?: PropertyMood;
+  propertyPriceRange?: number;
+}
+export type Properties = CommonPropertyResults;
+export interface PropertiesSearchInput extends CommonInput {
+  // 1. page:number
+  // 2. limit:number
+  order: PropertySortOrder;
+  search?: PropertySearchFeatures;
+}
 /////////////////////////
 // FRONT END TYPE
 export type PropertyDetailReviewType = {

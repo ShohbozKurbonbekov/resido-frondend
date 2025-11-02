@@ -11,3 +11,6 @@ export interface CommonInput {
   page: number;
   limit: number;
 }
+
+// FOR USE STATE SETTER FUNCTION
+export type SetStateType<T> = React.Dispatch<React.SetStateAction<T>>;

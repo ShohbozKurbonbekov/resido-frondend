@@ -1,9 +1,15 @@
-import type { FeaturedPropertyResults, RecentPropertyResult } from "./property";
+import type {
+  FeaturedPropertyResults,
+  Properties,
+  Property,
+  RecentPropertyResult,
+} from "./property";
 import type { FeaturedAgentsResult } from "./agent";
 import type { Comment } from "./comment";
 // REACTT APP STATE
 export interface AppRootState {
   homepage: HomePageState;
+  propertiesPage: PropertiesPageState;
 }
 
 // HOMEPAGE
@@ -12,4 +18,10 @@ export interface HomePageState {
   featuredProperties: FeaturedPropertyResults;
   featuredAgents: FeaturedAgentsResult;
   latestComments: Comment[];
+}
+
+// PROPERTIES PAGE
+export interface PropertiesPageState {
+  properties: Properties;
+  chosenProperty: Property | null;
 }

@@ -54,3 +54,9 @@ export enum PropertyStatus {
   EXPIRED = "expired",
   UNDER_MAINTENANCE = "under_maintenance",
 }
+
+export enum PropertySortOrder {
+  LOW_PRICE = "low_price",
+  HIGH_PRICE = "high_price",
+  MOST_FAMOUS = "most_famous",
+}

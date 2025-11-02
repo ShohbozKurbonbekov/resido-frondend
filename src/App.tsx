@@ -2,7 +2,6 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import Footer from "./app/components/footer/Index";
 import Navbar from "./app/components/header/Navbar";
 import HomePage from "./app/screens/homePage/Index";
-import Properties from "./app/screens/propertiesPage/Index";
 import OtherNavbar from "./app/components/header/OtherNavbar";
 import AgentsPage from "./app/screens/agentsPage/Index";
 import AgenciesPage from "./app/screens/agenciesPage/Index";
@@ -13,6 +12,7 @@ import PricingPage from "./app/screens/pricing/Index";
 import BlogsPage from "./app/screens/blogsPage/Index";
 import RequiredAuth from "./app/components/auth/Index";
 import DashboardRouter from "./app/screens/dashboards/Index";
+import PropertiesPage from "./app/screens/propertiesPage/Index";
 
 export default function App() {
   const location = useLocation();
@@ -22,7 +22,7 @@ export default function App() {
       {location.pathname === "/" ? <Navbar /> : <OtherNavbar />}
 
       <Routes>
-        <Route path="/properties/*" element={<Properties />} />
+        <Route path="/property/*" element={<PropertiesPage />} />
         <Route path="/agents/*" element={<AgentsPage />} />
         <Route path="/agencies/*" element={<AgenciesPage />} />
         <Route path="/blogs/*" element={<BlogsPage />} />
