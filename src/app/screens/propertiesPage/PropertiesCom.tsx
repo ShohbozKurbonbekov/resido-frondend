@@ -12,6 +12,7 @@ import { retrieveProperties } from "./selector";
 import { PropertySortOrder } from "@/lib/enums/property.enum";
 import PropertyService from "@/app/services/PropertyService";
 import PropertiesTopSection from "./PropertiesTopSection.tsx";
+import PropertiesCenterSection from "./PropertiesCenterSection.tsx";
 
 // -------------------------- REDUX SELECTOR AND REDUX SLICE --------------------------------
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -27,15 +28,12 @@ const propertiesRetriever = createSelector(
 export default function PropertiesCom() {
   const { setProperties } = actionDispatch(useDispatch());
   const { properties } = useSelector(propertiesRetriever);
-
   const [propertiesSearch, setPropertiesSearch] =
     useState<PropertiesSearchInput>({
       page: 1,
       limit: 4,
       order: PropertySortOrder.LOW_PRICE,
     });
-  // const [searchInput, setSearchInput] = useState<PropertySearchFeatures>({});
-
   // ------------------------- FETCH DATA ----------------
   useEffect(() => {
     const fetchDataFromDB = () => {
@@ -60,6 +58,14 @@ export default function PropertiesCom() {
       {/* --------------------TOP HEADER -----------------*/}
       <PropertiesTopSection
         properties={properties}
+        setPropertiesSearch={setPropertiesSearch}
+        propertiesSearch={propertiesSearch}
+      />
+
+      {/*----------------------CENTER MAIN PROPERTIES -------------*/}
+
+      <PropertiesCenterSection
+        propertiesData={properties}
         setPropertiesSearch={setPropertiesSearch}
         propertiesSearch={propertiesSearch}
       />

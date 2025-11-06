@@ -11,16 +11,7 @@ export default function PropertiesPage() {
       <Routes>
         <Route path={`/:propertyId`} element={<ChoseProduct />}></Route>
 
-        <Route
-          path={`/getAll`}
-          element={
-            <>
-              <PropertiesCom />
-              {/* <PropertiesResultSection />
-              <PropertiesMainContent /> */}
-            </>
-          }
-        ></Route>
+        <Route path={`/getAll`} element={<PropertiesCom />}></Route>
       </Routes>
     </>
   );

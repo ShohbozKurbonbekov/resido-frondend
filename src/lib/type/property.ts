@@ -9,7 +9,7 @@ import type {
   PropertyType,
   SellingTypeEnum,
 } from "../enums/property.enum";
-import type { CommonInput, TotalCounter } from "./common";
+import type { CommonInput, T, TotalCounter } from "./common";
 
 // BACK END PART
 interface PropertyAuthor {
@@ -45,18 +45,23 @@ export interface PropertyAddress {
 }
 
 export interface PropertyAmenities {
-  airConditioning: boolean;
-  swimmingPool: boolean;
-  centralHeating: boolean;
-  laundryRoom: boolean;
-  gym: boolean;
-  alarm: boolean;
-  windowCovering: boolean;
-  internet: boolean;
-  petsAllow: boolean;
-  freeWifi: boolean;
-  carParking: boolean;
-  spaMassage: boolean;
+  airConditioning?: boolean;
+  swimmingPool?: boolean;
+  centralHeating?: boolean;
+  laundryRoom?: boolean;
+  gym?: boolean;
+  alarm?: boolean;
+  windowCovering?: boolean;
+  internet?: boolean;
+  petsAllow?: boolean;
+  freeWifi?: boolean;
+  carParking?: boolean;
+  spaMassage?: boolean;
+}
+interface AgentDataType {
+  rank: string;
+  _id: string;
+  isVerified: boolean;
 }
 export interface Property {
   _id: string;
@@ -73,8 +78,11 @@ export interface Property {
   bedrooms: number;
   hall: number;
   kitchen: number;
-  author: PropertyAuthor;
+  author?: PropertyAuthor;
+  agentData?: AgentDataType;
+  priceValue?: number;
   address: PropertyAddress;
+  meLiked?: T[];
   description: string;
   heating: PropertyHeating;
   cooling: PropertyCooling;
@@ -122,16 +130,21 @@ export enum MajorCites {
   Sejong = "Sejong",
   Jeju = "Jeju",
 }
+
+export interface PropertyPriceRange {
+  start: number;
+  end: number;
+}
 export interface PropertySearchFeatures {
   propertySearch?: string;
   propertyVerified?: boolean;
-  propertyAgentLevel?: boolean;
-  propertyLocation?: MajorCites;
-  propertyType?: PropertyType;
+  propertyAgentLevel?: string | null;
+  propertyLocation?: string;
+  propertyType?: string;
   propertyBedrooms?: number;
-  propertyAmenities?: PropertyAmenities;
-  propertyMood?: PropertyMood;
-  propertyPriceRange?: number;
+  propertyAmenities?: PropertyAmenities | null;
+  propertyMood?: string;
+  propertyPriceRange?: PropertyPriceRange | null;
 }
 export type Properties = CommonPropertyResults;
 export interface PropertiesSearchInput extends CommonInput {

@@ -71,7 +71,7 @@ export default function AgentCard({ agent }: AgentCardType) {
           <span className="flex flex-row gap-2">
             <Stars rating={averageRating ?? 0} />
             <span className="text-slate-400">
-              ( {totalComments ?? 0} Reviews)
+              ({totalComments ?? 0} Reviews)
             </span>
           </span>
         </div>

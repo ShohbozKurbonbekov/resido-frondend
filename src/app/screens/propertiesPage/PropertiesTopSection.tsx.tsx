@@ -13,8 +13,9 @@ import {
 
 import { PropertySortOrder } from "@/lib/enums/property.enum";
 import type { SetStateType } from "@/lib/type/common";
-import React, { useCallback } from "react";
+import React, { useMemo } from "react";
 import { propertiesOrder } from "@/app/data/properties";
+import { calculateTotalPages } from "@/lib/utils";
 
 interface PropertiesTopSectionType {
   properties: Properties;
@@ -28,17 +29,14 @@ const PropertiesTopSection: React.FC<PropertiesTopSectionType> = React.memo(
     const totalProperties = properties.totalPropertiesNumber[0]?.total ?? 0;
 
     // -------------------------- HANDLERS ---------------
-    const calculatePageNumbers = useCallback(
-      (page: number, limit: number, total: number) => {
-        const start: number = (page - 1) * limit + 1;
-        const end: number = Math.min(page * limit, total);
-        return { start, end };
-      },
-      []
+    const totalPages = useMemo(
+      () => calculateTotalPages(page, limit, totalProperties),
+      [page, limit, totalProperties]
     );
 
-    const { start, end } = calculatePageNumbers(page, limit, totalProperties);
+    const { start, end } = totalPages;
 
+    console.log(totalPages);
     // SELECT ORDERS ACCORDINGLY
     const handleSelect = (input: string) => {
       const normalizedInput = input.toLowerCase();
@@ -60,7 +58,7 @@ const PropertiesTopSection: React.FC<PropertiesTopSectionType> = React.memo(
     };
 
     // ARRAY WITH ELEMENTS [1,2,3,4 ...]
-    const pageNumbers = useCallback(() => {
+    const pageNumbers = useMemo(() => {
       return Array.from(
         {
           length: Math.ceil((totalProperties ?? 0) / limit),
@@ -84,7 +82,7 @@ const PropertiesTopSection: React.FC<PropertiesTopSectionType> = React.memo(
 
             {/* PAGE NUMBERS */}
             <div className="flex flex-row gap-2 items-center">
-              {pageNumbers().map((pageNumber: number) => (
+              {pageNumbers.map((pageNumber: number) => (
                 <span
                   className={`w-7 h-7 rounded-full text-sm text-white bg-slate grid place-content-center font-bold transition-all duration-300 ease-in ${
                     pageNumber === page ? "bg-blue-600" : "bg-blue-300"
@@ -112,6 +110,7 @@ const PropertiesTopSection: React.FC<PropertiesTopSectionType> = React.memo(
                   {propertiesOrder.map((order: string) => (
                     <SelectItem
                       className="text-slate-500 text-sm font-bold"
+                      key={order}
                       value={order}
                     >
                       {order}

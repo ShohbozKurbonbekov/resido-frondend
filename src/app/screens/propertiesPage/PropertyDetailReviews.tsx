@@ -65,12 +65,12 @@ export default function PropertyDetailReviews({
       </div>
       {/* // See more button */}
 
-      <PaginationCom
+      {/* <PaginationCom
         totalPages={chunkingReviews.length}
         currentPage={review.page}
         onPageChange={setReview}
         styleclasses="flex flex-row items-center justify-center gap-3"
-      />
+      /> */}
     </>
   );
 }

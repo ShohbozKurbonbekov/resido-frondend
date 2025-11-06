@@ -50,12 +50,12 @@ export default function BlogLists() {
               )
             )}
           </div>
-          <PaginationCom
+          {/* <PaginationCom
             totalPages={paginatedBlogs.length}
             currentPage={blogInquery.page}
             onPageChange={setBlogInquery}
             styleclasses="w-full  flex flex-row items-center justify-center gap-1 mt-7"
-          />
+          /> */}
         </>
       )}
     </div>

@@ -55,3 +55,13 @@ export const chunkingArray = (arr: BlogType[], size: number): BlogType[][] => {
   }
   return result;
 };
+
+export const calculateTotalPages = (
+  page: number,
+  limit: number,
+  total: number
+) => {
+  const start: number = (page - 1) * limit + 1;
+  const end: number = Math.min(page * limit, total);
+  return { start, end };
+};

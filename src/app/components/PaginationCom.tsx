@@ -1,33 +1,40 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { PropertiesSearchInput } from "@/lib/type/property";
+import type { SetStateType } from "@/lib/type/common";
+import { useCallback, useMemo } from "react";
 
+// --------------------------------- COMPONENT ------------------------------
 type PaginationProps = {
   totalPages: number;
   currentPage: number;
   styleclasses?: string;
-  onPageChange: React.Dispatch<
-    React.SetStateAction<{ limit: number; page: number }>
-  >;
+  onPageChange: SetStateType<PropertiesSearchInput>;
 };
 
 export function PaginationCom({
   totalPages,
   currentPage,
-  onPageChange, // () => {} change page number
+  onPageChange,
   styleclasses = "w-full flex flex-row items-center mt-5 gap-2",
 }: PaginationProps) {
-  const handlePrev = () => {
+  // -------------------------------- HANDLERS ----------------------
+  const handlePrev = useCallback(() => {
     if (currentPage > 1)
-      onPageChange((prev) => ({ ...prev, page: prev.page - 1 }));
-  };
+      onPageChange((prev) => ({ ...prev, page: currentPage - 1 }));
+  }, [currentPage, onPageChange]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (currentPage < totalPages)
       onPageChange((prev) => ({
         ...prev,
         page: prev.page + 1,
       }));
-  };
+  }, [currentPage, onPageChange, totalPages]);
+
+  const calculatePageButtons = useMemo(() => {
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }, [totalPages]);
 
   return (
     <div className={`${styleclasses}`}>
@@ -45,7 +52,7 @@ export function PaginationCom({
         <ChevronLeft className={`w-4 h-4`} />
       </button>
 
-      {Array.from({ length: totalPages }).map((_, index) => {
+      {calculatePageButtons.map((_, index) => {
         const page = index + 1;
         const isActive = currentPage === page;
 
@@ -57,10 +64,10 @@ export function PaginationCom({
               onPageChange((prev) => ({ ...prev, page: page }));
             }}
             className={cn(
-              "w-9 h-9 text-sm rounded-md border border-gray-300 hover:bg-blue-600 hover:text-white duration-300 transition-colors font-semi-bold",
+              "w-9 h-9 text-sm rounded-md border border-gray-300 hover:bg-blue-600 hover:text-white duration-300 transition-colors font-semi-bold text-slate-600",
               isActive
-                ? "bg-blue-600 text-white shadow-[0_0_0px_3px_rgba(191,219,254,1)] border-0"
-                : "bg-white text-black "
+                ? "bg-blue-600 text-white shadow-pagesActiveButtons border-0"
+                : "bg-white "
             )}
           >
             {page}

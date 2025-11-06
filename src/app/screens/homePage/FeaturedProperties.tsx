@@ -41,7 +41,7 @@ export default function FeaturedProperties() {
               })}
             </div>
             <div className="w-full flex flex-row justify-center items-center mt-10">
-              <Link to={`${serverAPI}/property/all`}>
+              <Link to={`/property/getAll`}>
                 <button className="py-2 px-10 bg-blue-800 text-slate-50 font-jostFont font-sm rounded capitalize hover:opacity-70 transition-all">
                   Browse More Properties
                 </button>

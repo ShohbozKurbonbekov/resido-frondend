@@ -100,12 +100,12 @@ export default function BlogComments({ comments }: BlogCommentsProp) {
                 </div>
               </li>
             ))}
-            <PaginationCom
+            {/* <PaginationCom
               totalPages={chunkBlogs.length}
               currentPage={blogQuery.page}
               onPageChange={setBlogQuery}
               styleclasses="flex flex-row items-center justify-center gap-3"
-            />
+            /> */}
           </ul>
 
           <div className="flex flex-col  mt-12 gap-2 items-stretch">
