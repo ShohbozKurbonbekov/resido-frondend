@@ -24,6 +24,11 @@ const PropertiesCenterSection: React.FC<PropertiesCenterSectionType> = ({
   propertiesSearch,
   setPropertiesSearch,
 }) => {
+  const { page } = propertiesSearch;
+  const totalPages = Math.ceil(
+    (propertiesData.totalPropertiesNumber?.[0].total || 0) /
+      propertiesSearch.limit
+  );
   console.log("OPTIONS: ", propertiesSearch);
   //--------------------------------------- RENDERS -----------------------------
   return (
@@ -73,11 +78,8 @@ const PropertiesCenterSection: React.FC<PropertiesCenterSectionType> = ({
 
               {/* // pagination */}
               <PaginationCom
-                totalPages={Math.ceil(
-                  (propertiesData.totalPropertiesNumber?.[0].total || 0) /
-                    propertiesSearch.limit
-                )}
-                currentPage={propertiesSearch.page}
+                totalPages={totalPages}
+                currentPage={page}
                 onPageChange={setPropertiesSearch}
                 styleclasses="flex flex-row mt-5 w-full items-center justify-center gap-2 overflow-hidden py-1"
               />
