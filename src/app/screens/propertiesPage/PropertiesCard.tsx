@@ -27,11 +27,16 @@ import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 import { serverAPI } from "@/lib/config";
 import { formatCurrency, formatPropertyArea } from "@/lib/utils";
-import type { Property } from "@/lib/type/property";
+import type { Properties, Property } from "@/lib/type/property";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import PropertyService from "@/app/services/PropertyService";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
+import { type Dispatch } from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
+import { setProperties } from "./slice";
+import { retrieveProperties } from "./selector";
+import { useDispatch, useSelector } from "react-redux";
 
 const options: EmblaOptionsType = {
   duration: 40,
@@ -41,6 +46,13 @@ const options: EmblaOptionsType = {
 };
 
 // ------------------------------- REDUX SETTER ----------------------
+const actionDispatch = (dispatch: Dispatch) => ({
+  setProperties: (data: Properties) => dispatch(setProperties(data)),
+});
+const propertiesRetriever = createSelector(
+  retrieveProperties,
+  (properties) => ({ properties })
+);
 
 // ---------------------------------------------- COMPONENT ---------------------------------------
 interface PropertiesCardType {
@@ -64,7 +76,8 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
       amenities,
       title,
     } = property;
-
+    const { setProperties } = actionDispatch(useDispatch());
+    const { properties } = useSelector(propertiesRetriever);
     const navigation = useNavigate();
     const autoPlay = useRef(Autoplay({ delay: 3000 }));
     const [carouselRef, carouselApi] = useEmblaCarousel(options, [
@@ -86,28 +99,32 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
       [navigation]
     );
 
+    const handleDataUpdate = (
+      properties: Properties,
+      propertyId: string
+    ): Properties => {
+      const shallowProperties = { ...properties };
+      const updatedProperties = shallowProperties.properties.map((property) => {
+        if (property._id !== propertyId) {
+          return property;
+        }
+
+        return { ...property, meLiked: !property.meLiked };
+      });
+
+      return {
+        totalPropertiesNumber: shallowProperties.totalPropertiesNumber,
+        properties: updatedProperties,
+      };
+    };
+
     const handleLikebtn = (
       e: React.MouseEvent<HTMLButtonElement>,
       propertyId: string
     ) => {
       e.stopPropagation();
+      setProperties(handleDataUpdate(properties, propertyId));
 
-      // setUpdatedProperties((prev: Properties) => {
-      //   const index = properties.properties.findIndex(
-      //     (property) => property._id === propertyId
-      //   );
-
-      //   if (index === -1) return prev;
-
-      //   const newProperties: Properties = {
-      //     ...properties,
-      //   };
-      //   newProperties.properties[index] = {
-      //     ...newProperties.properties[index],
-      //     meLiked: !newProperties.properties[index].meLiked,
-      //   };
-      //   return { ...prev, ...newProperties };
-      // });
       const property = new PropertyService();
       property
         .likeTargetProperty(propertyId)
@@ -137,6 +154,7 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
     }, [carouselApi, onSelect]);
     /* CAROUSEL SETUP */
     // ---------------------------------- RENDER --------------------------
+
     return (
       <Card
         className="grid grid-cols-5 items-stretch shadow-none cursor-pointer "
