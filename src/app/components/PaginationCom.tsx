@@ -32,7 +32,6 @@ export function PaginationCom({
     if (currentPage < totalPages) handlePageChange(currentPage + 1);
   }, [currentPage, totalPages, handlePageChange]);
 
-  // 🧮 Generate visible pages with ellipses
   const paginationRange = useMemo(() => {
     const delta = 2;
     const range: (number | string)[] = [];

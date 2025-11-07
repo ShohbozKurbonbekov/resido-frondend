@@ -3,11 +3,13 @@ import type {
   FeaturedPropertyResults,
   Properties,
   PropertiesSearchInput,
+  Property,
   RecentPropertyForRent,
   RecentPropertyResult,
 } from "@/lib/type/property";
 import { serverAPI } from "../../lib/config";
 import axios from "axios";
+import type { T } from "@/lib/type/common";
 
 class PropertyService {
   getProperties() {
@@ -58,6 +60,18 @@ class PropertyService {
       return result.data;
     } catch (error) {
       console.log("Error in getAllProperties Service: ", error);
+      throw error;
+    }
+  }
+
+  public async likeTargetProperty(propertyId: string): Promise<Property> {
+    try {
+      const url = `${serverAPI}/property/liked`;
+      const query: T = { input: propertyId };
+      const result = await axios.post(url, query);
+      return result.data;
+    } catch (error) {
+      console.log("Error in likeTargetProperty service", error);
       throw error;
     }
   }

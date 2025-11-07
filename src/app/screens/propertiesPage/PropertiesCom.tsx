@@ -28,6 +28,7 @@ const propertiesRetriever = createSelector(
 export default function PropertiesCom() {
   const { setProperties } = actionDispatch(useDispatch());
   const { properties } = useSelector(propertiesRetriever);
+
   const [propertiesSearch, setPropertiesSearch] =
     useState<PropertiesSearchInput>({
       page: 1,
@@ -49,7 +50,6 @@ export default function PropertiesCom() {
     };
     fetchDataFromDB();
   }, [propertiesSearch]);
-
   //------------------------- HANDLERS -------------------
 
   // ------------------------- RENDER  -------------------

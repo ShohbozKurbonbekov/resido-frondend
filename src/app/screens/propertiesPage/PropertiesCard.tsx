@@ -25,11 +25,13 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
-import { Link } from "react-router-dom";
 import { serverAPI } from "@/lib/config";
 import { formatCurrency, formatPropertyArea } from "@/lib/utils";
 import type { Property } from "@/lib/type/property";
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import PropertyService from "@/app/services/PropertyService";
+import { sweetErrorHandling } from "@/lib/sweetAlerts";
 
 const options: EmblaOptionsType = {
   duration: 40,
@@ -38,6 +40,8 @@ const options: EmblaOptionsType = {
   slidesToScroll: 1,
 };
 
+// ------------------------------- REDUX SETTER ----------------------
+
 // ---------------------------------------------- COMPONENT ---------------------------------------
 interface PropertiesCardType {
   property: Property;
@@ -45,6 +49,7 @@ interface PropertiesCardType {
 const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
   ({ property }) => {
     const {
+      _id,
       status,
       meLiked,
       agentData,
@@ -59,7 +64,8 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
       amenities,
       title,
     } = property;
-    // const [liked, setLiked] = useState(false);
+
+    const navigation = useNavigate();
     const autoPlay = useRef(Autoplay({ delay: 3000 }));
     const [carouselRef, carouselApi] = useEmblaCarousel(options, [
       autoPlay.current,
@@ -73,6 +79,47 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
     const amenitiesClasses = "stroke-slate-400";
 
     // --------------------------------- HANDLERS -------------------------------------
+    const handleChosenProperty = useCallback(
+      (propertyId: string) => {
+        navigation(`/property/${propertyId}`);
+      },
+      [navigation]
+    );
+
+    const handleLikebtn = (
+      e: React.MouseEvent<HTMLButtonElement>,
+      propertyId: string
+    ) => {
+      e.stopPropagation();
+
+      // setUpdatedProperties((prev: Properties) => {
+      //   const index = properties.properties.findIndex(
+      //     (property) => property._id === propertyId
+      //   );
+
+      //   if (index === -1) return prev;
+
+      //   const newProperties: Properties = {
+      //     ...properties,
+      //   };
+      //   newProperties.properties[index] = {
+      //     ...newProperties.properties[index],
+      //     meLiked: !newProperties.properties[index].meLiked,
+      //   };
+      //   return { ...prev, ...newProperties };
+      // });
+      const property = new PropertyService();
+      property
+        .likeTargetProperty(propertyId)
+        .then(() => {})
+
+        .catch((error) => {
+          sweetErrorHandling(error).then();
+        });
+    };
+    {
+      /* CAROUSEL SETUP */
+    }
     const onSelect = useCallback((carouselApi: EmblaCarouselType) => {
       setCarouselIndex(carouselApi.selectedScrollSnap());
     }, []);
@@ -88,180 +135,180 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
       carouselApi.on("select", () => onSelect(carouselApi));
       onSelect(carouselApi);
     }, [carouselApi, onSelect]);
-
+    /* CAROUSEL SETUP */
     // ---------------------------------- RENDER --------------------------
     return (
-      <Link
-        to={`/property/${property._id}`}
-        className="h-auto w-auto"
-        id={property._id}
+      <Card
+        className="grid grid-cols-5 items-stretch shadow-none cursor-pointer "
+        onClick={() => handleChosenProperty(_id)}
       >
-        <Card className="grid grid-cols-5 items-stretch shadow-none ">
-          {/* HEADER */}
-          <CardHeader className="col-span-2 p-2 ">
-            <div className="w-full relative h-full">
-              <div className="wrapper h-full">
-                <div className="overflow-hidden h-full" ref={carouselRef}>
-                  <div className="flex h-full ">
-                    {/* HEADER IMAGE SLIDES */}
-                    {property.images.map((image: string) => {
-                      const imageUrl = `${serverAPI}/${image}`;
-                      return (
-                        <div className="flex-[0_0_100%] max-h-56 min-h-36">
-                          <img
-                            src={imageUrl}
-                            alt="Property Image"
-                            className="w-full h-full  object-cover rounded-sm"
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* // DOTS */}
-                <div className="absolute bottom-1 flex justify-center w-full mt-4 gap-1">
-                  {AllSlideNumbers.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => scrollTo(index)}
-                      className={`h-2 w-2 rounded-full transition-all ${
-                        index === carouselIndex
-                          ? "bg-green-600 scale-110"
-                          : "bg-gray-50"
-                      }`}
-                    ></button>
-                  ))}
+        {/* HEADER */}
+        <CardHeader className="col-span-2 p-2 ">
+          <div className="w-full relative h-full">
+            <div className="wrapper h-full">
+              <div className="overflow-hidden h-full" ref={carouselRef}>
+                <div className="flex h-full ">
+                  {/* HEADER IMAGE SLIDES */}
+                  {property.images.map((image: string) => {
+                    const imageUrl = `${serverAPI}/${image}`;
+                    return (
+                      <div
+                        className="flex-[0_0_100%] max-h-56 min-h-36"
+                        key={imageUrl}
+                      >
+                        <img
+                          src={imageUrl}
+                          alt="Property Image"
+                          className="w-full h-full  object-cover rounded-sm"
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
-              <div className="absolute w-full  top-1 sm:top-3 md:top-2  lg:top-4 flex flex-col gap-y-0.5 px-3">
-                <div className=" flex flex-row items-start justify-between  w-full  gap-2">
-                  {agentData?.isVerified ? (
-                    <span className="px-3 py-1.5 bg-green-600 text-white font-normal text-size_10 rounded-sm flex flex-row  items-center gap-1 mr-auto">
-                      <ShieldCheck className="w-3 h-3 fill-green-800 " />
-                      <span className="leading-none">verified</span>
-                    </span>
-                  ) : null}
 
-                  <motion.button
-                    whileTap={{ scale: 1.5 }}
-                    onClick={() => {}}
-                    className="ms-auto  p-1 rounded-full bg-black/35 flex flex-row items-center justify-center"
-                  >
-                    <Heart
-                      className={`w-5 lg:w-7  h-5 lg:h-7 ${
-                        meLiked?.length
-                          ? "fill-red-500 text-red-500 "
-                          : "fill-white stroke-white "
-                      }`}
-                    />
-                  </motion.button>
-                </div>
-                {agentData?.rank ? (
-                  <span className="px-3 py-1.5 bg-green-600 text-white font-normal text-size_10  rounded-sm flex flex-row  items-center gap-1 mr-auto -mt-1 lg:-mt-2.5">
-                    <img src={"/img/svg/user-1.svg"} alt="agent type" />
-                    <span className="leading-none">{agentData.rank}</span>
+              {/* // DOTS */}
+              <div className="absolute bottom-1 flex justify-center w-full mt-4 gap-1">
+                {AllSlideNumbers.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => scrollTo(index)}
+                    className={`h-2 w-2 rounded-full transition-all ${
+                      index === carouselIndex
+                        ? "bg-green-600 scale-110"
+                        : "bg-gray-50"
+                    }`}
+                  ></button>
+                ))}
+              </div>
+            </div>
+            <div className="absolute w-full  top-1 sm:top-3 md:top-2  lg:top-4 flex flex-col gap-y-0.5 px-3">
+              <div className=" flex flex-row items-start justify-between  w-full  gap-2">
+                {agentData?.isVerified ? (
+                  <span className="px-3 py-1.5 bg-green-600 text-white font-normal text-size_10 rounded-sm flex flex-row  items-center gap-1 mr-auto">
+                    <ShieldCheck className="w-3 h-3 fill-green-800 " />
+                    <span className="leading-none">verified</span>
                   </span>
                 ) : null}
-              </div>
-            </div>
-          </CardHeader>
-          {/*END HEADER*/}
 
-          {/*CONTENT*/}
-          <CardContent className="col-span-3 pt-2 pr-2 pb-2 pl-0 lg:pl-2 flex flex-col space-y-3">
-            <div className="flex flex-row">
-              <span className="flex flex-row space-x-1 ">
-                <span
-                  className="text-sm  sm:text-xs md:text-size_10 lg:text-sm py-2 px-3 md:py-1 md:mx-2 lg:py-2 lg:px-3 bg-green-100 text-green-600 lowercase rounded-sm font-bold "
-                  style={{ margin: 0 }}
+                <motion.button
+                  whileTap={{ scale: 1.5 }}
+                  onClick={(e) => handleLikebtn(e, _id)}
+                  className="ms-auto  p-1 rounded-full bg-black/35 flex flex-row items-center justify-center"
                 >
-                  For{" "}
-                  {sellingOption?.optionRent?.type ??
-                    sellingOption?.optionSell?.type}
+                  <Heart
+                    className={`w-5 lg:w-7  h-5 lg:h-7 ${
+                      meLiked
+                        ? "fill-red-500 text-red-500 "
+                        : "fill-white stroke-white "
+                    }`}
+                  />
+                </motion.button>
+              </div>
+              {agentData?.rank ? (
+                <span className="px-3 py-1.5 bg-green-600 text-white font-normal text-size_10  rounded-sm flex flex-row  items-center gap-1 mr-auto -mt-1 lg:-mt-2.5">
+                  <img src={"/img/svg/user-1.svg"} alt="agent type" />
+                  <span className="leading-none">{agentData.rank}</span>
                 </span>
-                <span className="text-sm sm:text-xs md:text-size_10 lg:text-sm py-2 px-3 md:py-1 md:mx-2 lg:py-2 lg:px-3 capitalize bg-blue-100 text-blue-600 rounded-sm font-bold">
-                  {propertyType}
-                </span>
-              </span>
-              <h4 className="font-bold text-blue-900 text-xs md:text-sm font-jostFont flex-1 lg:text-2xl text-end">
-                {formatCurrency(Number(priceValue), "USD")}
-              </h4>
+              ) : null}
             </div>
-            <h5 className="font-bold font-jostFont text-blue-900 text-xs md:text-size_10 lg:text-xl">
-              {`${street ?? null}, ${city ?? null}, ${country ?? null},`}
-            </h5>
-            <p className="truncate text-sm text-darkBlue font-jostFont font-semibold">
-              {title}
-            </p>
+          </div>
+        </CardHeader>
+        {/*END HEADER*/}
 
-            <div className=" w-full flex flex-row justify-between items-center text-stone-400 text-sm font-jostFont my-3">
-              <span className={propertyIconWrapperClasses}>
-                <Hotel className={propertyIconClasses} />
-                <span>
-                  {bedrooms}B{hall}H{kitchen}K
-                </span>
+        {/*CONTENT*/}
+        <CardContent className="col-span-3 pt-2 pr-2 pb-2 pl-0 lg:pl-2 flex flex-col space-y-3">
+          <div className="flex flex-row">
+            <span className="flex flex-row space-x-1 ">
+              <span
+                className="text-sm  sm:text-xs md:text-size_10 lg:text-sm py-2 px-3 md:py-1 md:mx-2 lg:py-2 lg:px-3 bg-green-100 text-green-600 lowercase rounded-sm font-bold "
+                style={{ margin: 0 }}
+              >
+                For{" "}
+                {sellingOption?.optionRent?.type ??
+                  sellingOption?.optionSell?.type}
               </span>
-
-              <span className={propertyIconWrapperClasses}>
-                <Bed className={propertyIconClasses} />
-                <span>
-                  {bedrooms} Bed{bedrooms > 1 ? "s" : ""}
-                </span>
+              <span className="text-sm sm:text-xs md:text-size_10 lg:text-sm py-2 px-3 md:py-1 md:mx-2 lg:py-2 lg:px-3 capitalize bg-blue-100 text-blue-600 rounded-sm font-bold">
+                {propertyType}
               </span>
+            </span>
+            <h4 className="font-bold text-blue-900 text-xs md:text-sm font-jostFont flex-1 lg:text-2xl text-end">
+              {formatCurrency(Number(priceValue), "USD")}
+            </h4>
+          </div>
+          <h5 className="font-bold font-jostFont text-blue-900 text-xs md:text-size_10 lg:text-xl">
+            {`${street ?? null}, ${city ?? null}, ${country ?? null},`}
+          </h5>
+          <p className="truncate text-sm text-darkBlue font-jostFont font-semibold">
+            {title}
+          </p>
 
-              <span className={propertyIconWrapperClasses}>
-                <Copy className={propertyIconClasses} />
-                <span className="">{formatPropertyArea(area)}</span>
+          <div className=" w-full flex flex-row justify-between items-center text-stone-400 text-sm font-jostFont my-3">
+            <span className={propertyIconWrapperClasses}>
+              <Hotel className={propertyIconClasses} />
+              <span>
+                {bedrooms}B{hall}H{kitchen}K
               </span>
-            </div>
+            </span>
 
-            <div className="flex-1 flex flex-row  content-end  gap-x-3  items-end justify-between">
-              {amenities ? (
-                <div className=" flex  gap-3 mt-auto bg-slate-200 p-2 truncate rounded-sm flew-row justify-around">
-                  {amenities.airConditioning && (
-                    <SunSnow className={amenitiesClasses} />
-                  )}
-                  {amenities.alarm && <Siren className={amenitiesClasses} />}
-                  {amenities.carParking && (
-                    <CircleParking className={amenitiesClasses} />
-                  )}
-                  {amenities.swimmingPool && (
-                    <Waves className={amenitiesClasses} />
-                  )}
-                  {amenities.centralHeating && (
-                    <Heater className={amenitiesClasses} />
-                  )}
-                  {amenities.laundryRoom && (
-                    <Shirt className={amenitiesClasses} />
-                  )}
-                  {amenities.gym && <Dumbbell className={amenitiesClasses} />}
-                  {amenities.windowCovering && (
-                    <PanelsTopLeft className={amenitiesClasses} />
-                  )}
-                  {amenities.internet && <Globe className={amenitiesClasses} />}
-                  {amenities.petsAllow && (
-                    <PawPrint className={amenitiesClasses} />
-                  )}
-                  {amenities.freeWifi && <Wifi className={amenitiesClasses} />}
-                  {amenities.spaMassage && (
-                    <Flower className={amenitiesClasses} />
-                  )}
-                </div>
-              ) : (
-                <div className="flex items-center gap-2 text-gray-400">
-                  <Ban className="w-5 h-5" />
-                  <span className="text-size_10">No amenities available</span>
-                </div>
-              )}
+            <span className={propertyIconWrapperClasses}>
+              <Bed className={propertyIconClasses} />
+              <span>
+                {bedrooms} Bed{bedrooms > 1 ? "s" : ""}
+              </span>
+            </span>
 
-              <button className="bg-green-500 text-white px-4 py-2 rounded-md text-sm capitalize font-jostFont">
-                {status}
-              </button>
-            </div>
-          </CardContent>
-        </Card>
-      </Link>
+            <span className={propertyIconWrapperClasses}>
+              <Copy className={propertyIconClasses} />
+              <span className="">{formatPropertyArea(area)}</span>
+            </span>
+          </div>
+
+          <div className="flex-1 flex flex-row  content-end  gap-x-3  items-end justify-between">
+            {amenities ? (
+              <div className=" flex  gap-3 mt-auto bg-slate-200 p-2 truncate rounded-sm flew-row justify-around">
+                {amenities.airConditioning && (
+                  <SunSnow className={amenitiesClasses} />
+                )}
+                {amenities.alarm && <Siren className={amenitiesClasses} />}
+                {amenities.carParking && (
+                  <CircleParking className={amenitiesClasses} />
+                )}
+                {amenities.swimmingPool && (
+                  <Waves className={amenitiesClasses} />
+                )}
+                {amenities.centralHeating && (
+                  <Heater className={amenitiesClasses} />
+                )}
+                {amenities.laundryRoom && (
+                  <Shirt className={amenitiesClasses} />
+                )}
+                {amenities.gym && <Dumbbell className={amenitiesClasses} />}
+                {amenities.windowCovering && (
+                  <PanelsTopLeft className={amenitiesClasses} />
+                )}
+                {amenities.internet && <Globe className={amenitiesClasses} />}
+                {amenities.petsAllow && (
+                  <PawPrint className={amenitiesClasses} />
+                )}
+                {amenities.freeWifi && <Wifi className={amenitiesClasses} />}
+                {amenities.spaMassage && (
+                  <Flower className={amenitiesClasses} />
+                )}
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 text-gray-400">
+                <Ban className="w-5 h-5" />
+                <span className="text-size_10">No amenities available</span>
+              </div>
+            )}
+
+            <button className="bg-green-500 text-white px-4 py-2 rounded-md text-sm capitalize font-jostFont">
+              {status}
+            </button>
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 );

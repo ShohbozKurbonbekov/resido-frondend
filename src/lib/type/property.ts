@@ -9,7 +9,7 @@ import type {
   PropertyType,
   SellingTypeEnum,
 } from "../enums/property.enum";
-import type { CommonInput, T, TotalCounter } from "./common";
+import type { CommonInput, TotalCounter } from "./common";
 
 // BACK END PART
 interface PropertyAuthor {
@@ -82,7 +82,7 @@ export interface Property {
   agentData?: AgentDataType;
   priceValue?: number;
   address: PropertyAddress;
-  meLiked?: T[];
+  meLiked?: boolean;
   description: string;
   heating: PropertyHeating;
   cooling: PropertyCooling;

@@ -56,6 +56,7 @@ export const chunkingArray = (arr: BlogType[], size: number): BlogType[][] => {
   return result;
 };
 
+// CALCULATE TOTAL PAGES
 export const calculateTotalPages = (
   page: number,
   limit: number,
