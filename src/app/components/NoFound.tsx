@@ -6,7 +6,7 @@ export default function NoFound() {
       <Lottie
         animationData={noResults}
         loop={true}
-        className="w-52 h-52  md:h-64  md:w-64 lg:w-80 lg:h-80"
+        className="w-52 h-52  md:h-64  md:w-64 lg:w-96 lg:h-96 lg:py-5"
       />
       <p className="text-gray-300 text-lg">No results found</p>
     </div>

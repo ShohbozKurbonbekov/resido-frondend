@@ -7,7 +7,7 @@ import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 import { useCallback, useEffect, useState } from "react";
 import { formatCurrency, formatPropertyArea } from "@/lib/utils";
 import type { Property } from "@/lib/type/property";
-import { serverAPI } from "@/lib/config";
+import { carouselAutoPlayDelay, serverAPI } from "@/lib/config";
 
 const carouselOptions: EmblaOptionsType = {
   loop: true,
@@ -32,11 +32,10 @@ export default function PropertyCard(props: PropertyCardType) {
     hall,
     kitchen,
     area,
-    author: { rank },
   } = props.property;
 
   const [emblaRef, emblaApi] = useEmblaCarousel(carouselOptions, [
-    Autoplay({ delay: 3000, stopOnInteraction: false }),
+    Autoplay({ delay: carouselAutoPlayDelay, stopOnInteraction: false }),
   ]);
 
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -84,7 +83,9 @@ export default function PropertyCard(props: PropertyCardType) {
             {/* verified sign  */}
             <span className="bg-[#009868] py-1 px-3 rounded-md text-slate-50 font-bold flex flex-row gap-1 items-center">
               <img src="/img/svg/verified.svg" className="" alt="" />
-              <span className="text-[10px] tracking-wide">{rank}</span>
+              <span className="text-[10px] tracking-wide">
+                {props.property.author?.rank}
+              </span>
             </span>
 
             {/* new sign */}

@@ -8,6 +8,7 @@ import { createSelector } from "reselect";
 import { useSelector } from "react-redux";
 import { retrieveLatestComments } from "./selector";
 import type { Comment } from "@/lib/type/comment";
+import { carouselAutoPlayDelay } from "@/lib/config";
 
 // --------------------- REDUX SELECTOR ----------------------
 const latestCommentsRetriever = createSelector(
@@ -27,7 +28,9 @@ const CustomersReview: React.FC = () => {
   const { latestComments } = useSelector(latestCommentsRetriever);
 
   // ------------------- CAROUSEL ------------------------
-  const autoPlay = useRef(Autoplay({ delay: 3000, stopOnInteraction: false }));
+  const autoPlay = useRef(
+    Autoplay({ delay: carouselAutoPlayDelay, stopOnInteraction: false })
+  );
   const [carouselRef, carouselApi] = useEmblaCarousel(carouselOptions, [
     autoPlay.current,
   ]);

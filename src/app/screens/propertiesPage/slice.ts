@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: PropertiesPageState = {
   properties: { properties: [], totalPropertiesNumber: [] },
-  chosenProperty: null,
+  chosenProperty: { mainProperty: [], trendingProperties: [] },
 };
 
 const propertiesPageSlice = createSlice({

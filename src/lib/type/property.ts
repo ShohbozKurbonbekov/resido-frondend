@@ -110,6 +110,10 @@ export interface CommonPropertyResults {
   totalPropertiesNumber: TotalCounter[];
 }
 
+export interface ChosenProperty {
+  mainProperty: Property[];
+  trendingProperties: Property[];
+}
 // RECENT PROPERTY  TYPES
 export type RecentPropertyForRent = CommonInput;
 export type RecentPropertyResult = CommonPropertyResults;

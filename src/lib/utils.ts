@@ -2,7 +2,7 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import type { TeamMemberType } from "./type/about-us";
 import moment from "moment";
-import type { BlogType } from "./type/blogs";
+import type { PropertyAddress } from "./type/property";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -47,8 +47,8 @@ export const dateConverter = (str: string, format: string): string => {
 };
 
 // Chunk array
-export const chunkingArray = (arr: BlogType[], size: number): BlogType[][] => {
-  const result: BlogType[][] = [];
+export const chunkingArray = (arr: string[], size: number): string[][] => {
+  const result: string[][] = [];
   for (let i = 0; i < arr.length; i += size) {
     // i => 0 => 4 => 8 => 12 => 16 => 20
     result.push(arr.slice(i, i + size)); // [[],[],[],[],[]]
@@ -65,4 +65,10 @@ export const calculateTotalPages = (
   const start: number = (page - 1) * limit + 1;
   const end: number = Math.min(page * limit, total);
   return { start, end };
+};
+
+export const customiseAddress = (address: PropertyAddress) => {
+  return `${address.street ?? ""}, ${address.city ?? ""}, ${
+    address.country ?? ""
+  }`;
 };

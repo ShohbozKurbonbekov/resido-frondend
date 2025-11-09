@@ -1,9 +1,31 @@
 import { useParams } from "react-router-dom";
-import DetaiLMaincontent from "./DetaiLMaincontent";
-import DetailTopImage from "./DetailTopImage";
 import { useEffect, useState } from "react";
 import type { Agent } from "@/lib/type/agent";
-import type { PropertyDetailFeaturedPropertyType } from "@/lib/type/property";
+import type {
+  ChosenProperty,
+  PropertyDetailFeaturedPropertyType,
+} from "@/lib/type/property";
+import { type Dispatch } from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
+import { setChosenProperty } from "./slice";
+import { useDispatch, useSelector } from "react-redux";
+import { retrieveChosenProperty } from "./selector";
+import PropertyService from "@/app/services/PropertyService";
+import { sweetErrorHandling } from "@/lib/sweetAlerts";
+import NoFound from "@/app/components/NoFound";
+import ChosePropertyTopImages from "./ChosePropertyTopImages";
+import ChosenPropertyMainContent from "./ChosenPropertyMainContent";
+
+// ------------------------------- REDUX SETUP ---------------------------------
+const actionDispatch = (dispatch: Dispatch) => ({
+  setChosenProperty: (data: ChosenProperty) =>
+    dispatch(setChosenProperty(data)),
+});
+
+const chosenPropertyRetriever = createSelector(
+  retrieveChosenProperty,
+  (chosenProperty) => ({ chosenProperty })
+);
 
 const featuredProperty: PropertyDetailFeaturedPropertyType[] = [
   {
@@ -35,7 +57,10 @@ const featuredProperty: PropertyDetailFeaturedPropertyType[] = [
   },
 ];
 
+// ------------------------------------------- COMPONENT ------------------------------------
 export default function ChoseProduct() {
+  const { setChosenProperty } = actionDispatch(useDispatch());
+  const { chosenProperty } = useSelector(chosenPropertyRetriever);
   const { propertyId } = useParams<{ propertyId: string }>();
 
   const [propertyAgent] = useState<Agent>({
@@ -55,21 +80,37 @@ export default function ChoseProduct() {
       twitter: "https://www.twitter.com/",
     },
   });
-  useEffect(() => {
-    // Getting data from database using propertyId in the params
-    // Getting agent Data according to the property data
-    // Getting  5 properties from the database according to most liked, most viewed, and finally most paid membership.
-  }, []);
 
-  console.log(propertyId);
+  // ------------------------------------------------- GETTING DATA FROM DB --------------------------------
+  useEffect(() => {
+    const property = new PropertyService();
+
+    property
+      .getProperty(propertyId!)
+      .then((data) => {
+        setChosenProperty(data);
+      })
+      .catch((error) => {
+        console.log(error);
+        sweetErrorHandling(error);
+      });
+  }, [propertyId]);
+
   return (
     <div className="property-detail bg-sky-100 ">
-      {/* // Detail top image */}
-      <DetailTopImage />
-      <DetaiLMaincontent
-        featuredProperty={featuredProperty}
-        propertyAgent={propertyAgent}
-      />
+      {chosenProperty.mainProperty.length ? (
+        <>
+          <ChosePropertyTopImages
+            mainProperty={chosenProperty.mainProperty[0]}
+          />
+          <ChosenPropertyMainContent
+            featuredProperty={featuredProperty}
+            propertyAgent={propertyAgent}
+          />
+        </>
+      ) : (
+        <NoFound />
+      )}
     </div>
   );
 }

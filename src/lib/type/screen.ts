@@ -1,7 +1,7 @@
 import type {
+  ChosenProperty,
   FeaturedPropertyResults,
   Properties,
-  Property,
   RecentPropertyResult,
 } from "./property";
 import type { FeaturedAgentsResult } from "./agent";
@@ -23,5 +23,5 @@ export interface HomePageState {
 // PROPERTIES PAGE
 export interface PropertiesPageState {
   properties: Properties;
-  chosenProperty: Property | null;
+  chosenProperty: ChosenProperty;
 }

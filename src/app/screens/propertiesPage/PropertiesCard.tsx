@@ -25,7 +25,7 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
-import { serverAPI } from "@/lib/config";
+import { carouselAutoPlayDelay, serverAPI } from "@/lib/config";
 import { formatCurrency, formatPropertyArea } from "@/lib/utils";
 import type { Properties, Property } from "@/lib/type/property";
 import React from "react";
@@ -49,6 +49,7 @@ const options: EmblaOptionsType = {
 const actionDispatch = (dispatch: Dispatch) => ({
   setProperties: (data: Properties) => dispatch(setProperties(data)),
 });
+
 const propertiesRetriever = createSelector(
   retrieveProperties,
   (properties) => ({ properties })
@@ -58,6 +59,7 @@ const propertiesRetriever = createSelector(
 interface PropertiesCardType {
   property: Property;
 }
+
 const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
   ({ property }) => {
     const {
@@ -76,13 +78,15 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
       amenities,
       title,
     } = property;
+
     const { setProperties } = actionDispatch(useDispatch());
     const { properties } = useSelector(propertiesRetriever);
     const navigation = useNavigate();
-    const autoPlay = useRef(Autoplay({ delay: 3000 }));
+    const autoPlay = useRef(Autoplay({ delay: carouselAutoPlayDelay }));
     const [carouselRef, carouselApi] = useEmblaCarousel(options, [
       autoPlay.current,
     ]);
+
     const [carouselIndex, setCarouselIndex] = useState<number>(0);
     const [AllSlideNumbers, setAllSlideNumbers] = useState<number[]>([]);
 
@@ -99,44 +103,47 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
       [navigation]
     );
 
-    const handleDataUpdate = (
-      properties: Properties,
-      propertyId: string
-    ): Properties => {
-      const shallowProperties = { ...properties };
-      const updatedProperties = shallowProperties.properties.map((property) => {
-        if (property._id !== propertyId) {
-          return property;
-        }
+    const handleDataUpdate = useCallback(
+      (properties: Properties, propertyId: string): Properties => {
+        const shallowProperties = { ...properties };
+        const updatedProperties = shallowProperties.properties.map(
+          (property) => {
+            if (property._id !== propertyId) {
+              return property;
+            }
 
-        return { ...property, meLiked: !property.meLiked };
-      });
+            return { ...property, meLiked: !property.meLiked };
+          }
+        );
 
-      return {
-        totalPropertiesNumber: shallowProperties.totalPropertiesNumber,
-        properties: updatedProperties,
-      };
-    };
+        return {
+          totalPropertiesNumber: shallowProperties.totalPropertiesNumber,
+          properties: updatedProperties,
+        };
+      },
+      []
+    );
 
+    // ----------------------------------------- INSERTING DATA INTO DB ------------------------------------
     const handleLikebtn = (
       e: React.MouseEvent<HTMLButtonElement>,
       propertyId: string
     ) => {
       e.stopPropagation();
-      setProperties(handleDataUpdate(properties, propertyId));
 
       const property = new PropertyService();
       property
         .likeTargetProperty(propertyId)
-        .then(() => {})
+        .then(() => {
+          setProperties(handleDataUpdate(properties, propertyId));
+        })
 
         .catch((error) => {
           sweetErrorHandling(error).then();
         });
     };
-    {
-      /* CAROUSEL SETUP */
-    }
+
+    // ----------------------------- CAROUSEL SETUP ------------------------
     const onSelect = useCallback((carouselApi: EmblaCarouselType) => {
       setCarouselIndex(carouselApi.selectedScrollSnap());
     }, []);

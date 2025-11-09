@@ -1,6 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-// import PropertiesMainContent from "./PropertiesMainContent";
-// import PropertiesResultSection from "./PropertiesResultSection";
 import ChoseProduct from "./ChoseProduct";
 import PropertiesCom from "./PropertiesCom";
 

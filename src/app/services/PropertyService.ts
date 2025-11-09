@@ -1,4 +1,5 @@
 import type {
+  ChosenProperty,
   FeaturedPropertyInput,
   FeaturedPropertyResults,
   Properties,
@@ -64,14 +65,27 @@ class PropertyService {
     }
   }
 
+  // LIKE TARGET PROPERTY
   public async likeTargetProperty(propertyId: string): Promise<Property> {
     try {
       const url = `${serverAPI}/property/liked`;
       const query: T = { input: propertyId };
-      const result = await axios.post(url, query);
+      const result = await axios.post(url, query, { withCredentials: true });
       return result.data;
     } catch (error) {
       console.log("Error in likeTargetProperty service", error);
+      throw error;
+    }
+  }
+
+  // GET A CHOSEN PROPERTY
+  public async getProperty(propertyId: string): Promise<ChosenProperty> {
+    try {
+      const url = `${serverAPI}/property/${propertyId}`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in getProperty service");
       throw error;
     }
   }
