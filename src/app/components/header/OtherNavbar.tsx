@@ -41,7 +41,7 @@ export default function OtherNavbar() {
     navigation("/");
   };
   const navbarContent = (
-    <div className="container mx-auto flex flex-row items-center lg:gap-8 justify-between lg:justify-stretch">
+    <div className="container mx-auto flex flex-row items-center lg:gap-8 justify-between lg:justify-stretch z-100">
       <NavLink to="/" className={`flex flex-row items-center gap-1 -mt-1.5 `}>
         <img src={`/public/img/logo.svg`} alt="" className="text-stone-50" />
         <span className="font-bold text-2xl hover:text-slate-300 transition-all duration-75 ease-linear">

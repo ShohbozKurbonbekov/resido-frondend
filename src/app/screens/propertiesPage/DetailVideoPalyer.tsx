@@ -106,7 +106,7 @@ const VideoPlayer: React.FC = () => {
 
           {/* Loading Indicator */}
           {isLoading && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
+            <div className="absolute inset-0 flex items-center justify-center bg-black/30">
               <div className="animate-spin rounded-full h-12 w-12 border-dotted border-t-4 border-b-4 border-white"></div>
             </div>
           )}

@@ -1,4 +1,3 @@
-import { VideoOff } from "lucide-react";
 import VideoPlayer from "./DetailVideoPalyer";
 import LocationMap from "@/app/components/map/LocationMap";
 import LightboxImages from "@/app/components/lightboxImage/LightboxImages";
@@ -62,11 +61,8 @@ export default function ChosenPropertyMainContent(
 
   const { featuredProperty } = props;
   const { agentName, agentPhone, agentImage } = props.propertyAgent;
-  const locationUrl: string =
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d184552.30943582457!2d-79.37805805!3d43.7182412!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89d4cb90d7c63ba5%3A0x323555502ab4c477!2sToronto%2C%20Ontario%2C%20Kanada!5e0!3m2!1suz!2sus!4v1754833881587!5m2!1suz!2sus";
 
   const propertyDetailUrl = "https://example.com/properties/123";
-  const videoAvailable: boolean = false;
 
   const [allReviews] = useState<PropertyDetailReviewType[]>([
     {
@@ -144,10 +140,10 @@ export default function ChosenPropertyMainContent(
           triggerTitle={"Property Video"}
           content={<VideoPlayer />}
         />
-        {/* // collapsible accordion */}
+        {/* --------------------------------  PROPERTY LOCATION ------------------------------*/}
         <ChosenPropAccordion
           triggerTitle={"Location"}
-          content={<LocationMap mapUrl={locationUrl} />}
+          content={<LocationMap property={mainProperty[0]} />}
         />
         {/* // collapsible Accordion 6 */}
         <ChosenPropAccordion
@@ -155,9 +151,7 @@ export default function ChosenPropertyMainContent(
           content={
             <>
               <div>
-                <LightboxImages
-                  imageItems={galleryItems.map((item) => ({ src: item }))}
-                />
+                <LightboxImages property={mainProperty[0]} />
               </div>
             </>
           }

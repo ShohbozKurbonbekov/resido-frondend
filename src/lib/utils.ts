@@ -67,6 +67,7 @@ export const calculateTotalPages = (
   return { start, end };
 };
 
+// ARRANGED ADDRESS
 export const customiseAddress = (address: PropertyAddress) => {
   return `${address.street ?? ""}, ${address.city ?? ""}, ${
     address.country ?? ""
