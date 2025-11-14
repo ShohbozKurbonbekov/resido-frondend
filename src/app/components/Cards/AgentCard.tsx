@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { serverAPI } from "@/lib/config";
+import { defaultUserAvatar, serverAPI } from "@/lib/config";
 import type { AgentData } from "@/lib/type/agent";
 import { MailQuestionMark } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -36,11 +36,7 @@ export default function AgentCard({ agent }: AgentCardType) {
         <div className="max-w-32 max-h-32 box-content rounded-full border-2 border-slate-100 p-1">
           <Link to={`${serverAPI}/agent/${id}`}>
             <img
-              src={
-                !avatar
-                  ? "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                  : `${serverAPI}/${avatar}`
-              }
+              src={!avatar ? defaultUserAvatar : `${serverAPI}/${avatar}`}
               className="h-full w-full rounded-full"
               alt={nickname}
             />

@@ -5,7 +5,7 @@ import type {
   RecentPropertyResult,
 } from "./property";
 import type { FeaturedAgentsResult } from "./agent";
-import type { Comment } from "./comment";
+import type { Comment, Comments } from "./comment";
 // REACTT APP STATE
 export interface AppRootState {
   homepage: HomePageState;
@@ -24,4 +24,5 @@ export interface HomePageState {
 export interface PropertiesPageState {
   properties: Properties;
   chosenProperty: ChosenProperty;
+  chosenPropComments: Comments;
 }

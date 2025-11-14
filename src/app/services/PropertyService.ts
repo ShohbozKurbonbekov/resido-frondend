@@ -13,9 +13,6 @@ import axios from "axios";
 import type { T } from "@/lib/type/common";
 
 class PropertyService {
-  getProperties() {
-    throw new Error("Method not implemented.");
-  }
   private readonly path;
   constructor() {
     this.path = serverAPI;

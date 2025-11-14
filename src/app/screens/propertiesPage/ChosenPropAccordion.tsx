@@ -29,7 +29,7 @@ const ChosenPropAccordion: React.FC<ChosenPropAccordionType> = ({
     >
       <AccordionItem value="item-1" className="border-none">
         <div className="flex flex-row justify-between items-center">
-          <span className="font-bold font-jostFont text-[15px] text-darkBlue capitalize">
+          <span className="font-bold font-jostFont text-lg text-darkBlue capitalize">
             {triggerTitle}
           </span>
           <AccordionTrigger className="p-2 rounded-full bg-slate-200 hover:bg-slate-400 transition-all duration-200 ease-linear"></AccordionTrigger>

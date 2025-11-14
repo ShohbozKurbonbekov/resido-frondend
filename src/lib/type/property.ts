@@ -101,6 +101,7 @@ export interface Property {
   firePlace: boolean;
   videos: string[];
   recentBoost: number;
+  comments?: [];
   daysSinceCreated: number;
   mood?: PropertyMood;
 }
@@ -121,19 +122,6 @@ export type RecentPropertyResult = CommonPropertyResults;
 // FEATURED PROPERTY TYPES
 export type FeaturedPropertyInput = CommonInput;
 export type FeaturedPropertyResults = CommonPropertyResults;
-
-// GET ALL PROPERTIES
-export enum MajorCites {
-  Seoul = "Seoul",
-  Incheon = "Incheon",
-  Busan = "Busan",
-  Daegu = "Daegu",
-  Daejeon = "Daejeon",
-  Gwangju = "Gwangju",
-  Ulsan = "Ulsan",
-  Sejong = "Sejong",
-  Jeju = "Jeju",
-}
 
 export interface PropertyPriceRange {
   start: number;
@@ -157,6 +145,7 @@ export interface PropertiesSearchInput extends CommonInput {
   order: PropertySortOrder;
   search?: PropertySearchFeatures;
 }
+
 /////////////////////////
 // FRONT END TYPE
 export type PropertyDetailReviewType = {

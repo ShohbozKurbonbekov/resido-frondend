@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/card";
 import { Quote } from "lucide-react";
 import type { Comment } from "@/lib/type/comment";
-import { customTruncate, serverAPI } from "@/lib/config";
+import { customTruncate, defaultUserAvatar, serverAPI } from "@/lib/config";
 
 interface PreviewCardType {
   comment: Comment;
@@ -25,11 +25,7 @@ export default function PreviewCard({ comment }: PreviewCardType) {
       <CardHeader>
         <div className="max-w-20 max-h-20 relative">
           <img
-            src={
-              avatar
-                ? `${serverAPI}/${avatar}`
-                : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-            }
+            src={avatar ? `${serverAPI}/${avatar}` : defaultUserAvatar}
             className="rounded-full"
             alt="comment author avatar"
           />

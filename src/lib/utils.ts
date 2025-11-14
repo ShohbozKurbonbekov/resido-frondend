@@ -73,3 +73,23 @@ export const customiseAddress = (address: PropertyAddress) => {
     address.country ?? ""
   }`;
 };
+
+// CUSTOMISE TIME
+export const customiseTime = (timeString: string) => {
+  const noramizedTime = new Date(timeString).getTime();
+  const daysSinceCreated = Math.floor(
+    (Date.now() - noramizedTime) / (1000 * 60 * 60 * 24)
+  );
+
+  if (daysSinceCreated <= 7 && daysSinceCreated >= 2) {
+    if (daysSinceCreated === 0) {
+      return "commented Today";
+    } else {
+      return `commented ${daysSinceCreated} days ago`;
+    }
+  } else if (daysSinceCreated === 1) {
+    return `commented yesterday`;
+  } else {
+    return `commented on ${moment(timeString).format("MMMM, Do YYYY")}`;
+  }
+};

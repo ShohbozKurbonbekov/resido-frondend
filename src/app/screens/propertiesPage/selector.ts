@@ -12,3 +12,8 @@ export const retrieveChosenProperty = createSelector(
   selectPropertiesPage,
   (propertiesPage) => propertiesPage.chosenProperty
 );
+
+export const retrieveChosenPropComments = createSelector(
+  selectPropertiesPage,
+  (propertiesPage) => propertiesPage.chosenPropComments
+);

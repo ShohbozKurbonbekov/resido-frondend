@@ -2,13 +2,7 @@ import VideoPlayer from "./DetailVideoPalyer";
 import LocationMap from "@/app/components/map/LocationMap";
 import LightboxImages from "@/app/components/lightboxImage/LightboxImages";
 import RatingBox from "@/app/components/progressBar/RatingBox";
-import { useState } from "react";
-import PropertyDetailReviews from "./PropertyDetailReviews";
-import moment from "moment";
-import type {
-  PropertyDetailFeaturedPropertyType,
-  PropertyDetailReviewType,
-} from "@/lib/type/property";
+import type { PropertyDetailFeaturedPropertyType } from "@/lib/type/property";
 import PropertyDetailNearbyPlaces from "./PropertyDetailNearbyPlaces";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -31,19 +25,14 @@ import ChosenPropTopIntro from "./ChosenPropTopIntro";
 import ChosenPropAccordion from "./ChosenPropAccordion";
 import DetailFeaturesCom from "./DetailFeaturesCom";
 import AmenitiesCom from "./AmenititesCom";
-
-const galleryItems: string[] = [
-  "/public/img/p-10.jpg",
-  "/public/img/p-11.jpg",
-  "/public/img/p-12.jpg",
-  "/public/img/p-13.jpg",
-  "/public/img/p-14.jpg",
-  "/public/img/p-15.jpg",
-];
+import ChosenPropertyReviews from "./PropertyDetailReviews";
+import type { Comments } from "@/lib/type/comment";
+import ChosenPropertyNearbyPlaces from "./PropertyDetailNearbyPlaces";
 
 interface ChosenPropertyMainContentType {
   propertyAgent: Agent;
   featuredProperty: PropertyDetailFeaturedPropertyType[];
+  chosenPropComments: Comments;
 }
 
 //------------------------------------------- REDUX SETUP -------------------------
@@ -53,54 +42,17 @@ const chosenPropertyRetriever = createSelector(
 );
 
 // ------------------------------------------ COMPONENT ----------------------------
-export default function ChosenPropertyMainContent(
-  props: ChosenPropertyMainContentType
-) {
+export default function ChosenPropertyMainContent({
+  chosenPropComments,
+  featuredProperty,
+  propertyAgent,
+}: ChosenPropertyMainContentType) {
   const { chosenProperty } = useSelector(chosenPropertyRetriever);
-  const { mainProperty, trendingProperties } = chosenProperty;
+  const { mainProperty } = chosenProperty;
 
-  const { featuredProperty } = props;
-  const { agentName, agentPhone, agentImage } = props.propertyAgent;
+  const { agentName, agentPhone, agentImage } = propertyAgent;
 
   const propertyDetailUrl = "https://example.com/properties/123";
-
-  const [allReviews] = useState<PropertyDetailReviewType[]>([
-    {
-      reviewDate: moment().format(`MMMM Do YYYY`),
-      reviewImage: "/public/img/user-1.jpg",
-      reviewName: "Rosalina Kelian",
-      reviewDescription:
-        "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim laborumab. perspiciatis unde omnis iste natus error.",
-    },
-    {
-      reviewDate: moment().format(`MMMM Do YYYY`),
-      reviewImage: "/public/img/user-2.jpg",
-      reviewName: "Rosalina Kelian",
-      reviewDescription:
-        "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim laborumab. perspiciatis unde omnis iste natus error.",
-    },
-    {
-      reviewDate: moment().format(`MMMM Do YYYY`),
-      reviewImage: "/public/img/user-3.jpg",
-      reviewName: "Rosalina Kelian",
-      reviewDescription:
-        "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim laborumab. perspiciatis unde omnis iste natus error.",
-    },
-    {
-      reviewDate: moment().format(`MMMM Do YYYY`),
-      reviewImage: "/public/img/user-4.jpg",
-      reviewName: "Rosalina Kelian",
-      reviewDescription:
-        "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim laborumab. perspiciatis unde omnis iste natus error.",
-    },
-    {
-      reviewDate: moment().format(`MMMM Do YYYY`),
-      reviewImage: "/public/img/user-5.jpg",
-      reviewName: "Rosalina Kelian",
-      reviewDescription:
-        "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim laborumab. perspiciatis unde omnis iste natus error.",
-    },
-  ]);
 
   // ------------------------------ RENDER -----------------------
   return (
@@ -135,7 +87,7 @@ export default function ChosenPropertyMainContent(
           content={<AmenitiesCom amenitites={mainProperty[0].amenities} />}
           classes={"flex flex-col gap-4 mt-3"}
         />
-        {/*----------------------------------------- VIDEO ---------------------------*/}{" "}
+        {/*----------------------------------------- VIDEO ---------------------------*/}
         <ChosenPropAccordion
           triggerTitle={"Property Video"}
           content={<VideoPlayer />}
@@ -145,30 +97,27 @@ export default function ChosenPropertyMainContent(
           triggerTitle={"Location"}
           content={<LocationMap property={mainProperty[0]} />}
         />
-        {/* // collapsible Accordion 6 */}
+        {/* ------------------------------------ GALLERY --------------------------------------*/}
         <ChosenPropAccordion
           triggerTitle={"Gallery"}
+          content={<LightboxImages property={mainProperty[0]} />}
+        />
+        {/*-------------------------------------- RATING -------------------------------------*/}
+        <RatingBox property={mainProperty[0]} />
+        {/* -------------------------------------- COMMENTS -------------------------------------------------*/}
+        <ChosenPropAccordion
+          triggerTitle={`${
+            chosenPropComments?.metaCounter[0]?.total ?? 0
+          } Reviews`}
           content={
-            <>
-              <div>
-                <LightboxImages property={mainProperty[0]} />
-              </div>
-            </>
+            <ChosenPropertyReviews chosenPropComments={chosenPropComments} />
           }
         />
-        {/* // Rating */}
-        <RatingBox />
-        {/* // collapsible Accordion 7 */}
-        <ChosenPropAccordion
-          triggerTitle={`${allReviews.length} Reviews`}
-          content={<PropertyDetailReviews allReviews={allReviews} />}
-        />
-        {/* // collapsible Accordion 8 */}
+
+        {/* ------------------------------------ NEARBY LOCATIONS -------------------------- */}
         <ChosenPropAccordion
           triggerTitle={"Nearby"}
-          content={
-            <PropertyDetailNearbyPlaces propertyName={"Burch Khalifa"} />
-          }
+          content={<ChosenPropertyNearbyPlaces property={mainProperty[0]} />}
         />
         {/* // collapsible Accordion 9 */}
         <ChosenPropAccordion

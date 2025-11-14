@@ -1133,6 +1133,11 @@
   dependencies:
     "@types/geojson" "*"
 
+"@types/moment@^2.11.29":
+  version "2.11.29"
+  resolved "https://registry.npmjs.org/@types/moment/-/moment-2.11.29.tgz"
+  integrity sha512-D5WIgbLYQzvgfsDnBhZFSTnt/BjGPOE+Jsh3k1BYYijJAkrn7ceeLvU4jtjKKXXuXN42O3ARlU4D/P9ezbQYFA==
+
 "@types/node@^20.19.0 || >=22.12.0", "@types/node@^24.0.13":
   version "24.0.13"
   resolved "https://registry.npmjs.org/@types/node/-/node-24.0.13.tgz"

@@ -9,7 +9,7 @@ export default function Stars({ rating, size = "small" }: StarsType) {
     <Rating
       name="property-rating"
       value={rating}
-      precision={0.5}
+      precision={0.1}
       readOnly
       className="yellow-500"
       size={size}

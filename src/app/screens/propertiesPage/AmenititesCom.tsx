@@ -25,7 +25,7 @@ const AmenitiesCom: React.FC<AmenitiesComType> = React.memo(
         ) : (
           totalAmenities.map((el) => (
             <li
-              className={"flex flex-row items-center gap-1  items-cent"}
+              className={"flex flex-row items-center gap-1  items-cent "}
               key={el}
             >
               <span className={"relative p-1.5 rounded-full bg-green-100"}>

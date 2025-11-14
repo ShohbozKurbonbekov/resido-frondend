@@ -39,7 +39,7 @@ export default function Navbar() {
   };
   return (
     <nav
-      className={`py-4 w-full fixed  top-0 z-100 transition-all duration-300 ease-in  ${
+      className={`py-4 w-full fixed  top-0 z-50 transition-all duration-300 ease-in  ${
         navbarScrolled
           ? "bg-slate-50 shadow-[0_0.1rem_0.2rem_0_rgba(0,0,0,0.2)]"
           : "bg-transparent"

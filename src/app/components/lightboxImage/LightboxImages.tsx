@@ -19,7 +19,7 @@ const LightboxImages: React.FC<ImageType> = React.memo(({ property }) => {
 
   const retrievePropertyImages = useMemo(() => {
     return property.images.map((image) => ({ src: `${serverAPI}/${image}` }));
-  }, [property]);
+  }, [property.images]);
 
   // --------------------------------------- HANDLERS --------------------------------------
   const handleImageClick = useCallback((index: number): void => {
@@ -30,17 +30,25 @@ const LightboxImages: React.FC<ImageType> = React.memo(({ property }) => {
   // ---------------------------------------- RENDERS -------------------------------------
   return (
     <>
-      <div className="relative grid grid-cols-3 justify-items-center items-center gap-4 mt-3 group ">
-        {retrievePropertyImages.map((image, index: number) => (
-          <img
-            src={image.src}
-            key={index}
-            alt={`Image-${index}`}
-            className="rounded-md w-full h-full object-cover cursor-pointer group-hover:bg-opacity-80 transition-all duration-300 ease-linear"
-            onClick={() => handleImageClick(index)}
-          />
-        ))}
-      </div>
+      {retrievePropertyImages.length ? (
+        <div className="relative grid grid-cols-3 justify-items-center items-center gap-4 mt-3 group ">
+          {retrievePropertyImages.map((image, index: number) => (
+            <img
+              src={image.src}
+              key={index}
+              alt={`Image-${index}`}
+              className="rounded-md w-full h-full object-cover cursor-pointer group-hover:bg-opacity-80 transition-all duration-300 ease-linear"
+              onClick={() => handleImageClick(index)}
+              loading="lazy"
+            />
+          ))}
+        </div>
+      ) : (
+        <p className="py-3 text-center text-slate-400 capitalize font-jostFont  text-sm">
+          {" "}
+          no images available
+        </p>
+      )}
 
       {/* // LIGHBOX IMAGES */}
       <Lightbox
