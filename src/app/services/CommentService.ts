@@ -1,10 +1,7 @@
 import { serverAPI } from "@/lib/config";
 import axios from "axios";
-import type {
-  ChosenPropCommentsInput,
-  Comment,
-  Comments,
-} from "@/lib/type/comment";
+import type { Comment, CommentInput, Comments } from "@/lib/type/comment";
+import type { ChosenPropCommentsInput } from "@/lib/type/ChosenPropCommentsInput";
 class CommentService {
   private readonly path;
   constructor() {
@@ -36,6 +33,19 @@ class CommentService {
       return result.data;
     } catch (error) {
       console.log("Error in getItemComments: ", error);
+      throw error;
+    }
+  }
+
+  public async createComment(input: CommentInput): Promise<Comment> {
+    try {
+      const url = `${serverAPI}/comment/write-comment`;
+
+      const result = await axios.post(url, input, { withCredentials: true });
+
+      return result.data;
+    } catch (error) {
+      console.log("Error in createComment service: ", error);
       throw error;
     }
   }

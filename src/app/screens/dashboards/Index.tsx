@@ -4,21 +4,22 @@ import AgentDashboard from "./agent/Index";
 import AdminDashboard from "./admin/Index";
 import NoFound from "@/app/components/NoFound";
 import UserDashboard from "./user/Index";
+import { MemberType } from "@/lib/enums/agent.enum";
 
 export default function DashboardRouter() {
   const { authmember } = useGlobals();
 
   if (!authmember) return null;
-  switch (authmember?.memberType) {
-    case "ADMIN":
+  switch (authmember?.role) {
+    case MemberType.REAL_ESTATE_ADMIN:
       return <AdminDashboard />;
-    case "AGENT":
+    case MemberType.AGENT:
       return <AgentDashboard />;
-    case "AGENCY":
+    case MemberType.AGENCY:
       return <AgencyDashboard />;
-    case "USER":
+    case MemberType.USER:
       return <UserDashboard />;
     default:
-      return <NoFound title={"No dashboard found"} />;
+      return <NoFound />;
   }
 }

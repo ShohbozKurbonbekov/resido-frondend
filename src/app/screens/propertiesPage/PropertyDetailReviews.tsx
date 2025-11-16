@@ -106,7 +106,7 @@ const ChosenPropertyReviews: React.FC<ChosenPropertyReviewsType> = React.memo(
     // ------------------------------------------- RENDERS -------------------------------------------
     return (
       <>
-        <div className="flex flex-col gap-y-5 [&>*:last-child]:border-0 mt-3">
+        <div className="flex flex-col gap-y-5 [&>*:last-child]:border-0 mt-3 ">
           {(metaCounter[0]?.total ?? 0) > 0 ? (
             dialogContent(firstFourComments)
           ) : (
@@ -119,7 +119,7 @@ const ChosenPropertyReviews: React.FC<ChosenPropertyReviewsType> = React.memo(
           )}
         </div>
         <CommentsCom
-          triggerBtn={triggerBtn}
+          triggerBtn={(metaCounter[0].total ?? 0) > 0 ? triggerBtn : null}
           description={dialogDescription}
           content={dialogContent(comments)}
           submitBtn={submitButton}

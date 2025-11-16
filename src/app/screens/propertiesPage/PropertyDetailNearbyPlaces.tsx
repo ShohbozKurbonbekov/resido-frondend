@@ -1,5 +1,5 @@
 import type { Property } from "@/lib/type/property";
-import React, { useMemo } from "react";
+import React from "react";
 
 // ------------------------------- COMPONENT ------------------------------
 interface ChosenPropertyNearbyPlacesType {
@@ -7,15 +7,12 @@ interface ChosenPropertyNearbyPlacesType {
 }
 const ChosenPropertyNearbyPlaces: React.FC<ChosenPropertyNearbyPlacesType> =
   React.memo(({ property }) => {
-    // ---------------------------- HANDLERS ------------------------------
-    const transport_school = useMemo(() => {
-      const { nearBySchools, nearByTransports } = property;
-      return [
-        { text: "a school nearby", value: nearBySchools },
-        { text: "a transport nearby", value: nearByTransports },
-      ];
-    }, [property]);
-
+    const { nearBySchools, nearByTransports } = property;
+    const transport_school = [
+      { text: "a school nearby", value: nearBySchools },
+      { text: "a transport nearby", value: nearByTransports },
+    ];
+    // ---------------------------- HANDLERS -----------------------------
     // ---------------------------- RENDERS ------------------------------
     return (
       <div className="flex flex-col gap-y-3 mt-3 ">

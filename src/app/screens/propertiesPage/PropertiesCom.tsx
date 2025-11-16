@@ -35,6 +35,8 @@ export default function PropertiesCom() {
       limit: 4,
       order: PropertySortOrder.LOW_PRICE,
     });
+
+  const [reLoadProperties, setreLoadProperties] = useState<boolean>(false);
   // ------------------------- FETCH DATA ----------------
   useEffect(() => {
     const fetchDataFromDB = () => {
@@ -49,7 +51,7 @@ export default function PropertiesCom() {
         });
     };
     fetchDataFromDB();
-  }, [propertiesSearch]);
+  }, [propertiesSearch, reLoadProperties]);
   //------------------------- HANDLERS -------------------
   console.log("PROPERTIES: ", properties);
   // ------------------------- RENDER  -------------------
@@ -68,6 +70,7 @@ export default function PropertiesCom() {
         propertiesData={properties}
         setPropertiesSearch={setPropertiesSearch}
         propertiesSearch={propertiesSearch}
+        setreLoadProperties={setreLoadProperties}
       />
     </>
   );

@@ -4,54 +4,83 @@ import {
   CreditCard,
   Percent,
 } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { calculateMortgage, mortgageInputsValid } from "@/utils/properties";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { sweetErrorHandling } from "@/lib/sweetAlerts";
+import { ErrorMessages } from "@/lib/config";
+import type { MortageInputs } from "@/lib/type/property";
+
+// ----------------------------------------------- CLASSES ----------------------------------------
+const articleClasses = "w-full flex relative";
+const inputClasses =
+  "border-2 rounded-sm  py-3 text-xs ps-8 bg-sky-50 text-slate-400 font-jostFont  font-semibold ring-blue-500 outline-blue-500 flex-1";
+const iconClasses =
+  "absolute top-1/2 -translate-y-1/2 left-2 h-5 w-5 text-slate-400";
+const initialValues: MortageInputs = {
+  inputSales: "",
+  inputPayment: "",
+  inputLoan: "",
+  inputInterestRate: "",
+  mortgageValue: 0,
+};
+// ---------------------------------------------- COMPONENT ------------------------------
 export default function MortageCalculation() {
-  const [open, setOpen] = useState<boolean>(false);
-  const [inputSales, setInputSales] = useState<number | string>("");
-  const [inputPayment, setInputPayment] = useState<number | string>("");
-  const [inputLoan, setInputLoan] = useState<number | string>("");
-  const [inputInterestRate, setInputInterestRate] = useState<number | string>(
-    ""
+  const [mortageInputs, setMortageInputs] =
+    useState<MortageInputs>(initialValues);
+  const {
+    inputInterestRate,
+    inputLoan,
+    inputPayment,
+    inputSales,
+    mortgageValue,
+  } = mortageInputs;
+
+  // ----------------------------------------- HANLDERS --------------------------------------
+
+  const inputHandlers = useCallback(
+    (type: string, e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+
+      switch (type) {
+        case "sales_price":
+          setMortageInputs((prev) => ({ ...prev, inputSales: input }));
+          break;
+        case "down_price":
+          setMortageInputs((prev) => ({ ...prev, inputPayment: input }));
+          break;
+        case "loan_term":
+          setMortageInputs((prev) => ({ ...prev, inputLoan: input }));
+          break;
+        default:
+          setMortageInputs((prev) => ({ ...prev, inputInterestRate: input }));
+          break;
+      }
+    },
+    []
   );
-  const [mortgageValue, setMortgageValue] = useState<number>(0);
+  const handleMortgageCalculation = useCallback(async () => {
+    try {
+      if (!mortgageInputsValid(mortageInputs))
+        throw new Error(ErrorMessages.error3);
 
-  const handleMortgageCalculation = (
-    inputSales: number | string,
-    inputPayment: number | string,
-    inputInterestRate: number | string,
-    inputLoan: number | string
-  ): void => {
-    if (
-      !mortgageInputsValid(
-        inputSales,
-        inputPayment,
-        inputInterestRate,
-        inputLoan
-      )
-    ) {
-      alert("Please insert valid values there");
-      return;
+      // setOpen(true);
+      const totolMortgage = calculateMortgage(mortageInputs);
+      setMortageInputs((prev) => ({ ...prev, mortgageValue: totolMortgage }));
+    } catch (error) {
+      console.log("Error in MortageCalculation: ", error);
+      await sweetErrorHandling(error!);
     }
-
-    setOpen(true);
-    const totolMortgage = calculateMortgage(
-      Number(inputSales),
-      Number(inputPayment),
-      Number(inputInterestRate),
-      Number(inputLoan)
-    );
-    setMortgageValue(totolMortgage);
-
-    setInputSales("");
-    setInputInterestRate("");
-    setInputLoan("");
-    setInputPayment("");
-  };
+  }, [mortageInputs]);
 
   return (
-    <div className="flex flex-col mb-[30px]">
+    <div className="flex flex-col mb-7">
       <div className="rounded-tl-md rounded-tr-md bg-blue-800 py-6 px-5 flex flex-col items-start justify-center">
         <div className="flex flex-col  ps-5">
           <h4 className="font-bold font-jostFont text-xl text-white capitalize  leading-tight">
@@ -64,77 +93,76 @@ export default function MortageCalculation() {
       </div>
       <form
         action="#"
-        className="py-6 px-[22.5px] bg-white flex flex-col items-stretch gap-y-[15px] rounded-bl-md rounded-br-md "
+        className="p-6 bg-white flex flex-col items-stretch gap-y-[15px] rounded-bl-md rounded-br-md "
       >
         {/* // Sale Price */}
-        <article className="w-full flex relative">
+        <article className={articleClasses}>
           <input
             type="number"
             id="sale"
-            className="border-2 rounded-sm  py-3 text-xs ps-8 bg-sky-50 text-slate-400 font-jostFont  font-semibold ring-blue-500 outline-blue-500 flex-1"
+            className={inputClasses}
             placeholder="Sale Price"
             value={inputSales}
-            onChange={(e) => setInputSales(e.target.value)}
+            onChange={(e) => inputHandlers("sales_price", e)}
           />
-          <CircleDollarSign className="absolute top-[50%] -translate-y-[50%] left-2 h-5 w-5 text-slate-400" />
+          <CircleDollarSign className={iconClasses} />
         </article>
 
         {/* // Down Payment */}
-        <article className="w-full flex relative">
+        <article className={articleClasses}>
           <input
             type="number"
             id="payment"
-            className="border-2 rounded-sm  py-3 text-xs ps-8 bg-sky-50 text-slate-400 font-jostFont  font-semibold ring-blue-500 outline-blue-500 flex-1"
+            className={inputClasses}
             value={inputPayment}
-            onChange={(e) => setInputPayment(e.target.value)}
+            onChange={(e) => inputHandlers("down_price", e)}
             placeholder="Down Payment"
           />
-          <CreditCard className="absolute top-[50%] -translate-y-[50%] left-2 h-5 w-5 text-slate-400" />
+          <CreditCard className={iconClasses} />
         </article>
 
         {/* // Loan Term */}
-        <article className="w-full flex relative">
+        <article className={articleClasses}>
           <input
             type="number"
             id="loan"
-            className="border-2 rounded-sm  py-3 text-xs ps-8 bg-sky-50 text-slate-400 font-jostFont  font-semibold ring-blue-500 outline-blue-500 flex-1"
+            className={inputClasses}
             placeholder="Loan Term (Years)"
             value={inputLoan}
-            onChange={(e) => setInputLoan(e.target.value)}
+            onChange={(e) => inputHandlers("loan_term", e)}
           />
-          <CalendarDays className="absolute top-[50%] -translate-y-[50%] left-2 h-5 w-5 text-slate-400" />
+          <CalendarDays className={iconClasses} />
         </article>
 
         {/* // interest */}
-        <article className="w-full flex relative">
+        <article className={articleClasses}>
           <input
             type="number"
             id="interestRate"
-            className="border-2 rounded-sm  py-3 text-xs ps-8 bg-sky-50 text-slate-400 font-jostFont  font-semibold ring-blue-500 outline-blue-500 flex-1"
+            className={inputClasses}
             value={inputInterestRate}
-            onChange={(e) => setInputInterestRate(e.target.value)}
+            onChange={(e) => inputHandlers("interest_rate", e)}
             placeholder="Interest Rate"
           />
-          <Percent className="absolute top-[50%] -translate-y-[50%] left-2 h-5 w-5 text-slate-400" />
+          <Percent className={iconClasses} />
         </article>
 
-        <Dialog open={open} onOpenChange={setOpen}>
-          <button
-            className="w-full py-[10px] px-[20px] rounded-sm border-2 border-blue-300 text-blue-700 text-sm capitalize bg-blue-100 hover:bg-blue-800 transition-colors duration-200 ease-linear hover:text-white hover:border-transparent font-semibold"
-            type="button"
-            onClick={() =>
-              handleMortgageCalculation(
-                inputSales,
-                inputPayment,
-                inputInterestRate,
-                inputLoan
-              )
-            }
-          >
-            Calculate
-          </button>
-
+        <Dialog>
+          <DialogTrigger asChild>
+            <button
+              className="w-full py-2.5 px-5 rounded-sm border-2 border-blue-300 text-blue-700 text-sm capitalize bg-blue-100 hover:bg-blue-800 transition-colors duration-200 ease-linear hover:text-white hover:border-transparent font-semibold"
+              type="button"
+              onClick={handleMortgageCalculation}
+            >
+              Calculate
+            </button>
+          </DialogTrigger>
           <DialogContent>
+            <DialogHeader>
+              <DialogTitle className="text-md text-slate-500 text-center font-jostFont">
+                See your mortage
+              </DialogTitle>
+            </DialogHeader>
             <p className="flex flex-col items-center gap-2">
               <span className="text-green-700 font-bold">Monthly payment</span>
               <span className="py-1 px-3 rounded-sm border border-red-300 text-red-500 font-bold">

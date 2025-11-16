@@ -23,7 +23,7 @@ export function CommentsCom({
   return (
     <Dialog>
       <DialogTrigger asChild>{triggerBtn}</DialogTrigger>
-      <DialogContent className="w-11/12 max-w-[900px] px-10 overflow-y-auto h-[90%] ">
+      <DialogContent className="w-11/12 max-w-[900px] px-10 overflow-y-auto h-[90%] flex flex-col">
         <DialogHeader>
           <DialogTitle className="text-md md:text-xl text-slate-500 text-center font-jostFont">
             See All comments

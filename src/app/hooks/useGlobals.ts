@@ -1,9 +1,9 @@
-import type { T } from "@/lib/type/common";
+import type { CommonUsers } from "@/lib/type/common";
 import { createContext, useContext } from "react";
 
 interface GlobalInterface {
-  authmember: null | T;
-  setAuthMember: (member: T | null) => void;
+  authmember: null | CommonUsers;
+  setAuthMember: (member: CommonUsers | null) => void;
 }
 
 export const GlobalContext = createContext<GlobalInterface | undefined>(

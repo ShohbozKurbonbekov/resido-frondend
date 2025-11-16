@@ -27,16 +27,13 @@ import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 import { carouselAutoPlayDelay, serverAPI } from "@/lib/config";
 import { formatCurrency, formatPropertyArea } from "@/lib/utils";
-import type { Properties, Property } from "@/lib/type/property";
+import type { Property } from "@/lib/type/property";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import PropertyService from "@/app/services/PropertyService";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
-import { type Dispatch } from "@reduxjs/toolkit";
-import { createSelector } from "reselect";
-import { setProperties } from "./slice";
-import { retrieveProperties } from "./selector";
-import { useDispatch, useSelector } from "react-redux";
+
+import type { SetStateType } from "@/lib/type/common";
 
 const options: EmblaOptionsType = {
   duration: 40,
@@ -45,23 +42,14 @@ const options: EmblaOptionsType = {
   slidesToScroll: 1,
 };
 
-// ------------------------------- REDUX SETTER ----------------------
-const actionDispatch = (dispatch: Dispatch) => ({
-  setProperties: (data: Properties) => dispatch(setProperties(data)),
-});
-
-const propertiesRetriever = createSelector(
-  retrieveProperties,
-  (properties) => ({ properties })
-);
-
 // ---------------------------------------------- COMPONENT ---------------------------------------
 interface PropertiesCardType {
   property: Property;
+  setreLoadProperties: SetStateType<boolean>;
 }
 
 const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
-  ({ property }) => {
+  ({ property, setreLoadProperties }) => {
     const {
       _id,
       status,
@@ -79,8 +67,6 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
       title,
     } = property;
 
-    const { setProperties } = actionDispatch(useDispatch());
-    const { properties } = useSelector(propertiesRetriever);
     const navigation = useNavigate();
     const autoPlay = useRef(Autoplay({ delay: carouselAutoPlayDelay }));
     const [carouselRef, carouselApi] = useEmblaCarousel(options, [
@@ -103,27 +89,6 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
       [navigation]
     );
 
-    const handleDataUpdate = useCallback(
-      (properties: Properties, propertyId: string): Properties => {
-        const shallowProperties = { ...properties };
-        const updatedProperties = shallowProperties.properties.map(
-          (property) => {
-            if (property._id !== propertyId) {
-              return property;
-            }
-
-            return { ...property, meLiked: !property.meLiked };
-          }
-        );
-
-        return {
-          totalPropertiesNumber: shallowProperties.totalPropertiesNumber,
-          properties: updatedProperties,
-        };
-      },
-      []
-    );
-
     // ----------------------------------------- INSERTING DATA INTO DB ------------------------------------
     const handleLikebtn = (
       e: React.MouseEvent<HTMLButtonElement>,
@@ -135,7 +100,7 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
       property
         .likeTargetProperty(propertyId)
         .then(() => {
-          setProperties(handleDataUpdate(properties, propertyId));
+          setreLoadProperties((prev) => !prev);
         })
 
         .catch((error) => {

@@ -6,6 +6,7 @@ export const ErrorMessages = {
   error3: "Please, Fill in all the inputs!",
   error4: "Message is emty!",
   error5: "Only Images with jpeg, jpg formats allowed!",
+  error6: "Only common users are allowed to the agent here",
 };
 
 export const customTruncate = (text: string, limit: number) => {

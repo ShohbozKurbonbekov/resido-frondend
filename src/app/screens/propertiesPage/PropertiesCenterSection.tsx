@@ -17,12 +17,14 @@ interface PropertiesCenterSectionType {
   propertiesData: Properties;
   setPropertiesSearch: SetStateType<PropertiesSearchInput>;
   propertiesSearch: PropertiesSearchInput;
+  setreLoadProperties: SetStateType<boolean>;
 }
 
 const PropertiesCenterSection: React.FC<PropertiesCenterSectionType> = ({
   propertiesData,
   propertiesSearch,
   setPropertiesSearch,
+  setreLoadProperties,
 }) => {
   const { page } = propertiesSearch;
 
@@ -69,7 +71,11 @@ const PropertiesCenterSection: React.FC<PropertiesCenterSectionType> = ({
             <>
               <div className="flex flex-col gap-y-4 min-h-screen">
                 {propertiesData.properties.map((property: Property) => (
-                  <PropertiesCard key={property._id} property={property} />
+                  <PropertiesCard
+                    setreLoadProperties={setreLoadProperties}
+                    key={property._id}
+                    property={property}
+                  />
                 ))}
               </div>
 

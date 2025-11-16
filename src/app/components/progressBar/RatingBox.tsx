@@ -10,8 +10,8 @@ interface RatingBoxType {
 // ------------------------------------------------- COMPONENT ---------------------------------------------------------
 const RatingBox: React.FC<RatingBoxType> = React.memo(({ property }) => {
   const ratingValue = useMemo(() => {
-    const propertyRating = property.averageRating;
-    return propertyRating;
+    const propertyRating = property.averageRating?.toFixed(1) ?? 0;
+    return Number(propertyRating);
   }, [property.averageRating]);
 
   // ---------------------------------------------------- RENDER -------------------------------------------------------
@@ -20,11 +20,11 @@ const RatingBox: React.FC<RatingBoxType> = React.memo(({ property }) => {
       <div className="grid grid-cols-1 md:grid-cols-6 items-center">
         <div className="md:col-span-2 md:border-e-2 md:border-slate-300 md:pe-7 flex flex-col items-center justify-center gap-1 md:me-5">
           <h1 className="text-darkBlue text-6xl font-bold font-jostFont leading-none">
-            {ratingValue ?? 0}
+            {ratingValue}
           </h1>
           <p className="text-slate-400 text-xl font-jostFont">out of 5.0</p>
           <p>
-            <Stars size={"large"} rating={ratingValue ?? 0} />
+            <Stars size={"large"} rating={ratingValue} />
           </p>
         </div>
         <div className="md:col-span-4 grid grid-cols-1 md:gap-s-7 gap-y-5 p-2  ">
@@ -40,7 +40,7 @@ const RatingBox: React.FC<RatingBoxType> = React.memo(({ property }) => {
                 />
               </span>
               <span className="text-sm bg-slate-100 rounded-2xl px-3 py-1">
-                {ratingValue ?? 0}
+                {ratingValue}
               </span>
             </span>
           </div>

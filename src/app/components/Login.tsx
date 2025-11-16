@@ -15,15 +15,15 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { useGlobals } from "../hooks/useGlobals";
-import { emptyInputAlert } from "@/lib/sweetAlerts";
+import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import { ErrorMessages } from "@/lib/config";
+import MemberService from "../services/MemberService";
 
-type SignUpType = {
+interface LoginType {
   btnClasses: string;
   btnTitle: string;
-};
+}
 
 // ✅ Validation schema with Zod
 const FormSchema = z.object({
@@ -31,20 +31,11 @@ const FormSchema = z.object({
   memberEmail: z
     .string()
     .email({ message: "Please enter a valid email address." }),
-  memberPassword: z
-    .string()
-    .min(7, "Password must be at least 7 characters")
-    .max(40, "Password must be at most 15 characters")
-    .regex(/[A-Za-z]/, "Password must contain at least one letter")
-    .regex(/\d/, "Password must contain at least one number")
-    .regex(
-      /[^A-Za-z0-9]/,
-      "Password must contain at least one special character"
-    ),
+  memberPassword: z.string().min(7, "Password must be at least 7 characters"),
 });
-export default function Login({ btnClasses, btnTitle }: SignUpType) {
+export default function Login({ btnClasses, btnTitle }: LoginType) {
   const navigation = useNavigate();
-  const [dialogOpen, setDialogClose] = useState<boolean>(false);
+
   const { setAuthMember } = useGlobals();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -54,20 +45,28 @@ export default function Login({ btnClasses, btnTitle }: SignUpType) {
       memberType: "USER",
     },
   });
+  const onSubmit = async (input: z.infer<typeof FormSchema>) => {
+    try {
+      const isFullFill = input.memberEmail && input.memberPassword;
 
-  const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    const isFullFill = data.memberEmail && data.memberPassword;
+      if (!isFullFill) {
+        throw new Error(ErrorMessages.error3);
+      }
 
-    if (!isFullFill) emptyInputAlert(ErrorMessages.error3, true);
+      const memberService = new MemberService();
+      const { member } = await memberService.login(input);
+      localStorage.setItem("memberData", JSON.stringify(member));
+      setAuthMember(member);
 
-    localStorage.setItem("memberData", JSON.stringify(data));
-    setAuthMember(data);
-    setDialogClose(false);
-    navigation("/");
+      navigation("/");
+    } catch (error) {
+      console.log("Error in Login: ", error);
+      sweetErrorHandling(error!).then();
+    }
   };
 
   return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogClose}>
+    <Dialog>
       <DialogTrigger asChild className={`${btnClasses}`}>
         <Button className={`${btnClasses}`} variant="link">
           {btnTitle}
@@ -85,7 +84,7 @@ export default function Login({ btnClasses, btnTitle }: SignUpType) {
           />
         </div>
 
-        {/* // form */}
+        {/* ----------------------------------------- FORM -------------------------------- */}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid grid-cols-1 gap-4">

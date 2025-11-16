@@ -9,6 +9,7 @@ import type {
   PropertyType,
   SellingTypeEnum,
 } from "../enums/property.enum";
+import type { AgentData } from "./agent";
 import type { CommonInput, TotalCounter } from "./common";
 
 // BACK END PART
@@ -58,11 +59,7 @@ export interface PropertyAmenities {
   carParking?: boolean;
   spaMassage?: boolean;
 }
-interface AgentDataType {
-  rank: string;
-  _id: string;
-  isVerified: boolean;
-}
+
 export interface Property {
   _id: string;
   agencyId: string;
@@ -79,7 +76,7 @@ export interface Property {
   hall: number;
   kitchen: number;
   author?: PropertyAuthor;
-  agentData?: AgentDataType;
+  agentData: AgentData[];
   priceValue?: number;
   address: PropertyAddress;
   meLiked?: boolean;
@@ -146,6 +143,18 @@ export interface PropertiesSearchInput extends CommonInput {
   search?: PropertySearchFeatures;
 }
 
+export interface ChosenPropertyStateType {
+  propertyId: string;
+  reLoadPropertyPage: boolean;
+}
+
+export interface MortageInputs {
+  inputSales: string | number;
+  inputPayment: string | number;
+  inputLoan: string | number;
+  inputInterestRate: string | number;
+  mortgageValue: number;
+}
 /////////////////////////
 // FRONT END TYPE
 export type PropertyDetailReviewType = {

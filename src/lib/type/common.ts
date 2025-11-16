@@ -1,3 +1,5 @@
+import type { User } from "./dashboard/user";
+
 export interface T {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
@@ -14,3 +16,16 @@ export interface CommonInput {
 
 // FOR USE STATE SETTER FUNCTION
 export type SetStateType<T> = React.Dispatch<React.SetStateAction<T>>;
+
+export type CommonUsers = User;
+export interface LoginResult {
+  accessToken: string;
+  member: CommonUsers;
+}
+export interface Social {
+  facebook: string | null;
+  twitter: string | null;
+  instagram: string | null;
+  linkedin: string | null;
+  email: string | null;
+}

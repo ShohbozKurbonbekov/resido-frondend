@@ -1,5 +1,5 @@
 import type { CommentStatus, CommentTargetType } from "../enums/comment.enum";
-import type { CommonInput, T, TotalCounter } from "./common";
+import type { CommonInput, TotalCounter } from "./common";
 
 interface UserInfoType {
   avatar: string;
@@ -39,4 +39,14 @@ export interface Comments {
 
 export interface ChosenPropCommentsInput extends CommonInput {
   commentTarget: CommentTargetType;
+}
+
+export interface CommentInput {
+  targetType: CommentTargetType;
+  targetId: string;
+  content: string;
+  userInfo?: UserInfoType;
+  userId?: string;
+  rating?: number;
+  status?: CommentStatus;
 }

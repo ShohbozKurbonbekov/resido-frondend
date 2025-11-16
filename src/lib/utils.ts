@@ -80,15 +80,14 @@ export const customiseTime = (timeString: string) => {
   const daysSinceCreated = Math.floor(
     (Date.now() - noramizedTime) / (1000 * 60 * 60 * 24)
   );
-
-  if (daysSinceCreated <= 7 && daysSinceCreated >= 2) {
+  if (daysSinceCreated <= 7) {
     if (daysSinceCreated === 0) {
       return "commented Today";
+    } else if (daysSinceCreated === 1) {
+      return `commented yesterday`;
     } else {
       return `commented ${daysSinceCreated} days ago`;
     }
-  } else if (daysSinceCreated === 1) {
-    return `commented yesterday`;
   } else {
     return `commented on ${moment(timeString).format("MMMM, Do YYYY")}`;
   }

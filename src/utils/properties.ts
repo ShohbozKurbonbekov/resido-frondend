@@ -1,27 +1,22 @@
-export const calculateMortgage = (
-  salePrice: number,
-  downPayment: number,
-  interestRate: number,
-  loanTermYear: number
-): number => {
-  const principal = salePrice - downPayment;
-  const monthlyRate = interestRate / 12 / 100;
-  const totalPayments = loanTermYear * 12;
+import type { T } from "@/lib/type/common";
+import type { MortageInputs } from "@/lib/type/property";
+
+export const calculateMortgage = (mortageInputs: MortageInputs): number => {
+  const { inputInterestRate, inputLoan, inputPayment, inputSales } =
+    mortageInputs;
+  const principal = Number(inputSales) - Number(inputPayment);
+  const monthlyRate = Number(inputInterestRate) / 12 / 100;
+  const totalPayments = Number(inputLoan) * 12;
   const monthlyPayment =
     (principal * (monthlyRate * Math.pow(1 + monthlyRate, totalPayments))) /
     (Math.pow(1 + monthlyRate, totalPayments) - 1);
   return +monthlyPayment.toFixed(2);
 };
 
-export const mortgageInputsValid = (
-  salePrice: number | string,
-  downPayment: number | string,
-  interestRate: number | string,
-  loanTermYear: number | string
-): boolean => {
-  const values = [salePrice, downPayment, interestRate, loanTermYear].map(
-    (str) => Number(str)
+export const mortgageInputsValid = (mortageInputs: T): boolean => {
+  const values = Object.values(mortageInputs).every(
+    (el) => String(el).trim() !== ""
   );
 
-  return values.every((val) => !isNaN(val) && val >= 0);
+  return values;
 };

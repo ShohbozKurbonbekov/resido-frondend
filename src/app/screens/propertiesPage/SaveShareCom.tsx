@@ -1,3 +1,4 @@
+import PropertyService from "@/app/services/PropertyService";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,7 +8,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { updateShareUrl } from "@/lib/config";
+import { sweetErrorHandling } from "@/lib/sweetAlerts";
+import type { ChosenPropertyStateType, Property } from "@/lib/type/property";
 import { Heart, Share2 } from "lucide-react";
+import React, { useContext } from "react";
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -22,53 +27,76 @@ import {
   TelegramShareButton,
   TelegramIcon,
 } from "react-share";
+import { ChosenPropCommentsContext } from "@/app/context/PropertyCommentsContex";
 
-type SaveShareComType = {
-  shareUrl: string;
-  shareTitle: string;
-};
-export default function SaveShareCom({
-  shareUrl,
-  shareTitle,
-}: SaveShareComType) {
+interface SaveShareComType {
+  property: Property;
+}
+
+// ------------------------------- COMPONENT --------------------------------
+const SaveShareCom: React.FC<SaveShareComType> = React.memo(({ property }) => {
+  const { setChosenPropertyState } = useContext(ChosenPropCommentsContext);
+  const liked = property.meLiked!;
+  const shareUrl = updateShareUrl("property/detail");
+
+  const shareTitle = "Visit to see our special property!";
+  const shareIconWrapper =
+    "hover:scale-110 transition-all duration-200 ease-linear active:scale-90";
+
+  // ------------------------------- HANDLERS --------------------------------
+  const handleLikeProperty = async (propertyId: string) => {
+    try {
+      const property = new PropertyService();
+      await property.likeTargetProperty(propertyId);
+      setChosenPropertyState((prev: ChosenPropertyStateType) => ({
+        ...prev,
+        reLoadPropertyPage: !prev.reLoadPropertyPage,
+      }));
+    } catch (error) {
+      console.log("Error in SaveShareComponent: ", error);
+      sweetErrorHandling(error!);
+    }
+  };
+
+  // ----------------------------- RENDERS -----------------------------
   return (
     <div className="bg-white rounded-md p-5  grid grid-cols-2 gap-3 mb-5">
       <DropdownMenu>
-        <DropdownMenuTrigger>
-          <button className="w-full py-4 border-2 border-green-600 rounded-md text-green-500 bg-green-100 flex flex-row gap-2 items-center justify-center font-semibold font-jostFont text-base cursor-pointer active:bg-white transition-colors duration-150 ease-linear">
+        <DropdownMenuTrigger asChild>
+          <button className="w-full py-4 border-2  border-green-600 rounded-md text-green-500 bg-green-100 flex flex-row gap-2 items-center justify-center font-semibold font-jostFont text-base cursor-pointer active:bg-white transition-colors duration-150 ease-linear">
             <Share2 className="h-5 w-5" />
             Share
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent side="top" className="w-60 bg-green-100 mb-3">
-          <DropdownMenuLabel className="text-green-500 text-center flex flex-row justify-center gap-1">
+          <DropdownMenuLabel className="text-green-500  flex flex-row justify-center">
             <Share2 />
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup className="grid grid-cols-2 place-items-center gap-2">
             {/* Facebook Share */}
-            <DropdownMenuItem className="hover:scale-110 transition-all duration-200 ease-linear active:scale-90">
+            <DropdownMenuItem asChild className={shareIconWrapper}>
               <FacebookShareButton url={shareUrl} hashtag={shareTitle}>
                 <FacebookIcon size={32} round />
               </FacebookShareButton>
             </DropdownMenuItem>
 
             {/* Twitter Share */}
-            <DropdownMenuItem className="hover:scale-110 transition-all duration-200 ease-linear active:scale-90">
+            <DropdownMenuItem asChild className={shareIconWrapper}>
               <TwitterShareButton url={shareUrl} title={shareTitle}>
                 <TwitterIcon size={32} round />
               </TwitterShareButton>
             </DropdownMenuItem>
 
             {/* // LinkedIn Share */}
-            <DropdownMenuItem className="hover:scale-110 transition-all duration-200 ease-linear active:scale-90">
+            <DropdownMenuItem asChild className={shareIconWrapper}>
               <LinkedinShareButton url={shareUrl} title={shareTitle}>
                 <LinkedinIcon size={32} round />
               </LinkedinShareButton>
             </DropdownMenuItem>
 
             {/* // Email Share  */}
-            <DropdownMenuItem className="hover:scale-110 transition-all duration-200 ease-linear active:scale-90">
+            <DropdownMenuItem asChild className={shareIconWrapper}>
               <EmailShareButton
                 url={shareUrl}
                 subject={shareTitle}
@@ -79,14 +107,14 @@ export default function SaveShareCom({
             </DropdownMenuItem>
 
             {/* // Whatsapp Share */}
-            <DropdownMenuItem className="hover:scale-110 transition-all duration-200 ease-linear active:scale-90">
+            <DropdownMenuItem asChild className={shareIconWrapper}>
               <WhatsappShareButton url={shareUrl} title={shareTitle}>
                 <WhatsappIcon size={32} round />
               </WhatsappShareButton>
             </DropdownMenuItem>
 
             {/* // Telegram Share */}
-            <DropdownMenuItem className="hover:scale-110 transition-all duration-200 ease-linear active:scale-90">
+            <DropdownMenuItem asChild className={shareIconWrapper}>
               <TelegramShareButton url={shareUrl} title={shareTitle}>
                 <TelegramIcon size={32} round />
               </TelegramShareButton>
@@ -95,10 +123,21 @@ export default function SaveShareCom({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <button className="w-full py-4 rounded-md flex flex-row gap-2 items-center justify-center font-semibold font-jostFont text-base cursor-pointer active:bg-white transition-colors duration-150 ease-linear border-2 border-red-700  text-red-500 bg-red-100 group ">
-        <Heart className="fill-red-500 stroke-transparent group-active:stroke-transparent h-5 w-5" />
+      <button
+        className={`w-full py-4 rounded-md flex flex-row gap-2 items-center justify-center font-semibold font-jostFont text-base cursor-pointer active:bg-white transition-all duration-150 ease-linear border-2 border-red-700  text-red-500 ${
+          liked ? "bg-red-100 group" : "bg-white"
+        } `}
+        onClick={() => handleLikeProperty(property._id)}
+      >
+        <Heart
+          className={`${
+            liked ? "fill-red-500 stroke-transparent" : "fill-white"
+          }  group-active:stroke-transparent h-5 w-5`}
+        />
         Save
       </button>
     </div>
   );
-}
+});
+
+export default SaveShareCom;
