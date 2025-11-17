@@ -20,7 +20,7 @@ export default function SectionIntroductionBackground({
       <div className="absolute right-0 top-0 me-6  w-[64px] h-[84px] bg-[#eff4fc] opacity-25 rounded-b-full"></div>
 
       <div className="container">
-        <div className="py-[30px] flex flex-col items-start gap-y-2">
+        <div className="py-8 flex flex-col items-start gap-y-2">
           <h2 className="text-white font-bold font-jostFont leading-tight text-3xl">
             {title}
           </h2>

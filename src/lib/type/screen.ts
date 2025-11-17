@@ -4,12 +4,17 @@ import type {
   Properties,
   RecentPropertyResult,
 } from "./property";
-import type { FeaturedAgentsResult } from "./agent";
+import type {
+  AgentsListPage,
+  ChosenAgentPageType,
+  FeaturedAgentsResult,
+} from "./agent";
 import type { Comment, Comments } from "./comment";
 // REACTT APP STATE
 export interface AppRootState {
   homepage: HomePageState;
   propertiesPage: PropertiesPageState;
+  agentsPage: AgentsPageState;
 }
 
 // HOMEPAGE
@@ -25,4 +30,10 @@ export interface PropertiesPageState {
   properties: Properties;
   chosenProperty: ChosenProperty;
   chosenPropComments: Comments;
+}
+
+// AGENTS PAGE
+export interface AgentsPageState {
+  agentsListPage: AgentsListPage;
+  chosenAgentPage: ChosenAgentPageType;
 }

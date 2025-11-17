@@ -76,7 +76,7 @@ export interface Property {
   hall: number;
   kitchen: number;
   author?: PropertyAuthor;
-  agentData: AgentData[];
+  agentData: AgentData;
   priceValue?: number;
   address: PropertyAddress;
   meLiked?: boolean;

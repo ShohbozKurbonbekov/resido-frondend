@@ -1,8 +1,10 @@
 import { serverAPI } from "@/lib/config";
 import type {
+  AgentsListPage,
   featuredAgentsInput,
   FeaturedAgentsResult,
 } from "@/lib/type/agent";
+import type { SellersSearchInput } from "@/lib/type/common";
 import axios from "axios";
 
 class AgentService {
@@ -11,6 +13,18 @@ class AgentService {
     this.path = serverAPI;
   }
 
+  public async getAgentByLocation(
+    input: SellersSearchInput
+  ): Promise<AgentsListPage> {
+    try {
+      const url = `${this.path}/agent/search/byLocation`;
+      const result = await axios.post(url, input, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in getAgentBylocation service: ", error);
+      throw error;
+    }
+  }
   public async getFeaturedAgents(
     input: featuredAgentsInput
   ): Promise<FeaturedAgentsResult> {

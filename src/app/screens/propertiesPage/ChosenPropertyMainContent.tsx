@@ -111,7 +111,7 @@ export default function ChosenPropertyMainContent({
       {/*------------------------------------------ SHARE AND LIKE --------------------------------*/}
       <div className="lg:col-span-2">
         <SaveShareCom property={mainProperty[0]} />
-        <AgentContact agentData={mainProperty[0]?.agentData[0]} />
+        <AgentContact agentData={mainProperty[0]?.agentData} />
 
         {/* ------------------------------------------- MORETAGE CALCULATION -----------------------*/}
         <MortageCalculation />

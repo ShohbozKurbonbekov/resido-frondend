@@ -41,6 +41,17 @@ export interface AgentData {
   totalProperties: number;
 }
 
+export interface AgentsListPage {
+  agents: AgentData[];
+  totalNumbers: TotalCounter[];
+}
+
+export interface ChosenAgentPageType {
+  agent: AgentData[];
+}
+
+// SHOULD BE DELETED AT END
+
 export interface Agent {
   agentImage: string;
   agentName: string;

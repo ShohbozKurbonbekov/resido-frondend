@@ -1,9 +1,11 @@
 import { MapPin } from "lucide-react";
-import type { Property } from "@/lib/type/property";
-import React from "react";
+import type { ChosenPropertyStateType, Property } from "@/lib/type/property";
+import React, { useContext } from "react";
 import NoFound from "./NoFound";
 import { serverAPI } from "@/lib/config";
 import { customiseAddress, formatCurrency } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
+import { ChosenPropCommentsContext } from "../context/PropertyCommentsContex";
 
 interface PropertyDetailFeaturedPropertyProp {
   featuredProperty: Property[];
@@ -11,6 +13,17 @@ interface PropertyDetailFeaturedPropertyProp {
 
 const PropertyDetailFeaturedProperty: React.FC<PropertyDetailFeaturedPropertyProp> =
   React.memo(({ featuredProperty }) => {
+    const navigation = useNavigate();
+    const { setChosenPropertyState } = useContext(ChosenPropCommentsContext);
+
+    // ------------------------------------------ HANDLERS ------------------------------------------
+    const handleClick = (propertyId: string) => {
+      setChosenPropertyState((prev: ChosenPropertyStateType) => ({
+        ...prev,
+        propertyId: propertyId,
+      }));
+      navigation(`/property/${propertyId}`);
+    };
     return (
       <div className="flex flex-col gap-y-2">
         <h4
@@ -46,7 +59,8 @@ const PropertyDetailFeaturedProperty: React.FC<PropertyDetailFeaturedPropertyPro
               return (
                 <li
                   key={property._id}
-                  className="p-4 grid grid-cols-[minmax(83px,104px)_1fr]  gap-x-3 content-start justify-items-stretch bg-white rounded-md w-full"
+                  className="p-4 grid grid-cols-[minmax(83px,104px)_1fr]  gap-x-3 content-start justify-items-stretch bg-white rounded-md w-full cursor-pointer"
+                  onClick={() => handleClick(property._id)}
                 >
                   <div>
                     <img

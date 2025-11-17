@@ -14,6 +14,10 @@ export interface CommonInput {
   limit: number;
 }
 
+export interface SellersSearchInput extends CommonInput {
+  location: string;
+}
+
 // FOR USE STATE SETTER FUNCTION
 export type SetStateType<T> = React.Dispatch<React.SetStateAction<T>>;
 
