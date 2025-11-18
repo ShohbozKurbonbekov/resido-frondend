@@ -1,4 +1,5 @@
 import type { User } from "./dashboard/user";
+import type { PropertiesSearchInput } from "./property";
 
 export interface T {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,10 +16,14 @@ export interface CommonInput {
 }
 
 export interface SellersSearchInput extends CommonInput {
-  location: string;
+  location?: string;
 }
 
 // FOR USE STATE SETTER FUNCTION
+export type PaginationSetStateType =
+  | React.Dispatch<React.SetStateAction<PropertiesSearchInput>>
+  | React.Dispatch<React.SetStateAction<SellersSearchInput>>;
+
 export type SetStateType<T> = React.Dispatch<React.SetStateAction<T>>;
 
 export type CommonUsers = User;

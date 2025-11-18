@@ -139,7 +139,7 @@ export type Properties = CommonPropertyResults;
 export interface PropertiesSearchInput extends CommonInput {
   // 1. page:number
   // 2. limit:number
-  order: PropertySortOrder;
+  order?: PropertySortOrder;
   search?: PropertySearchFeatures;
 }
 

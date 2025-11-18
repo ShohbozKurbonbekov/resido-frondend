@@ -1,13 +1,12 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useMemo, useCallback } from "react";
-import type { PropertiesSearchInput } from "@/lib/type/property";
-import type { SetStateType } from "@/lib/type/common";
+import type { CommonInput, PaginationSetStateType } from "@/lib/type/common";
 
 type PaginationProps = {
   totalPages: number;
   currentPage: number;
-  onPageChange: SetStateType<PropertiesSearchInput>;
+  onPageChange: PaginationSetStateType;
   styleclasses?: string;
 };
 
@@ -19,7 +18,7 @@ export function PaginationCom({
 }: PaginationProps) {
   const handlePageChange = useCallback(
     (page: number) => {
-      onPageChange((prev) => ({ ...prev, page }));
+      onPageChange((prev: CommonInput) => ({ ...prev, page }));
     },
     [onPageChange]
   );
@@ -31,7 +30,6 @@ export function PaginationCom({
   const handleNext = useCallback(() => {
     if (currentPage < totalPages) handlePageChange(currentPage + 1);
   }, [currentPage, totalPages, handlePageChange]);
-
   const paginationRange = useMemo(() => {
     const delta = 2;
     const range: (number | string)[] = [];
@@ -69,7 +67,6 @@ export function PaginationCom({
         <ChevronLeft className="w-4 h-4" />
       </button>
 
-      {/* Page Buttons */}
       {paginationRange.map((page, index) => {
         if (page === "...") {
           return (

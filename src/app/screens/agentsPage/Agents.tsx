@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { MapPin } from "lucide-react";
 import NoFound from "@/app/components/NoFound";
 import AgentCard from "../../components/Cards/AgentCard";
@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { SellersSearchInput } from "@/lib/type/common";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import AgentService from "@/app/services/AgentService";
+import { PaginationCom } from "@/app/components/PaginationCom";
 
 // ----------------------------------------- REDUX INTEGRATION ------------------------------
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -28,10 +29,11 @@ export default function AgentsList() {
   const { setAgentsList } = actionDispatch(useDispatch());
   const { agentsList } = useSelector(agentsListRetriever);
   const { agents, totalNumbers } = agentsList;
+  const [agentLocation, setAgentLocation] = useState<string>("");
   const [searchInput, setSearchInput] = useState<SellersSearchInput>({
     page: 1,
     limit: 8,
-    location: "",
+    // location: "",
   });
 
   // ------------------------------------- FETCHING DB DATA -------------------------
@@ -51,10 +53,26 @@ export default function AgentsList() {
   }, [searchInput]);
 
   // -------------------------------------- HANDLERS ---------------------------------------
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value;
-    setSearchInput((prev) => ({ ...prev, location: input }));
-  };
+  const handleLocation = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+      setAgentLocation(input);
+    },
+    []
+  );
+
+  const handleSearch = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      setSearchInput((prev) => ({ ...prev, location: agentLocation.trim() }));
+    },
+    [agentLocation]
+  );
+
+  const totalPages = useMemo(() => {
+    return Math.ceil((totalNumbers[0]?.total ?? 0) / searchInput.limit);
+  }, [totalNumbers, searchInput.limit]);
+
   return (
     <>
       <SectionIntroductionBackground
@@ -67,6 +85,7 @@ export default function AgentsList() {
           <form
             className="flex flex-col md:items-center items-stretch md:flex-row gap-y-1  p-2.5 rounded-md bg-white shadow-agentSearchForm mb-10 relative -mt-8 max-w-screen-lg w-full mx-auto
             "
+            onSubmit={handleSearch}
           >
             <div className="md:flex-1 flex flex-row items-center  px-1 gap-1">
               <MapPin className="stroke-sky-300 h-5 w-5" />
@@ -75,12 +94,12 @@ export default function AgentsList() {
                 className="border-0 bg-transparent py-2 pe-6  text-base text-slate-400  shadow-none focus:ring-0 focus:outline-0 flex-1  font-jostFont  font-semibold placeholder:text-slate-300"
                 autoFocus
                 placeholder="Search by a location"
-                value={searchInput.location}
-                onChange={handleInput}
+                value={agentLocation}
+                onChange={handleLocation}
               />
             </div>
             <button
-              type="button"
+              type="submit"
               className=" bg-darkBlue text-white  rounded-md cursor-pointer py-2.5 px-10  transition-all duration-200 ease-in box-border active:shadow-[0_0_0_0.25rem_rgba(66,70,73,0.5)] font-base font-jostFont "
             >
               Search
@@ -88,24 +107,24 @@ export default function AgentsList() {
           </form>
 
           {totalNumbers[0]?.total ?? 0 ? (
-            <div className="agents-wrapper grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 pb-10  pt-5">
-              {agents.map((agent: AgentData) => (
-                <AgentCard agent={agent} />
-              ))}
-            </div>
+            <>
+              <div className="agents-wrapper grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 pb-10  pt-5">
+                {agents.map((agent: AgentData) => (
+                  <AgentCard agent={agent} key={agent._id} />
+                ))}
+              </div>
+
+              <PaginationCom
+                styleclasses="flex flex-row pb-5 gap-3 justify-center items-center"
+                totalPages={totalPages}
+                currentPage={searchInput.page}
+                onPageChange={setSearchInput}
+              />
+            </>
           ) : (
             <NoFound />
           )}
           {/* // Agents list */}
-
-          <div className="flex flex-row items-center justify-center">
-            <button
-              type="button"
-              className="bg-blue-800 text-white border-transparent cursor-pointer py-2.5 px-10 hover:bg-blue-600 transition-all duration-200 ease-linear mb-14 rounded-md font-jostFont text-base"
-            >
-              Explore More Agents
-            </button>
-          </div>
         </div>
       </section>
     </>

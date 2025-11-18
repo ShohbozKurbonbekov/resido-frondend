@@ -9,6 +9,7 @@ import {
 import { defaultUserAvatar, serverAPI } from "@/lib/config";
 import type { AgentData } from "@/lib/type/agent";
 import { MailQuestionMark } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface AgentCardType {
   agent: AgentData;
@@ -27,10 +28,18 @@ export default function AgentCard({ agent }: AgentCardType) {
     totalComments,
   } = agent;
   const imgUrl = avatar ? `${serverAPI}/${avatar}` : defaultUserAvatar;
+  const navigation = useNavigate();
+  // ------------------------------------------- HANDLERS ----------------------------------------
+  const handleClick = (id: string) => {
+    navigation(`/agents/${id}`);
+  };
 
   // ------------------------ RENDER ----------------------------
   return (
-    <Card className=" flex flex-col shadow-cardShadow" key={id}>
+    <Card
+      className=" flex flex-col shadow-cardShadow cursor-pointer"
+      onClick={() => handleClick(id)}
+    >
       {/*HEADER*/}
       <CardHeader className="flex flex-col items-center justify-center ">
         <div className="max-w-32 max-h-32 box-content rounded-full border-2 border-slate-100 p-1">

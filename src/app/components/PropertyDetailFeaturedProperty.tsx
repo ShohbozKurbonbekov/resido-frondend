@@ -2,7 +2,7 @@ import { MapPin } from "lucide-react";
 import type { ChosenPropertyStateType, Property } from "@/lib/type/property";
 import React, { useContext } from "react";
 import NoFound from "./NoFound";
-import { serverAPI } from "@/lib/config";
+import { customTruncate, serverAPI } from "@/lib/config";
 import { customiseAddress, formatCurrency } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { ChosenPropCommentsContext } from "../context/PropertyCommentsContex";
@@ -70,8 +70,8 @@ const PropertyDetailFeaturedProperty: React.FC<PropertyDetailFeaturedPropertyPro
                     />
                   </div>
                   <div className="flex flex-col  gap-y-0.5 items-start">
-                    <h5 className="leading-none text-base text-darkBlue font-bold font-jostFont capitalize">
-                      {title}
+                    <h5 className="leading-none text-base text-darkBlue font-bold font-jostFont capitalize ">
+                      {customTruncate(title, 20)}
                     </h5>
                     <p className="text-3 font-light  font-jostFont capitalize box-border text-slate-400 mt-1 flex flex-row items-center  ">
                       <MapPin className="h-3 -ml-1.5" />
@@ -84,7 +84,7 @@ const PropertyDetailFeaturedProperty: React.FC<PropertyDetailFeaturedPropertyPro
                             For {sellingType}
                           </span>
                         ) : (
-                          <span className="text-darkBlue text-base font-bold ms-auto capitalize">
+                          <span className="text-green-700 text-xs  ms-auto capitalize bg-green-100 px-3 py-1 rounded-xl">
                             For {sellingType}
                           </span>
                         )}

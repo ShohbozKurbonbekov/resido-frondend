@@ -76,9 +76,9 @@ export default function AgentDetailMainContent({
               </button>
             </div>
             <div className="p-6 grid grid-cols-1 md:grid-cols-2  gap-5">
-              {agentProperties.map((property: T, index: number) => (
+              {/* {agentProperties.map((property: T, index: number) => (
                 <PropertyCard property={property} key={index} />
-              ))}
+              ))} */}
             </div>
             {/* // Button  */}
             <div className="mx-auto">

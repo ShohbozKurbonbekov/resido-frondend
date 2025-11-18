@@ -52,8 +52,6 @@ export default function PropertiesCom() {
     };
     fetchDataFromDB();
   }, [propertiesSearch, reLoadProperties]);
-  //------------------------- HANDLERS -------------------
-  console.log("PROPERTIES: ", properties);
   // ------------------------- RENDER  -------------------
   return (
     <>
