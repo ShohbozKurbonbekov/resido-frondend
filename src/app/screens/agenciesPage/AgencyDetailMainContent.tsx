@@ -7,7 +7,7 @@ import type { T } from "@/lib/type/common";
 import { useNavigate } from "react-router-dom";
 import PropertyDetailFeaturedProperty from "../../components/PropertyDetailFeaturedProperty";
 import type { PropertyDetailFeaturedPropertyType } from "@/lib/type/property";
-import SomeInfoSection from "@/app/components/someInfoSection";
+import SomeInfoSection from "@/app/components/SellerInfo";
 
 interface AgencyDetailMainContentProp {
   agency: Agency;

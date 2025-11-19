@@ -1,18 +1,17 @@
-import { memo } from "react";
+import React from "react";
 
 interface SectionIntroNoBackgroundProp {
   title: string;
   subtitle: string;
 }
-const SectionIntroNoBackground = memo(function SectionIntroNoBackground({
+const SectionIntroNoBackground = React.memo(function SectionIntroNoBackground({
   title,
   subtitle,
 }: SectionIntroNoBackgroundProp) {
-  console.log("this section must run once");
   return (
     <section className="py-10 bg-blue-800 relative">
       <div className="container">
-        <div className="py-[30px] flex flex-col items-start gap-y-2">
+        <div className="py-8 flex flex-col items-start gap-y-2">
           <h2 className="text-white font-bold font-jostFont leading-tight text-3xl capitalize">
             {title}
           </h2>

@@ -1,3 +1,4 @@
+import type { AgentData } from "./agent";
 import type { User } from "./dashboard/user";
 import type { PropertiesSearchInput } from "./property";
 
@@ -38,3 +39,4 @@ export interface Social {
   linkedin: string | null;
   email: string | null;
 }
+export type SellerDataType = AgentData;

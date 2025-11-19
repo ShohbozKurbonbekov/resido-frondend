@@ -1,9 +1,11 @@
 import type {
+  AgentPropertyType,
   AgentStatus,
   MemberStatus,
   MemberType,
 } from "../enums/agent.enum";
 import type { CommonInput, TotalCounter } from "./common";
+import type { Property } from "./property";
 
 export interface Social {
   facebook: string | null;
@@ -11,6 +13,10 @@ export interface Social {
   instagram: string | null;
   linkedin: string | null;
   email: string | null;
+}
+export interface AgentPropertiesType {
+  sale?: Property[];
+  rent?: Property[];
 }
 export interface AgentData {
   _id: string;
@@ -29,7 +35,6 @@ export interface AgentData {
   points: number;
   socialLinks: Social;
   isVerified: boolean;
-  // featuresScore
   totalComments: number;
   views: number;
   totalLikes: number;
@@ -39,6 +44,9 @@ export interface AgentData {
   currentStatus: AgentStatus;
   avatar?: string;
   totalProperties: number;
+  properties?: AgentPropertiesType;
+  limitedProperties?: Property[];
+  comments?: [];
 }
 
 export interface AgentsListPage {
@@ -50,6 +58,7 @@ export interface ChosenAgentPageType {
   agent: AgentData[];
 }
 
+export type AgentProperties = ChosenAgentPageType;
 // SHOULD BE DELETED AT END
 
 export interface Agent {
@@ -75,6 +84,11 @@ interface CommonAgentResults {
 
 export type featuredAgentsInput = CommonInput;
 export type FeaturedAgentsResult = CommonAgentResults;
+
+export interface AgentPropertiesInput extends CommonInput {
+  agentPropertyType: AgentPropertyType;
+  searchInput?: string;
+}
 /////////////////////////////////////////////// THIS SHOULD BE REMOVEED LATER, SO DON'T FORGET THAT
 
 export interface AgentSocialContacts {

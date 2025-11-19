@@ -8,6 +8,7 @@ import { useCallback, useEffect, useState } from "react";
 import { formatCurrency, formatPropertyArea } from "@/lib/utils";
 import type { Property } from "@/lib/type/property";
 import { carouselAutoPlayDelay, serverAPI } from "@/lib/config";
+import React from "react";
 
 const carouselOptions: EmblaOptionsType = {
   loop: true,
@@ -19,7 +20,7 @@ interface PropertyCardType {
   property: Property;
 }
 
-export default function PropertyCard(props: PropertyCardType) {
+const PropertyCard: React.FC<PropertyCardType> = React.memo(({ property }) => {
   const {
     _id: id,
     title,
@@ -32,7 +33,7 @@ export default function PropertyCard(props: PropertyCardType) {
     hall,
     kitchen,
     area,
-  } = props.property;
+  } = property;
 
   const [emblaRef, emblaApi] = useEmblaCarousel(carouselOptions, [
     Autoplay({ delay: carouselAutoPlayDelay, stopOnInteraction: false }),
@@ -84,7 +85,7 @@ export default function PropertyCard(props: PropertyCardType) {
             <span className="bg-[#009868] py-1 px-3 rounded-md text-slate-50 font-bold flex flex-row gap-1 items-center">
               <img src="/img/svg/verified.svg" className="" alt="" />
               <span className="text-[10px] tracking-wide">
-                {props.property.author?.rank}
+                {property.author?.rank}
               </span>
             </span>
 
@@ -166,11 +167,12 @@ export default function PropertyCard(props: PropertyCardType) {
               "USD"
             )}
           </span>
-          <Link to={`${serverAPI}/property/${id}`}>
+          <Link to={`/property/${id}`}>
             <img src="/img/svg/send.svg" alt="reference" />
           </Link>
         </div>
       </CardContent>
     </Card>
   );
-}
+});
+export default PropertyCard;

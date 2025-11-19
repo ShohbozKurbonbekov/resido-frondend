@@ -1,31 +1,63 @@
-export default function ChooseAgent() {
-  const { agentId } = useParams<{ agentId: string }>();
-  console.log(agentId);
+import type { ChosenAgentPageType } from "@/lib/type/agent";
+import { type Dispatch } from "@reduxjs/toolkit";
+import { setChosenAgentPage } from "./slice";
+import { createSelector } from "reselect";
+import { retrieveChosenAgentPage } from "./selector";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import AgentService from "@/app/services/AgentService";
+import { sweetErrorHandling } from "@/lib/sweetAlerts";
+import SectionIntroNoBackground from "@/app/components/SectionIntroNoBackground";
+import SectionTopShortInfo from "@/app/components/SectionTopShortInfo";
+import AgentDetailMainContent from "./AgentDetailMainContentProp";
 
-  if (!chosenAgent) return null;
+// ----------------------------------------- REDUX INTEGRATION ------------------------------
+const actionDispatch = (dispatch: Dispatch) => ({
+  setChosenAgentPage: (data: ChosenAgentPageType) =>
+    dispatch(setChosenAgentPage(data)),
+});
 
+const chosenAgentPageRetriever = createSelector(
+  retrieveChosenAgentPage,
+  (chosenAgentPage) => ({ chosenAgentPage })
+);
+
+// --------------------------------------- COMPONENT --------------------------------------
+const ChooseAgent: React.FC = () => {
+  const { setChosenAgentPage } = actionDispatch(useDispatch());
+  const { chosenAgentPage } = useSelector(chosenAgentPageRetriever);
+  const { agentId } = useParams();
+  const chosenAgent = chosenAgentPage?.agent?.[0];
+  // -------------------------------------- FETCHING DATA FROM DB ------------------------------------------
+  useEffect(() => {
+    if (!agentId) return;
+    const fetchingData = async () => {
+      const agent = new AgentService();
+
+      try {
+        const agentData = await agent.getAgentDetail(agentId!);
+        console.log(agentData);
+        setChosenAgentPage(agentData);
+      } catch (error) {
+        console.log("Error in fetching chosenAgentPage: ", error);
+        await sweetErrorHandling(error!);
+      }
+    };
+    fetchingData();
+  }, [agentId]);
+
+  // ---------------------------------- RENDER ----------------------------------------------
   return (
     <>
-      {/* // Section introduction */}
       <SectionIntroNoBackground
         title="Agent Detail"
-        subtitle="Adam D. Okraar from Canada"
+        subtitle={chosenAgent?.fullName ?? "N/A"}
       />
-      <SectionTopShortInfo
-        shortInfo={{
-          logo: chosenAgent.agentImage,
-          name: chosenAgent.agentName,
-          location: chosenAgent.agentLocation,
-          description: chosenAgent.agentDescription,
-          propertyNumber: chosenAgent.agentProperties,
-          ...chosenAgent.agentContacts,
-        }}
-      />
-      <AgentDetailMainContent
-        featuredProperty={featuredProperty}
-        agentProperties={agentProperties}
-        agent={chosenAgent}
-      />
+      {chosenAgent && <SectionTopShortInfo agent={chosenAgent} />}
+      {chosenAgent && <AgentDetailMainContent agent={chosenAgent} />}
     </>
   );
-}
+};
+
+export default ChooseAgent;

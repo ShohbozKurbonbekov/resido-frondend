@@ -12,3 +12,8 @@ export const retrieveChosenAgentPage = createSelector(
   selectAgentsPage,
   (agentsPage) => agentsPage.chosenAgentPage
 );
+
+export const retrieveChosenAgentProperties = createSelector(
+  selectAgentsPage,
+  (agentsPage) => agentsPage.chosenAgentProperties
+);

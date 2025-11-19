@@ -1,6 +1,9 @@
 import { serverAPI } from "@/lib/config";
 import type {
+  AgentProperties,
+  AgentPropertiesInput,
   AgentsListPage,
+  ChosenAgentPageType,
   featuredAgentsInput,
   FeaturedAgentsResult,
 } from "@/lib/type/agent";
@@ -35,6 +38,32 @@ class AgentService {
       return result.data;
     } catch (error) {
       console.log("Error in getFeaturedAgents service: ", error);
+      throw error;
+    }
+  }
+
+  public async getAgentDetail(id: string): Promise<ChosenAgentPageType> {
+    try {
+      const url = `${this.path}/agent/${id}`;
+      const result = await axios.get(url, { withCredentials: true });
+
+      return result.data;
+    } catch (error) {
+      console.log("Error in getAgentDetail: ", error);
+      throw error;
+    }
+  }
+
+  public async getAgentProperties(
+    agentId: string,
+    input: AgentPropertiesInput
+  ): Promise<AgentProperties> {
+    try {
+      const url = `${this.path}/agent/${agentId}/properties`;
+      const result = await axios.post(url, input, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in getAgentProperties Service: ", error);
       throw error;
     }
   }

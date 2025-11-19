@@ -42,9 +42,9 @@ export default function FeaturedAgents() {
               ))}
             </div>
             <div className="w-full flex flex-row justify-center items-center">
-              <Link to={`${serverAPI}/agent/search/byLocation`}>
+              <Link to={`/agents`}>
                 <button className="py-2 px-10 bg-blue-800 text-slate-50 font-jostFont font-sm rounded capitalize hover:opacity-70 transition-all ">
-                  Browse More Properties
+                  Browse More Agents
                 </button>
               </Link>
             </div>

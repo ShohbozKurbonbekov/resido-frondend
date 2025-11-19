@@ -5,6 +5,7 @@ import type {
   RecentPropertyResult,
 } from "./property";
 import type {
+  AgentProperties,
   AgentsListPage,
   ChosenAgentPageType,
   FeaturedAgentsResult,
@@ -36,4 +37,5 @@ export interface PropertiesPageState {
 export interface AgentsPageState {
   agentsListPage: AgentsListPage;
   chosenAgentPage: ChosenAgentPageType;
+  chosenAgentProperties: AgentProperties;
 }

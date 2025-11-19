@@ -87,9 +87,7 @@ export default function NewProperties() {
                         flex-[0_0_100%]
                         sm:flex-[0_0_50%]
                         lg:flex-[0_0_33.333%]
-        
                         p-3
-
                       "
                     >
                       <PropertyCard property={property} />
