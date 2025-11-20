@@ -1,23 +1,27 @@
 import { CommentsCom } from "@/app/components/dialog/Index";
 import Stars from "@/app/components/Stars";
 import { defaultUserAvatar, serverAPI } from "@/lib/config";
-import type { Comments } from "@/lib/type/comment";
+import type { ChosenItemCommentsInput, Comments } from "@/lib/type/comment";
 import { customiseTime } from "@/lib/utils";
 import { MessageCircleMore, MessageSquareOff } from "lucide-react";
-import React, { useCallback, useContext, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import type { Comment } from "@/lib/type/comment";
-import { ChosenPropCommentsContext } from "@/app/context/PropertyCommentsContex";
+import type { SetStateType } from "@/lib/type/common";
+
+const triggerBtn = (
+  <button className="bg-transparent border-green-700 border-2 py-3 px-5 rounded-md font-jostFont text-base capitalize hover:bg-green-500 hover:text-white transition-all duration-200 hover:border-transparent ease-linear active:scale-95 text-slate-500 mt-4">
+    See other comments
+  </button>
+);
 
 // ---------------------------------------------- COMPONENT ----------------------------------
-interface ChosenPropertyReviewsType {
-  chosenPropComments: Comments;
+interface ChosenItemCommentsType {
+  chosenItemComments: Comments;
+  setPropertyComments: SetStateType<ChosenItemCommentsInput>;
 }
 
-const ChosenPropertyReviews: React.FC<ChosenPropertyReviewsType> = React.memo(
-  ({ chosenPropComments: { comments, metaCounter } }) => {
-    const { setPropertyComments, propertyComments } = useContext(
-      ChosenPropCommentsContext
-    );
+const ChosenItemComments: React.FC<ChosenItemCommentsType> = React.memo(
+  ({ chosenItemComments: { comments, metaCounter }, setPropertyComments }) => {
     const firstFourComments = useMemo(() => comments.slice(0, 4), [comments]);
     // ------------------------------------------ HANDLERS -----------------------------------------
     const commentedDate = useCallback(
@@ -26,14 +30,7 @@ const ChosenPropertyReviews: React.FC<ChosenPropertyReviewsType> = React.memo(
     );
 
     // ------------------------------------------- DIALOG COMMENTS -------------------------------
-    const triggerBtn = useMemo(
-      () => (
-        <button className="bg-transparent border-green-700 border-2 py-3 px-5 rounded-md font-jostFont text-base capitalize hover:bg-green-500 hover:text-white transition-all duration-200 hover:border-transparent ease-linear active:scale-95 text-slate-500 mt-4">
-          See other comments
-        </button>
-      ),
-      []
-    );
+
     const dialogDescription = useMemo(
       () => (
         <p className="text-lg py-3 font-jostFont text-slate-500 border-b-2 flex flex-row justify-between">
@@ -49,16 +46,16 @@ const ChosenPropertyReviews: React.FC<ChosenPropertyReviewsType> = React.memo(
         <button
           className="w-full py-2 border-green-700 border-2 text-base  font-jostFont mt-3 capitalize  text-slate-500 hover:bg-green-700 hover:text-white transition-all duration-200 ease-linear active:scale-95"
           onClick={() =>
-            setPropertyComments(() => ({
-              ...propertyComments,
-              page: propertyComments.page + 1,
+            setPropertyComments((prev) => ({
+              ...prev,
+              page: prev.page + 1,
             }))
           }
         >
           show more comments
         </button>
       );
-    }, [propertyComments]);
+    }, [setPropertyComments, comments.length, metaCounter]);
 
     const dialogContent = useCallback(
       (comments: Comment[]) => (
@@ -129,4 +126,4 @@ const ChosenPropertyReviews: React.FC<ChosenPropertyReviewsType> = React.memo(
   }
 );
 
-export default ChosenPropertyReviews;
+export default ChosenItemComments;

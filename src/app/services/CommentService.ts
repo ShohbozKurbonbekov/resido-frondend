@@ -1,7 +1,11 @@
 import { serverAPI } from "@/lib/config";
 import axios from "axios";
-import type { Comment, CommentInput, Comments } from "@/lib/type/comment";
-import type { ChosenPropCommentsInput } from "@/lib/type/ChosenPropCommentsInput";
+import type {
+  ChosenItemCommentsInput,
+  Comment,
+  CommentInput,
+  Comments,
+} from "@/lib/type/comment";
 class CommentService {
   private readonly path;
   constructor() {
@@ -23,7 +27,7 @@ class CommentService {
 
   public async getItemComments(
     itemId: string,
-    input: ChosenPropCommentsInput
+    input: ChosenItemCommentsInput
   ): Promise<Comments> {
     try {
       const url = `${this.path}/comment/get/${itemId}/comments`;

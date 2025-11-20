@@ -32,7 +32,7 @@ export default {
       },
       boxShadow: {
         cardShadow: "0 0 3px rgba(0, 0, 0, 0.1)",
-        agentSearchForm: "`0 10px 12px #3893ce1a`",
+        agentSearchForm: "0 10px 12px #3893ce1a",
         addAgentForm: "0 0 20px 0 #1373ea1a",
         switchCheckedShadow: "0 0 0 2px rgba(34, 197, 94,  0.2)",
         pagesActiveButtons: "0 0 0px 3px rgba(191, 219, 254, 1)",

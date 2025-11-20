@@ -5,6 +5,7 @@ const initialState: AgentsPageState = {
   agentsListPage: { agents: [], totalNumbers: [] },
   chosenAgentPage: { agent: [] },
   chosenAgentProperties: { agent: [] },
+  chosenAgentComments: { comments: [], metaCounter: [{ total: 0 }] },
 };
 
 const agentsPageSlice = createSlice({
@@ -20,6 +21,9 @@ const agentsPageSlice = createSlice({
     setChosenAgentProperties: (state, action) => {
       state.chosenAgentProperties = action.payload;
     },
+    setChosenAgentComments: (state, action) => {
+      state.chosenAgentComments = action.payload;
+    },
   },
 });
 
@@ -27,6 +31,7 @@ export const {
   setAgentsListPage,
   setChosenAgentPage,
   setChosenAgentProperties,
+  setChosenAgentComments,
 } = agentsPageSlice.actions;
 
 const AgentsPageReducer = agentsPageSlice.reducer;

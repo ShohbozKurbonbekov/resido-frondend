@@ -1,19 +1,13 @@
 import { Progress } from "@/components/ui/progress";
 import Stars from "../Stars";
-import type { Property } from "@/lib/type/property";
-import React, { useMemo } from "react";
+import React from "react";
 
 interface RatingBoxType {
-  property: Property;
+  ratingValue: number;
 }
 
 // ------------------------------------------------- COMPONENT ---------------------------------------------------------
-const RatingBox: React.FC<RatingBoxType> = React.memo(({ property }) => {
-  const ratingValue = useMemo(() => {
-    const propertyRating = property.averageRating?.toFixed(1) ?? 0;
-    return Number(propertyRating);
-  }, [property.averageRating]);
-
+const RatingBox: React.FC<RatingBoxType> = React.memo(({ ratingValue }) => {
   // ---------------------------------------------------- RENDER -------------------------------------------------------
   return (
     <div className="w-full p-8  bg-white rounded-md  mt-6">
@@ -30,7 +24,13 @@ const RatingBox: React.FC<RatingBoxType> = React.memo(({ property }) => {
         <div className="md:col-span-4 grid grid-cols-1 md:gap-s-7 gap-y-5 p-2  ">
           <div className="flex flex-col gap-y-3 ">
             <h4 className="text-sm md:text-lg capitalize text-darkBlue font-jostFont font-semibold leading-none">
-              {!ratingValue ? "No comments yet" : "See rating in progress bar"}
+              {!ratingValue ? (
+                <span className="text-slate-400">No ratings yet</span>
+              ) : (
+                <span className="text-green-700">
+                  See rating in progress bar
+                </span>
+              )}
             </h4>
             <span className="flex flex-row  gap-2 items-center">
               <span className="w-full">

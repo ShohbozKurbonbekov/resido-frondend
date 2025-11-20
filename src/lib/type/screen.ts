@@ -38,4 +38,5 @@ export interface AgentsPageState {
   agentsListPage: AgentsListPage;
   chosenAgentPage: ChosenAgentPageType;
   chosenAgentProperties: AgentProperties;
+  chosenAgentComments: Comments;
 }

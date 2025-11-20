@@ -92,3 +92,12 @@ export const customiseTime = (timeString: string) => {
     return `commented on ${moment(timeString).format("MMMM, Do YYYY")}`;
   }
 };
+
+type HandleRatingType = null | string | undefined | number;
+export const handleRating = (rating: HandleRatingType): number => {
+  let ratingValue;
+  if (rating === 0 || rating === undefined || rating || null) ratingValue = 0;
+
+  ratingValue = Number(rating).toFixed(1);
+  return Number(ratingValue);
+};

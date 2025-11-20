@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useContext, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import type { CommentInput } from "@/lib/type/comment";
 import { CommentTargetType } from "@/lib/enums/comment.enum";
 import {
@@ -16,19 +16,22 @@ import {
 } from "@/lib/sweetAlerts";
 import { ErrorMessages } from "@/lib/config";
 import CommentService from "@/app/services/CommentService";
-import type { ChosenPropertyStateType, Property } from "@/lib/type/property";
-import { ChosenPropCommentsContext } from "@/app/context/PropertyCommentsContex";
+import type { SetStateType } from "@/lib/type/common";
 
-interface ChosenPropWriteCommentType {
-  property: Property;
+interface ChosenItemWriteCommentType {
+  id: string;
+  targetType: CommentTargetType;
+  setReloadMainPage: SetStateType<boolean>;
 }
-const ChosenPropWriteComment: React.FC<ChosenPropWriteCommentType> = ({
-  property,
+const ChosenItemWriteComment: React.FC<ChosenItemWriteCommentType> = ({
+  id,
+  targetType,
+  setReloadMainPage,
 }) => {
   const [commentInput, setCommentInput] = useState<CommentInput>({
     content: "",
-    targetId: property._id!,
-    targetType: CommentTargetType.PROPERTY,
+    targetId: id,
+    targetType,
     rating: 0,
   });
 
@@ -36,7 +39,6 @@ const ChosenPropWriteComment: React.FC<ChosenPropWriteCommentType> = ({
   const commentTotalRatings = useMemo(() => {
     return Array.from({ length: 5 }, (_, i) => i + 1);
   }, []);
-  const { setChosenPropertyState } = useContext(ChosenPropCommentsContext);
 
   const commentRatingHandler = (rating: string) => {
     const normalizedRating = parseInt(rating);
@@ -53,14 +55,11 @@ const ChosenPropWriteComment: React.FC<ChosenPropWriteCommentType> = ({
       }
 
       const comment = new CommentService();
-
+      console.log(commentInput);
       await comment.createComment(commentInput);
       sweetTopSmallSuccessAlert("you successfully commented for this property");
       setCommentInput((prev) => ({ ...prev, content: "", rating: 0 }));
-      setChosenPropertyState((prev: ChosenPropertyStateType) => ({
-        ...prev,
-        reLoadPropertyPage: !prev.reLoadPropertyPage,
-      }));
+      setReloadMainPage((prev) => !prev);
     } catch (error) {
       console.log("Error in comment in property: ", error);
       sweetErrorHandling(error!).then();
@@ -110,4 +109,4 @@ const ChosenPropWriteComment: React.FC<ChosenPropWriteCommentType> = ({
   );
 };
 
-export default ChosenPropWriteComment;
+export default ChosenItemWriteComment;

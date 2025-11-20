@@ -37,7 +37,7 @@ export interface Comments {
   metaCounter: TotalCounter[];
 }
 
-export interface ChosenPropCommentsInput extends CommonInput {
+export interface ChosenItemCommentsInput extends CommonInput {
   commentTarget: CommentTargetType;
 }
 

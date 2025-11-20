@@ -5,6 +5,24 @@ import NoFound from "@/app/components/NoFound";
 import PropertyCard from "@/app/components/PropertyCard";
 import type { Property } from "@/lib/type/property";
 import { useNavigate } from "react-router-dom";
+import RatingBox from "@/app/components/progressBar/RatingBox";
+import { handleRating } from "@/lib/utils";
+import { retrieveChosenAgentComments } from "./selector";
+import { useSelector } from "react-redux";
+import { createSelector } from "reselect";
+import type { SetStateType } from "@/lib/type/common";
+import type { ChosenItemCommentsInput } from "@/lib/type/comment";
+import ChosenItemComments from "@/app/components/ChosenItemComments";
+import ChosenItemWriteComment from "@/app/components/ChosenItemWriteComment";
+import { MessageSquareX, MessagesSquare } from "lucide-react";
+import { CommentTargetType } from "@/lib/enums/comment.enum";
+
+// ---------------------------------------------- REDUX USAGE -------------------------------------
+const chosenAgentCommentsRetriever = createSelector(
+  retrieveChosenAgentComments,
+
+  (chosenAgentComments) => ({ chosenAgentComments })
+);
 
 const agentPropertiesTypeBtn =
   "transition-all duration-300 capitalize text-sm font-bold ease-linear  rounded-md py-4 px-6 bg-blue-500 text-white hover:bg-blue-700";
@@ -12,9 +30,12 @@ const activeBtn = "bg-blue-900 shadow-pagesActiveButtons";
 // ------------------------------------------- COMPONENT ----------------------------------------
 interface AgentDetailMainContentProp {
   agent: AgentData;
+  setAgentCommentsInput: SetStateType<ChosenItemCommentsInput>;
+  setReloadMainPage: SetStateType<boolean>;
 }
 const AgentDetailMainContent: React.FC<AgentDetailMainContentProp> = React.memo(
-  ({ agent }) => {
+  ({ agent, setAgentCommentsInput, setReloadMainPage }) => {
+    const { chosenAgentComments } = useSelector(chosenAgentCommentsRetriever);
     const [agentPropertyType, setPropertyType] = useState<{
       type: string | null;
     }>({
@@ -24,7 +45,14 @@ const AgentDetailMainContent: React.FC<AgentDetailMainContentProp> = React.memo(
     const noProperties =
       !agent?.properties?.rent?.length || !agent?.properties?.sale?.length;
     const navigation = useNavigate();
+    const agentRating = useMemo(() => {
+      return handleRating(agent?.averageRating);
+    }, [agent]);
 
+    const totalComments = useMemo(() => {
+      const comments = chosenAgentComments?.metaCounter[0]?.total ?? 0;
+      return comments;
+    }, [chosenAgentComments]);
     // ------------------------------------------- HANDLERS ----------------------------------------
     const propertiesList = useCallback((properties: Property[]) => {
       return (
@@ -55,7 +83,10 @@ const AgentDetailMainContent: React.FC<AgentDetailMainContentProp> = React.memo(
         return propertiesList(agent.properties.rent);
       }
 
-      if (agentPropertyType.type === "SALE" && agent?.properties?.sale) {
+      if (
+        agentPropertyType.type === "SALE" &&
+        agent?.properties?.sale?.length
+      ) {
         return propertiesList(agent.properties.sale);
       }
       return null;
@@ -70,7 +101,6 @@ const AgentDetailMainContent: React.FC<AgentDetailMainContentProp> = React.memo(
             <SellerInfo title={"Agent Information"} data={agent} />
 
             {/* Agent Properties */}
-
             <div className="mt-10  rounded-md bg-white flex flex-col">
               <div className="py-2 px-4 mb-4 border-b-2 border-slate-200">
                 <button
@@ -106,7 +136,38 @@ const AgentDetailMainContent: React.FC<AgentDetailMainContentProp> = React.memo(
                 </div>
               )}
             </div>
+
+            {/*AGENT RATING */}
+            <RatingBox ratingValue={agentRating} />
+
+            {/* COMMENTS READING*/}
+            <div className="mt-6 bg-white p-6 rounded-md">
+              {totalComments ? (
+                <div className="wrapper">
+                  <p className=" font-normal capitalize font-jostFont text-lg flex flex-row items-center gap-3  px-5 py-2  text-slate-500 mb-5 rounded-md">
+                    <MessagesSquare className="" />
+                    {totalComments} comment{totalComments > 1 ? "s" : ""} all
+                  </p>
+                  <ChosenItemComments
+                    chosenItemComments={chosenAgentComments}
+                    setPropertyComments={setAgentCommentsInput}
+                  />
+                </div>
+              ) : (
+                <p className="flex flex-row items-center gap-3 text-lg font-jostFont text-slate-500">
+                  <MessageSquareX /> No comments yet
+                </p>
+              )}
+            </div>
+            <div className="mt-6 bg-white p-6 rounded-md">
+              <ChosenItemWriteComment
+                id={agent._id}
+                targetType={CommentTargetType.AGENT}
+                setReloadMainPage={setReloadMainPage}
+              />
+            </div>
           </div>
+
           {/* <div className="lg:col-span-2">
             <AgentContact
               agentImage={agent.agentImage}

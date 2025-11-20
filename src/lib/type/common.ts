@@ -1,4 +1,4 @@
-import type { AgentData } from "./agent";
+import type { AgentData, AgentPropertiesInput } from "./agent";
 import type { User } from "./dashboard/user";
 import type { PropertiesSearchInput } from "./property";
 
@@ -23,7 +23,8 @@ export interface SellersSearchInput extends CommonInput {
 // FOR USE STATE SETTER FUNCTION
 export type PaginationSetStateType =
   | React.Dispatch<React.SetStateAction<PropertiesSearchInput>>
-  | React.Dispatch<React.SetStateAction<SellersSearchInput>>;
+  | React.Dispatch<React.SetStateAction<SellersSearchInput>>
+  | React.Dispatch<React.SetStateAction<AgentPropertiesInput>>;
 
 export type SetStateType<T> = React.Dispatch<React.SetStateAction<T>>;
 

@@ -20,7 +20,7 @@ import AgentService from "@/app/services/AgentService";
 import { AgentPropertyType } from "@/lib/enums/agent.enum";
 import NoFound from "@/app/components/NoFound";
 import PropertyCard from "@/app/components/PropertyCard";
-
+import { PaginationCom } from "@/app/components/PaginationCom";
 const inputClasses = "text-slate-500 font-jostFont text-base ";
 // ----------------------------------------- REDUX INTEGRATION ------------------------------
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -47,11 +47,13 @@ const AgentProperties: React.FC = () => {
       limit: 6,
       agentPropertyType: AgentPropertyType.NONE,
     });
+
   const [query, setQuery] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // AGENT PROPERTIES DATA
         const agent = new AgentService();
         const result = await agent.getAgentProperties(
           agentId!,
@@ -78,7 +80,10 @@ const AgentProperties: React.FC = () => {
   const handleSearch = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      setAgentPropertiesInput((prev) => ({ ...prev, searchInput: query }));
+      setAgentPropertiesInput((prev) => ({
+        ...prev,
+        searchInput: query.trim(),
+      }));
     },
     [query]
   );
@@ -93,13 +98,14 @@ const AgentProperties: React.FC = () => {
   return (
     <>
       <SectionIntroNoBackground
-        title={agent[0].fullName || "Agent"}
-        subtitle="properties"
+        title={agent[0]?.fullName || "Agent"}
+        subtitle="All Properties"
       />
       <div className="container mx-auto py-10">
+        {/*SEARCH FORM*/}
         <form
           onSubmit={handleSearch}
-          className="lg:max-w-screen-lg flex flex-col  items-stretch md:flex-row md:items-center gap-4 p-6 bg-white shadow-md rounded-lg mx-auto"
+          className="lg:max-w-screen-lg flex flex-col  items-stretch md:flex-row md:items-center gap-4 p-6 md:p-10 bg-white shadow-addAgentForm rounded-lg mx-auto"
         >
           {/* Search input */}
           <input
@@ -107,6 +113,7 @@ const AgentProperties: React.FC = () => {
             value={query}
             onChange={handleInput}
             className={`flex-1 border-blue-400 border rounded-md py-2 px-5   focus:ring-0 outline-none  ${inputClasses}`}
+            autoFocus
           />
 
           {/* Select input */}
@@ -150,13 +157,26 @@ const AgentProperties: React.FC = () => {
           </Button>
         </form>
 
+        {/*ALL AGENT PROPERTIES*/}
         {agent[0]?.limitedProperties?.length ? (
-          <div className="py-10 grid grid-cols-1 md:grid-cols-2  gap-5 lg:grid-cols-3">
+          <div className="py-10 grid grid-cols-1 max-w-[500px] mx-auto md:grid-cols-2 md:max-w-full  gap-5 lg:grid-cols-3">
             {propertiesList}
           </div>
         ) : (
           <NoFound />
         )}
+
+        {/*PAGINATION*/}
+        {agent[0]?.limitedProperties?.length ? (
+          <PaginationCom
+            totalPages={Math.ceil(
+              agent[0]?.totalProperties / agentPropertiesInput.limit
+            )}
+            currentPage={agentPropertiesInput.page}
+            styleclasses="flex flex-row items-center justify-center gap-3"
+            onPageChange={setAgentPropertiesInput}
+          />
+        ) : null}
       </div>
     </>
   );

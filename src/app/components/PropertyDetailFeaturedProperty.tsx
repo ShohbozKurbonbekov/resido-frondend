@@ -1,12 +1,10 @@
 import { MapPin } from "lucide-react";
-import type { ChosenPropertyStateType, Property } from "@/lib/type/property";
-import React, { useContext } from "react";
+import type { Property } from "@/lib/type/property";
+import React from "react";
 import NoFound from "./NoFound";
 import { customTruncate, serverAPI } from "@/lib/config";
 import { customiseAddress, formatCurrency } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
-import { ChosenPropCommentsContext } from "../context/PropertyCommentsContex";
-
 interface PropertyDetailFeaturedPropertyProp {
   featuredProperty: Property[];
 }
@@ -14,14 +12,9 @@ interface PropertyDetailFeaturedPropertyProp {
 const PropertyDetailFeaturedProperty: React.FC<PropertyDetailFeaturedPropertyProp> =
   React.memo(({ featuredProperty }) => {
     const navigation = useNavigate();
-    const { setChosenPropertyState } = useContext(ChosenPropCommentsContext);
 
     // ------------------------------------------ HANDLERS ------------------------------------------
     const handleClick = (propertyId: string) => {
-      setChosenPropertyState((prev: ChosenPropertyStateType) => ({
-        ...prev,
-        propertyId: propertyId,
-      }));
       navigation(`/property/${propertyId}`);
     };
     return (
