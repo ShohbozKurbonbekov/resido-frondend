@@ -30,7 +30,7 @@ const AgentContact: React.FC<AgentContactProp> = React.memo(({ agentData }) => {
   const { authmember } = useGlobals();
   const [messageInput, setMessageInput] = useState<MessageInput>(initialState);
 
-  const { avatar, nickname, fullName, phone } = agentData;
+  const { avatar, nickname, fullName, phone, _id, role } = agentData;
   const imgUrl = avatar ? `${serverAPI}/${avatar}` : defaultUserAvatar;
   // ------------------------------------------ HANDLERS ---------------------------------------------------
   const handleSubmit = useCallback(
@@ -49,8 +49,8 @@ const AgentContact: React.FC<AgentContactProp> = React.memo(({ agentData }) => {
           subject: messageInput.subject.trim(),
           phone: messageInput.phone.trim(),
           email: messageInput.email.trim(),
-          receiverId: agentData?._id,
-          receiverType: agentData?.role,
+          receiverId: _id,
+          receiverType: role,
           senderType: authmember?.role,
         };
 
@@ -63,7 +63,7 @@ const AgentContact: React.FC<AgentContactProp> = React.memo(({ agentData }) => {
         await sweetErrorHandling(error!);
       }
     },
-    [authmember?.role, messageInput, agentData]
+    [authmember?.role, messageInput, _id, role]
   );
 
   const handleEmail = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {

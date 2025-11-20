@@ -16,8 +16,16 @@ import ChosenItemComments from "@/app/components/ChosenItemComments";
 import ChosenItemWriteComment from "@/app/components/ChosenItemWriteComment";
 import { MessageSquareX, MessagesSquare } from "lucide-react";
 import { CommentTargetType } from "@/lib/enums/comment.enum";
+import AgentContact from "@/app/components/AgentContact";
+import { retrieveFeaturedProperties } from "../homePage/selector";
+import PropertyDetailFeaturedProperty from "@/app/components/PropertyDetailFeaturedProperty";
 
 // ---------------------------------------------- REDUX USAGE -------------------------------------
+const featuredPropertiesRetriever = createSelector(
+  retrieveFeaturedProperties,
+  (featuredProperties) => ({ featuredProperties })
+);
+
 const chosenAgentCommentsRetriever = createSelector(
   retrieveChosenAgentComments,
 
@@ -36,6 +44,8 @@ interface AgentDetailMainContentProp {
 const AgentDetailMainContent: React.FC<AgentDetailMainContentProp> = React.memo(
   ({ agent, setAgentCommentsInput, setReloadMainPage }) => {
     const { chosenAgentComments } = useSelector(chosenAgentCommentsRetriever);
+    const { featuredProperties } = useSelector(featuredPropertiesRetriever);
+
     const [agentPropertyType, setPropertyType] = useState<{
       type: string | null;
     }>({
@@ -43,7 +53,7 @@ const AgentDetailMainContent: React.FC<AgentDetailMainContentProp> = React.memo(
     });
 
     const noProperties =
-      !agent?.properties?.rent?.length || !agent?.properties?.sale?.length;
+      !agent?.properties?.rent?.length && !agent?.properties?.sale?.length;
     const navigation = useNavigate();
     const agentRating = useMemo(() => {
       return handleRating(agent?.averageRating);
@@ -145,7 +155,7 @@ const AgentDetailMainContent: React.FC<AgentDetailMainContentProp> = React.memo(
               {totalComments ? (
                 <div className="wrapper">
                   <p className=" font-normal capitalize font-jostFont text-lg flex flex-row items-center gap-3  px-5 py-2  text-slate-500 mb-5 rounded-md">
-                    <MessagesSquare className="" />
+                    <MessagesSquare />
                     {totalComments} comment{totalComments > 1 ? "s" : ""} all
                   </p>
                   <ChosenItemComments
@@ -159,6 +169,8 @@ const AgentDetailMainContent: React.FC<AgentDetailMainContentProp> = React.memo(
                 </p>
               )}
             </div>
+
+            {/* COMMENT WRITING*/}
             <div className="mt-6 bg-white p-6 rounded-md">
               <ChosenItemWriteComment
                 id={agent._id}
@@ -168,17 +180,16 @@ const AgentDetailMainContent: React.FC<AgentDetailMainContentProp> = React.memo(
             </div>
           </div>
 
-          {/* <div className="lg:col-span-2">
-            <AgentContact
-              agentImage={agent.agentImage}
-              agentName={agentName}
-              agentPhone={agentPhone}
-            />
+          {/* AGENT CONTACT*/}
+          <div className="lg:col-span-2">
+            <AgentContact agentData={agent} />
+
+            {/* FEATURED  PROPERTIES*/}
 
             <PropertyDetailFeaturedProperty
-              featuredProperty={featuredProperty}
+              featuredProperty={featuredProperties?.properties}
             />
-          </div> */}
+          </div>
         </div>
       </section>
     );

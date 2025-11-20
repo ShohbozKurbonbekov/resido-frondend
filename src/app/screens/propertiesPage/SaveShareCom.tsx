@@ -29,20 +29,19 @@ import {
 } from "react-share";
 import type { SetStateType } from "@/lib/type/common";
 
+const shareTitle = "Visit to see our special property!";
+const shareIconWrapper =
+  "hover:scale-110 transition-all duration-200 ease-linear active:scale-90";
+// ------------------------------- COMPONENT --------------------------------
 interface SaveShareComType {
   property: Property;
   setReloadMainPage: SetStateType<boolean>;
 }
 
-// ------------------------------- COMPONENT --------------------------------
 const SaveShareCom: React.FC<SaveShareComType> = React.memo(
   ({ property, setReloadMainPage }) => {
     const liked = property.meLiked!;
     const shareUrl = updateShareUrl("property/detail");
-
-    const shareTitle = "Visit to see our special property!";
-    const shareIconWrapper =
-      "hover:scale-110 transition-all duration-200 ease-linear active:scale-90";
 
     // ------------------------------- HANDLERS --------------------------------
     const handleLikeProperty = async (propertyId: string) => {

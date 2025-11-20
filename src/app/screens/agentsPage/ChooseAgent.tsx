@@ -14,13 +14,20 @@ import AgentDetailMainContent from "./AgentDetailMainContent";
 import type { ChosenItemCommentsInput, Comments } from "@/lib/type/comment";
 import { CommentTargetType } from "@/lib/enums/comment.enum";
 import CommentService from "@/app/services/CommentService";
+import type { FeaturedPropertyResults } from "@/lib/type/property";
+import { setFeaturedProperties } from "../homePage/slice";
+import PropertyService from "@/app/services/PropertyService";
 
 // ----------------------------------------- REDUX INTEGRATION ------------------------------
-const actionDispatch = (dispatch: Dispatch) => ({
+const ChosenAgentPageDispatch = (dispatch: Dispatch) => ({
   setChosenAgentPage: (data: ChosenAgentPageType) =>
     dispatch(setChosenAgentPage(data)),
   setChosenAgentComments: (data: Comments) =>
     dispatch(setChosenAgentComments(data)),
+});
+const FeaturedPropertiesDispatch = (dispatch: Dispatch) => ({
+  setFeaturedProperties: (data: FeaturedPropertyResults) =>
+    dispatch(setFeaturedProperties(data)),
 });
 
 const chosenAgentPageRetriever = createSelector(
@@ -30,9 +37,9 @@ const chosenAgentPageRetriever = createSelector(
 
 // --------------------------------------- COMPONENT --------------------------------------
 const ChooseAgent: React.FC = () => {
-  const { setChosenAgentPage, setChosenAgentComments } = actionDispatch(
-    useDispatch()
-  );
+  const { setChosenAgentPage, setChosenAgentComments } =
+    ChosenAgentPageDispatch(useDispatch());
+  const { setFeaturedProperties } = FeaturedPropertiesDispatch(useDispatch());
   const { chosenAgentPage } = useSelector(chosenAgentPageRetriever);
 
   const [agentCommentsInput, setAgentCommentsInput] =
@@ -49,18 +56,27 @@ const ChooseAgent: React.FC = () => {
     if (!agentId) return;
     const fetchingData = async () => {
       const agent = new AgentService();
+      const property = new PropertyService();
+      const comment = new CommentService();
 
       try {
+        // CHOSEN AGENT DATA
         const agentData = await agent.getAgentDetail(agentId!);
         setChosenAgentPage(agentData);
 
         // AGENT COMMENTS DATA
-        const comment = new CommentService();
         const result = await comment.getItemComments(
           agentId!,
           agentCommentsInput
         );
         setChosenAgentComments(result);
+
+        // FEATURED PROPERTY
+        const featuredPropertiesInput = { page: 1, limit: 4 };
+        const result2 = await property.getFeaturedProperty(
+          featuredPropertiesInput
+        );
+        setFeaturedProperties(result2);
       } catch (error) {
         console.log("Error in fetching chosenAgentPage: ", error);
         await sweetErrorHandling(error!);

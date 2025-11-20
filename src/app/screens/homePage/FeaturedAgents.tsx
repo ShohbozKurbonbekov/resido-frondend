@@ -5,7 +5,6 @@ import type { AgentData } from "@/lib/type/agent";
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { retrieveFeaturedAgents } from "./selector";
-import { serverAPI } from "@/lib/config";
 
 // ------------------------------ REDUX SELECTOR -----------------------------
 const featuredAgentsRetriever = createSelector(

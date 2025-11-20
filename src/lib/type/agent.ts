@@ -46,6 +46,7 @@ export interface AgentData {
   totalProperties: number;
   properties?: AgentPropertiesType;
   limitedProperties?: Property[];
+  featuredProperties?: Property[];
   comments?: [];
 }
 
@@ -54,11 +55,12 @@ export interface AgentsListPage {
   totalNumbers: TotalCounter[];
 }
 
-export interface ChosenAgentPageType {
+export interface AgentProperties {
   agent: AgentData[];
 }
 
-export type AgentProperties = ChosenAgentPageType;
+export type ChosenAgentPageType = AgentProperties;
+
 // SHOULD BE DELETED AT END
 
 export interface Agent {
