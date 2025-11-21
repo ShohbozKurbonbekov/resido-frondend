@@ -11,11 +11,13 @@ import type {
   FeaturedAgentsResult,
 } from "./agent";
 import type { Comment, Comments } from "./comment";
+import type { AgenciesListPage } from "./agency";
 // REACTT APP STATE
 export interface AppRootState {
   homepage: HomePageState;
   propertiesPage: PropertiesPageState;
   agentsPage: AgentsPageState;
+  agenciesPage: AgenciesPageState;
 }
 
 // HOMEPAGE
@@ -39,4 +41,9 @@ export interface AgentsPageState {
   chosenAgentPage: ChosenAgentPageType;
   chosenAgentProperties: AgentProperties;
   chosenAgentComments: Comments;
+}
+
+// AGENCIES PAGE
+export interface AgenciesPageState {
+  agenciesListPage: AgenciesListPage;
 }

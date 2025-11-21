@@ -48,7 +48,6 @@ export function PaginationCom({
 
     return range;
   }, [currentPage, totalPages]);
-
   return (
     <div className={styleclasses}>
       {/* Prev Button */}

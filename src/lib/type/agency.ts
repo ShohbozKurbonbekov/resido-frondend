@@ -1,3 +1,11 @@
+import type {
+  AgencyCurrentBadge,
+  SubscriptionStatus,
+  SubscriptionTarrif,
+} from "../enums/agency.enum";
+import type { MemberStatus, MemberType } from "../enums/agent.enum";
+import type { Social, TotalCounter } from "./common";
+
 export interface agencyContactsType {
   facebook: string;
   twitter: string;
@@ -6,17 +14,40 @@ export interface agencyContactsType {
   email: string;
   skype?: string;
 }
+export interface BillingInfoType {
+  planName: SubscriptionTarrif;
+  subscriptionDate: string;
+  subscriptionStatus: SubscriptionStatus;
+}
 export interface Agency {
-  agencyName: string;
-  agencyAgentNumbers?: number;
-  agencyImage: string;
-  agencyLocation: string;
-  agencyPropertyNumbers?: number;
-  agencySocialContacts: agencyContactsType;
-  agencyDescription?: string;
+  _id: string;
+  role: MemberType.AGENCY;
+  memberName: string;
+  memberEmail: string;
+  memberStatus: MemberStatus;
+  memberPhone: string;
+  address: string;
+  bioInfo: string;
+  avatar?: string;
   agencyOwner: string;
-  agencyPhone: string;
-  agencyCountry: string;
-  agencyCity: string;
-  agencyMemberyear: number;
+  country: string;
+  city: string;
+  memberSince: string;
+  permittedProperties: number;
+  agencyBadge?: AgencyCurrentBadge;
+  registrationNumber: string;
+  agentsTotalNumber: number;
+  propertiesTotalNumber: number;
+  featuredScore: number;
+  billingInfo: BillingInfoType;
+  socialLinks: Social;
+  isVerified: boolean;
+  views: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AgenciesListPage {
+  agencies: Agency[];
+  totalNumbers: TotalCounter[];
 }

@@ -1,0 +1,17 @@
+export enum SubscriptionTarrif {
+  FREE = "FREE",
+  STANDART = "STANDART",
+  PREMIUM = "PREMIUM",
+}
+
+export enum SubscriptionStatus {
+  INACTIVE = "INACTIVE",
+  ACTIVE = "ACTIVE",
+  CANCELLED = "CANCELLED",
+}
+export enum AgencyCurrentBadge {
+  VERIFIED_AGENCY = "VERIFIED AGENCY",
+  TOP_AGENCY = "TOP AGENCY",
+  SUPER_AGENCY = "SUPER AGENCY",
+  ELITE_AGENCY = "ELITE AGENCY",
+}
