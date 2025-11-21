@@ -13,7 +13,7 @@ import type { SellersSearchInput } from "@/lib/type/common";
 import { createSelector } from "reselect";
 import { retrieveAgenciesListPage } from "./selector";
 import { PaginationCom } from "@/app/components/PaginationCom";
-import SpinnerBox from "@/app/components/loading/SpinnerBox";
+import SpinnerGrids from "@/app/components/loading/SpinnerGrids";
 
 // -------------------------------- REDUX INTEGRATION ----------------
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -81,7 +81,7 @@ export default function AgenciesList() {
             }
           />
           {loading ? (
-            <SpinnerBox />
+            <SpinnerGrids />
           ) : agenciesListPage?.totalNumbers[0]?.total ? (
             <>
               <div className="agents-wrapper grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 pb-10  pt-5">

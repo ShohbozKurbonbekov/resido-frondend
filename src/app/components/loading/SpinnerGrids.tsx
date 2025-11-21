@@ -1,6 +1,6 @@
 import React from "react";
 
-interface SpinnerBoxType {
+interface SpinnerGridsType {
   count?: number; // number of skeleton cards to render
   columns?: string; // grid columns, default responsive
   gap?: string; // spacing between cards
@@ -9,7 +9,7 @@ interface SpinnerBoxType {
   cardRadius?: string; // border radius of cards
 }
 
-const SpinnerBox: React.FC<SpinnerBoxType> = ({
+const SpinnerGrids: React.FC<SpinnerGridsType> = ({
   count = 4,
   columns = "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
   gap = "gap-4",
@@ -36,4 +36,4 @@ const SpinnerBox: React.FC<SpinnerBoxType> = ({
   );
 };
 
-export default SpinnerBox;
+export default SpinnerGrids;

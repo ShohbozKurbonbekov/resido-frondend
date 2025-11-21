@@ -4,7 +4,9 @@ import type {
   SubscriptionTarrif,
 } from "../enums/agency.enum";
 import type { MemberStatus, MemberType } from "../enums/agent.enum";
+import type { AgentData } from "./agent";
 import type { Social, TotalCounter } from "./common";
+import type { Property } from "./property";
 
 export interface agencyContactsType {
   facebook: string;
@@ -50,4 +52,13 @@ export interface Agency {
 export interface AgenciesListPage {
   agencies: Agency[];
   totalNumbers: TotalCounter[];
+}
+
+export interface ChosenAgencyPropertiesType {
+  properties: Property[];
+  metaCounter: TotalCounter[];
+}
+export interface ChosenAgencyAgentsType {
+  agents: AgentData[];
+  metaCounter: TotalCounter[];
 }
