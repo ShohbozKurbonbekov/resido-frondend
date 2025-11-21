@@ -13,6 +13,7 @@ import type { SellersSearchInput } from "@/lib/type/common";
 import { createSelector } from "reselect";
 import { retrieveAgenciesListPage } from "./selector";
 import { PaginationCom } from "@/app/components/PaginationCom";
+import SpinnerBox from "@/app/components/loading/SpinnerBox";
 
 // -------------------------------- REDUX INTEGRATION ----------------
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -27,12 +28,13 @@ const agenciesListPageRetriever = createSelector(
 // -------------------------------- COMPONENT ------------------------
 export default function AgenciesList() {
   const { setAgenciesListPage } = actionDispatch(useDispatch());
+  const [loading, setLoading] = useState<boolean>(true);
   const { agenciesListPage } = useSelector(agenciesListPageRetriever);
 
   const [agenciesSearchInput, setAgenciesSearchInput] =
     useState<SellersSearchInput>({
       page: 1,
-      limit: 8,
+      limit: 4,
     });
 
   const totalPages = useMemo(() => {
@@ -41,8 +43,12 @@ export default function AgenciesList() {
         agenciesSearchInput?.limit
     );
   }, [agenciesListPage, agenciesSearchInput]);
+
+  // ---------------------------------------------- HANDLERS ------------------------------------------
+
   useEffect(() => {
     // ---------------------------- FETCHING DATA --------------
+    setLoading(true);
     const fetchData = async () => {
       const agency = new AgencyService();
       try {
@@ -52,6 +58,7 @@ export default function AgenciesList() {
         console.log("Error in fetching agenciesListPage data: ", error);
         sweetErrorHandling(error!);
       }
+      setLoading(false);
     };
     fetchData();
   }, [agenciesSearchInput]);
@@ -65,8 +72,17 @@ export default function AgenciesList() {
       <section className="bg-sky-100 pb-5">
         <div className="container">
           {/* // Searching Input Element for the agency list */}
-          <SearchInputForm setAgenciesSearchInput={setAgenciesSearchInput} />
-          {agenciesListPage?.totalNumbers[0]?.total ? (
+          <SearchInputForm
+            setAgenciesSearchInput={(searchInput) =>
+              setAgenciesSearchInput((prev) => ({
+                ...prev,
+                location: searchInput,
+              }))
+            }
+          />
+          {loading ? (
+            <SpinnerBox />
+          ) : agenciesListPage?.totalNumbers[0]?.total ? (
             <>
               <div className="agents-wrapper grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 pb-10  pt-5">
                 {agenciesListPage.agencies.map((agency: Agency) => (

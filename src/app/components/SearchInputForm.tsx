@@ -1,10 +1,9 @@
-import type { SellersSearchInput, SetStateType } from "@/lib/type/common";
 import { MapPin } from "lucide-react";
 import React, { useCallback, useState } from "react";
 
 interface SearchInputFormType {
   placeholderInput?: string;
-  setAgenciesSearchInput: SetStateType<SellersSearchInput>;
+  setAgenciesSearchInput: (searchInput: string) => void;
 }
 const SearchInputForm: React.FC<SearchInputFormType> = React.memo(
   ({ placeholderInput = "Search by location", setAgenciesSearchInput }) => {
@@ -15,12 +14,9 @@ const SearchInputForm: React.FC<SearchInputFormType> = React.memo(
       (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        setAgenciesSearchInput((prev) => ({
-          ...prev,
-          location: searchInput.trim(),
-        }));
+        setAgenciesSearchInput(searchInput.trim());
       },
-      [searchInput, setAgenciesSearchInput]
+      [searchInput, setSearchInput]
     );
     return (
       <form
