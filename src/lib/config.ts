@@ -20,3 +20,5 @@ export const updateShareUrl = (url: string): string => {
 
 export const defaultUserAvatar =
   "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
+export const defaultAgencyAvatar = "/img/ag-3.png";

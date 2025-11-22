@@ -5,12 +5,14 @@ import NoFound from "./NoFound";
 import { customTruncate, serverAPI } from "@/lib/config";
 import { customiseAddress, formatCurrency } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
+
 interface PropertyDetailFeaturedPropertyProp {
   featuredProperty: Property[];
+  page?: string;
 }
 
 const PropertyDetailFeaturedProperty: React.FC<PropertyDetailFeaturedPropertyProp> =
-  React.memo(({ featuredProperty }) => {
+  React.memo(({ featuredProperty, page }) => {
     const navigation = useNavigate();
 
     // ------------------------------------------ HANDLERS ------------------------------------------
@@ -24,7 +26,7 @@ const PropertyDetailFeaturedProperty: React.FC<PropertyDetailFeaturedPropertyPro
             !featuredProperty.length ? "text-center mt-5" : "text-start"
           }`}
         >
-          Featured Properties
+          {page === "detail" ? "trending" : "featured"} Properties
         </h4>
         <ul
           className={`flex flex-col ${

@@ -5,14 +5,23 @@ import { type Dispatch } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 import { setChosenAgencyPage } from "./slice";
 import type { Agency } from "@/lib/type/agency";
-import { retrieveChosenAgentPage } from "../agentsPage/selector";
 import { useDispatch, useSelector } from "react-redux";
 import { retrieveChosenAgencyPage } from "./selector";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import AgencyService from "@/app/services/AgencyService";
+import DetailPageLoading from "@/app/components/loading/DetailPageLoading";
+import SectionTopShortInfo from "@/app/components/SectionTopShortInfo";
+import AgencyDetailMainContent from "./AgencyDetailMainContent";
+import type { FeaturedPropertyResults } from "@/lib/type/property";
+import { setFeaturedProperties } from "../homePage/slice";
+import PropertyService from "@/app/services/PropertyService";
 // ----------------------------------------- REDUX INTEGRATION --------------------------
 const chosenAgencyPageDispatch = (dispatch: Dispatch) => ({
   setChosenAgencyPage: (data: Agency) => dispatch(setChosenAgencyPage(data)),
+});
+const featuredPropertiesDispatch = (dispatch: Dispatch) => ({
+  setFeaturedProperties: (data: FeaturedPropertyResults) =>
+    dispatch(setFeaturedProperties(data)),
 });
 
 const chosenAgencyPageRetriever = createSelector(
@@ -22,10 +31,11 @@ const chosenAgencyPageRetriever = createSelector(
 
 // ------------------------------------------ COMPONENT ------------------------------
 export default function ChooseAgency() {
+  const { setFeaturedProperties } = featuredPropertiesDispatch(useDispatch());
   const { setChosenAgencyPage } = chosenAgencyPageDispatch(useDispatch());
   const [loading, setLoading] = useState<boolean>(true);
-  const { chosenAgencyPage } = useSelector(chosenAgencyPageRetriever);
-  console.log(chosenAgencyPage);
+  const { chosenAgencyPage: agency } = useSelector(chosenAgencyPageRetriever);
+  console.log(agency);
   const { agencyId } = useParams();
   // const [activeTab, setActiveTab] = useState<"properties" | "agents">("agents");
 
@@ -38,9 +48,18 @@ export default function ChooseAgency() {
     const fetchData = async () => {
       setLoading(true);
       const agency = new AgencyService();
+      const property = new PropertyService();
       try {
+        // CHOSEN AGENCY
         const result = await agency.getAgencyDetail(agencyId);
         setChosenAgencyPage(result);
+
+        // FEATURED PROPERTY
+        const featuredPropertiesInput = { page: 1, limit: 4 };
+        const result2 = await property.getFeaturedProperty(
+          featuredPropertiesInput
+        );
+        setFeaturedProperties(result2);
       } catch (error) {
         console.log("Error in fetching ChosenAgencyPage data: ", error);
         await sweetErrorHandling(error!);
@@ -50,29 +69,30 @@ export default function ChooseAgency() {
     fetchData();
   }, [agencyId]);
 
+  if (loading && !agency) {
+    return <DetailPageLoading />;
+  }
   return (
-    <>
-      <SectionIntroNoBackground
-        title="Agency Detail"
-        subtitle={`Agency page`}
-      />
-      {/* <SectionTopShortInfo
-        shortInfo={{
-          logo: chosenAgency.agencyImage,
-          location: chosenAgency.agencyLocation,
-          name: chosenAgency.agencyName,
-          description: chosenAgency.agencyDescription,
-          propertyNumber: chosenAgency.agencyPropertyNumbers,
-          ...chosenAgency.agencySocialContacts,
-        }}
-      /> */}
-      {/* <AgencyDetailMainContent
-        agency={chosenAgency}
-        handleTab={handleTabContent}
-        activeTab={activeTab}
-        agencyInfo={activeTab === "agents" ? agencyAgents : agencyProperties}
-        featuredProperty={featuredProperty} */}
-      {/* /> */}
-    </>
+    agency && (
+      <>
+        <SectionIntroNoBackground
+          title="Agency Detail"
+          subtitle={agency?.memberName ?? "N/A"}
+        />
+
+        <SectionTopShortInfo
+          data={{
+            role: "agency",
+            address: agency?.address,
+            avatar: agency.avatar,
+            bioInfo: agency.bioInfo,
+            name: agency.memberName,
+            socialLinks: agency.socialLinks,
+            totalProperties: agency.propertiesTotalNumber,
+          }}
+        />
+        <AgencyDetailMainContent agency={agency} />
+      </>
+    )
   );
 }

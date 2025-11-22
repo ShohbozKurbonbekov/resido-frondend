@@ -32,11 +32,11 @@ export interface Agency {
   bioInfo: string;
   avatar?: string;
   agencyOwner: string;
-  country: string;
-  city: string;
   memberSince: string;
   permittedProperties: number;
   agencyBadge?: AgencyCurrentBadge;
+  yearOfExperience: number | string;
+  agencyItems?: AgencyToggleStateType;
   registrationNumber: string;
   agentsTotalNumber: number;
   propertiesTotalNumber: number;
@@ -61,4 +61,9 @@ export interface ChosenAgencyPropertiesType {
 export interface ChosenAgencyAgentsType {
   agents: AgentData[];
   metaCounter: TotalCounter[];
+}
+
+export interface AgencyToggleStateType {
+  agents?: AgentData[];
+  properties?: Property[];
 }

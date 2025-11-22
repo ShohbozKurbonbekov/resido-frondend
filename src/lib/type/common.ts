@@ -1,4 +1,4 @@
-import type { AgentData, AgentPropertiesInput } from "./agent";
+import type { AgentPropertiesInput } from "./agent";
 import type { User } from "./dashboard/user";
 import type { PropertiesSearchInput } from "./property";
 
@@ -40,4 +40,19 @@ export interface Social {
   linkedin: string | null;
   email: string | null;
 }
-export type SellerDataType = AgentData;
+export interface SellerDataType {
+  role: string;
+  address: string;
+  currentStatus?: string;
+  name: string;
+  isVerified: boolean;
+  memberEmail: string;
+  phone: string;
+  yearOfExperience: number | string;
+  rank: string | undefined;
+  memberYear?: string;
+}
+
+export interface ToggleBtnState {
+  type: string;
+}

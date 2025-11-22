@@ -44,13 +44,13 @@ const AgencyCard: React.FC<AgencyCardType> = React.memo(({ agency }) => {
         </p>
       </CardContent>
       <CardFooter>
-        <button className="w-full flex flex-row items-center justify-center py-4 rounded-md border-2  bg-[#074da31f] text-[#074da3] border-[#074da333] hover:bg-blue-700 transition-all ease-linear duration-200 hover:text-white group">
+        <button className="w-full flex flex-row items-center justify-center py-4 rounded-md border-2  bg-[#074da31f] text-[#074da3] border-[#074da333] hover:bg-blue-700 transition-all ease-linear duration-200 group">
           <Link
-            className="w-auto h-auto list-none flex flex-row items-center gap-2"
+            className="w-auto h-auto list-none flex flex-row items-center gap-2 group-hover:text-white"
             to={`/agencies/${_id}`}
           >
             View Agency
-            <MoveRight className="-mb-1 hover:pl-5 relative group-hover:translate-x-3 transition-transform ease-linear duration-200" />
+            <MoveRight className="-mb-1 relative  group-hover:translate-x-3 transition-transform ease-linear duration-200 group-hover:stroke-white" />
           </Link>
         </button>
       </CardFooter>

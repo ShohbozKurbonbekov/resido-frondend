@@ -17,6 +17,7 @@ import CommentService from "@/app/services/CommentService";
 import type { FeaturedPropertyResults } from "@/lib/type/property";
 import { setFeaturedProperties } from "../homePage/slice";
 import PropertyService from "@/app/services/PropertyService";
+import DetailPageLoading from "@/app/components/loading/DetailPageLoading";
 
 // ----------------------------------------- REDUX INTEGRATION ------------------------------
 const ChosenAgentPageDispatch = (dispatch: Dispatch) => ({
@@ -37,6 +38,7 @@ const chosenAgentPageRetriever = createSelector(
 
 // --------------------------------------- COMPONENT --------------------------------------
 const ChooseAgent: React.FC = () => {
+  const [loading, setLoading] = useState<boolean>(true);
   const { setChosenAgentPage, setChosenAgentComments } =
     ChosenAgentPageDispatch(useDispatch());
   const { setFeaturedProperties } = FeaturedPropertiesDispatch(useDispatch());
@@ -54,6 +56,7 @@ const ChooseAgent: React.FC = () => {
   // -------------------------------------- FETCHING DATA FROM DB ------------------------------------------
   useEffect(() => {
     if (!agentId) return;
+    setLoading(true);
     const fetchingData = async () => {
       const agent = new AgentService();
       const property = new PropertyService();
@@ -81,25 +84,41 @@ const ChooseAgent: React.FC = () => {
         console.log("Error in fetching chosenAgentPage: ", error);
         await sweetErrorHandling(error!);
       }
+
+      setLoading(false);
     };
     fetchingData();
   }, [agentId, agentCommentsInput, reloadMainPage]);
 
   // ---------------------------------- RENDER ----------------------------------------------
+
+  if (loading && !chosenAgent) {
+    return <DetailPageLoading />;
+  }
+
   return (
     <>
       <SectionIntroNoBackground
         title="Agent Detail"
         subtitle={chosenAgent?.fullName ?? "N/A"}
       />
-      {chosenAgent && <SectionTopShortInfo agent={chosenAgent} />}
-      {chosenAgent && (
-        <AgentDetailMainContent
-          agent={chosenAgent}
-          setAgentCommentsInput={setAgentCommentsInput}
-          setReloadMainPage={setReloadMainPage}
-        />
-      )}
+
+      <SectionTopShortInfo
+        data={{
+          address: chosenAgent.address,
+          avatar: chosenAgent.avatar,
+          bioInfo: chosenAgent.bioInfo,
+          name: chosenAgent.fullName ?? chosenAgent.nickname,
+          socialLinks: chosenAgent.socialLinks,
+          totalProperties: chosenAgent.totalProperties,
+          role: "agent",
+        }}
+      />
+      <AgentDetailMainContent
+        agent={chosenAgent}
+        setAgentCommentsInput={setAgentCommentsInput}
+        setReloadMainPage={setReloadMainPage}
+      />
     </>
   );
 };

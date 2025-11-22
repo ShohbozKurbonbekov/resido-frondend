@@ -101,3 +101,4 @@ export const handleRating = (rating: HandleRatingType): number => {
   ratingValue = Number(rating).toFixed(1);
   return Number(ratingValue);
 };
+export const loweredCaseStr = (str: string) => str.toLowerCase();

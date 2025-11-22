@@ -1,7 +1,12 @@
 import type { SellerDataType } from "@/lib/type/common";
+import { dateConverter } from "@/lib/utils";
 import React, { useMemo } from "react";
 
 // ------------------------------------ COMPONENT --------------------------------
+interface KeyValuesType {
+  key: string;
+  value: string | number;
+}
 interface SellerInfoType {
   data: SellerDataType;
   title: string;
@@ -11,32 +16,51 @@ const SellerInfo: React.FC<SellerInfoType> = React.memo(
   ({ data, title, extraFeature = null }) => {
     const infoList = useMemo(() => {
       const {
+        role,
         address,
         currentStatus,
-        fullName,
+        name,
         isVerified,
         memberEmail,
         phone,
         yearOfExperience,
         rank,
+        memberYear,
       } = data;
 
-      return [
-        { key: "ceo", value: fullName || "N/A" },
+      const keyValues: KeyValuesType[] = [
         { key: "phone", value: phone || "N/A" },
-        { key: "status", value: currentStatus || "N/A" },
         { key: "verified", value: isVerified ? "Yes" : "No" },
         { key: "email", value: memberEmail || "N/A" },
         { key: "experience", value: yearOfExperience || "N/A" },
-        {
-          key: "rank",
-          value: (rank ?? "").replace(/([a-z](?=[A-Z]))/g, "$1 "),
-        },
         {
           key: "address",
           value: address || "N/A",
         },
       ];
+
+      if (role === "agent") {
+        const agentName = { key: "Agent name", value: name || "N/A" };
+        const status = { key: "status", value: currentStatus || "N/A" };
+        const agentRank = {
+          key: "rank",
+          value: rank ? rank.replace(/([a-z](?=[A-Z]))/g, "$1 ") : "N/A",
+        };
+        keyValues.push(agentName, status, agentRank);
+      } else {
+        const ceo = { key: "ceo", value: name || "N/A" };
+        const yearMember = {
+          key: "memberSince",
+          value: memberYear ? dateConverter(memberYear, "Do MMMM YYYY") : "N/A",
+        };
+
+        const agencyRank = {
+          key: "rank",
+          value: rank ? rank : "N/A",
+        };
+        keyValues.push(ceo, agencyRank, yearMember);
+      }
+      return keyValues;
     }, [data]);
 
     return (
@@ -50,7 +74,7 @@ const SellerInfo: React.FC<SellerInfoType> = React.memo(
 
         <ul className="py-1 list-none grid grid-cols-2 items-start justify-items-start leading-normal  gap-y-3 rounded-sm">
           {infoList.map(({ key, value }) => (
-            <li className="flex flex-col">
+            <li className="flex flex-col" key={value}>
               <strong className="text-darkBlue font-bold font-jostFont text-size_15 capitalize">
                 {key}
               </strong>

@@ -1,5 +1,8 @@
-import { defaultUserAvatar, serverAPI } from "@/lib/config";
-import type { AgentData } from "@/lib/type/agent";
+import {
+  defaultAgencyAvatar,
+  defaultUserAvatar,
+  serverAPI,
+} from "@/lib/config";
 import React, { useMemo } from "react";
 import {
   Facebook,
@@ -11,6 +14,7 @@ import {
 } from "lucide-react";
 import type { T } from "@/lib/type/common";
 
+// ----------------------------------- TYPE SAFETY -----------------------
 interface SocialsIconType {
   Icon: LucideIcon;
 }
@@ -30,23 +34,46 @@ const IconsObj: Record<SocialsPlatform, SocialsIconType> = {
 };
 
 // --------------------------------------------------- COMPONENT ------------------------------------
-
-interface SectionTopShortInfoProp {
-  agent: AgentData;
+interface SectionTopShortInfoDataType {
+  role: string;
+  avatar: string | undefined;
+  name: string;
+  address: string;
+  bioInfo: string;
+  totalProperties: number | string;
+  socialLinks: Record<SocialsPlatform, string | null>;
 }
 
-const SectionTopShortInfo: React.FC<SectionTopShortInfoProp> = React.memo(
-  ({ agent }) => {
+interface SectionTopShortInfoType {
+  data: SectionTopShortInfoDataType;
+}
+
+const SectionTopShortInfo: React.FC<SectionTopShortInfoType> = React.memo(
+  ({ data }) => {
     const {
       avatar,
-      nickname,
-      fullName,
+      name,
       address,
       bioInfo,
       totalProperties,
       socialLinks,
-    } = agent;
-    const imgUrl = avatar ? `${serverAPI}/${avatar}` : defaultUserAvatar;
+      role,
+    } = data;
+
+    const imgUrl = avatar
+      ? `${serverAPI}/${avatar}`
+      : role === "agency"
+        ? defaultAgencyAvatar
+        : defaultUserAvatar;
+
+    const imgEl = (
+      <img
+        src={imgUrl}
+        loading="lazy"
+        alt={name || "agent picture here"}
+        className="w-full lg:w-full lg:h-full  h-10/12 rounded-lg object-cover "
+      />
+    );
 
     // -------------------------------------------- HANDLERS ------------------------------------
     const socialNetworks = useMemo(() => {
@@ -64,18 +91,13 @@ const SectionTopShortInfo: React.FC<SectionTopShortInfoProp> = React.memo(
         <div className="container mx-auto">
           <div className="grid lg:grid-cols-[min(19.3vw,288.500px)_1fr] lg:gap-x-10 grid-cols-1 box-border bg-white rounded-md -mt-10  relative z-10">
             <div className="p-4 flex flex-row item-center justify-center">
-              <img
-                src={imgUrl}
-                loading="lazy"
-                alt={nickname || "agent picture here"}
-                className="w-10/12 lg:w-full lg:h-full  h-10/12 rounded-full object-cover "
-              />
+              {imgEl}
             </div>
             <div className="flex flex-col items-start justify-center gap-y-2 py-5 px-10 lg:p-[30px_20px_20px_0]">
               {/* Agent name */}
               <div className="flex flex-col items-start space-y-1">
                 <h4 className="font-bold text-darkBlue font-jostFont capitalize text-lg">
-                  {fullName || "N/A"}
+                  {name || "N/A"}
                 </h4>
                 <span className="text-size_15 text-slate-400 font-light font-jostFont ps-1">
                   {address || "N/A"}

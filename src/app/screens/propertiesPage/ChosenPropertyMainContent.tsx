@@ -46,7 +46,7 @@ export default function ChosenPropertyMainContent({
   const { chosenProperty } = useSelector(chosenPropertyRetriever);
   const { mainProperty, trendingProperties } = chosenProperty;
   const property = mainProperty[0];
-
+  const agentData = property?.agentData;
   const propertyRating = useMemo(() => {
     const rating = property?.averageRating;
     return handleRating(rating);
@@ -141,13 +141,24 @@ export default function ChosenPropertyMainContent({
           property={property}
           setReloadMainPage={setReloadMainPage}
         />
-        <AgentContact agentData={property?.agentData} />
+        <AgentContact
+          contactData={{
+            avatar: agentData?.avatar,
+            id: agentData?._id,
+            name: agentData?.fullName ?? agentData?.nickname,
+            phone: agentData?.phone,
+            role: agentData?.role,
+          }}
+        />
 
         {/* ------------------------------------------- MORETAGE CALCULATION -----------------------*/}
         <MortageCalculation />
 
         {/* --------------------------------------- FEATURED PROPERTIES ------------------------------*/}
-        <PropertyDetailFeaturedProperty featuredProperty={trendingProperties} />
+        <PropertyDetailFeaturedProperty
+          featuredProperty={trendingProperties}
+          page="detail"
+        />
       </div>
     </div>
   );
