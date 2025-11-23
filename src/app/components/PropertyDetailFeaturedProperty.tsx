@@ -8,11 +8,10 @@ import { useNavigate } from "react-router-dom";
 
 interface PropertyDetailFeaturedPropertyProp {
   featuredProperty: Property[];
-  page?: string;
 }
 
 const PropertyDetailFeaturedProperty: React.FC<PropertyDetailFeaturedPropertyProp> =
-  React.memo(({ featuredProperty, page }) => {
+  React.memo(({ featuredProperty }) => {
     const navigation = useNavigate();
 
     // ------------------------------------------ HANDLERS ------------------------------------------
@@ -26,7 +25,7 @@ const PropertyDetailFeaturedProperty: React.FC<PropertyDetailFeaturedPropertyPro
             !featuredProperty.length ? "text-center mt-5" : "text-start"
           }`}
         >
-          {page === "detail" ? "trending" : "featured"} Properties
+          featured Properties
         </h4>
         <ul
           className={`flex flex-col ${

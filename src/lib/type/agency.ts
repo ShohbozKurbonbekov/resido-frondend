@@ -1,11 +1,12 @@
 import type {
   AgencyCurrentBadge,
+  AgencyTargetType,
   SubscriptionStatus,
   SubscriptionTarrif,
 } from "../enums/agency.enum";
 import type { MemberStatus, MemberType } from "../enums/agent.enum";
 import type { AgentData } from "./agent";
-import type { Social, TotalCounter } from "./common";
+import type { CommonInput, Social, TotalCounter } from "./common";
 import type { Property } from "./property";
 
 export interface agencyContactsType {
@@ -45,6 +46,10 @@ export interface Agency {
   socialLinks: Social;
   isVerified: boolean;
   views: number;
+  paginatedAgents?: AgentData[];
+  totalAgentsNumber?: number;
+  paginatedProperties?: Property[];
+  totalPropertiesNumber?: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -66,4 +71,9 @@ export interface ChosenAgencyAgentsType {
 export interface AgencyToggleStateType {
   agents?: AgentData[];
   properties?: Property[];
+}
+
+export interface AgencyAgePropertiesInput extends CommonInput {
+  agencyTarget?: AgencyTargetType;
+  location?: string;
 }

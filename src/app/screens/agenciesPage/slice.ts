@@ -3,8 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: AgenciesPageState = {
   agenciesListPage: { agencies: [], totalNumbers: [{ total: 0 }] },
-  chosenAgencyProperties: { properties: [], metaCounter: [{ total: 0 }] },
-  chosenAgencyAgents: { agents: [], metaCounter: [{ total: 0 }] },
+  chosenAgencyTargetItems: null,
   chosenAgencyPage: null,
 };
 
@@ -18,20 +17,16 @@ const agenciesPageSlice = createSlice({
     setChosenAgencyPage: (state, action) => {
       state.chosenAgencyPage = action.payload;
     },
-    setChosenAgencyProperties: (state, action) => {
-      state.chosenAgencyProperties = action.payload;
-    },
-    setChosenAgencyAgents: (state, action) => {
-      state.chosenAgencyAgents = action.payload;
+    setChosenAgencyTargetItems: (state, action) => {
+      state.chosenAgencyTargetItems = action.payload;
     },
   },
 });
 
 export const {
   setAgenciesListPage,
-  setChosenAgencyAgents,
+  setChosenAgencyTargetItems,
   setChosenAgencyPage,
-  setChosenAgencyProperties,
 } = agenciesPageSlice.actions;
 
 const AgenciesPageReducer = agenciesPageSlice.reducer;

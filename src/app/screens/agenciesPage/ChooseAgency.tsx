@@ -35,7 +35,6 @@ export default function ChooseAgency() {
   const { setChosenAgencyPage } = chosenAgencyPageDispatch(useDispatch());
   const [loading, setLoading] = useState<boolean>(true);
   const { chosenAgencyPage: agency } = useSelector(chosenAgencyPageRetriever);
-  console.log(agency);
   const { agencyId } = useParams();
   // const [activeTab, setActiveTab] = useState<"properties" | "agents">("agents");
 

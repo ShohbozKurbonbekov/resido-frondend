@@ -8,14 +8,9 @@ export const retrieveAgenciesListPage = createSelector(
   (agenciesPage) => agenciesPage.agenciesListPage
 );
 
-export const retrieveChosenAgencyProperties = createSelector(
+export const retrieveChosenAgencyTargetItems = createSelector(
   selectAgenciesPage,
-  (agenciesPage) => agenciesPage.chosenAgencyProperties
-);
-
-export const retrieveChosenAgencyAgents = createSelector(
-  selectAgenciesPage,
-  (agenciesPage) => agenciesPage.chosenAgencyAgents
+  (agenciesPage) => agenciesPage.chosenAgencyTargetItems
 );
 export const retrieveChosenAgencyPage = createSelector(
   selectAgenciesPage,

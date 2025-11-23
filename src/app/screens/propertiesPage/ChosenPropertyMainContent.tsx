@@ -155,10 +155,7 @@ export default function ChosenPropertyMainContent({
         <MortageCalculation />
 
         {/* --------------------------------------- FEATURED PROPERTIES ------------------------------*/}
-        <PropertyDetailFeaturedProperty
-          featuredProperty={trendingProperties}
-          page="detail"
-        />
+        <PropertyDetailFeaturedProperty featuredProperty={trendingProperties} />
       </div>
     </div>
   );

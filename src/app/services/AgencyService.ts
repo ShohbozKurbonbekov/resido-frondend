@@ -1,5 +1,9 @@
 import { serverAPI } from "@/lib/config";
-import type { AgenciesListPage, Agency } from "@/lib/type/agency";
+import type {
+  AgenciesListPage,
+  Agency,
+  AgencyAgePropertiesInput,
+} from "@/lib/type/agency";
 import type { SellersSearchInput } from "@/lib/type/common";
 import axios from "axios";
 
@@ -29,6 +33,19 @@ class AgencyService {
       return result.data;
     } catch (error) {
       console.log("Error in getAgencyDetail service: ", error);
+      throw error;
+    }
+  }
+  public async getAgencyAgeProperties(
+    agencyId: string,
+    input: AgencyAgePropertiesInput
+  ): Promise<Agency> {
+    try {
+      const url = `${this.path}/agency/${agencyId}/agents-properties`;
+      const result = await axios.post(url, input, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in getAgencyAgeProperties service: ", error);
       throw error;
     }
   }

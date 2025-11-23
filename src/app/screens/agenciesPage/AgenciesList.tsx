@@ -34,7 +34,7 @@ export default function AgenciesList() {
   const [agenciesSearchInput, setAgenciesSearchInput] =
     useState<SellersSearchInput>({
       page: 1,
-      limit: 4,
+      limit: 8,
     });
 
   const totalPages = useMemo(() => {

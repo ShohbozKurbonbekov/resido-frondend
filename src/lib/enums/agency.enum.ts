@@ -15,3 +15,8 @@ export enum AgencyCurrentBadge {
   SUPER_AGENCY = "SUPER AGENCY",
   ELITE_AGENCY = "ELITE AGENCY",
 }
+
+export enum AgencyTargetType {
+  AGENTS = "AGENTS",
+  PROPERTIES = "PROPERTIES",
+}
