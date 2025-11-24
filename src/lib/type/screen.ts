@@ -11,7 +11,11 @@ import type {
   FeaturedAgentsResult,
 } from "./agent";
 import type { Comment, Comments } from "./comment";
-import type { AgenciesListPage, Agency } from "./agency";
+import type {
+  AgenciesListPage,
+  Agency,
+  ChosenAgencyTargetItemsType,
+} from "./agency";
 // REACTT APP STATE
 export interface AppRootState {
   homepage: HomePageState;
@@ -47,5 +51,5 @@ export interface AgentsPageState {
 export interface AgenciesPageState {
   agenciesListPage: AgenciesListPage;
   chosenAgencyPage: Agency | null;
-  chosenAgencyTargetItems: Agency | null;
+  chosenAgencyTargetItems: ChosenAgencyTargetItemsType;
 }

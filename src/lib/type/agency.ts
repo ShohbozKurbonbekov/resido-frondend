@@ -77,3 +77,7 @@ export interface AgencyAgePropertiesInput extends CommonInput {
   agencyTarget?: AgencyTargetType;
   location?: string;
 }
+
+export interface ChosenAgencyTargetItemsType {
+  agency: Agency | null;
+}

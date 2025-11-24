@@ -89,7 +89,7 @@ export type FeaturedAgentsResult = CommonAgentResults;
 
 export interface AgentPropertiesInput extends CommonInput {
   agentPropertyType?: AgentPropertyType;
-  searchInput?: string;
+  searchLocation?: string;
 }
 /////////////////////////////////////////////// THIS SHOULD BE REMOVEED LATER, SO DON'T FORGET THAT
 

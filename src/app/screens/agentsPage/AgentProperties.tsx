@@ -21,6 +21,7 @@ import { AgentPropertyType } from "@/lib/enums/agent.enum";
 import NoFound from "@/app/components/NoFound";
 import PropertyCard from "@/app/components/PropertyCard";
 import { PaginationCom } from "@/app/components/PaginationCom";
+
 const inputClasses = "text-slate-500 font-jostFont text-base ";
 // ----------------------------------------- REDUX INTEGRATION ------------------------------
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -82,7 +83,7 @@ const AgentProperties: React.FC = () => {
       e.preventDefault();
       setAgentPropertiesInput((prev) => ({
         ...prev,
-        searchInput: query.trim(),
+        searchLocation: query.trim(),
       }));
     },
     [query]
@@ -109,7 +110,7 @@ const AgentProperties: React.FC = () => {
         >
           {/* Search input */}
           <input
-            placeholder="Search agent properties..."
+            placeholder="Search by place name..."
             value={query}
             onChange={handleInput}
             className={`flex-1 border-blue-400 border rounded-md py-2 px-5   focus:ring-0 outline-none  ${inputClasses}`}

@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: AgenciesPageState = {
   agenciesListPage: { agencies: [], totalNumbers: [{ total: 0 }] },
-  chosenAgencyTargetItems: null,
   chosenAgencyPage: null,
+  chosenAgencyTargetItems: { agency: null },
 };
 
 const agenciesPageSlice = createSlice({

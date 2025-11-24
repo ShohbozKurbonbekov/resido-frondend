@@ -3,6 +3,7 @@ import type {
   AgenciesListPage,
   Agency,
   AgencyAgePropertiesInput,
+  ChosenAgencyTargetItemsType,
 } from "@/lib/type/agency";
 import type { SellersSearchInput } from "@/lib/type/common";
 import axios from "axios";
@@ -39,7 +40,7 @@ class AgencyService {
   public async getAgencyAgeProperties(
     agencyId: string,
     input: AgencyAgePropertiesInput
-  ): Promise<Agency> {
+  ): Promise<ChosenAgencyTargetItemsType> {
     try {
       const url = `${this.path}/agency/${agencyId}/agents-properties`;
       const result = await axios.post(url, input, { withCredentials: true });
