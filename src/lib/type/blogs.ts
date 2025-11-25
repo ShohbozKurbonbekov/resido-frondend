@@ -5,6 +5,7 @@ import type {
   SortOrder,
 } from "../enums/blog.enum";
 import type { CommonInput, TotalCounter } from "./common";
+import type { Comment } from "./comment";
 export interface Blog {
   _id: string;
   blogImage: string;
@@ -39,6 +40,15 @@ export interface BlogsListPage {
   totalBlogsNumber: TotalCounter[];
 }
 
+export interface ChosenBlogType {
+  mainBlog: Blog | null;
+  trendingBlogs: Blog[];
+}
+
+export interface ChosenBlogComments {
+  comments: Comment[];
+  metaCounter: TotalCounter[];
+}
 //////////////////////////////////// SHOULD BE DELETED LATE ↓ ///////////////////////////
 export interface CommentType {
   id: number;

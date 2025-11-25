@@ -7,3 +7,12 @@ export const retrieveBlogsListPage = createSelector(
   selectBlogsPage,
   (selectBlogsPage) => selectBlogsPage.blogsListPage
 );
+
+export const retrieveChosenBlogPage = createSelector(
+  selectBlogsPage,
+  (selectBlogsPage) => selectBlogsPage.chosenBlogPage
+);
+export const retrieveChosenBlogComments = createSelector(
+  selectBlogsPage,
+  (selectBlogsPage) => selectBlogsPage.chosenBlogComments
+);

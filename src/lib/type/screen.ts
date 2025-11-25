@@ -16,7 +16,11 @@ import type {
   Agency,
   ChosenAgencyTargetItemsType,
 } from "./agency";
-import type { BlogsListPage } from "./blogs";
+import type {
+  BlogsListPage,
+  ChosenBlogComments,
+  ChosenBlogType,
+} from "./blogs";
 // REACTT APP STATE
 export interface AppRootState {
   homepage: HomePageState;
@@ -59,4 +63,6 @@ export interface AgenciesPageState {
 // BLOGS PAGE
 export interface BlogsPageState {
   blogsListPage: BlogsListPage;
+  chosenBlogPage: ChosenBlogType;
+  chosenBlogComments: ChosenBlogComments;
 }

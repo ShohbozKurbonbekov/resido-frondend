@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
-import { blogs } from "./blogs-data";
 import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import NoFound from "@/app/components/NoFound";
+import type { T } from "@/lib/type/common";
 
+const blogs: T = [];
 const chunkingArray = (arr: string[], size: number): string[][] => {
   const result: string[][] = [];
   for (let i = 0; i < arr.length; i += size) {

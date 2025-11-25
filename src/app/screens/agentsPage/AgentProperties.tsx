@@ -144,7 +144,7 @@ const AgentProperties: React.FC = () => {
                 value={AgentPropertyType.NONE}
                 className={inputClasses}
               >
-                None
+                All
               </SelectItem>
             </SelectContent>
           </Select>

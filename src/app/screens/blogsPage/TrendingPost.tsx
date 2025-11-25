@@ -1,11 +1,12 @@
 import { useMemo } from "react";
-import { blogs } from "./blogs-data";
 import type { BlogType } from "@/lib/type/blogs";
 import NoFound from "@/app/components/NoFound";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { chunkingArray } from "@/lib/utils";
+import type { T } from "@/lib/type/common";
 
+const blogs: T = [];
 const sortBlogs = (): BlogType[] => {
   return [
     ...blogs

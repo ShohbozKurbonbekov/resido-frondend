@@ -78,7 +78,6 @@ export default function BlogLists() {
       (blogsListPage?.totalBlogsNumber[0].total ?? 0) / blogsSearchInput.limit
     );
   }, [blogsListPage, blogsSearchInput]);
-  console.log(totalPages);
   // ---------------------------------------- HANLDERS ----------------------------
   const handleSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
