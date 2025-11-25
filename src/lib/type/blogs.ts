@@ -1,3 +1,45 @@
+import type {
+  BlogAuthorType,
+  BlogCategory,
+  BlogStatus,
+  SortOrder,
+} from "../enums/blog.enum";
+import type { CommonInput, TotalCounter } from "./common";
+export interface Blog {
+  _id: string;
+  blogImage: string;
+  blogAuthorId: string;
+  blogAuthorType: BlogAuthorType;
+  blogStatus: BlogStatus;
+  blogTitle: string;
+  blogContent: string;
+  blogQuote?: string;
+  blogTags: string[];
+  views: number;
+  totalLikes: number;
+  totalComments: number;
+  averageRating: number;
+  blogCategory: BlogCategory;
+  blogShortInfo: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface BlogSearchType {
+  title?: string;
+  category?: string;
+}
+
+export interface BlogSearchInput extends CommonInput {
+  sort?: SortOrder;
+  search?: BlogSearchType;
+}
+export interface BlogsListPage {
+  blogs: Blog[];
+  totalBlogsNumber: TotalCounter[];
+}
+
+//////////////////////////////////// SHOULD BE DELETED LATE ↓ ///////////////////////////
 export interface CommentType {
   id: number;
   name: string;

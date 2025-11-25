@@ -22,3 +22,6 @@ export const defaultUserAvatar =
   "https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
 export const defaultAgencyAvatar = "/img/ag-3.png";
+
+export const defaultBlogImage =
+  "https://images.unsplash.com/photo-1522199755839-a2bacb67c546";

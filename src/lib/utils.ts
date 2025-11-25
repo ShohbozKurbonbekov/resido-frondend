@@ -102,3 +102,7 @@ export const handleRating = (rating: HandleRatingType): number => {
   return Number(ratingValue);
 };
 export const loweredCaseStr = (str: string) => str.toLowerCase();
+
+export const customLetterCustomise = (str: string): string => {
+  return str[0].toUpperCase() + str.slice(1).toLowerCase();
+};

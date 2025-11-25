@@ -41,6 +41,10 @@ export default {
         size_10: "10px",
         size_15: "15px",
       },
+      aspectRatio: {
+        blogCardRatio: " 4 / 3",
+      },
+
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

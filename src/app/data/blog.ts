@@ -1,0 +1,7 @@
+type CATEGORIES_TYPE = "GENERAL" | "RECOMMENDED" | "NEWS" | "HUMOR";
+export const CATEGORIES: CATEGORIES_TYPE[] = [
+  "NEWS",
+  "HUMOR",
+  "GENERAL",
+  "RECOMMENDED",
+];
