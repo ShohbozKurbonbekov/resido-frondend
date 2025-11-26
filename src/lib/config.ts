@@ -10,7 +10,9 @@ export const ErrorMessages = {
 };
 
 export const customTruncate = (text: string, limit: number) => {
-  return text.length > limit ? text.slice(0, limit) + "......" : text;
+  if (text) {
+    return text.length > limit ? text.slice(0, limit) + "......" : text;
+  }
 };
 
 export const carouselAutoPlayDelay = 3000;

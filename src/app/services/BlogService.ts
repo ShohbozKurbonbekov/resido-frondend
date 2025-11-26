@@ -1,5 +1,9 @@
 import { serverAPI } from "@/lib/config";
-import type { BlogSearchInput, BlogsListPage } from "@/lib/type/blogs";
+import type {
+  BlogSearchInput,
+  BlogsListPage,
+  ChosenBlogType,
+} from "@/lib/type/blogs";
 import axios from "axios";
 
 class BlogService {
@@ -15,6 +19,17 @@ class BlogService {
       return result.data;
     } catch (error) {
       console.log("Error in getAllBlogs service: ", error);
+      throw error;
+    }
+  }
+
+  public async getBlogDetail(blogId: string): Promise<ChosenBlogType> {
+    try {
+      const url = `${this.path}/blog/${blogId}`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in getBlogDetail service: ", error);
       throw error;
     }
   }

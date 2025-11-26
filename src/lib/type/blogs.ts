@@ -4,8 +4,14 @@ import type {
   BlogStatus,
   SortOrder,
 } from "../enums/blog.enum";
-import type { CommonInput, TotalCounter } from "./common";
+import type { CommonInput, Social, TotalCounter } from "./common";
 import type { Comment } from "./comment";
+export interface BlogAuthor {
+  authorAvatar?: string;
+  authorName: string;
+  socials: Social;
+  bioInfo?: string;
+}
 export interface Blog {
   _id: string;
   blogImage: string;
@@ -24,6 +30,7 @@ export interface Blog {
   blogShortInfo: string;
   createdAt: string;
   updatedAt: string;
+  blogAuthor: BlogAuthor;
 }
 
 export interface BlogSearchType {

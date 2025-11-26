@@ -8,6 +8,14 @@ import type { ChosenBlogComments, ChosenBlogType } from "@/lib/type/blogs";
 import { setChosenBlogComments, setChosenBlogPage } from "./slice";
 import { useDispatch, useSelector } from "react-redux";
 import { retrieveChosenBlogComments, retrieveChosenBlogPage } from "./selector";
+import BlogDetailDescription from "./BlogDetailDescription";
+import { useEffect, useState } from "react";
+import DetailPageLoading from "@/app/components/loading/DetailPageLoading";
+import BlogService from "@/app/services/BlogService";
+import CommentService from "@/app/services/CommentService";
+import { sweetErrorHandling } from "@/lib/sweetAlerts";
+import type { ChosenItemCommentsInput } from "@/lib/type/comment";
+import { CommentTargetType } from "@/lib/enums/comment.enum";
 
 // ---------------------------------------------- REDUX INTEGRATION ---------------------------------------
 const chosenBlogPageDispatch = (dispatch: Dispatch) => ({
@@ -34,29 +42,70 @@ const choseBlogCommentsRetriever = createSelector(
 export default function BlogDetail() {
   const { setChosenBlogPage } = chosenBlogPageDispatch(useDispatch());
   const { setChosenBlogComments } = chosenBlogCommentsDispatch(useDispatch());
-  const { mainBlog, trendingBlogs } = useSelector(retrieveChosenBlogPage);
+  const {
+    chosenBlogPage: { mainBlog, trendingBlogs },
+  } = useSelector(chosenBlogPageRetriever);
   const { chosenBlogComments } = useSelector(choseBlogCommentsRetriever);
   const { blogId } = useParams();
+  const [chosenBlogCommentsInput, setCommentsInput] =
+    useState<ChosenItemCommentsInput>({
+      limit: 4,
+      page: 1,
+      commentTarget: CommentTargetType.BLOG,
+    });
 
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (!blogId) return;
+
+    const fetchData = async () => {
+      const blog = new BlogService();
+      const comment = new CommentService();
+      try {
+        // FETCHING CHOSEN BLOG DETAIL
+        const result = await blog.getBlogDetail(blogId);
+        setChosenBlogPage(result);
+
+        const result2 = await comment.getItemComments(
+          blogId,
+          chosenBlogCommentsInput
+        );
+        setChosenBlogComments(result2);
+      } catch (error) {
+        console.log("Error in fetching chosenBlogPage data: ", error);
+        await sweetErrorHandling(error!);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [blogId, chosenBlogCommentsInput]);
   // ---------------------------------------------- RENDER ---------------------------------------
-  return (
+
+  return loading || !mainBlog ? (
+    <DetailPageLoading />
+  ) : (
     <>
       <SectionIntroNoBackground
         title="Blog detail"
         subtitle="See our latest articles and news"
       />
       <section className="py-20 bg-sky-100">
-        <div className="container mb-4 grid grid-cols-1 gap-y-[30px] lg:grid-cols-12  lg:gap-x-6">
-          <div className="lg:col-span-8 flex flex-col gap-y-[30px]">
-            {/* <BlogDetailDescription blog={blogFinder} />
-            <PostAuther auther={blogFinder?.writer} />
+        <div className="container mb-4 grid grid-cols-1 gap-7 lg:grid-cols-12">
+          <div className="lg:col-span-8 flex flex-col gap-y-7">
+            <BlogDetailDescription
+              blog={mainBlog}
+              totalComments={chosenBlogComments.comments.length}
+            />
+            {/* <PostAuther auther={blogFinder?.writer} />
             <BlogComments comments={blogFinder?.comments ?? []} /> */}
           </div>
-          <div className="lg:col-span-4 flex flex-col gap-y-10 ">
+          {/* <div className="lg:col-span-4 flex flex-col gap-y-10 ">
             <SearchBar />
             <Category />
             <TrendingPost />
-          </div>
+          </div> */}
         </div>
       </section>
     </>

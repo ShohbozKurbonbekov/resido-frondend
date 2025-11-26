@@ -1,4 +1,5 @@
-import type { AgentPropertiesInput } from "./agent";
+import type { Agency } from "./agency";
+import type { AgentData, AgentPropertiesInput } from "./agent";
 import type { User } from "./dashboard/user";
 import type { PropertiesSearchInput } from "./property";
 
@@ -28,7 +29,7 @@ export type PaginationSetStateType =
 
 export type SetStateType<T> = React.Dispatch<React.SetStateAction<T>>;
 
-export type CommonUsers = User;
+export type CommonUsers = User | Agency | AgentData;
 export interface LoginResult {
   accessToken: string;
   member: CommonUsers;
