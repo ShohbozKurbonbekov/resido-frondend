@@ -1,19 +1,24 @@
 import Divider from "@/app/components/Divider";
 import { blogShareNetworks } from "@/app/data/blog";
+import BlogService from "@/app/services/BlogService";
 import { customTruncate, defaultBlogImage, serverAPI } from "@/lib/config";
 import { BlogAuthorType } from "@/lib/enums/blog.enum";
+import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import type { Blog } from "@/lib/type/blogs";
-import { Quote } from "lucide-react";
+import type { SetStateType } from "@/lib/type/common";
+import { motion } from "framer-motion";
+import { Heart, Quote } from "lucide-react";
 import React, { useCallback, useMemo } from "react";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 interface BlogDetailDescriptionType {
   blog: Blog;
   totalComments: number;
+  setReloadMainPage: SetStateType<boolean>;
 }
 
 const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
-  ({ blog, totalComments }) => {
+  ({ blog, totalComments, setReloadMainPage }) => {
     const navigation = useNavigate();
     const location = useLocation();
     const [hoverEl, setHoverEl] = useState("");
@@ -27,7 +32,10 @@ const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
       blogQuote,
       blogAuthor,
       blogShortInfo,
+      meLiked,
+      _id,
     } = blog;
+    const likedByMe = meLiked;
 
     const blogAuthoUrl: string = useMemo(() => {
       let url: string;
@@ -51,15 +59,44 @@ const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
     }, []);
 
     const imgUrl = blogImage ? `${serverAPI}/${blogImage}` : defaultBlogImage;
+
+    // ----------------------------------------------------- HANDLERS --------------------------------------------------
+    const handleLike = useCallback(
+      async (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
+        e.stopPropagation();
+        try {
+          const blog = new BlogService();
+          await blog.likeTargetBlog(id);
+          setReloadMainPage((prev) => !prev);
+        } catch (error) {
+          console.log("Error in liking the blog: ", error);
+          await sweetErrorHandling(error!);
+        }
+      },
+      [setReloadMainPage]
+    );
     return (
       <div className="p-5 bg-white border-2 border-slate-200 rounded-md w-full flex  flex-col">
         {/*IMAGE*/}
-        <div className="h-auto w-auto mb-6">
+        <div className="h-auto w-auto mb-6 relative">
           <img
             src={imgUrl}
             alt={blogTitle ?? "blog image"}
             className="w-full object-cover rounded-md"
           />
+          <motion.button
+            whileTap={{ scale: 1.5 }}
+            onClick={(e) => handleLike(e, _id)}
+            className="ms-auto  p-1 rounded-full bg-black/35 flex flex-row items-center justify-center absolute top-5 right-5"
+          >
+            <Heart
+              className={`w-7 h-7 lg:h-10 lg:w-10 ${
+                likedByMe
+                  ? "fill-red-500 text-red-500 "
+                  : "fill-white stroke-white "
+              }`}
+            />
+          </motion.button>
         </div>
 
         {/*AUTHOR NAME AND COMMENTS COUNT*/}

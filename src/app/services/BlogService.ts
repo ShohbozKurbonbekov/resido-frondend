@@ -1,9 +1,11 @@
 import { serverAPI } from "@/lib/config";
 import type {
+  Blog,
   BlogSearchInput,
   BlogsListPage,
   ChosenBlogType,
 } from "@/lib/type/blogs";
+import type { T } from "@/lib/type/common";
 import axios from "axios";
 
 class BlogService {
@@ -30,6 +32,20 @@ class BlogService {
       return result.data;
     } catch (error) {
       console.log("Error in getBlogDetail service: ", error);
+      throw error;
+    }
+  }
+
+  public async likeTargetBlog(blogId: string): Promise<Blog> {
+    try {
+      const input: T = {
+        input: blogId,
+      };
+      const url = `${this.path}/blog/liked`;
+      const result = await axios.post(url, input, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in likeTargetBlog: ", error);
       throw error;
     }
   }

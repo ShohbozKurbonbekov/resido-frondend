@@ -31,6 +31,7 @@ export interface Blog {
   createdAt: string;
   updatedAt: string;
   blogAuthor: BlogAuthor;
+  meLiked?: boolean;
 }
 
 export interface BlogSearchType {

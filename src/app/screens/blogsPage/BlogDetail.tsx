@@ -99,6 +99,7 @@ export default function BlogDetail() {
             <BlogDetailDescription
               blog={mainBlog}
               totalComments={chosenBlogComments.comments.length}
+              setReloadMainPage={setReloadMainPage}
             />
 
             {/* BLOG AUTHOR DESCRIPTION*/}

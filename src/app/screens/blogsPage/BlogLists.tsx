@@ -43,6 +43,7 @@ const resultsWrapper = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6";
 export default function BlogLists() {
   const { setBlogsListPage } = actionDispatch(useDispatch());
   const { blogsListPage } = useSelector(blogsListPageRetriever);
+  const [reloadMainPage, setReloadMainPage] = useState<boolean>(false);
 
   const [search, setSearch] = useState("");
   const [blogsSearchInput, setBlogsSearchInput] = useState<BlogSearchInput>({
@@ -57,7 +58,6 @@ export default function BlogLists() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
     const fetchData = async () => {
       const blog = new BlogService();
       try {
@@ -71,7 +71,7 @@ export default function BlogLists() {
       }
     };
     fetchData();
-  }, [blogsSearchInput]);
+  }, [blogsSearchInput, reloadMainPage]);
 
   const totalPages = useMemo(() => {
     return Math.ceil(
@@ -210,7 +210,11 @@ export default function BlogLists() {
                 <>
                   <div className={resultsWrapper}>
                     {blogsListPage.blogs.map((blog) => (
-                      <BlogCard blog={blog} key={blog._id} />
+                      <BlogCard
+                        blog={blog}
+                        key={blog._id}
+                        setReloadMainPage={setReloadMainPage}
+                      />
                     ))}
                   </div>
                   <PaginationCom
