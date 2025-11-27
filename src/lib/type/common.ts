@@ -57,3 +57,10 @@ export interface SellerDataType {
 export interface ToggleBtnState {
   type: string;
 }
+
+export type SocialsPlatform =
+  | "facebook"
+  | "email"
+  | "instagram"
+  | "linkedin"
+  | "twitter";

@@ -38,7 +38,7 @@ const DetailFeaturesCom: React.FC<DetailFeaturesComType> = React.memo(
         {
           title: "Fireplace",
           subtitle: "",
-          value: firePlace ? "Yes" : "N/A",
+          value: firePlace ? "Yes" : "No",
         },
       ];
       return updated;
@@ -64,10 +64,7 @@ const DetailFeaturesCom: React.FC<DetailFeaturesComType> = React.memo(
             {col.map((el, index) => (
               <li key={index}>
                 <span className={textClasses}>{el.title}:</span>
-                <span className={valuesClasses}>
-                  {" "}
-                  {el.value ? el.value : "N/A"}
-                </span>
+                <span className={valuesClasses}> {el.value ?? "N/A"}</span>
               </li>
             ))}
           </ul>

@@ -2,7 +2,8 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { customTruncate, defaultBlogImage, serverAPI } from "@/lib/config";
 import type { Blog } from "@/lib/type/blogs";
 import { dateConverter } from "@/lib/utils";
-import { MoveRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { Heart, MoveRight } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 interface BlogCardType {
@@ -12,16 +13,29 @@ interface BlogCardType {
 const BlogCard: React.FC<BlogCardType> = React.memo(({ blog }) => {
   const navigation = useNavigate();
   const { blogImage, blogTitle, blogShortInfo, _id, createdAt } = blog;
-
+  const meLiked = true;
   const imgUrl = blogImage ? `${serverAPI}/${blogImage}` : defaultBlogImage;
   return (
     <Card className="max-w-lg mx-auto shadow-sm rounded-md border-0 flex flex-col">
-      <CardHeader className="flex flex-row items-center p-2.5">
+      <CardHeader className="flex flex-row items-center p-2.5 relative">
         <img
           src={imgUrl}
           alt={blogTitle || "blog title"}
           className="w-full h-auto rounded-md object-cover  aspect-blogCardRatio"
         />
+        <motion.button
+          whileTap={{ scale: 1.5 }}
+          onClick={() => {}}
+          className="ms-auto  p-1 rounded-full bg-black/35 flex flex-row items-center justify-center absolute top-5 right-5"
+        >
+          <Heart
+            className={`w-7 h-7 lg:h-5 lg:w-5 ${
+              meLiked
+                ? "fill-red-500 text-red-500 "
+                : "fill-white stroke-white "
+            }`}
+          />
+        </motion.button>
       </CardHeader>
       <CardContent className="p-0 flex flex-col  h-full">
         <div className="info py-2.5 px-5">

@@ -1,8 +1,5 @@
 import { useParams } from "react-router-dom";
 import SectionIntroNoBackground from "@/app/components/SectionIntroNoBackground";
-import SearchBar from "./SearchBar";
-import Category from "./Category";
-import TrendingPost from "./TrendingPost";
 import { createSelector, type Dispatch } from "@reduxjs/toolkit";
 import type { ChosenBlogComments, ChosenBlogType } from "@/lib/type/blogs";
 import { setChosenBlogComments, setChosenBlogPage } from "./slice";
@@ -16,7 +13,11 @@ import CommentService from "@/app/services/CommentService";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import type { ChosenItemCommentsInput } from "@/lib/type/comment";
 import { CommentTargetType } from "@/lib/enums/comment.enum";
+import BlogAuthorCom from "./BlogAuthorCom";
+import ChosenItemComments from "@/app/components/ChosenItemComments";
+import ChosenItemWriteComment from "@/app/components/ChosenItemWriteComment";
 
+const sectionClasses = "bg-white p-5 rounded-md border-2";
 // ---------------------------------------------- REDUX INTEGRATION ---------------------------------------
 const chosenBlogPageDispatch = (dispatch: Dispatch) => ({
   setChosenBlogPage: (data: ChosenBlogType) =>
@@ -54,6 +55,7 @@ export default function BlogDetail() {
       commentTarget: CommentTargetType.BLOG,
     });
 
+  const [reloadMainPage, setReloadMainPage] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -80,7 +82,7 @@ export default function BlogDetail() {
       }
     };
     fetchData();
-  }, [blogId, chosenBlogCommentsInput]);
+  }, [blogId, chosenBlogCommentsInput, reloadMainPage]);
   // ---------------------------------------------- RENDER ---------------------------------------
 
   return loading || !mainBlog ? (
@@ -98,14 +100,31 @@ export default function BlogDetail() {
               blog={mainBlog}
               totalComments={chosenBlogComments.comments.length}
             />
-            {/* <PostAuther auther={blogFinder?.writer} />
-            <BlogComments comments={blogFinder?.comments ?? []} /> */}
+
+            {/* BLOG AUTHOR DESCRIPTION*/}
+            <BlogAuthorCom author={mainBlog.blogAuthor} />
+
+            {/* READING COMMENTS */}
+            <div className={sectionClasses}>
+              <ChosenItemComments
+                chosenItemComments={chosenBlogComments}
+                setPropertyComments={setCommentsInput}
+              />
+            </div>
+
+            {/*WRITING COMMENTS*/}
+            <div className={sectionClasses}>
+              <ChosenItemWriteComment
+                id={blogId!}
+                targetType={CommentTargetType.BLOG}
+                setReloadMainPage={setReloadMainPage}
+              />
+            </div>
           </div>
-          {/* <div className="lg:col-span-4 flex flex-col gap-y-10 ">
-            <SearchBar />
-            <Category />
-            <TrendingPost />
-          </div> */}
+          <div className="lg:col-span-4 flex flex-col gap-y-10 ">
+            {/* <Category />
+            <TrendingPost /> */}
+          </div>
         </div>
       </section>
     </>

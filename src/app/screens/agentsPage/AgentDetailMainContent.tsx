@@ -54,7 +54,6 @@ const AgentDetailMainContent: React.FC<AgentDetailMainContentProp> = React.memo(
     }, [chosenAgentComments]);
 
     // ------------------------------------------- RENDERS ----------------------------------------
-    console.log(agentPropertyType);
     return (
       <section className="bg-sky-100">
         <div className="container  pb-20 grid rid-cols-1 lg:grid-cols-6 gap-5 ">

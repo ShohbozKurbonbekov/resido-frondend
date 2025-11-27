@@ -55,7 +55,6 @@ const ChosenItemWriteComment: React.FC<ChosenItemWriteCommentType> = ({
       }
 
       const comment = new CommentService();
-      console.log(commentInput);
       await comment.createComment(commentInput);
       sweetTopSmallSuccessAlert("you successfully commented for this property");
       setCommentInput((prev) => ({ ...prev, content: "", rating: 0 }));

@@ -3,35 +3,10 @@ import {
   defaultUserAvatar,
   serverAPI,
 } from "@/lib/config";
-import React, { useMemo } from "react";
-import {
-  Facebook,
-  Linkedin,
-  Mail,
-  Instagram,
-  Twitter,
-  type LucideIcon,
-} from "lucide-react";
-import type { T } from "@/lib/type/common";
+import React from "react";
 
-// ----------------------------------- TYPE SAFETY -----------------------
-interface SocialsIconType {
-  Icon: LucideIcon;
-}
-type SocialsPlatform =
-  | "facebook"
-  | "email"
-  | "instagram"
-  | "linkedin"
-  | "twitter";
-
-const IconsObj: Record<SocialsPlatform, SocialsIconType> = {
-  facebook: { Icon: Facebook },
-  instagram: { Icon: Instagram },
-  email: { Icon: Mail },
-  linkedin: { Icon: Linkedin },
-  twitter: { Icon: Twitter },
-};
+import type { SocialsPlatform } from "@/lib/type/common";
+import SocialsNetwork from "./SocialsNetwork";
 
 // --------------------------------------------------- COMPONENT ------------------------------------
 interface SectionTopShortInfoDataType {
@@ -76,14 +51,6 @@ const SectionTopShortInfo: React.FC<SectionTopShortInfoType> = React.memo(
     );
 
     // -------------------------------------------- HANDLERS ------------------------------------
-    const socialNetworks = useMemo(() => {
-      return (Object.entries(socialLinks) as [SocialsPlatform, string | null][])
-        .filter(([_, value]) => value)
-        .map(([key, value]) => ({
-          key: IconsObj[key],
-          url: value,
-        }));
-    }, [socialLinks]);
 
     // --------------------------------------------------- RENDERS ------------------------------------
     return (
@@ -115,26 +82,7 @@ const SectionTopShortInfo: React.FC<SectionTopShortInfoType> = React.memo(
               </div>
 
               {/* Social contacts */}
-              {socialNetworks.length ? (
-                <ul className="list-none flex flex-row gap-x-2.5 items-center justify-start my-2">
-                  {socialNetworks.map((network: T) => {
-                    const Icon = network.key?.Icon;
-                    const url = network.url;
-
-                    return (
-                      <li key={url}>
-                        <a href={url}>
-                          <Icon className="w-5 h-5 fill-transparent stroke-black box-content p-3 bg-sky-100 rounded-full hover:stroke-blue-400 transition-colors duration-200 ease-linear border " />
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ul>
-              ) : (
-                <p className="text-base font-jostFont text-slate-400">
-                  (No social networks provided by the agent)
-                </p>
-              )}
+              <SocialsNetwork networks={socialLinks} />
             </div>
           </div>
         </div>

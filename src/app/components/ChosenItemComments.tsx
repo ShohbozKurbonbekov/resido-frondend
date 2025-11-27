@@ -55,7 +55,7 @@ const ChosenItemComments: React.FC<ChosenItemCommentsType> = React.memo(
           show more comments
         </button>
       );
-    }, [setPropertyComments, comments.length, metaCounter]);
+    }, [setPropertyComments, comments, metaCounter]);
 
     const dialogContent = useCallback(
       (comments: Comment[]) => (
