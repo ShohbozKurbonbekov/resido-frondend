@@ -20,3 +20,7 @@ export enum BlogStatus {
   ACTIVE = "ACTIVE",
   BLOCKED = "BLOCKED",
 }
+export enum BlogNeighborings {
+  PREV = "PREV",
+  NEXT = "NEXT",
+}

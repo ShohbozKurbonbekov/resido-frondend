@@ -6,7 +6,7 @@ import { setChosenBlogComments, setChosenBlogPage } from "./slice";
 import { useDispatch, useSelector } from "react-redux";
 import { retrieveChosenBlogComments, retrieveChosenBlogPage } from "./selector";
 import BlogDetailDescription from "./BlogDetailDescription";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import DetailPageLoading from "@/app/components/loading/DetailPageLoading";
 import BlogService from "@/app/services/BlogService";
 import CommentService from "@/app/services/CommentService";
@@ -16,6 +16,7 @@ import { CommentTargetType } from "@/lib/enums/comment.enum";
 import BlogAuthorCom from "./BlogAuthorCom";
 import ChosenItemComments from "@/app/components/ChosenItemComments";
 import ChosenItemWriteComment from "@/app/components/ChosenItemWriteComment";
+import TrendingPost from "./TrendingPost";
 
 const sectionClasses = "bg-white p-5 rounded-md border-2";
 // ---------------------------------------------- REDUX INTEGRATION ---------------------------------------
@@ -46,6 +47,7 @@ export default function BlogDetail() {
   const {
     chosenBlogPage: { mainBlog, trendingBlogs },
   } = useSelector(chosenBlogPageRetriever);
+
   const { chosenBlogComments } = useSelector(choseBlogCommentsRetriever);
   const { blogId } = useParams();
   const [chosenBlogCommentsInput, setCommentsInput] =
@@ -54,7 +56,6 @@ export default function BlogDetail() {
       page: 1,
       commentTarget: CommentTargetType.BLOG,
     });
-
   const [reloadMainPage, setReloadMainPage] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -83,8 +84,11 @@ export default function BlogDetail() {
     };
     fetchData();
   }, [blogId, chosenBlogCommentsInput, reloadMainPage]);
-  // ---------------------------------------------- RENDER ---------------------------------------
 
+  const totalComments = useMemo(() => {
+    return chosenBlogComments?.metaCounter[0]?.total ?? 0;
+  }, [chosenBlogComments]);
+  // ---------------------------------------------- RENDER ---------------------------------------
   return loading || !mainBlog ? (
     <DetailPageLoading />
   ) : (
@@ -93,41 +97,43 @@ export default function BlogDetail() {
         title="Blog detail"
         subtitle="See our latest articles and news"
       />
-      <section className="py-20 bg-sky-100">
-        <div className="container mb-4 grid grid-cols-1 gap-7 lg:grid-cols-12">
-          <div className="lg:col-span-8 flex flex-col gap-y-7">
-            <BlogDetailDescription
-              blog={mainBlog}
-              totalComments={chosenBlogComments.comments.length}
-              setReloadMainPage={setReloadMainPage}
-            />
-
-            {/* BLOG AUTHOR DESCRIPTION*/}
-            <BlogAuthorCom author={mainBlog.blogAuthor} />
-
-            {/* READING COMMENTS */}
-            <div className={sectionClasses}>
-              <ChosenItemComments
-                chosenItemComments={chosenBlogComments}
-                setPropertyComments={setCommentsInput}
-              />
-            </div>
-
-            {/*WRITING COMMENTS*/}
-            <div className={sectionClasses}>
-              <ChosenItemWriteComment
-                id={blogId!}
-                targetType={CommentTargetType.BLOG}
+      {mainBlog && (
+        <section className="py-20 bg-sky-100">
+          <div className="container mb-4 grid grid-cols-1 gap-7 lg:grid-cols-12">
+            <div className="lg:col-span-8 flex flex-col gap-y-7">
+              <BlogDetailDescription
+                blog={mainBlog}
+                totalComments={totalComments}
                 setReloadMainPage={setReloadMainPage}
+                setLoading={setLoading}
               />
+
+              {/* BLOG AUTHOR DESCRIPTION*/}
+              <BlogAuthorCom author={mainBlog.blogAuthor} />
+
+              {/* READING COMMENTS */}
+              <div className={sectionClasses}>
+                <ChosenItemComments
+                  chosenItemComments={chosenBlogComments}
+                  setPropertyComments={setCommentsInput}
+                />
+              </div>
+
+              {/*WRITING COMMENTS*/}
+              <div className={sectionClasses}>
+                <ChosenItemWriteComment
+                  id={blogId!}
+                  targetType={CommentTargetType.BLOG}
+                  setReloadMainPage={setReloadMainPage}
+                />
+              </div>
+            </div>
+            <div className="lg:col-span-4 flex flex-col gap-y-10 ">
+              <TrendingPost blogs={trendingBlogs} />
             </div>
           </div>
-          <div className="lg:col-span-4 flex flex-col gap-y-10 ">
-            {/* <Category />
-            <TrendingPost /> */}
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
     </>
   );
 }

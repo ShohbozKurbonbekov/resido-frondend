@@ -62,7 +62,9 @@ const ChosenItemComments: React.FC<ChosenItemCommentsType> = React.memo(
         <div className="content-wraper">
           {comments.map((comment) => {
             const { memberName, avatar } = comment.authorData!;
-            const avatarUrl = `${serverAPI}/${avatar}`;
+            const avatarUrl = avatar
+              ? `${serverAPI}/${avatar}`
+              : defaultUserAvatar;
 
             return (
               <div
@@ -70,7 +72,7 @@ const ChosenItemComments: React.FC<ChosenItemCommentsType> = React.memo(
                 className="flex flex-row gap-x-7 py-4  border-b-2 border-dotted border-slate-200 "
               >
                 <img
-                  src={avatar ? avatarUrl : defaultUserAvatar}
+                  src={avatarUrl}
                   alt={memberName || "user name"}
                   className="max-h-20 max-w-20 rounded-full"
                 />

@@ -2,7 +2,7 @@ import Divider from "@/app/components/Divider";
 import { blogShareNetworks } from "@/app/data/blog";
 import BlogService from "@/app/services/BlogService";
 import { customTruncate, defaultBlogImage, serverAPI } from "@/lib/config";
-import { BlogAuthorType } from "@/lib/enums/blog.enum";
+import { BlogAuthorType, BlogNeighborings } from "@/lib/enums/blog.enum";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import type { Blog } from "@/lib/type/blogs";
 import type { SetStateType } from "@/lib/type/common";
@@ -11,14 +11,18 @@ import { Heart, Quote } from "lucide-react";
 import React, { useCallback, useMemo } from "react";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+
+const prevNextBtnsClasses =
+  "p-4 w-full text-center bg-slate-400 md:w-auto py-4 rounded-md text-white hover:bg-slate-600 duration-300 transition-all ease-linear active:scale-95 capitalize";
+// ------------------------------------------------------- COMPONENT -------------------------------------------
 interface BlogDetailDescriptionType {
   blog: Blog;
   totalComments: number;
   setReloadMainPage: SetStateType<boolean>;
+  setLoading: SetStateType<boolean>;
 }
-
 const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
-  ({ blog, totalComments, setReloadMainPage }) => {
+  ({ blog, totalComments, setReloadMainPage, setLoading }) => {
     const navigation = useNavigate();
     const location = useLocation();
     const [hoverEl, setHoverEl] = useState("");
@@ -35,7 +39,6 @@ const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
       meLiked,
       _id,
     } = blog;
-    const likedByMe = meLiked;
 
     const blogAuthoUrl: string = useMemo(() => {
       let url: string;
@@ -53,14 +56,28 @@ const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
       return Array.isArray(blogTags) && blogTags.length;
     }, [blogTags]);
 
-    // ---------------------------------------- HANDLERS --------------------------------
     const safeValue = useCallback((str: string | undefined) => {
       return str ? str : "N/A";
     }, []);
 
     const imgUrl = blogImage ? `${serverAPI}/${blogImage}` : defaultBlogImage;
 
-    // ----------------------------------------------------- HANDLERS --------------------------------------------------
+    // ------------------------------------------------------- HANDLERS -------------------------------------------
+    const handlePrevNextBlog = useCallback(
+      async (str: BlogNeighborings) => {
+        const blog = new BlogService();
+        try {
+          const result = await blog.getNeighbouringBlog(_id, str);
+          navigation(`/blogs/${result._id}`);
+          setLoading(true);
+        } catch (error) {
+          console.log(`Error in fetching ${str} blog: `, error);
+          await sweetErrorHandling(error!);
+        }
+      },
+      [_id, navigation]
+    );
+
     const handleLike = useCallback(
       async (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
         e.stopPropagation();
@@ -91,7 +108,7 @@ const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
           >
             <Heart
               className={`w-7 h-7 lg:h-10 lg:w-10 ${
-                likedByMe
+                meLiked
                   ? "fill-red-500 text-red-500 "
                   : "fill-white stroke-white "
               }`}
@@ -118,16 +135,19 @@ const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
         </h3>
 
         {/*BLOG SHORT*/}
-        <p className="text-slate-400 font-jostFont mt-6 text-base leading-onePointEight">
+        <p className="text-slate-400 font-jostFont mt-3 text-base leading-onePointEight">
+          <span className="underline capitalize">Short description</span>
+          {": "}
           {customTruncate(blogShortInfo, 150)}
         </p>
 
         {/*QUOTE*/}
-        <blockquote className="my-12 relative py-7 pe-7 ps-24 bg-sky-50 rounded-sm border-0  italic flex flex-col space-y-3">
+        <blockquote className="my-5 relative py-7 pe-7 ps-24 bg-sky-50 rounded-sm border-0  italic flex flex-col space-y-3">
           {blogQuote ? (
             <>
               <span className="text-lg font-jostFont  text-slate-500 font-semibold capitalize">
-                Year of the quote - by ( {blogAuthor?.authorName ?? "Unknown"} )
+                the quote of the year - ( {blogAuthor?.authorName ?? "Unknown"}{" "}
+                )
               </span>
               <p className="text-slate-400 text-base  leading-onePointEight">
                 "{safeValue(blogQuote)}"
@@ -146,6 +166,8 @@ const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
 
         {/*DESCRIPTION*/}
         <p className="text-slate-400 font-jostFont text-base leading-onePointEight">
+          <span className="underline capitalize">Blog Content</span>
+          {": "}
           {safeValue(blogContent)}
         </p>
 
@@ -215,13 +237,19 @@ const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
         {/* NEXT AND PREV BUTTONS */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-3">
           <div className="flex flex-row justify-start items-center">
-            <button className="p-4 w-full text-center bg-slate-400 md:w-auto py-4 rounded-md text-white hover:bg-slate-600 duration-300 transition-all ease-linear active:scale-95 capitalize">
-              Next post
+            <button
+              className={prevNextBtnsClasses}
+              onClick={() => handlePrevNextBlog(BlogNeighborings.PREV)}
+            >
+              Prev post
             </button>
           </div>
           <div className="flex flex-row justify-start md:justify-end items-center m-0">
-            <button className="p-4 w-full text-center bg-slate-400 md:w-auto py-4 rounded-md text-white hover:bg-slate-600 duration-300 transition-all ease-linear active:scale-95 capitalize">
-              Prev post
+            <button
+              className={prevNextBtnsClasses}
+              onClick={() => handlePrevNextBlog(BlogNeighborings.NEXT)}
+            >
+              Next post
             </button>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import { serverAPI } from "@/lib/config";
+import type { BlogNeighborings } from "@/lib/enums/blog.enum";
 import type {
   Blog,
   BlogSearchInput,
@@ -46,6 +47,20 @@ class BlogService {
       return result.data;
     } catch (error) {
       console.log("Error in likeTargetBlog: ", error);
+      throw error;
+    }
+  }
+  public async getNeighbouringBlog(
+    blogId: string,
+    direction: BlogNeighborings
+  ): Promise<Blog> {
+    try {
+      const url = `${this.path}/blog/${blogId}/neighbour?direction=${direction}`;
+      console.log(url);
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log(`Error in getting getNeighbouringBlog service: `, error);
       throw error;
     }
   }
