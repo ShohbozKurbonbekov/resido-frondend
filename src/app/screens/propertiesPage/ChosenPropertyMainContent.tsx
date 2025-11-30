@@ -21,6 +21,8 @@ import type { SetStateType } from "@/lib/type/common";
 import ChosenItemComments from "@/app/components/ChosenItemComments";
 import ChosenItemWriteComment from "@/app/components/ChosenItemWriteComment";
 import { CommentTargetType } from "@/lib/enums/comment.enum";
+import { serverAPI } from "@/lib/config";
+import { UserSavingTargetGroup } from "@/lib/enums/user.enum";
 
 interface ChosenPropertyMainContentType {
   setPropertyComments: SetStateType<ChosenItemCommentsInput>;
@@ -47,6 +49,9 @@ export default function ChosenPropertyMainContent({
   const { mainProperty, trendingProperties } = chosenProperty;
   const property = mainProperty[0];
   const agentData = property?.agentData;
+  const shareTitle = "visit our page to see a special property for you";
+  const shareUrl = `${serverAPI}/properties/${property?._id}`;
+
   const propertyRating = useMemo(() => {
     const rating = property?.averageRating;
     return handleRating(rating);
@@ -138,8 +143,12 @@ export default function ChosenPropertyMainContent({
       {/*------------------------------------------ SHARE AND LIKE --------------------------------*/}
       <div className="lg:col-span-2">
         <SaveShareCom
-          property={property}
           setReloadMainPage={setReloadMainPage}
+          isSaved={property.meSaved!}
+          savedItemId={property._id}
+          shareTitle={shareTitle}
+          shareUrl={shareUrl}
+          targetItem={UserSavingTargetGroup.PROPERTY}
         />
         <AgentContact
           contactData={{

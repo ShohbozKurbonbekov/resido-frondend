@@ -101,6 +101,8 @@ export interface Property {
   comments?: [];
   daysSinceCreated: number;
   mood?: PropertyMood;
+  totalSavings: number;
+  meSaved?: boolean;
 }
 
 export interface CommonPropertyResults {

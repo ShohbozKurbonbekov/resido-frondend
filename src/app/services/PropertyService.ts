@@ -86,6 +86,18 @@ class PropertyService {
       throw error;
     }
   }
+
+  // SAVE A CHOSEN PROPERTY
+  public async saveTargetProperty(propertyId: string): Promise<Property> {
+    try {
+      const url = `${this.path}/property/${propertyId}/save`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in saveTargetProperty: ", error);
+      throw error;
+    }
+  }
 }
 
 export default PropertyService;
