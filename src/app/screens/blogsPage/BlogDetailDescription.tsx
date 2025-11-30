@@ -1,5 +1,4 @@
 import Divider from "@/app/components/Divider";
-import { blogShareNetworks } from "@/app/data/blog";
 import BlogService from "@/app/services/BlogService";
 import { customTruncate, defaultBlogImage, serverAPI } from "@/lib/config";
 import { BlogAuthorType, BlogNeighborings } from "@/lib/enums/blog.enum";
@@ -9,8 +8,7 @@ import type { SetStateType } from "@/lib/type/common";
 import { motion } from "framer-motion";
 import { Heart, Quote } from "lucide-react";
 import React, { useCallback, useMemo } from "react";
-import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const commonBtnClasses =
   "p-4 w-full text-center  md:w-auto py-4 rounded-md text-white capitalize";
@@ -27,14 +25,11 @@ interface BlogDetailDescriptionType {
 const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
   ({ blog, totalComments, setReloadMainPage, setLoading }) => {
     const navigation = useNavigate();
-    const location = useLocation();
-    const [hoverEl, setHoverEl] = useState("");
     const {
       blogAuthorId,
       blogAuthorType,
       blogContent,
       blogImage,
-      blogTags,
       blogTitle,
       blogQuote,
       blogAuthor,
@@ -56,10 +51,6 @@ const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
       }
       return url;
     }, [blogAuthorId, blogAuthorType]);
-
-    const isTagsPresent = useMemo(() => {
-      return Array.isArray(blogTags) && blogTags.length;
-    }, [blogTags]);
 
     const safeValue = useCallback((str: string | undefined) => {
       return str ? str : "N/A";

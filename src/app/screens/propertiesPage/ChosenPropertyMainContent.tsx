@@ -63,7 +63,10 @@ export default function ChosenPropertyMainContent({
       <div className="lg:col-span-4">
         {/* ----------------------- TOP INTRODUCTION -------------------------------
          */}
-        <ChosenPropTopIntro property={property} />
+        <ChosenPropTopIntro
+          property={property}
+          setReloadMainPage={setReloadMainPage}
+        />
         {/* ----------------------- DETAIL & FEATURES -------------------------------
          */}
         <ChosenPropAccordion
