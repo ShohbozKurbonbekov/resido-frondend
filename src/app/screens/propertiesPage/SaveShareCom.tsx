@@ -1,4 +1,3 @@
-import PropertyService from "@/app/services/PropertyService";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,10 +7,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { updateShareUrl } from "@/lib/config";
-import { sweetErrorHandling } from "@/lib/sweetAlerts";
-import type { Property } from "@/lib/type/property";
-import { Heart, Share2 } from "lucide-react";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "@/lib/sweetAlerts";
+import { BookMarked, Share2 } from "lucide-react";
 import React from "react";
 import {
   FacebookShareButton,
@@ -28,26 +28,45 @@ import {
   TelegramIcon,
 } from "react-share";
 import type { SetStateType } from "@/lib/type/common";
+import { UserSavingTargetGroup } from "@/lib/enums/user.enum";
+import BlogService from "@/app/services/BlogService";
 
-const shareTitle = "Visit to see our special property!";
 const shareIconWrapper =
   "hover:scale-110 transition-all duration-200 ease-linear active:scale-90";
 // ------------------------------- COMPONENT --------------------------------
 interface SaveShareComType {
-  property: Property;
   setReloadMainPage: SetStateType<boolean>;
+  savedItemId: string;
+  shareUrl: string;
+  shareTitle: string;
+  isSaved: boolean;
+  targetItem: UserSavingTargetGroup;
 }
 
 const SaveShareCom: React.FC<SaveShareComType> = React.memo(
-  ({ property, setReloadMainPage }) => {
-    const liked = property.meLiked!;
-    const shareUrl = updateShareUrl("property/detail");
-
+  ({
+    setReloadMainPage,
+    shareUrl,
+    shareTitle,
+    savedItemId,
+    isSaved,
+    targetItem,
+  }) => {
+    const saveMessage = !isSaved
+      ? "Saved to the list successfully"
+      : "Removed from the list successsfully!";
     // ------------------------------- HANDLERS --------------------------------
-    const handleLikeProperty = async (propertyId: string) => {
+    const handleSave = async () => {
       try {
-        const property = new PropertyService();
-        await property.likeTargetProperty(propertyId);
+        if (targetItem === UserSavingTargetGroup.AGENT) {
+          // const target = new AgentService();
+        } else if (targetItem === UserSavingTargetGroup.PROPERTY) {
+          // const target = new PropertyService();
+        } else {
+          const target = new BlogService();
+          await target.saveTargetBlog(savedItemId);
+        }
+        await sweetTopSmallSuccessAlert(saveMessage);
         setReloadMainPage((prev) => !prev);
       } catch (error) {
         console.log("Error in SaveShareComponent: ", error);
@@ -57,7 +76,7 @@ const SaveShareCom: React.FC<SaveShareComType> = React.memo(
 
     // ----------------------------- RENDERS -----------------------------
     return (
-      <div className="bg-white rounded-md p-5  grid grid-cols-2 gap-3 mb-5">
+      <div className="bg-white rounded-md p-5  grid grid-cols-2 gap-3 ">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="w-full py-4 border-2  border-green-600 rounded-md text-green-500 bg-green-100 flex flex-row gap-2 items-center justify-center font-semibold font-jostFont text-base cursor-pointer active:bg-white transition-colors duration-150 ease-linear">
@@ -121,15 +140,15 @@ const SaveShareCom: React.FC<SaveShareComType> = React.memo(
         </DropdownMenu>
 
         <button
-          className={`w-full py-4 rounded-md flex flex-row gap-2 items-center justify-center font-semibold font-jostFont text-base cursor-pointer active:bg-white transition-all duration-150 ease-linear border-2 border-red-700  text-red-500 ${
-            liked ? "bg-red-100 group" : "bg-white"
-          } `}
-          onClick={() => handleLikeProperty(property._id)}
+          className={`w-full py-4 rounded-md flex flex-row gap-2 items-center justify-center font-semibold font-jostFont text-base cursor-pointer  transition-all duration-150 ease-linear border-2 border-slate-800  text-white bg-slate-200 `}
+          onClick={handleSave}
         >
-          <Heart
+          <BookMarked
             className={`${
-              liked ? "fill-red-500 stroke-transparent" : "fill-white"
-            }  group-active:stroke-transparent h-5 w-5`}
+              isSaved
+                ? "fill-blue-200 stroke-blue-800"
+                : "fill-slate-100 stroke-slate-700"
+            } h-5 w-5`}
           />
           Save
         </button>

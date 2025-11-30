@@ -32,11 +32,15 @@ export interface Blog {
   updatedAt: string;
   blogAuthor: BlogAuthor;
   meLiked?: boolean;
+  prevBlog?: Blog | null;
+  nextBlog?: Blog | null;
+  totalSavings: number;
+  meSaved?: boolean;
 }
 
 export interface BlogSearchType {
   title?: string;
-  category?: string;
+  category?: BlogCategory;
 }
 
 export interface BlogSearchInput extends CommonInput {

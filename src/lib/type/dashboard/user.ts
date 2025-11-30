@@ -1,5 +1,6 @@
 import type { MemberStatus, MemberType } from "@/lib/enums/agent.enum";
 import type { Social } from "../common";
+import type { UserSavingTargetGroup } from "@/lib/enums/user.enum";
 
 export interface UserDashboardSidebarType {
   memberName: string;
@@ -22,4 +23,17 @@ export interface User {
   avatar?: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface UserSavingsOutput {
+  _id: string;
+  targetId: string;
+  userId: string;
+  targetGroup: UserSavingTargetGroup;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UserSavingsInput {
+  targetId: string;
 }

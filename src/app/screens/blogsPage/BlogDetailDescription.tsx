@@ -12,8 +12,11 @@ import React, { useCallback, useMemo } from "react";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const prevNextBtnsClasses =
-  "p-4 w-full text-center bg-slate-400 md:w-auto py-4 rounded-md text-white hover:bg-slate-600 duration-300 transition-all ease-linear active:scale-95 capitalize";
+const commonBtnClasses =
+  "p-4 w-full text-center  md:w-auto py-4 rounded-md text-white capitalize";
+const disabledBtnClasses = "cursor-not-allowed bg-slate-300";
+const activeBtnClasses =
+  "bg-slate-500 hover:bg-slate-700 duration-300 transition-all ease-linear active:scale-95";
 // ------------------------------------------------------- COMPONENT -------------------------------------------
 interface BlogDetailDescriptionType {
   blog: Blog;
@@ -37,6 +40,8 @@ const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
       blogAuthor,
       blogShortInfo,
       meLiked,
+      prevBlog,
+      nextBlog,
       _id,
     } = blog;
 
@@ -64,18 +69,16 @@ const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
 
     // ------------------------------------------------------- HANDLERS -------------------------------------------
     const handlePrevNextBlog = useCallback(
-      async (str: BlogNeighborings) => {
-        const blog = new BlogService();
-        try {
-          const result = await blog.getNeighbouringBlog(_id, str);
-          navigation(`/blogs/${result._id}`);
-          setLoading(true);
-        } catch (error) {
-          console.log(`Error in fetching ${str} blog: `, error);
-          await sweetErrorHandling(error!);
-        }
+      (str: BlogNeighborings) => {
+        const navigationUrl =
+          str === BlogNeighborings.PREV
+            ? `/blogs/${prevBlog?._id}`
+            : `/blogs/${nextBlog?._id}`;
+        navigation(navigationUrl);
+        setLoading(true);
       },
-      [_id, navigation]
+
+      [prevBlog, nextBlog, navigation]
     );
 
     const handleLike = useCallback(
@@ -171,62 +174,6 @@ const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
           {safeValue(blogContent)}
         </p>
 
-        <div className="mt-10 grid grid-cols-1 gap-y-7 md:grid-cols-2">
-          {/*TAGE*/}
-          <div className="flex flex-col space-y-5">
-            <h4 className="font-jostFont text-base font-bold leading-tight text-darkBlue capitalize">
-              Related Tags
-            </h4>
-            <ul className="flex flex-row flex-wrap gap-2.5 list-none">
-              {isTagsPresent ? (
-                blogTags.map((tag) => (
-                  <button
-                    key={tag}
-                    type="button"
-                    onClick={() => {
-                      navigation(`/tags/${tag}`);
-                    }}
-                    className="border border-slate-200 py-2 px-5 text-darkBlue decoration no-underline hover:bg-blue-700 hover:text-white duration-300 transition-all ease-linear font-jostFont"
-                  >
-                    {tag}
-                  </button>
-                ))
-              ) : (
-                <p className="text-slate-400 font-sm font-jostFont capitalize">
-                  no tags
-                </p>
-              )}
-            </ul>
-          </div>
-
-          {/* NETWORK  */}
-          <div className="flex flex-col space-y-5 md:items-end">
-            <h4 className="font-jostFont text-base font-bold leading-tight text-darkBlue capitalize">
-              Social share
-            </h4>
-            <ul className="flex flex-row justify-start md:justify-end  list-none">
-              {blogShareNetworks.map(({ ShareIcon, name, Icon }) => (
-                <ShareIcon
-                  title="Check this out"
-                  url={`${serverAPI}/${location?.pathname}`}
-                  key={name}
-                  onMouseEnter={() => setHoverEl(name)}
-                  onMouseLeave={() => setHoverEl("")}
-                >
-                  <Icon
-                    size={30}
-                    round
-                    iconFillColor={
-                      hoverEl === name ? "red" : "rgba(169, 169, 169, 1)"
-                    }
-                    bgStyle={{ fill: "transparent" }}
-                  />
-                </ShareIcon>
-              ))}
-            </ul>
-          </div>
-        </div>
-
         <Divider
           height={"2px"}
           bgColor={"rgba(128, 128, 128, 0.2)"}
@@ -238,16 +185,18 @@ const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-3">
           <div className="flex flex-row justify-start items-center">
             <button
-              className={prevNextBtnsClasses}
+              className={`${commonBtnClasses} ${prevBlog ? activeBtnClasses : disabledBtnClasses}`}
               onClick={() => handlePrevNextBlog(BlogNeighborings.PREV)}
+              disabled={Boolean(!prevBlog)}
             >
               Prev post
             </button>
           </div>
           <div className="flex flex-row justify-start md:justify-end items-center m-0">
             <button
-              className={prevNextBtnsClasses}
+              className={`${commonBtnClasses} ${nextBlog ? activeBtnClasses : disabledBtnClasses}`}
               onClick={() => handlePrevNextBlog(BlogNeighborings.NEXT)}
+              disabled={Boolean(!nextBlog)}
             >
               Next post
             </button>

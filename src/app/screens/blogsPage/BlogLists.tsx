@@ -49,7 +49,7 @@ export default function BlogLists() {
   const [blogsSearchInput, setBlogsSearchInput] = useState<BlogSearchInput>({
     limit: 4,
     page: 1,
-    sort: SortOrder.DESC,
+    sort: SortOrder.ASC,
     search: {
       category: BlogCategory.GENERAL,
     },
@@ -84,7 +84,7 @@ export default function BlogLists() {
     setSearch(input);
   }, []);
 
-  const handleCategory = useCallback((category: string) => {
+  const handleCategory = useCallback((category: BlogCategory) => {
     setBlogsSearchInput((prev) => ({
       ...prev,
       search: {
@@ -193,7 +193,7 @@ export default function BlogLists() {
                   <Button
                     type="button"
                     key={cat}
-                    onClick={() => handleCategory(cat)}
+                    onClick={() => handleCategory(cat as BlogCategory)}
                     className={`${cat === blogsSearchInput?.search?.category ? activeBtn : "bg-slate-400"} ${defaultBtn}`}
                   >
                     {customLetterCustomise(cat)}

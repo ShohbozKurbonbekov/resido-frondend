@@ -64,5 +64,15 @@ class BlogService {
       throw error;
     }
   }
+  public async saveTargetBlog(blogId: string): Promise<Blog> {
+    try {
+      const url = `${this.path}/blog/${blogId}/save`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in likeTargetItems service: ", error);
+      throw error;
+    }
+  }
 }
 export default BlogService;

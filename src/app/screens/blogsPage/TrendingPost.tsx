@@ -37,7 +37,7 @@ const TrendingPost: React.FC<TrendingPostType> = React.memo(({ blogs }) => {
                     className="max-w-36 object-cover rounded-sm "
                   />
                   <div className="flex-1  flex flex-col gap-y-2">
-                    <div className="text-lg font-bold leading-tight  capitalize text-darkBlue font-jostFont group-hover:text-blue-700 ">
+                    <div className="lg:text-sm text-lg font-bold leading-tight  capitalize text-darkBlue font-jostFont group-hover:text-blue-700  ">
                       {post?.blogShortInfo}
                     </div>
                     <p className="text-slate-400  text-sm leading-tight font-normal font-jostFont">

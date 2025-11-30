@@ -17,6 +17,9 @@ import BlogAuthorCom from "./BlogAuthorCom";
 import ChosenItemComments from "@/app/components/ChosenItemComments";
 import ChosenItemWriteComment from "@/app/components/ChosenItemWriteComment";
 import TrendingPost from "./TrendingPost";
+import SaveShareCom from "../propertiesPage/SaveShareCom";
+import { serverAPI } from "@/lib/config";
+import { UserSavingTargetGroup } from "@/lib/enums/user.enum";
 
 const sectionClasses = "bg-white p-5 rounded-md border-2";
 // ---------------------------------------------- REDUX INTEGRATION ---------------------------------------
@@ -50,6 +53,8 @@ export default function BlogDetail() {
 
   const { chosenBlogComments } = useSelector(choseBlogCommentsRetriever);
   const { blogId } = useParams();
+  const shareUrl = `${serverAPI}/blogs/${mainBlog?._id}`;
+  const shareTitle = "visit us to see our special blog for you";
   const [chosenBlogCommentsInput, setCommentsInput] =
     useState<ChosenItemCommentsInput>({
       limit: 4,
@@ -58,7 +63,6 @@ export default function BlogDetail() {
     });
   const [reloadMainPage, setReloadMainPage] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-
   useEffect(() => {
     if (!blogId) return;
 
@@ -99,7 +103,7 @@ export default function BlogDetail() {
       />
       {mainBlog && (
         <section className="py-20 bg-sky-100">
-          <div className="container mb-4 grid grid-cols-1 gap-7 lg:grid-cols-12">
+          <div className="container mb-4 grid grid-cols-1 gap-y-10 gap-x-5 lg:grid-cols-12">
             <div className="lg:col-span-8 flex flex-col gap-y-7">
               <BlogDetailDescription
                 blog={mainBlog}
@@ -128,7 +132,15 @@ export default function BlogDetail() {
                 />
               </div>
             </div>
-            <div className="lg:col-span-4 flex flex-col gap-y-10 ">
+            <div className="lg:col-span-4 flex flex-col gap-y-5 ">
+              <SaveShareCom
+                setReloadMainPage={setReloadMainPage}
+                savedItemId={mainBlog._id}
+                shareUrl={shareUrl}
+                shareTitle={shareTitle}
+                isSaved={mainBlog.meSaved!}
+                targetItem={UserSavingTargetGroup.BLOG}
+              />
               <TrendingPost blogs={trendingBlogs} />
             </div>
           </div>
