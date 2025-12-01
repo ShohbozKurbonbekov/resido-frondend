@@ -59,7 +59,7 @@ export default function PackageCard(props: PackageCardType) {
           ))}
         </ul>
       </CardContent>
-      <CardFooter className="flex-1 flex flex-row items-end   p-0 ">
+      <CardFooter className="flex-1 flex flex-row items-end   p-0">
         <button type="button" className={button}>
           <Link to="/payment">Choose Plan</Link>
         </button>

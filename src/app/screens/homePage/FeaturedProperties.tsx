@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { retrieveFeaturedProperties } from "./selector";
 import type { Property } from "@/lib/type/property";
-import { serverAPI } from "@/lib/config";
 
 // -------------------- REDUX SELECTOR --------------------
 const featuredPropertiesRetriever = createSelector(
