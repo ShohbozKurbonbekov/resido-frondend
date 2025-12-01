@@ -21,6 +21,7 @@ import type {
   ChosenBlogComments,
   ChosenBlogType,
 } from "./blogs";
+import type { User } from "./dashboard/user";
 // REACTT APP STATE
 export interface AppRootState {
   homepage: HomePageState;
@@ -28,6 +29,7 @@ export interface AppRootState {
   agentsPage: AgentsPageState;
   agenciesPage: AgenciesPageState;
   blogsPage: BlogsPageState;
+  contactUsPage: ContactUsPageState;
 }
 
 // HOMEPAGE
@@ -65,4 +67,9 @@ export interface BlogsPageState {
   blogsListPage: BlogsListPage;
   chosenBlogPage: ChosenBlogType;
   chosenBlogComments: ChosenBlogComments;
+}
+
+// CONTACT US PAGE
+export interface ContactUsPageState {
+  adminData: User | null;
 }
