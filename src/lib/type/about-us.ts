@@ -1,16 +1,17 @@
+import type { LucideIcon } from "lucide-react";
+import type { Social } from "./common";
+
 export interface TeamMemberType {
   id: string;
   memberName: string;
-  memberRole: string; // e.g. CEO, CTO, Marketing
+  memberRole: string;
   photoUrl: string;
-  socialLinks: {
-    linkedin?: string;
-    twitter?: string;
-  };
+  socialLinks: Social;
   phone?: string;
 }
-export interface CommonSectionType {
-  title: string;
-  subtitle: string;
-  members?: TeamMemberType[] | undefined;
+
+export interface CardsContentType {
+  cardTitle: string;
+  cardSubtitle: string;
+  Icon: LucideIcon;
 }

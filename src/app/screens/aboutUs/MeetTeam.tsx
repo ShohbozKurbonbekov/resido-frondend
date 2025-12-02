@@ -1,32 +1,32 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
-import { Link } from "react-router-dom";
 import TitleContentSection from "@/app/components/TitleContentSection";
-import type { CommonSectionType } from "@/lib/type/about-us";
-import NoFound from "@/app/components/NoFound";
+import { OUR_MEMBERS } from "@/app/data/contactUs";
+import SocialsNetwork from "@/app/components/SocialsNetwork";
 
 const carouselOptions: EmblaOptionsType = {
   loop: true,
   align: "start",
-  slidesToScroll: 1, // 🔹 move one by one
-  duration: 30,
+  slidesToScroll: 1,
+  duration: 40,
 };
 
-export default function MeetTeam({
-  title,
-  subtitle,
-  members,
-}: CommonSectionType) {
+interface MeetTeamType {
+  title: string;
+  subtitle: string;
+}
+
+// -------------------------------------------- COMPONENT ----------------------------
+export default function MeetTeam({ title, subtitle }: MeetTeamType) {
+  const autoPlay = useRef(Autoplay());
   const [emblaRef, carouselApi] = useEmblaCarousel(carouselOptions, [
-    Autoplay(),
+    autoPlay.current,
   ]);
   const [carouselIndex, setCarouselIndex] = useState<number>(0);
   const [allCarouselNumbers, setAllCarouselNumbers] = useState<number[]>([]);
-
   const onSelect = useCallback((carouselApi: EmblaCarouselType) => {
     setCarouselIndex(carouselApi.selectedScrollSnap());
   }, []);
@@ -42,17 +42,21 @@ export default function MeetTeam({
     };
   }, [carouselApi, onSelect]);
 
+  // -------------------------------------------- HANDLERS ----------------------------
+
   const scrollTo = useCallback(
     (index: number) => carouselApi && carouselApi.scrollTo(index),
     [carouselApi]
   );
+
+  // -------------------------------------------- RENDER ----------------------------
   return (
     <TitleContentSection
       sectionTitle={
         <>
           {/* background image */}
           <img
-            src="/public/img/pattern.png"
+            src="/img/pattern.png"
             className="inset-0 absolute object-cover w-full h-full -z-10"
             alt="section-pattern background"
           />
@@ -61,7 +65,7 @@ export default function MeetTeam({
               <h2 className="text-3xl font-jostFont text-darkBlue font-bold leading-tight capitalize">
                 {title}
               </h2>
-              <p className="leading-[1.7] mb-[5px] capitalize font-jostFont">
+              <p className="leading-onePointEight mb-1.5 capitalize font-jostFont">
                 {subtitle}
               </p>
             </div>
@@ -72,18 +76,17 @@ export default function MeetTeam({
         <div className="container">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex">
-              {members?.length === 0 && <NoFound title="No members Found" />}
-              {members?.map((member, i) => (
+              {OUR_MEMBERS?.map((member) => (
                 <div
-                  key={i}
-                  className="flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.333%] xl:flex-[0_0_25%] p-2  "
+                  key={member.id}
+                  className="flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.333%] xl:flex-[0_0_25%] p-2"
                 >
                   <Card className="relative z-10 ">
                     <CardHeader className="flex flex-row items-center justify-center">
                       <img
                         src={member.photoUrl}
                         alt={member.memberName}
-                        className="h-[120px] w-[120px] rounded-full"
+                        className="h-28 w-28 rounded-full"
                       />
                     </CardHeader>
                     <CardContent className="flex flex-col items-center justify-center gap-y-1">
@@ -95,20 +98,7 @@ export default function MeetTeam({
                       </p>
 
                       {/* social links */}
-                      <ul className="w-full flex flex-row justify-center items-center gap-4 mt-4 mb-5">
-                        <Link to="https://www.facebook.com" className="group">
-                          <Facebook className="stroke-white w-[15px] h-[15px] p-1 rounded-full box-content bg-blue-900 group-hover:scale-125 transition-transform" />
-                        </Link>
-                        <Link to="https://www.twitter.com" className="group">
-                          <Twitter className="fill-blue-500 stroke-blue-500 w-[23px] h-[23px] group-hover:scale-125 transition-transform" />
-                        </Link>
-                        <Link to="https://www.instagram.com" className="group">
-                          <Instagram className="stroke-red-700 w-[23px] h-[23px] group-hover:scale-125 transition-transform" />
-                        </Link>
-                        <Link to="https://www.linkedin.com" className="group">
-                          <Linkedin className="stroke-white w-[15px] h-[15px] p-1 bg-green-700 rounded-sm group-hover:scale-125 transition-transform box-content" />
-                        </Link>
-                      </ul>
+                      <SocialsNetwork networks={member.socialLinks} />
                     </CardContent>
                   </Card>
                 </div>
@@ -122,7 +112,7 @@ export default function MeetTeam({
               <button
                 key={index}
                 onClick={() => scrollTo(index)}
-                className={`h-[10px] w-[10px] rounded-full transition-all duration-300 ${
+                className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
                   index === carouselIndex
                     ? "bg-gray-500 scale-110 shadow-[0_0_0_3px_rgba(0,0,0,0.2)]"
                     : "bg-gray-300 shadow-none"
@@ -132,7 +122,7 @@ export default function MeetTeam({
           </div>
         </div>
       }
-      sectionClass={"py-20 w-full bg-[#f7f9fc] relative"}
+      sectionClass={"py-20 w-full bg-sky-50 relative"}
     />
   );
 }

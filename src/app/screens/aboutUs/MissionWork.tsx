@@ -1,8 +1,14 @@
 import TitleContentSection from "@/app/components/TitleContentSection";
-import type { CommonSectionType } from "@/lib/type/about-us";
-import { Group, LockKeyholeOpen, Twitter } from "lucide-react";
+import type { CardsContentType, TeamMemberType } from "@/lib/type/about-us";
 import MissionWorkCard from "./MissionWorkCard";
+import { CARDS_DATA } from "@/app/data/aboutUs";
 
+const iconClasses = "w-12 h-14 fill-blue-700 stroke-blue-700";
+interface CommonSectionType {
+  title: string;
+  subtitle: string;
+  members?: TeamMemberType[] | undefined;
+}
 export default function MisionWork({ title, subtitle }: CommonSectionType) {
   return (
     <TitleContentSection
@@ -12,7 +18,7 @@ export default function MisionWork({ title, subtitle }: CommonSectionType) {
             <h2 className="text-3xl font-jostFont text-darkBlue font-bold leading-tight capitalize">
               {title}
             </h2>
-            <p className="leading-[1.7] mb-[5px] capitalize font-jostFont">
+            <p className="leading-onePointEight mb-1 capitalize font-jostFont">
               {subtitle}
             </p>
           </div>
@@ -22,38 +28,19 @@ export default function MisionWork({ title, subtitle }: CommonSectionType) {
         <>
           <div className="container grid grid-cols-1 md:grid-cols-2  gap-5 justify-items-start items-center">
             <div className="left-wrapper flex flex-col space-y-5 w-full">
-              <MissionWorkCard
-                title={"Fully Secure & 24x7 Dedicated Support"}
-                subtitle={
-                  "If you are an individual client, or just a business startup looking for good backlinks for your website"
-                }
-                logo={
-                  <LockKeyholeOpen className="w-12 h-[55px] fill-blue-700 stroke-blue-700" />
-                }
-              />
-              <MissionWorkCard
-                title={"Manage your Social & Busness Account Carefully"}
-                subtitle={
-                  "If you are an individual client, or just a business startup looking for good backlinks for your website."
-                }
-                logo={
-                  <Twitter className="w-12 h-[55px] fill-blue-700 stroke-blue-700" />
-                }
-              />
-              <MissionWorkCard
-                title={"We are Very Hard Worker and loving"}
-                subtitle={
-                  "If you are an individual client, or just a business startup looking for good backlinks for your website"
-                }
-                logo={
-                  <Group className="w-12 h-[55px] fill-blue-700 stroke-blue-700" />
-                }
-              />
+              {CARDS_DATA.map((card: CardsContentType, index: number) => (
+                <MissionWorkCard
+                  key={index}
+                  title={card.cardTitle}
+                  subtitle={card.cardSubtitle}
+                  logo={<card.Icon className={iconClasses} />}
+                />
+              ))}
             </div>
             <div className="w-full">
               <img
-                src="/public/img/vec-2.png"
-                alt=""
+                src="/img/vec-2.png"
+                alt="background image"
                 className="w-full object-cover"
               />
             </div>

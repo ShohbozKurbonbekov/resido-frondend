@@ -49,18 +49,24 @@ const formRow = "flex flex-col gap-y-1 items-start justify-start w-full";
 const formTextClasses =
   "text-base leading-tight text-blue-950 capitalize font-jostFont";
 const formInputClasses =
-  "bg-slate-100  py-6 focus-visible:ring-slate-300 text-xs text-slate-500 border-0 rounded-sm";
+  "bg-slate-100  py-6 focus-visible:ring-slate-300 text-xs text-slate-500 font-semibold border-0 rounded-sm";
 const infoWrapperClasses = "mb-3 flex flex-row items-start justify-start gap-2";
 const infoIconClasses = "h-10 w-10 stroke-blue-800";
 const textIconwWrapper = "flex-1 flex flex-col items-start";
 const infoTitleClasses =
   "text-size_15  text-darkBlue font-jostFont font-bold capitalize";
 const infoSubtitleClasses =
-  "leading-tight text-slate-400 font-light font-jostFont text-size_15";
+  "leading-tight text-slate-500 font-light font-jostFont text-size_15";
 interface MainContentType {
   adminData: User;
 }
 
+const initialState = {
+  phone: "",
+  message: "",
+  subject: "",
+  email: "",
+};
 interface InfoContentType {
   Icon: LucideIcon;
   title: string;
@@ -72,12 +78,7 @@ const MainContent: React.FC<MainContentType> = React.memo(({ adminData }) => {
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: {
-      phone: "",
-      message: "",
-      subject: "",
-      email: "",
-    },
+    defaultValues: initialState,
   });
 
   const infoContent = useMemo(() => {
@@ -116,20 +117,21 @@ const MainContent: React.FC<MainContentType> = React.memo(({ adminData }) => {
         };
         const member = new MemberService();
         await member.writeMessageMember(input);
+        form.reset(initialState);
         await sweetTopSmallSuccessAlert("Sent succussfully");
       } catch (error) {
         console.log("Error in AgentContact: ", error);
         await sweetErrorHandling(error!);
       }
     },
-    [adminData, authmember]
+    [adminData, authmember, form]
   );
 
   //------------------------------------------- RENDER ---------------------------------
 
   return (
     <section className="py-20">
-      <div className="container grid grid-cols-1 md:grid-cols-12 gap-7">
+      <div className=" container grid grid-cols-1 md:grid-cols-12 gap-7">
         <div className="md:col-span-7">
           {/* FORM SUBMISSION*/}
           <Form {...form}>
@@ -230,7 +232,7 @@ const MainContent: React.FC<MainContentType> = React.memo(({ adminData }) => {
             <h2 className="text-3xl text-darkBlue font-bold capitalize font-jostFont">
               Get in touch
             </h2>
-            <p className="leading-onePointEight text-slate-400 font-light font-jostFont text-base">
+            <p className="leading-onePointEight text-slate-700 font-light font-jostFont text-base">
               If you’d like to learn more or have any questions, feel free to
               reach out through the social links below!
             </p>

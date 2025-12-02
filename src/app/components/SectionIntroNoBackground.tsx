@@ -1,13 +1,11 @@
-import React from "react";
-
 interface SectionIntroNoBackgroundProp {
   title: string;
   subtitle: string;
 }
-const SectionIntroNoBackground = React.memo(function SectionIntroNoBackground({
+const SectionIntroNoBackground = ({
   title,
   subtitle,
-}: SectionIntroNoBackgroundProp) {
+}: SectionIntroNoBackgroundProp) => {
   return (
     <section className="py-10 bg-blue-800 relative">
       <div className="container">
@@ -22,6 +20,6 @@ const SectionIntroNoBackground = React.memo(function SectionIntroNoBackground({
       </div>
     </section>
   );
-});
+};
 
 export default SectionIntroNoBackground;
