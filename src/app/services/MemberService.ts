@@ -1,5 +1,6 @@
 import { serverAPI } from "@/lib/config";
 import type { LoginResult } from "@/lib/type/common";
+import type { User } from "@/lib/type/dashboard/user";
 import type { LoginInput } from "@/lib/type/member";
 import type { MessageInput } from "@/lib/type/message";
 import axios from "axios";
@@ -30,6 +31,16 @@ class MemberService {
       return result.data;
     } catch (error) {
       console.log("Error in writeMessageMember: ", error);
+      throw error;
+    }
+  }
+  public async getAdmin(): Promise<User> {
+    try {
+      const url = `${this.serverApi}/member/admin`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in getAdmin service: ", error);
       throw error;
     }
   }
