@@ -16,7 +16,7 @@ const BlogAuthorCom: React.FC<BlogAuthorType> = React.memo(({ author }) => {
 
   // ---------------------------------------------- RENDER ----------------------------------
   return (
-    <div className="p-5 flex flex-col items-center rounded-md border-2 border-200 bg-white">
+    <div className="p-5 flex flex-col items-center rounded-md border-2  bg-white">
       <>
         <div className="w-32 h-32 rounded-full p-0.5 border-2 border-slate-200 mx-auto mb-4">
           <img

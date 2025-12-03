@@ -13,11 +13,12 @@ export const OUR_MEMBERS: TeamMemberType[] = [
       linkedin: "https://linkedin.com/in/adamvalcorn",
       email: "adam@example.com",
     },
+    phone: "+82 10-1234-5678",
   },
   {
     id: `${Date.now()}-2`,
     memberName: "Jack Wildson",
-    memberRole: "Designer",
+    memberRole: "Community Agent",
     photoUrl: "/img/user-2.jpg",
     socialLinks: {
       facebook: "https://facebook.com/jackwildson",
@@ -26,11 +27,12 @@ export const OUR_MEMBERS: TeamMemberType[] = [
       linkedin: "https://linkedin.com/in/jackwildson",
       email: "jack@example.com",
     },
+    phone: "+82 10-8754-3629",
   },
   {
     id: `${Date.now()}-3`,
     memberName: "Michael Johnson",
-    memberRole: "Engineer",
+    memberRole: "Support Agent",
     photoUrl: "/img/user-1.jpg",
     socialLinks: {
       facebook: null,
@@ -39,6 +41,7 @@ export const OUR_MEMBERS: TeamMemberType[] = [
       linkedin: "https://linkedin.com/in/michaeljohnson",
       email: "michael@example.com",
     },
+    phone: "+82 10-2457-6983",
   },
   {
     id: `${Date.now()}-4`,
@@ -52,6 +55,7 @@ export const OUR_MEMBERS: TeamMemberType[] = [
       linkedin: "https://linkedin.com/in/hasanuy",
       email: "hasan@example.com",
     },
+    phone: "+82 10-9987-3344",
   },
   {
     id: `${Date.now()}-5`,
@@ -65,6 +69,7 @@ export const OUR_MEMBERS: TeamMemberType[] = [
       linkedin: "https://linkedin.com/in/hiltonson",
       email: "ceo@example.com",
     },
+    phone: "+82 10-5678-1122",
   },
 ];
 

@@ -42,7 +42,7 @@ const SocialsNetwork: React.FC<SocialsNetworkType> = React.memo(
           return (
             <li key={url}>
               <a href={url}>
-                <Icon className="w-5 h-5 fill-transparent stroke-black box-content p-3 bg-sky-100 rounded-full hover:stroke-blue-400 transition-colors duration-200 ease-linear border " />
+                <Icon className="w-4 h-4 fill-transparent stroke-slate-600 box-content p-3 bg-sky-100 rounded-full hover:stroke-white hover:bg-sky-300  transition-colors duration-200 ease-linear border " />
               </a>
             </li>
           );

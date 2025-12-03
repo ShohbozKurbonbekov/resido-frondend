@@ -5,6 +5,7 @@ import type {
   BlogSearchInput,
   BlogsListPage,
   ChosenBlogType,
+  SearchBlogTags,
 } from "@/lib/type/blogs";
 import type { T } from "@/lib/type/common";
 import axios from "axios";
@@ -71,6 +72,18 @@ class BlogService {
       return result.data;
     } catch (error) {
       console.log("Error in likeTargetItems service: ", error);
+      throw error;
+    }
+  }
+
+  public async blogSearchTag(tag: string): Promise<SearchBlogTags> {
+    try {
+      const url = `${this.path}/blog/tags/related?tag=${tag}`;
+      const result = await axios.get(url, { withCredentials: true });
+      const data = result.data;
+      return data;
+    } catch (error) {
+      console.log("Error in getting blogSearchTag: ", error);
       throw error;
     }
   }

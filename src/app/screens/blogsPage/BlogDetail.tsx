@@ -20,6 +20,7 @@ import TrendingPost from "./TrendingPost";
 import SaveShareCom from "../propertiesPage/SaveShareCom";
 import { serverAPI } from "@/lib/config";
 import { UserSavingTargetGroup } from "@/lib/enums/user.enum";
+import BlogTags from "./BlogTags";
 
 const sectionClasses = "bg-white p-5 rounded-md border-2";
 // ---------------------------------------------- REDUX INTEGRATION ---------------------------------------
@@ -55,6 +56,7 @@ export default function BlogDetail() {
   const { blogId } = useParams();
   const shareUrl = `${serverAPI}/blogs/${mainBlog?._id}`;
   const shareTitle = "visit us to see our special blog for you";
+
   const [chosenBlogCommentsInput, setCommentsInput] =
     useState<ChosenItemCommentsInput>({
       limit: 4,
@@ -114,6 +116,9 @@ export default function BlogDetail() {
 
               {/* BLOG AUTHOR DESCRIPTION*/}
               <BlogAuthorCom author={mainBlog.blogAuthor} />
+
+              {/* RELATED BLOGS TAGS*/}
+              <BlogTags tags={mainBlog.blogTags} />
 
               {/* READING COMMENTS */}
               <div className={sectionClasses}>

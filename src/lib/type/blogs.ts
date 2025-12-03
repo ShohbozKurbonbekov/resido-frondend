@@ -61,6 +61,11 @@ export interface ChosenBlogComments {
   comments: Comment[];
   metaCounter: TotalCounter[];
 }
+
+export interface SearchBlogTags {
+  blogs: Blog[];
+}
+
 //////////////////////////////////// SHOULD BE DELETED LATE ↓ ///////////////////////////
 export interface CommentType {
   id: number;
