@@ -14,8 +14,11 @@ import RequiredAuth from "./app/components/auth/Index";
 import DashboardRouter from "./app/screens/dashboards/Index";
 import PropertiesPage from "./app/screens/propertiesPage/Index";
 
+// ------------------------------------------ MAIN COMPONENT -------------------------------------
 export default function App() {
   const location = useLocation();
+
+  // ------------------------------------------  RENDER -------------------------------------
 
   return (
     <>

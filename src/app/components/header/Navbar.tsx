@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import SignUp from "../Signup";
 import Login from "../Login";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import DropdownMenuPages from "./DrowndownMenu";
 import { CircleUserRound, TextWrap } from "lucide-react";
 import NavbarToggleBtn from "./NavbarToggleBtn";
@@ -11,15 +11,21 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { sweetErrorHandling, sweetTopSuccessAlert } from "@/lib/sweetAlerts";
+import MemberService from "@/app/services/MemberService";
 
+const userProfileBtn =
+  "px-5 py-3 hover:bg-slate-400  hover:text-white text-start capitalize font-jostFont text-base font-semibold transition-all duration-300 ease-linear rounded-md";
+const registerBtnClasses =
+  "border-none bg-transparent    hover:no-underline  ease-in p-0 hover:text-slate-300 transition-all duration-75 ease-in font-semibold";
+const menuLinkClasses =
+  "hover:text-slate-300 transition-all duration-75 ease-in";
+// ---------------------------------------------- COMPONENT ---------------------------------------
 export default function Navbar() {
   const [isPopover, setIsPopover] = useState<boolean>(false);
   const { authmember, setAuthMember } = useGlobals();
   const navigation = useNavigate();
-  const userProfileBtn =
-    "px-5 py-3 hover:bg-slate-400  hover:text-white text-start capitalize font-jostFont text-base font-semibold transition-all duration-300 ease-linear rounded-md";
-  const registerBtnClasses =
-    "border-none bg-transparent    hover:no-underline  ease-in p-0 hover:text-slate-300 transition-all duration-75 ease-in font-semibold";
+
   const [navbarScrolled, setNavbarScrolled] = useState<boolean>(false);
 
   useEffect(() => {
@@ -32,11 +38,20 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleNavbarScrolling);
   }, [navbarScrolled]);
 
-  const handleLogout = (): void => {
-    localStorage.removeItem("memberData");
-    setAuthMember(null);
-    navigation("/");
-  };
+  // ---------------------------------------------- HANDLERS ---------------------------------------
+  const handleLogout = useCallback(async () => {
+    const member = new MemberService();
+    try {
+      await member.logout();
+      await sweetTopSuccessAlert("Successfully logged out!", 700);
+      setAuthMember(null);
+    } catch (error) {
+      console.log("Error in logout process: ", error);
+      await sweetErrorHandling(error!);
+    }
+  }, [setAuthMember]);
+
+  // --------------------------------------------- RENDER ---------------------------------------
   return (
     <nav
       className={`py-4 w-full fixed  top-0 z-50 transition-all duration-300 ease-in  ${
@@ -53,11 +68,7 @@ export default function Navbar() {
           }`}
         >
           <img
-            src={
-              navbarScrolled
-                ? `/public/img/logo.svg`
-                : `/img/svg/logo-light.svg`
-            }
+            src={navbarScrolled ? `/img/logo.svg` : `/img/svg/logo-light.svg`}
             alt="navbar logo"
           />
           <span className="font-bold text-2xl hover:text-slate-300 transition-all duration-75 ease-linear -mt-1.5">
@@ -74,42 +85,22 @@ export default function Navbar() {
               } text-sm font-semibold font-jostFont`}
             >
               <li>
-                <NavLink
-                  to="/"
-                  className={
-                    "hover:text-slate-300 transition-all duration-75 ease-in"
-                  }
-                >
+                <NavLink to="/" className={menuLinkClasses}>
                   Home
                 </NavLink>
               </li>
               <li>
-                <NavLink
-                  to="/property/getAll"
-                  className={
-                    "hover:text-slate-300 transition-all duration-75 ease-in"
-                  }
-                >
+                <NavLink to="/property/getAll" className={menuLinkClasses}>
                   Properties
                 </NavLink>
               </li>
               <li>
-                <NavLink
-                  to="/agents"
-                  className={
-                    "hover:text-slate-300 transition-all duration-75 ease-in"
-                  }
-                >
+                <NavLink to="/agents" className={menuLinkClasses}>
                   Agents
                 </NavLink>
               </li>
               <li>
-                <NavLink
-                  to="/agencies"
-                  className={
-                    "hover:text-slate-300 transition-all duration-75 ease-in"
-                  }
-                >
+                <NavLink to="/agencies" className={menuLinkClasses}>
                   Agencies
                 </NavLink>
               </li>
@@ -126,7 +117,7 @@ export default function Navbar() {
               >
                 <SignUp
                   btnTitle={"Signup"}
-                  btnClasses={` ${registerBtnClasses} ${
+                  btnClasses={`${registerBtnClasses} ${
                     navbarScrolled ? "text-darkBlue" : "text-stone-50"
                   }`}
                 />
@@ -147,7 +138,7 @@ export default function Navbar() {
                 >
                   <CircleUserRound className="w-6 h-6 hover:text-slate-300 transition-all duration-75 ease-in" />
                 </PopoverTrigger>
-                <PopoverContent className="flex flex-col    items-stretch p-2 me-6 mt-4">
+                <PopoverContent className="flex flex-col   items-stretch p-2 me-6 mt-4">
                   <button
                     className={userProfileBtn}
                     onClick={() => {
