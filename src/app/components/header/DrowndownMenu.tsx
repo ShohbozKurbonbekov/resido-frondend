@@ -8,7 +8,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-type pagesType = {
+type PagesType = {
   page: string;
   path: string;
 };
@@ -37,10 +37,10 @@ export default function DropdownMenuPages() {
             { page: "Contact us", path: `/contact-us` },
             { page: "FAQ", path: `/Faqs` },
             { page: "About Us", path: `/about-us` },
-          ].map((val: pagesType) => (
+          ].map((val: PagesType) => (
             <DropdownMenuItem key={val.path} className="h-auto w-auto p-0">
               <button
-                className="bg-transparent border-0  focus-visible:ring-0 outline-none focus-visible:outline-none  text-base  font-jostFont capitalize  w-full hover:text-white  hover:bg-slate-500 transition-all duration-200 delay-0 text-darkBlue h-full px-4 py-3 rounded-md flex flex-row justify-start"
+                className="bg-transparent border-0  focus-visible:ring-0 outline-none focus-visible:outline-none  text-base  font-jostFont capitalize  w-full hover:text-white  hover:bg-slate-500 transition-all duration-200  text-darkBlue h-full px-4 py-3 rounded-md flex flex-row justify-start"
                 onClick={() => {
                   navigation(`${val.path}`);
                 }}

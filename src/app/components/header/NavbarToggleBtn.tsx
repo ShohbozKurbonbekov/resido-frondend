@@ -4,35 +4,25 @@ import { NavLink, useNavigate } from "react-router-dom";
 import SignUp from "../Signup";
 import Login from "../Login";
 import { useGlobals } from "@/app/hooks/useGlobals";
+import { navbarPages } from "@/app/data/navbar";
+
 interface NavbarToggleBtnProps {
   btn: React.ReactNode;
+  handleLogout: () => Promise<void>;
 }
 
-const navbarPages: { name: string; url: string }[] = [
-  { name: "Home", url: "/" },
-  { name: "Properties", url: "/properties" },
-  { name: "Agents", url: "/agents" },
-  { name: "Agencies", url: "/agencies" },
-  { name: "Blogs", url: "/blogs" },
-  { name: "Pricing", url: "/pricing" },
-  { name: "Contact Us", url: "/contact-us" },
-  { name: "FAQ", url: "/Faqs" },
-  { name: "About Us", url: "/about-us" },
-];
-export default function NavbarToggleBtn({ btn }: NavbarToggleBtnProps) {
+export default function NavbarToggleBtn({
+  btn,
+  handleLogout,
+}: NavbarToggleBtnProps) {
   const navbarToggleBtnClasses =
     "w-full text-white bg-slate-600 p-2 rounded-md hover:bg-slate-400 transition-colors duration-200 ease-linear";
   const navigation = useNavigate();
-  const { authmember, setAuthMember } = useGlobals();
+  const { authmember } = useGlobals();
   const registerBtnClasses =
     "text-white bg-slate-600  px-8 hover:no-underline hover:bg-slate-400 transtion-colors duration-200 ease-linear";
   const [isActive, setIsActive] = useState<string>("");
 
-  const handleLogout = (): void => {
-    localStorage.removeItem("memberData");
-    setAuthMember(null);
-    navigation("/");
-  };
   return (
     <Sheet>
       <SheetTrigger>{btn}</SheetTrigger>
@@ -71,7 +61,7 @@ export default function NavbarToggleBtn({ btn }: NavbarToggleBtnProps) {
               My dashboard
             </button>
             <button className={navbarToggleBtnClasses} onClick={handleLogout}>
-              logout
+              Logout
             </button>
           </div>
         )}

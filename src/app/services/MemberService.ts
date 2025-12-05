@@ -1,7 +1,7 @@
 import { serverAPI } from "@/lib/config";
-import type { LoginResult } from "@/lib/type/common";
+import type { CommonUsers, LoginResult } from "@/lib/type/common";
 import type { User } from "@/lib/type/dashboard/user";
-import type { LoginInput } from "@/lib/type/member";
+import type { LoginInput, UserMemberInput } from "@/lib/type/member";
 import type { MessageInput } from "@/lib/type/message";
 import axios from "axios";
 import type { Message } from "react-hook-form";
@@ -53,6 +53,20 @@ class MemberService {
       localStorage.removeItem("memberData");
     } catch (error) {
       console.log("Error in logout Service: ", error);
+      throw error;
+    }
+  }
+
+  public async signup(input: UserMemberInput): Promise<CommonUsers> {
+    try {
+      const url = `${this.serverApi}/member/signup`;
+      const result = await axios.post(url, input, { withCredentials: true });
+      const user = result.data;
+
+      localStorage.setItem("memberData", JSON.stringify(user));
+      return user;
+    } catch (error) {
+      console.log("Error in user signupUser service: ", error);
       throw error;
     }
   }

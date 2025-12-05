@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import SignUp from "../Signup";
 import Login from "../Login";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DropdownMenuPages from "./DrowndownMenu";
 import { CircleUserRound, TextWrap } from "lucide-react";
 import NavbarToggleBtn from "./NavbarToggleBtn";
@@ -11,8 +11,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { sweetErrorHandling, sweetTopSuccessAlert } from "@/lib/sweetAlerts";
-import MemberService from "@/app/services/MemberService";
 
 const userProfileBtn =
   "px-5 py-3 hover:bg-slate-400  hover:text-white text-start capitalize font-jostFont text-base font-semibold transition-all duration-300 ease-linear rounded-md";
@@ -21,9 +19,13 @@ const registerBtnClasses =
 const menuLinkClasses =
   "hover:text-slate-300 transition-all duration-75 ease-in";
 // ---------------------------------------------- COMPONENT ---------------------------------------
-export default function Navbar() {
+
+interface NavbarType {
+  handleLogout: () => Promise<void>;
+}
+export default function Navbar({ handleLogout }: NavbarType) {
   const [isPopover, setIsPopover] = useState<boolean>(false);
-  const { authmember, setAuthMember } = useGlobals();
+  const { authmember } = useGlobals();
   const navigation = useNavigate();
 
   const [navbarScrolled, setNavbarScrolled] = useState<boolean>(false);
@@ -39,17 +41,6 @@ export default function Navbar() {
   }, [navbarScrolled]);
 
   // ---------------------------------------------- HANDLERS ---------------------------------------
-  const handleLogout = useCallback(async () => {
-    const member = new MemberService();
-    try {
-      await member.logout();
-      await sweetTopSuccessAlert("Successfully logged out!", 700);
-      setAuthMember(null);
-    } catch (error) {
-      console.log("Error in logout process: ", error);
-      await sweetErrorHandling(error!);
-    }
-  }, [setAuthMember]);
 
   // --------------------------------------------- RENDER ---------------------------------------
   return (
@@ -121,7 +112,7 @@ export default function Navbar() {
                     navbarScrolled ? "text-darkBlue" : "text-stone-50"
                   }`}
                 />
-                <span className="middle">Or</span>
+                <span>Or</span>
                 <Login
                   btnClasses={`${registerBtnClasses} ${
                     navbarScrolled ? "text-darkBlue" : "text-stone-50"
@@ -159,6 +150,7 @@ export default function Navbar() {
         {/* //toggle part */}
 
         <NavbarToggleBtn
+          handleLogout={handleLogout}
           btn={
             <TextWrap
               className={` lg:hidden block ${

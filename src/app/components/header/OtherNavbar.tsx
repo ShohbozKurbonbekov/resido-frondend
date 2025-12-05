@@ -12,18 +12,26 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export default function OtherNavbar() {
+const userProfileBtn =
+  "px-5 py-3 hover:bg-slate-400  hover:text-white text-start capitalize font-jostFont text-base font-semibold transition-all duration-300 ease-linear rounded-md";
+const navbarBtnClasses =
+  "border-none bg-transparent    hover:no-underline  p-0 hover:text-slate-300 transition-all duration-75 ease-in font-semibold text-darkBlue";
+const menuLinkClasses =
+  "hover:text-slate-300 transition-all duration-75 ease-in";
+
+// --------------------------------------------- COMPONENT -------------------------------------------
+interface OtherNavbarType {
+  handleLogout: () => Promise<void>;
+}
+
+export default function OtherNavbar({ handleLogout }: OtherNavbarType) {
   const [showNavbar, setShowNavbar] = useState<boolean>(false);
-  const { authmember, setAuthMember } = useGlobals();
+  const { authmember } = useGlobals();
   const navigation = useNavigate();
-  const userProfileBtn =
-    "px-5 py-3 hover:bg-slate-400  hover:text-white text-start capitalize font-jostFont text-base font-semibold transition-all duration-300 ease-linear rounded-md";
-  const navbarBtnClasses =
-    "border-none bg-transparent    hover:no-underline  p-0 hover:text-slate-300 transition-all duration-75 ease-in font-semibold text-darkBlue";
 
   useEffect(() => {
     const handleNavbarScrolling = (): void => {
-      if (window.scrollY > 80) {
+      if (window.scrollY > 50) {
         setShowNavbar(true);
       } else {
         setShowNavbar(false);
@@ -35,15 +43,14 @@ export default function OtherNavbar() {
     return () => window.removeEventListener("scroll", handleNavbarScrolling);
   }, []);
 
-  const handleLogout = (): void => {
-    localStorage.removeItem("memberData");
-    setAuthMember(null);
-    navigation("/");
-  };
   const navbarContent = (
     <div className="container mx-auto flex flex-row items-center lg:gap-8 justify-between lg:justify-stretch z-100">
       <NavLink to="/" className={`flex flex-row items-center gap-1 -mt-1.5 `}>
-        <img src={`/public/img/logo.svg`} alt="" className="text-stone-50" />
+        <img
+          src={`/img/logo.svg`}
+          alt="navbar logo"
+          className="text-stone-50"
+        />
         <span className="font-bold text-2xl hover:text-slate-300 transition-all duration-75 ease-linear">
           Resido
         </span>
@@ -56,42 +63,22 @@ export default function OtherNavbar() {
             className={`flex flex-row items-center gap-5  text-darkBlue text-sm font-semibold font-jostFont`}
           >
             <li>
-              <NavLink
-                to="/"
-                className={
-                  "hover:text-slate-300 transition-all duration-75 ease-in"
-                }
-              >
+              <NavLink to="/" className={menuLinkClasses}>
                 Home
               </NavLink>
             </li>
             <li>
-              <NavLink
-                to="/property/getAll"
-                className={
-                  "hover:text-slate-300 transition-all duration-75 ease-in"
-                }
-              >
+              <NavLink to="/property/getAll" className={menuLinkClasses}>
                 Properties
               </NavLink>
             </li>
             <li>
-              <NavLink
-                to="/agents"
-                className={
-                  "hover:text-slate-300 transition-all duration-75 ease-in"
-                }
-              >
+              <NavLink to="/agents" className={menuLinkClasses}>
                 Agents
               </NavLink>
             </li>
             <li>
-              <NavLink
-                to="/agencies"
-                className={
-                  "hover:text-slate-300 transition-all duration-75 ease-in"
-                }
-              >
+              <NavLink to="/agencies" className={menuLinkClasses}>
                 Agencies
               </NavLink>
             </li>
@@ -108,7 +95,7 @@ export default function OtherNavbar() {
             items-center font-semibold font-jostFont `}
             >
               <SignUp btnTitle={"Signup"} btnClasses={navbarBtnClasses} />
-              <span className="">Or</span>
+              <span>Or</span>
               <Login btnClasses={navbarBtnClasses} btnTitle="Signin" />
             </div>
           ) : (
@@ -118,7 +105,7 @@ export default function OtherNavbar() {
               >
                 <CircleUserRound className="w-6 h-6 hover:text-slate-300 transition-all duration-75 ease-in" />
               </PopoverTrigger>
-              <PopoverContent className="flex flex-col    items-stretch p-2  ">
+              <PopoverContent className="flex flex-col  items-stretch p-2  me-6 mt-4">
                 <button
                   className={userProfileBtn}
                   onClick={() => {
@@ -138,6 +125,7 @@ export default function OtherNavbar() {
 
       {/* // toggle user icon */}
       <NavbarToggleBtn
+        handleLogout={handleLogout}
         btn={<TextWrap className={`lg:hidden block text-darkBlue `} />}
       />
     </div>
@@ -152,7 +140,7 @@ export default function OtherNavbar() {
         className={`py-5 shadow-md shadow-slate-100 fixed -top-1 left-0 z-50 w-full transition-transform duration-300 ease-linear bg-[#fff] ${
           showNavbar
             ? "translate-y-0 "
-            : "-translate-y-full opacity-0 invisible shadow-red-700"
+            : "-translate-y-full opacity-0 invisible"
         }`}
       >
         {navbarContent}

@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Footer from "./app/components/footer/Index";
 import Navbar from "./app/components/header/Navbar";
 import HomePage from "./app/screens/homePage/Index";
@@ -13,16 +13,44 @@ import BlogsPage from "./app/screens/blogsPage/Index";
 import RequiredAuth from "./app/components/auth/Index";
 import DashboardRouter from "./app/screens/dashboards/Index";
 import PropertiesPage from "./app/screens/propertiesPage/Index";
+import { useCallback } from "react";
+import MemberService from "./app/services/MemberService";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "./lib/sweetAlerts";
+import { useGlobals } from "./app/hooks/useGlobals";
 
 // ------------------------------------------ MAIN COMPONENT -------------------------------------
 export default function App() {
   const location = useLocation();
+  const navigation = useNavigate();
+
+  const { setAuthMember } = useGlobals();
+
+  // ------------------------------------------ HANDLERS ----------------------------------------------
+  const handleLogout = useCallback(async () => {
+    const member = new MemberService();
+    try {
+      await member.logout();
+      await sweetTopSmallSuccessAlert("Successfully logged out!");
+
+      setAuthMember(null);
+      navigation("/");
+    } catch (error) {
+      console.log("Error in logout process: ", error);
+      await sweetErrorHandling(error!);
+    }
+  }, [setAuthMember, navigation]);
 
   // ------------------------------------------  RENDER -------------------------------------
-
   return (
     <>
-      {location.pathname === "/" ? <Navbar /> : <OtherNavbar />}
+      {location.pathname === "/" ? (
+        <Navbar handleLogout={handleLogout} />
+      ) : (
+        <OtherNavbar handleLogout={handleLogout} />
+      )}
 
       <Routes>
         <Route path="/property/*" element={<PropertiesPage />} />

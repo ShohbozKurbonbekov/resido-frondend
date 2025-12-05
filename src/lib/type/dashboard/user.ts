@@ -15,8 +15,8 @@ export interface User {
   memberPassword: string;
   role: MemberType;
   memberStatus: MemberStatus;
-  memberSocials: Social;
   occupation: string;
+  memberSocials?: Social;
   userFullname?: string;
   memberAddress?: string;
   memberDescription?: string;
