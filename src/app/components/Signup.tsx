@@ -34,6 +34,7 @@ import MemberService from "../services/MemberService";
 import { MemberType } from "@/lib/enums/agent.enum";
 import { useGlobals } from "../hooks/useGlobals";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 // ✅ Validation schema with Zod
 
 const FormSchema = z.object({
@@ -71,6 +72,7 @@ type SignUpType = {
 };
 
 export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
+  const navigation = useNavigate();
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const { setAuthMember } = useGlobals();
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -90,10 +92,14 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
 
     try {
       const result = await member.signup(input);
+      console.log("RESULT: ", result);
       await sweetTopSmallSuccessAlert("You have successfully signed up!");
+
+      form.reset();
       // SAVING FOR DATA
       setAuthMember(result);
       setDialogOpen(false);
+      navigation("/dashboard");
     } catch (error) {
       setDialogOpen(false);
       console.log("Error in sign up process: ", error);

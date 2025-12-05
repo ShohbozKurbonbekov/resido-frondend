@@ -1,17 +1,8 @@
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { CircleGauge } from "lucide-react";
 import DashboardSideBar from "../Dashboard-sidebar";
-import type { DashboardSidebar } from "@/lib/type/dashboard/dashboard";
-import type { UserDashboardSidebarType } from "@/lib/type/dashboard/user";
 
-interface SidebarToggleBtnProps {
-  featuresData: DashboardSidebar[];
-  data: UserDashboardSidebarType;
-}
-export default function SidebarToggleBtn({
-  featuresData,
-  data,
-}: SidebarToggleBtnProps) {
+export default function SidebarToggleBtn() {
   return (
     <div className="lg:hidden block w-full">
       <Sheet>
@@ -20,11 +11,7 @@ export default function SidebarToggleBtn({
           dashboard
         </SheetTrigger>
         <SheetContent side={"left"} className="p-0 w-[70%]">
-          <DashboardSideBar
-            featuresData={featuresData}
-            data={data}
-            wrapperClasses="sidebar w-full mb-7 pt-14 p-6 flex flex-col gap-y-7 bg-white rounded-md box-border items-center shadow-none"
-          />
+          <DashboardSideBar />
         </SheetContent>
       </Sheet>
     </div>

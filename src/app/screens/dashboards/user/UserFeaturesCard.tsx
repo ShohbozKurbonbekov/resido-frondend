@@ -13,26 +13,24 @@ const bgMap: Record<string, string> = {
 interface UserFeaturesCardProps {
   values: {
     cardTitle: string;
-    cardTitleAmount: number;
     cardClasses: string;
-    url: string;
     Icon: LucideIcon;
   };
 }
 export default function UserFeaturesCard({ values }: UserFeaturesCardProps) {
-  const { cardClasses, cardTitle, cardTitleAmount, url, Icon } = values;
+  const { cardClasses, cardTitle, Icon } = values;
   return (
     <Card
       className={`shadow-none rounded-md  p-10  ${bgMap[cardClasses]} hover:bg-opacity-60 transition-colors duration-300 ease-linear`}
     >
       <CardContent>
         <Link
-          to={url}
+          to={""}
           className="flex flex-row items-start justify-between gap-3 p-0"
         >
           <div className="flex flex-col">
             <h4 className="text-5xl font-bold tracking-wider text-white  leading-none font-jostFont capitalize">
-              {cardTitleAmount}
+              sure
             </h4>
             <p className="text-lg  font-normal leading-tight capitalize font-jostFont text-white ">
               {cardTitle}

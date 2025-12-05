@@ -10,8 +10,6 @@ import ContactUsPage from "./app/screens/contactUs/Index";
 import FaqPage from "./app/screens/FAQ/Index";
 import PricingPage from "./app/screens/pricing/Index";
 import BlogsPage from "./app/screens/blogsPage/Index";
-import RequiredAuth from "./app/components/auth/Index";
-import DashboardRouter from "./app/screens/dashboards/Index";
 import PropertiesPage from "./app/screens/propertiesPage/Index";
 import { useCallback } from "react";
 import MemberService from "./app/services/MemberService";
@@ -20,6 +18,7 @@ import {
   sweetTopSmallSuccessAlert,
 } from "./lib/sweetAlerts";
 import { useGlobals } from "./app/hooks/useGlobals";
+import UserDashboard from "./app/screens/dashboards/user/Index";
 
 // ------------------------------------------ MAIN COMPONENT -------------------------------------
 export default function App() {
@@ -61,14 +60,11 @@ export default function App() {
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/Faqs" element={<FaqPage />} />
         <Route path="/pricing" element={<PricingPage />} />
-
-        {/* // Protected */}
-        <Route element={<RequiredAuth />}>
-          <Route path="/dashboard" element={<DashboardRouter />} />
-        </Route>
-
-        {/* // home */}
         <Route path="/" element={<HomePage />} />
+      </Routes>
+
+      <Routes>
+        <Route path="/dashboard/*" element={<UserDashboard />} />
       </Routes>
 
       <Footer />
