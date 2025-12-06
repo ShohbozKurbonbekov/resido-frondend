@@ -1,5 +1,3 @@
-import { USER_CARDS } from "@/app/data/dashboard/user";
-import UserFeaturesCard from "./UserFeaturesCard";
 import type { Dispatch } from "@reduxjs/toolkit";
 import { setSavedProperties } from "./slice";
 import type { Properties, SellingType } from "@/lib/type/property";
@@ -17,6 +15,7 @@ import NoFound from "@/app/components/NoFound";
 import { customiseAddress, formatCurrency } from "@/lib/utils";
 import { SavedTargetType, SellingTypeEnum } from "@/lib/enums/property.enum";
 import { PaginationCom } from "@/app/components/PaginationCom";
+
 // ----------------------------------------- REDUX INTEGRATION --------------------------
 const savedPropertiesDispatch = (dispatch: Dispatch) => ({
   setSavedProperties: (data: Properties) => dispatch(setSavedProperties(data)),
@@ -37,7 +36,7 @@ export default function SavedProperties() {
   const [savedPropertiesInput, setSavedPropertiesInput] = useState<CommonInput>(
     {
       page: 1,
-      limit: 4,
+      limit: 5,
     }
   );
 
@@ -69,23 +68,11 @@ export default function SavedProperties() {
 
   // ---------------------------------------- RENDERS -------------------------
   return (
-    <div className="lg:col-span-9 flex flex-col gap-7">
-      {loading && !savedProperties.properties.length ? (
-        <SpinnerGrids
-          columns="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-          count={3}
-        />
-      ) : (
-        <div className="cards grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {USER_CARDS.map((card, index) => (
-            <UserFeaturesCard key={index} values={card} />
-          ))}
-        </div>
-      )}
+    <div className="lg:col-span-9  flex flex-col gap-7">
       {loading ? (
         <SpinnerGrids columns="grid grid-cols-1" cardHeight="h-30" />
       ) : (
-        <div className="flex flex-col gap-y-2">
+        <div className="flex flex-col gap-y-5 h-full">
           <div className="header flex flex-col space-y-2 bg-white py-5 px-3 rounded-sm">
             <h4 className="text-lg font-jostFont capitalize text-darkBlue font-semibold">
               Bookmark Property
@@ -96,8 +83,8 @@ export default function SavedProperties() {
             </div>
           </div>
           {savedProperties.properties.length ? (
-            <>
-              <div className="wrapper grid grid-cols-1 gap-y-2 min-h-80 items-start">
+            <div className="flex-1 flex flex-col justify-between">
+              <div className="wrapper grid grid-cols-1 gap-y-2  items-start">
                 {savedProperties.properties.map((item) => (
                   <SavedItemsCard
                     key={item._id}
@@ -118,11 +105,11 @@ export default function SavedProperties() {
                   (savedProperties.totalPropertiesNumber[0]?.total ?? 0) /
                     savedPropertiesInput.limit
                 )}
-                styleclasses="flex flex-row items-center justify-center mt-4 gap-3"
+                styleclasses="flex flex-row items-center justify-center mt-4 gap-3 "
                 currentPage={savedPropertiesInput.page}
                 onPageChange={setSavedPropertiesInput}
               />
-            </>
+            </div>
           ) : (
             <NoFound title="No saved properties found" />
           )}

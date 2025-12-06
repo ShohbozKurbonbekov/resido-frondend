@@ -1,5 +1,6 @@
 import { serverAPI } from "@/lib/config";
 import type {
+  AgentData,
   AgentProperties,
   AgentPropertiesInput,
   AgentsListPage,
@@ -64,6 +65,17 @@ class AgentService {
       return result.data;
     } catch (error) {
       console.log("Error in getAgentProperties Service: ", error);
+      throw error;
+    }
+  }
+
+  public async saveTargetAgent(agentId: string): Promise<AgentData> {
+    try {
+      const url = `${this.path}/agent/${agentId}/save`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in saveTargetProperty: ", error);
       throw error;
     }
   }

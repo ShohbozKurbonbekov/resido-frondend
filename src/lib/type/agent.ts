@@ -48,6 +48,7 @@ export interface AgentData {
   limitedProperties?: Property[];
   featuredProperties?: Property[];
   comments?: [];
+  meSaved?: boolean;
 }
 
 export interface AgentsListPage {

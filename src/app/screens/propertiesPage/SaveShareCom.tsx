@@ -31,6 +31,7 @@ import type { SetStateType } from "@/lib/type/common";
 import { UserSavingTargetGroup } from "@/lib/enums/user.enum";
 import BlogService from "@/app/services/BlogService";
 import PropertyService from "@/app/services/PropertyService";
+import AgentService from "@/app/services/AgentService";
 
 const shareIconWrapper =
   "hover:scale-125 transition-all duration-200 ease-linear active:scale-90  ";
@@ -61,7 +62,8 @@ const SaveShareCom: React.FC<SaveShareComType> = React.memo(
       try {
         // FOR AGENT
         if (targetItem === UserSavingTargetGroup.AGENT) {
-          // const target = new AgentService();
+          const agent = new AgentService();
+          await agent.saveTargetAgent(savedItemId);
         }
         // FOR PROPERTY
         if (targetItem === UserSavingTargetGroup.PROPERTY) {

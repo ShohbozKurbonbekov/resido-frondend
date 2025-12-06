@@ -16,6 +16,9 @@ import AgentContact from "@/app/components/AgentContact";
 import { retrieveFeaturedProperties } from "../homePage/selector";
 import PropertyDetailFeaturedProperty from "@/app/components/PropertyDetailFeaturedProperty";
 import AgentAgencyToggleBtn from "@/app/components/AgentAgencyDetailToggleBtn";
+import SaveShareCom from "../propertiesPage/SaveShareCom";
+import { serverAPI } from "@/lib/config";
+import { UserSavingTargetGroup } from "@/lib/enums/user.enum";
 
 // ---------------------------------------------- REDUX USAGE -------------------------------------
 const featuredPropertiesRetriever = createSelector(
@@ -39,6 +42,8 @@ const AgentDetailMainContent: React.FC<AgentDetailMainContentProp> = React.memo(
   ({ agent, setAgentCommentsInput, setReloadMainPage }) => {
     const { chosenAgentComments } = useSelector(chosenAgentCommentsRetriever);
     const { featuredProperties } = useSelector(featuredPropertiesRetriever);
+    const shareUrl = `${serverAPI}/agent/${agent?._id}`;
+    const shareTitle = "Visit us to see our special agent";
 
     const [agentPropertyType, setPropertyType] = useState<ToggleBtnState>({
       type: "RENT",
@@ -122,6 +127,14 @@ const AgentDetailMainContent: React.FC<AgentDetailMainContentProp> = React.memo(
 
           {/* AGENT CONTACT*/}
           <div className="lg:col-span-2">
+            <SaveShareCom
+              setReloadMainPage={setReloadMainPage}
+              savedItemId={agent?._id}
+              shareUrl={shareUrl}
+              shareTitle={shareTitle}
+              isSaved={agent.meSaved!}
+              targetItem={UserSavingTargetGroup.AGENT}
+            />
             <AgentContact
               contactData={{
                 avatar: agent?.avatar,
