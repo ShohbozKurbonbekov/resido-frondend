@@ -30,6 +30,7 @@ export interface AppRootState {
   agenciesPage: AgenciesPageState;
   blogsPage: BlogsPageState;
   contactUsPage: ContactUsPageState;
+  userDashboardPage: UserDashboardPage;
 }
 
 // HOMEPAGE
@@ -72,4 +73,12 @@ export interface BlogsPageState {
 // CONTACT US PAGE
 export interface ContactUsPageState {
   adminData: User | null;
+}
+
+////////////////////////////////////////////////////////////////
+// DASHBOARD
+
+// USER DASHBOARD PAGE
+export interface UserDashboardPage {
+  savedProperties: Properties;
 }

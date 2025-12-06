@@ -18,7 +18,7 @@ import {
   sweetTopSmallSuccessAlert,
 } from "./lib/sweetAlerts";
 import { useGlobals } from "./app/hooks/useGlobals";
-import UserDashboard from "./app/screens/dashboards/user/Index";
+import DashboardRouter from "./app/screens/dashboards/Index";
 
 // ------------------------------------------ MAIN COMPONENT -------------------------------------
 export default function App() {
@@ -64,7 +64,7 @@ export default function App() {
       </Routes>
 
       <Routes>
-        <Route path="/dashboard/*" element={<UserDashboard />} />
+        <Route path="/dashboard/*" element={<DashboardRouter />} />
       </Routes>
 
       <Footer />

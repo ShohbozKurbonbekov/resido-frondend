@@ -1,8 +1,7 @@
 import SectionIntroNoBackground from "@/app/components/SectionIntroNoBackground";
-import DashboardSideBar from "../Dashboard-sidebar";
+import DashboardSideBar from "../user/Dashboard-sidebar";
 import SidebarToggleBtn from "../user/SidebarToggleBtn";
 import UserFeaturesCard from "../user/UserFeaturesCard";
-import type { DashboardSidebar } from "@/lib/type/dashboard/dashboard";
 import {
   Eye,
   Gauge,

@@ -1,6 +1,6 @@
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { CircleGauge } from "lucide-react";
-import DashboardSideBar from "../Dashboard-sidebar";
+import DashboardSideBar from "./Dashboard-sidebar";
 
 export default function SidebarToggleBtn() {
   return (

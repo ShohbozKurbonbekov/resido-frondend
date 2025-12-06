@@ -60,3 +60,9 @@ export enum PropertySortOrder {
   HIGH_PRICE = "high_price",
   MOST_FAMOUS = "most_famous",
 }
+
+export enum SavedTargetType {
+  AGENT = "agent",
+  PROPERTY = "property",
+  BLOG = "blog",
+}

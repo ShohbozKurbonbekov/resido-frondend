@@ -12,7 +12,7 @@ import {
   Star,
   User,
 } from "lucide-react";
-import DashboardSideBar from "../Dashboard-sidebar";
+import DashboardSideBar from "../user/Dashboard-sidebar";
 import SidebarToggleBtn from "../user/SidebarToggleBtn";
 import { serverAPI } from "@/lib/config";
 import UserFeaturesCard from "../user/UserFeaturesCard";

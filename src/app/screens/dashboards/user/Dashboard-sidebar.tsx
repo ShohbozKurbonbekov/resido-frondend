@@ -41,7 +41,7 @@ export default function DashboardSideBar() {
           (feature: DashboardSidebarType, index: number) => {
             const { title, Icon, url } = feature;
             return (
-              <Link to={url}>
+              <Link to={url} key={title}>
                 <li
                   key={title}
                   className={`w-full px-2 py-4 transition-all duration-100 ease-linear border-b-slate-300 border-2 border-t-0 border-s-0 border-r-0 ${

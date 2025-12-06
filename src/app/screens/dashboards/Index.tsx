@@ -3,8 +3,8 @@ import AgencyDashboard from "./agency/Index";
 import AgentDashboard from "./agent/Index";
 import AdminDashboard from "./admin/Index";
 import NoFound from "@/app/components/NoFound";
-import UserDashboard from "./user/Index";
 import { MemberType } from "@/lib/enums/agent.enum";
+import UserDashboard from "./user/Index";
 
 export default function DashboardRouter() {
   const { authmember } = useGlobals();

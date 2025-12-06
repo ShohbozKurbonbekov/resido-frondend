@@ -18,7 +18,7 @@ interface PropertyAuthor {
   fullName: string;
   rank: string;
 }
-interface SellingType {
+export interface SellingType {
   optionRent?: {
     type?: SellingTypeEnum.RENT;
     overalAmount?: number;
