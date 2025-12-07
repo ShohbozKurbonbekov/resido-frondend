@@ -156,14 +156,20 @@ const SaveShareCom: React.FC<SaveShareComType> = React.memo(
           className={`w-full py-4 rounded-md flex flex-row gap-2 items-center justify-center font-semibold font-jostFont text-base cursor-pointer  transition-all duration-150 ease-linear border-2     ${isSaved ? "bg-blue-100 border-blue-800 text-blue-800" : "bg-gray-300 border-slate-800 text-gray-800"} `}
           onClick={handleSave}
         >
-          <BookMarked
-            className={`${
-              isSaved
-                ? "fill-blue-200  stroke-blue-800"
-                : "fill-slate-100 stroke-slate-700"
-            } h-5 w-5 `}
-          />
-          {isSaved ? "Unsave" : "Save"}
+          {targetItem !== UserSavingTargetGroup.AGENT ? (
+            <>
+              <BookMarked
+                className={`${
+                  isSaved
+                    ? "fill-blue-200  stroke-blue-800"
+                    : "fill-slate-100 stroke-slate-700"
+                } h-5 w-5 `}
+              />
+              {isSaved ? "Unsave" : "Save"}
+            </>
+          ) : (
+            <>{isSaved ? "Unfollow" : "follow"}</>
+          )}
         </button>
       </div>
     );

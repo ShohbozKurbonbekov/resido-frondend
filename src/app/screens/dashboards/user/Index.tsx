@@ -2,11 +2,11 @@ import { useGlobals } from "@/app/hooks/useGlobals";
 import { Navigate, Route, Routes } from "react-router-dom";
 import MainContentUSER from "./MainContentUSER";
 import SavedProperties from "./SavedProperties";
-import SavedAgents from "./SavedAgents";
 import SavedArticles from "./SavedArticles";
 import Reviews from "./Reviews";
 import Messages from "./Messages";
 import MyProfile from "./MyProfile";
+import FollowedAgents from "./FollowedAgents";
 
 // ------------------------------------------------- COMPONENT -------------------------------------------------
 export default function UserDashboard() {
@@ -25,7 +25,7 @@ export default function UserDashboard() {
             path={`/saved-properties`}
             element={<SavedProperties />}
           ></Route>
-          <Route path={`/saved-agents`} element={<SavedAgents />}></Route>
+          <Route path={`followed-agents`} element={<FollowedAgents />}></Route>
           <Route path={`/saved-articles`} element={<SavedArticles />}></Route>
 
           <Route path={`/reviews`} element={<Reviews />}></Route>

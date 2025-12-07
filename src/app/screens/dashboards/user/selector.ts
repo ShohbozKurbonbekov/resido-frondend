@@ -9,3 +9,8 @@ export const retrieveSavedProperties = createSelector(
   selectUserDashboardPage,
   (userDashboardPage) => userDashboardPage.savedProperties
 );
+
+export const retrieveFollowedAgents = createSelector(
+  selectUserDashboardPage,
+  (userDashboardPage) => userDashboardPage.followedAgents
+);

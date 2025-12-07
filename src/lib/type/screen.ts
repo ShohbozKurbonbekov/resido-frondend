@@ -9,6 +9,7 @@ import type {
   AgentsListPage,
   ChosenAgentPageType,
   FeaturedAgentsResult,
+  FollowedAgentsType,
 } from "./agent";
 import type { Comment, Comments } from "./comment";
 import type {
@@ -81,4 +82,5 @@ export interface ContactUsPageState {
 // USER DASHBOARD PAGE
 export interface UserDashboardPage {
   savedProperties: Properties;
+  followedAgents: FollowedAgentsType;
 }

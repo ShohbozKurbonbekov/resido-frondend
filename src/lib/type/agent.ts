@@ -62,6 +62,21 @@ export interface AgentProperties {
 
 export type ChosenAgentPageType = AgentProperties;
 
+export interface FollowedAgent {
+  _id: string;
+  agencyId: string;
+  nickname: string;
+  fullName: string;
+  averageRating: number;
+  createdAt: number;
+  totalSavings: number;
+  propertiesNumber: number;
+}
+
+export interface FollowedAgentsType {
+  agents: FollowedAgent[];
+  totalNumbers: TotalCounter[];
+}
 // SHOULD BE DELETED AT END
 
 export interface Agent {

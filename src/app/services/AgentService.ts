@@ -7,8 +7,9 @@ import type {
   ChosenAgentPageType,
   featuredAgentsInput,
   FeaturedAgentsResult,
+  FollowedAgentsType,
 } from "@/lib/type/agent";
-import type { SellersSearchInput } from "@/lib/type/common";
+import type { CommonInput, SellersSearchInput } from "@/lib/type/common";
 import axios from "axios";
 
 class AgentService {
@@ -76,6 +77,21 @@ class AgentService {
       return result.data;
     } catch (error) {
       console.log("Error in saveTargetProperty: ", error);
+      throw error;
+    }
+  }
+
+  public async getFollowedAgents(
+    input: CommonInput
+  ): Promise<FollowedAgentsType> {
+    try {
+      const url = `${this.path}/agent/see/followed-agents`;
+
+      const result = await axios.post(url, input, { withCredentials: true });
+
+      return result.data;
+    } catch (error) {
+      console.log("Error in getFollowedAgents service: ", error);
       throw error;
     }
   }

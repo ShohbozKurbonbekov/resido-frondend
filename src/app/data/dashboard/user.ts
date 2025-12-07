@@ -22,7 +22,11 @@ export const USER_DASHBOARD_FEATURES: DashboardSidebarType[] = [
     Icon: BookMarked,
     url: "/dashboard/saved-properties",
   },
-  { title: "Saved Agents", Icon: SquareUser, url: "/dashboard/saved-agents" },
+  {
+    title: "followed Agents",
+    Icon: SquareUser,
+    url: "/dashboard/followed-agents",
+  },
   { title: "Saved Articles", Icon: FileText, url: "/dashboard/saved-articles" },
   { title: "Reviews", Icon: SearchCheck, url: "/dashboard/reviews" },
   { title: "Messages", Icon: MessageSquare, url: "/dashboard/messages" },
