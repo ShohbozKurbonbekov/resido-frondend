@@ -10,6 +10,7 @@ import type {
   FollowedAgentsType,
 } from "@/lib/type/agent";
 import type { CommonInput, SellersSearchInput } from "@/lib/type/common";
+import type { UserSavingsInput } from "@/lib/type/dashboard/user";
 import axios from "axios";
 
 class AgentService {
@@ -92,6 +93,20 @@ class AgentService {
       return result.data;
     } catch (error) {
       console.log("Error in getFollowedAgents service: ", error);
+      throw error;
+    }
+  }
+
+  public async unFollowAgent(id: string): Promise<void> {
+    try {
+      const url = `${this.path}/agent/unfollow/followed-agent`;
+      const input: UserSavingsInput = {
+        targetId: id,
+      };
+
+      await axios.post(url, input, { withCredentials: true });
+    } catch (error) {
+      console.log("Error in deleteSavedProperty: ", error);
       throw error;
     }
   }

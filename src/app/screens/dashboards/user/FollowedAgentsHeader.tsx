@@ -5,8 +5,8 @@ interface Props {
   subtitle?: string;
 }
 
-export default function FavoriteAgentsHeader({
-  title = "Favorite Agents",
+export default function FolloweAgentsHeader({
+  title = "Followed Agents",
   subtitle = "You are following these agents.",
 }: Props) {
   return (

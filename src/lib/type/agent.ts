@@ -71,6 +71,7 @@ export interface FollowedAgent {
   createdAt: number;
   totalSavings: number;
   propertiesNumber: number;
+  avatar?: string;
 }
 
 export interface FollowedAgentsType {

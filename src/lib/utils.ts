@@ -96,9 +96,8 @@ export const customiseTime = (timeString: string) => {
 type HandleRatingType = null | string | undefined | number;
 export const handleRating = (rating: HandleRatingType): number => {
   let ratingValue;
-  if (rating === 0 || rating === undefined || rating || null) ratingValue = 0;
-
-  ratingValue = Number(rating).toFixed(1);
+  if (rating === 0 || rating === undefined || rating == null) ratingValue = 0;
+  else ratingValue = Number(rating).toFixed(1);
   return Number(ratingValue);
 };
 export const loweredCaseStr = (str: string) => str.toLowerCase();
