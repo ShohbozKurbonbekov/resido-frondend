@@ -26,7 +26,7 @@ const AgentCard: React.FC<AgentCardType> = React.memo(
     const handleUnfollow = useCallback(async () => {
       const target = new AgentService();
       try {
-        await target.unFollowAgent(agent._id);
+        await target.saveToggleAgent(agent._id);
         setMainPageLoading((prev) => !prev);
         await sweetTopSmallSuccessAlert("Successfully unfollowed", 1400);
       } catch (error) {

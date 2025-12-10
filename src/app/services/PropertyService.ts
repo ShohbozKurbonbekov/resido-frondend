@@ -11,7 +11,6 @@ import type {
 import { serverAPI } from "../../lib/config";
 import axios from "axios";
 import type { CommonInput, T } from "@/lib/type/common";
-import type { UserSavingsInput } from "@/lib/type/dashboard/user";
 
 class PropertyService {
   private readonly path;
@@ -110,21 +109,6 @@ class PropertyService {
       return result.data;
     } catch (error) {
       console.log("Error in PropertyService: ", error);
-      throw error;
-    }
-  }
-
-  // DELETE SAVED PROPERTY
-  public async deleteSavedProperty(id: string): Promise<void> {
-    try {
-      const url = `${this.path}/property/delete/saved-property`;
-      const input: UserSavingsInput = {
-        targetId: id,
-      };
-
-      await axios.post(url, input, { withCredentials: true });
-    } catch (error) {
-      console.log("Error in deleteSavedProperty: ", error);
       throw error;
     }
   }

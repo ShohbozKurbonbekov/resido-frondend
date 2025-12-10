@@ -63,7 +63,7 @@ const SaveShareCom: React.FC<SaveShareComType> = React.memo(
         // FOR AGENT
         if (targetItem === UserSavingTargetGroup.AGENT) {
           const agent = new AgentService();
-          await agent.saveTargetAgent(savedItemId);
+          await agent.saveToggleAgent(savedItemId);
         }
         // FOR PROPERTY
         if (targetItem === UserSavingTargetGroup.PROPERTY) {
