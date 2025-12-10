@@ -31,7 +31,7 @@ const SavedItemsCard: React.FC<SavedItemsCardType> = React.memo(
     const handleDelete = useCallback(async () => {
       const property = new PropertyService();
       try {
-        await property.deleteSavedProperty(_id);
+        await property.saveToggleProperty(_id);
         setReloadMainPage((prev) => !prev);
         await sweetTopSmallSuccessAlert("Successfully deleted", 1400);
       } catch (error) {

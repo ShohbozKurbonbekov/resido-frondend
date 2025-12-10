@@ -58,7 +58,7 @@ const SaveShareCom: React.FC<SaveShareComType> = React.memo(
       ? "Saved to the list successfully"
       : "Removed from the list successsfully!";
     // ------------------------------- HANDLERS --------------------------------
-    const handleSave = useCallback(async () => {
+    const handleSaveToggle = useCallback(async () => {
       try {
         // FOR AGENT
         if (targetItem === UserSavingTargetGroup.AGENT) {
@@ -68,7 +68,7 @@ const SaveShareCom: React.FC<SaveShareComType> = React.memo(
         // FOR PROPERTY
         if (targetItem === UserSavingTargetGroup.PROPERTY) {
           const property = new PropertyService();
-          await property.saveTargetProperty(savedItemId);
+          await property.saveToggleProperty(savedItemId);
         }
 
         // FOR BLOG
@@ -154,7 +154,7 @@ const SaveShareCom: React.FC<SaveShareComType> = React.memo(
 
         <button
           className={`w-full py-4 rounded-md flex flex-row gap-2 items-center justify-center font-semibold font-jostFont text-base cursor-pointer  transition-all duration-150 ease-linear border-2     ${isSaved ? "bg-blue-100 border-blue-800 text-blue-800" : "bg-gray-300 border-slate-800 text-gray-800"} `}
-          onClick={handleSave}
+          onClick={handleSaveToggle}
         >
           {targetItem !== UserSavingTargetGroup.AGENT ? (
             <>

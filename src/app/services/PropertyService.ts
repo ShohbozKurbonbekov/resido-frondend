@@ -89,9 +89,9 @@ class PropertyService {
   }
 
   // SAVE A CHOSEN PROPERTY
-  public async saveTargetProperty(propertyId: string): Promise<Property> {
+  public async saveToggleProperty(propertyId: string): Promise<Property> {
     try {
-      const url = `${this.path}/property/${propertyId}/save`;
+      const url = `${this.path}/property/${propertyId}/toggle-save`;
       const result = await axios.get(url, { withCredentials: true });
       return result.data;
     } catch (error) {
