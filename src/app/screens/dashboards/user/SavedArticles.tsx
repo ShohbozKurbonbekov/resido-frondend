@@ -12,6 +12,9 @@ import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import SavedBlogsHeader from "./SavedBlogsHeader";
 import SavedBlogsContent from "./SavedBlogsContent";
 
+export const savedBlogsWrapperClasses =
+  "grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-4 py-4";
+
 // ----------------------------------------- REDUX INTEGRATION --------------------------
 const savedBlogsDispatch = (dispatch: Dispatch) => ({
   setSavedBlogs: (data: SavedBlogsOutput) => dispatch(setSavedBlogs(data)),
@@ -53,7 +56,7 @@ export default function SavedArticles() {
   return (
     <div className="lg:col-span-9">
       {loading ? (
-        <SpinnerGrids />
+        <SpinnerGrids columns={savedBlogsWrapperClasses} count={3} />
       ) : (
         <div className="flex flex-col gap-y-5 h-full">
           <SavedBlogsHeader />
