@@ -66,37 +66,17 @@ export interface SearchBlogTags {
   blogs: Blog[];
 }
 
-//////////////////////////////////// SHOULD BE DELETED LATE ↓ ///////////////////////////
-export interface CommentType {
-  id: number;
-  name: string;
-  date: string;
-  text: string;
-  avatar: string;
+export interface SavedBlog {
+  _id: string;
+  blogImage: string;
+  blogTitle: string;
+  blogShortInfo: string;
+  blogCategory: BlogCategory;
+  createdAt: string;
+  updatedAt: string;
 }
 
-export interface SocialType {
-  facebook: string;
-  twitter: string;
-  instagram: string;
-  youtube: string;
-  linkedin: string;
-}
-export interface WriterType {
-  name: string;
-  bio: string;
-  avatar: string;
-  social: SocialType;
-}
-export interface BlogType {
-  tags: string[];
-  date: string | number;
-  id: number;
-  image: string;
-  category: string;
-  title: string;
-  description: string;
-  quote: string;
-  comments: CommentType[];
-  writer: WriterType;
+export interface SavedBlogsOutput {
+  blogs: SavedBlog[];
+  totalBlogsNumber: TotalCounter[];
 }

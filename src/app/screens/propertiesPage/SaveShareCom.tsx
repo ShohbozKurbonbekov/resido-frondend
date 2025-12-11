@@ -74,7 +74,7 @@ const SaveShareCom: React.FC<SaveShareComType> = React.memo(
         // FOR BLOG
         if (targetItem === UserSavingTargetGroup.BLOG) {
           const blog = new BlogService();
-          await blog.saveTargetBlog(savedItemId);
+          await blog.saveToggleBlog(savedItemId);
         }
         // GENERAL
         await sweetTopSmallSuccessAlert(saveMessage);

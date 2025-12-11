@@ -14,3 +14,8 @@ export const retrieveFollowedAgents = createSelector(
   selectUserDashboardPage,
   (userDashboardPage) => userDashboardPage.followedAgents
 );
+
+export const retrieveSavedBlogs = createSelector(
+  selectUserDashboardPage,
+  (userDashboardPage) => userDashboardPage.savedBlogs
+);

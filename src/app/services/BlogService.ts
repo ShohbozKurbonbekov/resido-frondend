@@ -5,9 +5,10 @@ import type {
   BlogSearchInput,
   BlogsListPage,
   ChosenBlogType,
+  SavedBlogsOutput,
   SearchBlogTags,
 } from "@/lib/type/blogs";
-import type { T } from "@/lib/type/common";
+import type { CommonInput, T } from "@/lib/type/common";
 import axios from "axios";
 
 class BlogService {
@@ -65,9 +66,9 @@ class BlogService {
       throw error;
     }
   }
-  public async saveTargetBlog(blogId: string): Promise<Blog> {
+  public async saveToggleBlog(blogId: string): Promise<Blog> {
     try {
-      const url = `${this.path}/blog/${blogId}/save`;
+      const url = `${this.path}/blog/${blogId}/toggle-save`;
       const result = await axios.get(url, { withCredentials: true });
       return result.data;
     } catch (error) {
@@ -84,6 +85,19 @@ class BlogService {
       return data;
     } catch (error) {
       console.log("Error in getting blogSearchTag: ", error);
+      throw error;
+    }
+  }
+
+  public async getSavedBlogs(input: CommonInput): Promise<SavedBlogsOutput> {
+    try {
+      const url = `${this.path}/blog/see/saved-blogs`;
+
+      const result = await axios.post(url, input, { withCredentials: true });
+
+      return result.data;
+    } catch (error) {
+      console.log("Error in getFollowedAgents service: ", error);
       throw error;
     }
   }

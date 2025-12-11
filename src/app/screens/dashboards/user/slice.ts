@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState: UserDashboardPage = {
   savedProperties: { properties: [], totalPropertiesNumber: [{ total: 0 }] },
   followedAgents: { agents: [], totalNumbers: [{ total: 0 }] },
+  savedBlogs: { blogs: [], totalBlogsNumber: [{ total: 0 }] },
 };
 
 const userDashboardPageSlice = createSlice({
@@ -16,10 +17,13 @@ const userDashboardPageSlice = createSlice({
     setFollowedAgents: (state, action) => {
       state.followedAgents = action.payload;
     },
+    setSavedBlogs: (state, action) => {
+      state.savedBlogs = action.payload;
+    },
   },
 });
 
-export const { setSavedProperties, setFollowedAgents } =
+export const { setSavedProperties, setFollowedAgents, setSavedBlogs } =
   userDashboardPageSlice.actions;
 
 const UserDashoardPageReducer = userDashboardPageSlice.reducer;

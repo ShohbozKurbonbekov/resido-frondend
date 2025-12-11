@@ -21,6 +21,7 @@ import type {
   BlogsListPage,
   ChosenBlogComments,
   ChosenBlogType,
+  SavedBlogsOutput,
 } from "./blogs";
 import type { User } from "./dashboard/user";
 // REACTT APP STATE
@@ -83,4 +84,5 @@ export interface ContactUsPageState {
 export interface UserDashboardPage {
   savedProperties: Properties;
   followedAgents: FollowedAgentsType;
+  savedBlogs: SavedBlogsOutput;
 }
