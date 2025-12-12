@@ -85,4 +85,5 @@ export interface UserDashboardPage {
   savedProperties: Properties;
   followedAgents: FollowedAgentsType;
   savedBlogs: SavedBlogsOutput;
+  getUserComments: Comments;
 }

@@ -5,6 +5,7 @@ const initialState: UserDashboardPage = {
   savedProperties: { properties: [], totalPropertiesNumber: [{ total: 0 }] },
   followedAgents: { agents: [], totalNumbers: [{ total: 0 }] },
   savedBlogs: { blogs: [], totalBlogsNumber: [{ total: 0 }] },
+  getUserComments: { comments: [], metaCounter: [{ total: 0 }] },
 };
 
 const userDashboardPageSlice = createSlice({
@@ -20,11 +21,18 @@ const userDashboardPageSlice = createSlice({
     setSavedBlogs: (state, action) => {
       state.savedBlogs = action.payload;
     },
+    setGetUserComments: (state, action) => {
+      state.getUserComments = action.payload;
+    },
   },
 });
 
-export const { setSavedProperties, setFollowedAgents, setSavedBlogs } =
-  userDashboardPageSlice.actions;
+export const {
+  setSavedProperties,
+  setFollowedAgents,
+  setSavedBlogs,
+  setGetUserComments,
+} = userDashboardPageSlice.actions;
 
 const UserDashoardPageReducer = userDashboardPageSlice.reducer;
 export default UserDashoardPageReducer;

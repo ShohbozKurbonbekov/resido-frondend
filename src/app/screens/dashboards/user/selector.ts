@@ -19,3 +19,8 @@ export const retrieveSavedBlogs = createSelector(
   selectUserDashboardPage,
   (userDashboardPage) => userDashboardPage.savedBlogs
 );
+
+export const retrieveGetUserComments = createSelector(
+  selectUserDashboardPage,
+  (userDashboardPage) => userDashboardPage.getUserComments
+);

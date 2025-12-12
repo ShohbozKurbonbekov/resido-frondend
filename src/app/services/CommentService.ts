@@ -5,7 +5,9 @@ import type {
   Comment,
   CommentInput,
   Comments,
+  CommentUpdate,
 } from "@/lib/type/comment";
+import type { CommonInput } from "@/lib/type/common";
 class CommentService {
   private readonly path;
   constructor() {
@@ -50,6 +52,39 @@ class CommentService {
       return result.data;
     } catch (error) {
       console.log("Error in createComment service: ", error);
+      throw error;
+    }
+  }
+  public async getUserComments(input: CommonInput): Promise<Comments> {
+    try {
+      const url = `${this.path}/comment/get/all/user-reviews`;
+      const result = await axios.post(url, input, { withCredentials: true });
+
+      return result.data;
+    } catch (error) {
+      console.log("Error in getUserComments service: ", error);
+      throw error;
+    }
+  }
+
+  public async updateUserComment(
+    _id: string,
+    updatedInput: CommentUpdate
+  ): Promise<void> {
+    try {
+      const url = `${this.path}/comment/update/${_id}`;
+      await axios.post(url, updatedInput, { withCredentials: true });
+    } catch (error) {
+      console.log("Error in updateUserComment: ", error);
+      throw error;
+    }
+  }
+  public async deleteUserComment(id: string): Promise<void> {
+    try {
+      const url = `${this.path}/comment/delete/${id}`;
+      await axios.post(url, {}, { withCredentials: true });
+    } catch (error) {
+      console.log("Error in deleteUserComment Service: ", error);
       throw error;
     }
   }

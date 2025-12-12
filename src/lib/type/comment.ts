@@ -28,8 +28,8 @@ export interface Comment {
   userId: string;
   rating: number;
   status: CommentStatus;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Comments {
@@ -49,4 +49,9 @@ export interface CommentInput {
   userId?: string;
   rating?: number;
   status?: CommentStatus;
+}
+
+export interface CommentUpdate {
+  content: string;
+  rating: number;
 }
