@@ -1,8 +1,8 @@
 import { serverAPI } from "@/lib/config";
-import type { CommonUsers, LoginResult } from "@/lib/type/common";
+import type { CommonInput, CommonUsers, LoginResult } from "@/lib/type/common";
 import type { User } from "@/lib/type/dashboard/user";
 import type { LoginInput, UserMemberInput } from "@/lib/type/member";
-import type { MessageInput } from "@/lib/type/message";
+import type { MemberMessages, MessageInput } from "@/lib/type/message";
 import axios from "axios";
 import type { Message } from "react-hook-form";
 
@@ -34,6 +34,18 @@ class MemberService {
       throw error;
     }
   }
+
+  public async getMemberMessages(input: CommonInput): Promise<MemberMessages> {
+    try {
+      const url = `${this.serverApi}/member/get/all-messages`;
+      const result = await axios.post(url, input, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in getMemberMessages: ", error);
+      throw error;
+    }
+  }
+
   public async getAdmin(): Promise<User> {
     try {
       const url = `${this.serverApi}/member/admin`;

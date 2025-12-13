@@ -1,5 +1,6 @@
 import type { MemberType } from "../enums/agent.enum";
-import type {} from "../enums/mesage.enum";
+import type { CollectionName } from "../enums/mesage.enum";
+import type { CommonUsers, TotalCounter } from "./common";
 
 export interface MessageInput {
   //sender
@@ -26,17 +27,24 @@ export interface Message {
   senderId: string;
   senderType: MemberType;
   deletedBySender: boolean;
+  senderCollectionName: CollectionName;
+  senderData: CommonUsers;
 
-  // receiver
   receiverId: string;
   receiverType: MemberType;
   deletedByReceiver: boolean;
+  receiverCollectionName: CollectionName;
+  receiverData: CommonUsers;
 
-  // content
   isRead: boolean;
-  whenIsRead: Date;
+  whenIsRead: string | null;
   content: string;
   subject: string;
   email: string;
   phone: string;
+}
+
+export interface MemberMessages {
+  messages: Message[];
+  metaCounter: TotalCounter[];
 }

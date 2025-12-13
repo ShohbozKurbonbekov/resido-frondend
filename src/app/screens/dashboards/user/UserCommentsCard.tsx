@@ -33,12 +33,12 @@ const UserCommentsCard: React.FC<UserCommentsCardType> = React.memo(
         value={handleRating(updatedInput.rating)}
         precision={0.1}
         className="yellow-500"
-        size={"small"}
+        size={"medium"}
         onChange={(_, newRating) => handleRate(newRating ?? 0)}
       />
     ) : (
       <Rating
-        value={handleRating(comment.rating)}
+        value={handleRating(updatedInput.rating)}
         name="rating"
         precision={0.1}
         className="yellow-500"
@@ -117,7 +117,7 @@ const UserCommentsCard: React.FC<UserCommentsCardType> = React.memo(
 
     // ---------------------------------------- RENDER -------------------------------
     return (
-      <Card className="w-full bg-white rounded-2xl shadow-md p-4 md:p-5">
+      <Card className="w-full bg-white rounded-2xl shadow-md">
         <CardHeader className="flex md:flex-row items-start justify-between pb-2 flex-col ">
           <div>
             <Link
@@ -128,8 +128,8 @@ const UserCommentsCard: React.FC<UserCommentsCardType> = React.memo(
             </Link>
           </div>
 
-          <div className="text-right">
-            <p className="text-xs text-muted-foreground font-jostFont ">
+          <div className="md:text-right">
+            <p className="text-xs text-muted-foreground font-jostFont py-1 px-3 rounded-sm bg-slate-200">
               {dateConverter(comment.createdAt, "Do MMMM YYYY, HH:MM")}
             </p>
             {edited && (
@@ -140,22 +140,23 @@ const UserCommentsCard: React.FC<UserCommentsCardType> = React.memo(
           </div>
         </CardHeader>
 
-        <CardContent className="space-y-3 pt-1">
+        <CardContent className="space-y-3">
           {showRating}
 
           {isediting ? (
             <Textarea
               onChange={handleContent}
               value={updatedInput.content}
+              className="text-sm md:text-lg  font-jostFont text-darkBlue focus-visible:ring-gray-400"
             ></Textarea>
           ) : (
-            <p className="text-sm text-gray-700 leading-relaxed break-words font-jostFont">
-              {comment.content || ""}
+            <p className="text-sm md:text-lg text-gray-700 leading-relaxed break-words font-jostFont">
+              {updatedInput.content || ""}
             </p>
           )}
         </CardContent>
 
-        <CardFooter className="flex justify-end gap-3 pt-4">
+        <CardFooter className="flex justify-end gap-3">
           <Button
             onClick={isediting ? handleUpdateComment : handleEditBtn}
             variant="outline"

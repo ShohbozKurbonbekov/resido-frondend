@@ -22,7 +22,8 @@ const getUserCommentsRetriever = createSelector(
   (getUserComments) => ({ getUserComments })
 );
 
-export const UserCardWrapperClasses = "w-full grid gap-4 md:gap-5 grid-cols-1";
+export const UserCardWrapperClasses =
+  "w-full grid gap-y-4 md:gap-y-5 grid-cols-1";
 // --------------------------------------- COMPONENT --------------------
 export default function Reviews() {
   const { setGetUserComments } = getUserCommentsDispatch(useDispatch());
@@ -32,7 +33,7 @@ export default function Reviews() {
   const [getUserCommentsInput, setGetUserCommentsInput] = useState<CommonInput>(
     {
       page: 1,
-      limit: 3,
+      limit: 4,
     }
   );
 

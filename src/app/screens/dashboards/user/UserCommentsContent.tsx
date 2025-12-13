@@ -12,7 +12,7 @@ interface UserCommentsContentType {
   setGetUserCommentsInput: SetStateType<CommonInput>;
   setMainPageLoading: SetStateType<boolean>;
 }
-const FollowedAgentsContent: React.FC<UserCommentsContentType> = React.memo(
+const UserCommentsContent: React.FC<UserCommentsContentType> = React.memo(
   ({
     getUserComments,
     getUserCommentsInput,
@@ -50,4 +50,4 @@ const FollowedAgentsContent: React.FC<UserCommentsContentType> = React.memo(
   }
 );
 
-export default FollowedAgentsContent;
+export default UserCommentsContent;

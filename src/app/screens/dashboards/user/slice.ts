@@ -6,6 +6,7 @@ const initialState: UserDashboardPage = {
   followedAgents: { agents: [], totalNumbers: [{ total: 0 }] },
   savedBlogs: { blogs: [], totalBlogsNumber: [{ total: 0 }] },
   getUserComments: { comments: [], metaCounter: [{ total: 0 }] },
+  getMemberMessages: { messages: [], metaCounter: [{ total: 0 }] },
 };
 
 const userDashboardPageSlice = createSlice({
@@ -24,6 +25,9 @@ const userDashboardPageSlice = createSlice({
     setGetUserComments: (state, action) => {
       state.getUserComments = action.payload;
     },
+    setGetMemberMessages: (state, action) => {
+      state.getMemberMessages = action.payload;
+    },
   },
 });
 
@@ -32,6 +36,7 @@ export const {
   setFollowedAgents,
   setSavedBlogs,
   setGetUserComments,
+  setGetMemberMessages,
 } = userDashboardPageSlice.actions;
 
 const UserDashoardPageReducer = userDashboardPageSlice.reducer;

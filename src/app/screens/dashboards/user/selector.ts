@@ -24,3 +24,8 @@ export const retrieveGetUserComments = createSelector(
   selectUserDashboardPage,
   (userDashboardPage) => userDashboardPage.getUserComments
 );
+
+export const retrieveGetMemberMessages = createSelector(
+  selectUserDashboardPage,
+  (userDashboardPage) => userDashboardPage.getMemberMessages
+);
