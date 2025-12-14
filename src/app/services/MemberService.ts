@@ -82,6 +82,26 @@ class MemberService {
       throw error;
     }
   }
+
+  public async messageRead(id: string): Promise<void> {
+    try {
+      const url = `${this.serverApi}/member/message/${id}/read`;
+      await axios.post(url, {}, { withCredentials: true });
+    } catch (error) {
+      console.log("Error in messageRead service: ", error);
+      throw error;
+    }
+  }
+
+  public async deleteMessage(id: string): Promise<void> {
+    try {
+      const url = `${this.serverApi}/member/message/${id}/delete`;
+      await axios.post(url, {}, { withCredentials: true });
+    } catch (error) {
+      console.log("Error in deleteMessager service: ", error);
+      throw error;
+    }
+  }
 }
 
 export default MemberService;

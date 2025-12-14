@@ -105,3 +105,7 @@ export const loweredCaseStr = (str: string) => str.toLowerCase();
 export const customLetterCustomise = (str: string): string => {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
 };
+
+export const getMilliSeconds = (date: string): number => {
+  return new Date(date).getTime();
+};

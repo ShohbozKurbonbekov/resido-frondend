@@ -3,7 +3,7 @@ import { PaginationCom } from "@/app/components/PaginationCom";
 import type { CommonInput, SetStateType } from "@/lib/type/common";
 import React from "react";
 import type { MemberMessages, Message } from "@/lib/type/message";
-import MemberMessageCard from "./MemberMessageCard";
+import MemberMessageCard from "../../../components/MemberMessageCard";
 import { MemberMessageCardWrapperClasses } from "./Messages";
 
 interface MemberMessagesContentType {
@@ -11,6 +11,7 @@ interface MemberMessagesContentType {
   getMemberMessagesInput: CommonInput;
   setGetMemberMessagesInput: SetStateType<CommonInput>;
   setMainPageLoading: SetStateType<boolean>;
+  handleDeleteMessage: (id: string) => Promise<void>;
 }
 const MemberMessagesContent: React.FC<MemberMessagesContentType> = React.memo(
   ({
@@ -18,6 +19,7 @@ const MemberMessagesContent: React.FC<MemberMessagesContentType> = React.memo(
     getMemberMessagesInput,
     setGetMemberMessagesInput,
     setMainPageLoading,
+    handleDeleteMessage,
   }) => {
     return (
       <>
@@ -26,6 +28,7 @@ const MemberMessagesContent: React.FC<MemberMessagesContentType> = React.memo(
             <div className={MemberMessageCardWrapperClasses}>
               {getMemberMessages?.messages.map((message: Message) => (
                 <MemberMessageCard
+                  handleDeleteMessage={handleDeleteMessage}
                   message={message}
                   key={message?._id}
                   setMainPageLoading={setMainPageLoading}

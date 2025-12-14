@@ -1,5 +1,5 @@
 import SpinnerGrids from "@/app/components/loading/SpinnerGrids";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createSelector } from "reselect";
 import type { Dispatch } from "@reduxjs/toolkit";
 import { setGetMemberMessages } from "./slice";
@@ -53,7 +53,33 @@ export default function Messages() {
 
     fetchGetMemberMessages();
   }, [getMemberMessagesInput, mainPageLoading]);
-  // --------------------------------------- COMPONENT --------------------
+  // --------------------------------------- HANDLERS --------------------
+  const handleDeleteMessage = useCallback(
+    async (id: string) => {
+      const oldMessages = getMemberMessages;
+      const updatedMessages = oldMessages.messages.filter(
+        (message) => message._id !== id
+      );
+      setGetMemberMessages({
+        messages: updatedMessages,
+        metaCounter: [
+          { total: Math.max(0, (oldMessages.metaCounter[0]?.total || 1) - 1) },
+        ],
+      });
+
+      const member = new MemberService();
+      try {
+        await member.deleteMessage(id);
+      } catch (error) {
+        console.log("Error in handleDeleteMessage: ", error);
+        await sweetErrorHandling(error!);
+        setGetMemberMessages(oldMessages);
+      }
+    },
+    [getMemberMessages, setGetMemberMessages]
+  );
+
+  // --------------------------------------- RENDER --------------------
   return (
     <div className="lg:col-span-9  flex flex-col gap-7">
       {loading ? (
@@ -66,6 +92,7 @@ export default function Messages() {
             getMemberMessagesInput={getMemberMessagesInput}
             setGetMemberMessagesInput={setGetMemberMessagesInput}
             setMainPageLoading={setMainPageLoading}
+            handleDeleteMessage={handleDeleteMessage}
           />
         </div>
       )}
