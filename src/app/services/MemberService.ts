@@ -2,9 +2,8 @@ import { serverAPI } from "@/lib/config";
 import type { CommonInput, CommonUsers, LoginResult } from "@/lib/type/common";
 import type { User } from "@/lib/type/dashboard/user";
 import type { LoginInput, UserMemberInput } from "@/lib/type/member";
-import type { MemberMessages, MessageInput } from "@/lib/type/message";
+import type { MemberMessages, Message, MessageInput } from "@/lib/type/message";
 import axios from "axios";
-import type { Message } from "react-hook-form";
 
 class MemberService {
   private readonly serverApi;
@@ -99,6 +98,15 @@ class MemberService {
       await axios.post(url, {}, { withCredentials: true });
     } catch (error) {
       console.log("Error in deleteMessager service: ", error);
+      throw error;
+    }
+  }
+  public async messageEdit(id: string, content: string): Promise<void> {
+    try {
+      const url = `${this.serverApi}/member/message/${id}/edit`;
+      await axios.post(url, { content }, { withCredentials: true });
+    } catch (error) {
+      console.log("Error in messageEdit service: ", error);
       throw error;
     }
   }

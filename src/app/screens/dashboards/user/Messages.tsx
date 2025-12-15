@@ -7,10 +7,12 @@ import { retrieveGetMemberMessages } from "./selector";
 import { useDispatch, useSelector } from "react-redux";
 import type { CommonInput } from "@/lib/type/common";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
-import type { MemberMessages } from "@/lib/type/message";
+import type { MemberMessages, Message, MessageInput } from "@/lib/type/message";
 import MemberService from "@/app/services/MemberService";
 import MemberMessagesHeader from "./MemberMessagesHeader";
 import MemberMessagesContent from "./MemberMessagesContent";
+import { useGlobals } from "@/app/hooks/useGlobals";
+import type { User } from "@/lib/type/dashboard/user";
 
 // ----------------------------------------- REDUX INTEGRATION --------------------------
 const getMemberMessagesDispatch = (dispatch: Dispatch) => ({
@@ -27,6 +29,8 @@ export const MemberMessageCardWrapperClasses =
   "w-full grid gap-y-4 md:gap-y-5 grid-cols-1";
 // --------------------------------------- COMPONENT --------------------
 export default function Messages() {
+  const { authmember } = useGlobals();
+  const member = authmember as User;
   const { setGetMemberMessages } = getMemberMessagesDispatch(useDispatch());
   const { getMemberMessages } = useSelector(getMemberMessagesRetriever);
   const [loading, setLoading] = useState<boolean>(true);
@@ -79,6 +83,66 @@ export default function Messages() {
     [getMemberMessages, setGetMemberMessages]
   );
 
+  const handleSavebtn = useCallback(
+    async (content: string, id: string) => {
+      const oldMessages = getMemberMessages;
+      const updatedMessages = oldMessages.messages.map((message) => {
+        if (message._id === id) {
+          return { ...message, content: content, isEdited: true };
+        } else {
+          return message;
+        }
+      });
+      setGetMemberMessages({
+        messages: updatedMessages,
+        metaCounter: oldMessages.metaCounter,
+      });
+      try {
+        const member = new MemberService();
+        await member.messageEdit(id, content);
+      } catch (error) {
+        console.log("Error in handleSavebtn: ", error);
+        await sweetErrorHandling(error!);
+        setGetMemberMessages(oldMessages);
+      }
+    },
+    [getMemberMessages, setGetMemberMessages]
+  );
+
+  const handleReply = useCallback(
+    async (oldMsg: Message, content: string) => {
+      if (!member) return;
+      const prevMsgs = getMemberMessages;
+      const target = new MemberService();
+      const receiverId =
+        member?._id === oldMsg.senderId ? oldMsg.receiverId : oldMsg.senderId;
+      const receiverType =
+        member._id === oldMsg.senderId
+          ? oldMsg.receiverType
+          : oldMsg.senderType;
+      const input: MessageInput = {
+        content,
+        email: member.memberEmail,
+        phone: member.memberPhone,
+        senderType: member.role,
+        subject: oldMsg?.subject,
+        receiverId,
+        receiverType,
+      };
+      try {
+        const result = await target.writeMessageMember(input);
+        setGetMemberMessages({
+          messages: [result, ...prevMsgs.messages],
+          metaCounter: [{ total: (prevMsgs.metaCounter[0]?.total ?? 0) + 1 }],
+        });
+      } catch (error) {
+        console.log("Error in handleReply: ", error);
+        await sweetErrorHandling(error!);
+        setGetMemberMessages(prevMsgs);
+      }
+    },
+    [getMemberMessages, setGetMemberMessages, member]
+  );
   // --------------------------------------- RENDER --------------------
   return (
     <div className="lg:col-span-9  flex flex-col gap-7">
@@ -93,6 +157,8 @@ export default function Messages() {
             setGetMemberMessagesInput={setGetMemberMessagesInput}
             setMainPageLoading={setMainPageLoading}
             handleDeleteMessage={handleDeleteMessage}
+            handleSavebtn={handleSavebtn}
+            handleReply={handleReply}
           />
         </div>
       )}
