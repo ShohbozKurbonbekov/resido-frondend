@@ -5,8 +5,8 @@ import SavedProperties from "./SavedProperties";
 import SavedArticles from "./SavedArticles";
 import Reviews from "./Reviews";
 import Messages from "./Messages";
-import MyProfile from "./MyProfile";
 import FollowedAgents from "./FollowedAgents";
+import MyProfile from "./MyProfile";
 
 // ------------------------------------------------- COMPONENT -------------------------------------------------
 export default function UserDashboard() {

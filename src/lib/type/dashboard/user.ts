@@ -12,13 +12,26 @@ export interface User {
   role: MemberType;
   memberStatus: MemberStatus;
   occupation: string;
-  memberSocials?: Social;
+  memberSocials: Social;
   userFullname?: string;
   memberAddress?: string;
   memberDescription?: string;
   avatar?: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface UserUpdate {
+  _id?: string;
+  memberName?: string;
+  memberPhone?: string;
+  memberEmail?: string;
+  occupation?: string;
+  memberSocials?: Social;
+  userFullname?: string;
+  memberAddress?: string;
+  memberDescription?: string;
+  avatar?: string | File;
 }
 
 export interface UserSavingsOutput {

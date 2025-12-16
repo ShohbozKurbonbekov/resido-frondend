@@ -26,7 +26,7 @@ const getMemberMessagesRetriever = createSelector(
 );
 
 export const MemberMessageCardWrapperClasses =
-  "w-full grid gap-y-4 md:gap-y-5 grid-cols-1";
+  "w-full grid gap-y-4 md:gap-y-2 grid-cols-1";
 // --------------------------------------- COMPONENT --------------------
 export default function Messages() {
   const { authmember } = useGlobals();

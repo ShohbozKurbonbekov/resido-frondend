@@ -1,6 +1,6 @@
 import { serverAPI } from "@/lib/config";
 import type { CommonInput, CommonUsers, LoginResult } from "@/lib/type/common";
-import type { User } from "@/lib/type/dashboard/user";
+import type { User, UserUpdate } from "@/lib/type/dashboard/user";
 import type { LoginInput, UserMemberInput } from "@/lib/type/member";
 import type { MemberMessages, Message, MessageInput } from "@/lib/type/message";
 import axios from "axios";
@@ -107,6 +107,45 @@ class MemberService {
       await axios.post(url, { content }, { withCredentials: true });
     } catch (error) {
       console.log("Error in messageEdit service: ", error);
+      throw error;
+    }
+  }
+
+  public async updateMember(input: UserUpdate): Promise<User> {
+    try {
+      const formData = new FormData();
+
+      // Append text fields
+      if (input.memberName) formData.append("memberName", input.memberName);
+      if (input.memberEmail) formData.append("memberEmail", input.memberEmail);
+      if (input.memberPhone) formData.append("memberPhone", input.memberPhone);
+      if (input.memberAddress)
+        formData.append("memberAddress", input.memberAddress);
+      if (input.memberDescription)
+        formData.append("memberDescription", input.memberDescription);
+      if (input.occupation) formData.append("occupation", input.occupation);
+
+      if (input.memberSocials) {
+        formData.append("memberSocials", JSON.stringify(input.memberSocials));
+      }
+      // Append file ONLY if it exists
+      if (input.avatar instanceof File) {
+        formData.append("avatar", input.avatar);
+      }
+
+      const result = await axios.post(
+        `${this.serverApi}/member/update`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
+
+      const member: User = result.data;
+      localStorage.setItem("memberData", JSON.stringify(member));
+      return member;
+    } catch (error) {
+      console.error("Error in updateMember", error);
       throw error;
     }
   }
