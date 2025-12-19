@@ -1,5 +1,5 @@
 import type { MemberStatus, MemberType } from "@/lib/enums/agent.enum";
-import type { Social } from "../common";
+import type { Social, TotalCounter } from "../common";
 import type { UserSavingTargetGroup } from "@/lib/enums/user.enum";
 import type { LucideIcon } from "lucide-react";
 
@@ -57,4 +57,13 @@ export interface UserCardsType {
   cardTitle: string;
   cardClasses: string;
   Icon: LucideIcon;
+}
+
+export interface UserDashboardOverviewType {
+  savedProperties: TotalCounter;
+  savedArticles: TotalCounter;
+  followedAgents: TotalCounter;
+  reviews: TotalCounter;
+  messages: TotalCounter;
+  generatedAt: string | null;
 }

@@ -23,7 +23,7 @@ import type {
   ChosenBlogType,
   SavedBlogsOutput,
 } from "./blogs";
-import type { User } from "./dashboard/user";
+import type { User, UserDashboardOverviewType } from "./dashboard/user";
 import type { MemberMessages } from "./message";
 // REACTT APP STATE
 export interface AppRootState {
@@ -88,4 +88,5 @@ export interface UserDashboardPage {
   savedBlogs: SavedBlogsOutput;
   getUserComments: Comments;
   getMemberMessages: MemberMessages;
+  userDashboardOverview: UserDashboardOverviewType;
 }

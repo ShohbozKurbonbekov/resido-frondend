@@ -7,6 +7,14 @@ const initialState: UserDashboardPage = {
   savedBlogs: { blogs: [], totalBlogsNumber: [{ total: 0 }] },
   getUserComments: { comments: [], metaCounter: [{ total: 0 }] },
   getMemberMessages: { messages: [], metaCounter: [{ total: 0 }] },
+  userDashboardOverview: {
+    followedAgents: { total: 0 },
+    savedProperties: { total: 0 },
+    savedArticles: { total: 0 },
+    reviews: { total: 0 },
+    messages: { total: 0 },
+    generatedAt: null,
+  },
 };
 
 const userDashboardPageSlice = createSlice({
@@ -28,6 +36,9 @@ const userDashboardPageSlice = createSlice({
     setGetMemberMessages: (state, action) => {
       state.getMemberMessages = action.payload;
     },
+    setUserdashboardOverview: (state, action) => {
+      state.userDashboardOverview = action.payload;
+    },
   },
 });
 
@@ -37,6 +48,7 @@ export const {
   setSavedBlogs,
   setGetUserComments,
   setGetMemberMessages,
+  setUserdashboardOverview,
 } = userDashboardPageSlice.actions;
 
 const UserDashoardPageReducer = userDashboardPageSlice.reducer;

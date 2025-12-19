@@ -29,3 +29,7 @@ export const retrieveGetMemberMessages = createSelector(
   selectUserDashboardPage,
   (userDashboardPage) => userDashboardPage.getMemberMessages
 );
+export const retrieveUserdashboardOverview = createSelector(
+  selectUserDashboardPage,
+  (userDashboardPage) => userDashboardPage.userDashboardOverview
+);

@@ -7,6 +7,7 @@ import Reviews from "./Reviews";
 import Messages from "./Messages";
 import FollowedAgents from "./FollowedAgents";
 import MyProfile from "./MyProfile";
+import UserDashboardOverview from "./UserDashboardOverview";
 
 // ------------------------------------------------- COMPONENT -------------------------------------------------
 export default function UserDashboard() {
@@ -20,7 +21,7 @@ export default function UserDashboard() {
     <>
       <MainContentUSER>
         <Routes>
-          <Route index element={<div>Dashboard Overview</div>} />
+          <Route index element={<UserDashboardOverview />} />
           <Route
             path={`/saved-properties`}
             element={<SavedProperties />}

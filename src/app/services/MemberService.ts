@@ -1,6 +1,10 @@
 import { serverAPI } from "@/lib/config";
 import type { CommonInput, CommonUsers, LoginResult } from "@/lib/type/common";
-import type { User, UserUpdate } from "@/lib/type/dashboard/user";
+import type {
+  User,
+  UserDashboardOverviewType,
+  UserUpdate,
+} from "@/lib/type/dashboard/user";
 import type { LoginInput, UserMemberInput } from "@/lib/type/member";
 import type { MemberMessages, Message, MessageInput } from "@/lib/type/message";
 import axios from "axios";
@@ -146,6 +150,17 @@ class MemberService {
       return member;
     } catch (error) {
       console.error("Error in updateMember", error);
+      throw error;
+    }
+  }
+
+  public async userDashboardOverview(): Promise<UserDashboardOverviewType> {
+    try {
+      const url = `${this.serverApi}/member/dashboard/overview`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in userDashboardOverview service: ", error);
       throw error;
     }
   }
