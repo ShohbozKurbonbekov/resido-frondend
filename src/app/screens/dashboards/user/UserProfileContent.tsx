@@ -22,6 +22,7 @@ import {
 } from "@/lib/sweetAlerts";
 import { useGlobals } from "@/app/hooks/useGlobals";
 import MemberService from "@/app/services/MemberService";
+import { serverAPI } from "@/lib/config";
 
 const inputClasses =
   "border-slate-300 bg-slate-50 text-slate-800 placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-emerald-600/30 focus-visible:border-emerald-600";
@@ -36,14 +37,15 @@ interface UserProfileContentType {
 }
 const UserProfileContent: React.FC<UserProfileContentType> = React.memo(
   ({ user }) => {
-    const [avatarPreview, setAvatarPreview] = React.useState<string | null>(
-      null
-    );
+    const [avatarPreview, setAvatarPreview] = React.useState<
+      string | undefined
+    >(user?.avatar ? `${serverAPI}/${user?.avatar}` : undefined);
+
     const { setAuthMember } = useGlobals();
     const form = useForm<z.input<typeof UserProfileSchema>>({
       resolver: zodResolver(UserProfileSchema),
       defaultValues: {
-        avatar: user?.avatar,
+        avatar: `${serverAPI}/${user?.avatar}`,
         memberAddress: user?.memberAddress,
         memberDescription: user?.memberDescription,
         memberEmail: user?.memberEmail,
@@ -58,6 +60,7 @@ const UserProfileContent: React.FC<UserProfileContentType> = React.memo(
     const onSubmit = useCallback(
       async (values: z.infer<typeof UserProfileSchema>) => {
         try {
+          console.log(values);
           const member = new MemberService();
           const data = await member.updateMember(values);
           setAuthMember(data);

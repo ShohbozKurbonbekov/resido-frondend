@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import SignUp from "../Signup";
 import Login from "../Login";
 import DropdownMenuPages from "./DrowndownMenu";
-import { CircleUserRound, TextWrap } from "lucide-react";
+import { TextWrap } from "lucide-react";
 import NavbarToggleBtn from "./NavbarToggleBtn";
 import { useGlobals } from "@/app/hooks/useGlobals";
 import {
@@ -11,6 +11,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { serverAPI } from "@/lib/config";
 
 const userProfileBtn =
   "px-5 py-3 hover:bg-slate-400  hover:text-white text-start capitalize font-jostFont text-base font-semibold transition-all duration-300 ease-linear rounded-md";
@@ -103,7 +105,15 @@ export default function OtherNavbar({ handleLogout }: OtherNavbarType) {
               <PopoverTrigger
                 className={`text-darkBlue text-sm font-semibold font-jostFont hover:text-slate-300 transition-all duration-75 ease-in`}
               >
-                <CircleUserRound className="w-6 h-6 hover:text-slate-300 transition-all duration-75 ease-in" />
+                <Avatar>
+                  <AvatarImage
+                    src={
+                      authmember.avatar
+                        ? `${serverAPI}/${authmember.avatar}`
+                        : userProfileBtn
+                    }
+                  />
+                </Avatar>
               </PopoverTrigger>
               <PopoverContent className="flex flex-col  items-stretch p-2  me-6 mt-4">
                 <button
