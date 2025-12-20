@@ -10,6 +10,10 @@ export const sweetErrorHandling = async (err: T) => {
     icon: "error",
     text: message,
     showConfirmButton: true,
+    allowOutsideClick: true,
+    customClass: {
+      popup: "z-[99999]",
+    },
   });
 };
 

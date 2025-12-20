@@ -22,13 +22,10 @@ const menuLinkClasses =
   "hover:text-slate-300 transition-all duration-75 ease-in";
 
 // --------------------------------------------- COMPONENT -------------------------------------------
-interface OtherNavbarType {
-  handleLogout: () => Promise<void>;
-}
 
-export default function OtherNavbar({ handleLogout }: OtherNavbarType) {
+export default function OtherNavbar() {
   const [showNavbar, setShowNavbar] = useState<boolean>(false);
-  const { authmember } = useGlobals();
+  const { authmember, logout } = useGlobals();
   const navigation = useNavigate();
 
   useEffect(() => {
@@ -46,7 +43,7 @@ export default function OtherNavbar({ handleLogout }: OtherNavbarType) {
   }, []);
 
   const navbarContent = (
-    <div className="container mx-auto flex flex-row items-center lg:gap-8 justify-between lg:justify-stretch z-100">
+    <div className="container mx-auto flex flex-row items-center lg:gap-8 justify-between lg:justify-stretch z-40">
       <NavLink to="/" className={`flex flex-row items-center gap-1 -mt-1.5 `}>
         <img
           src={`/img/logo.svg`}
@@ -124,7 +121,7 @@ export default function OtherNavbar({ handleLogout }: OtherNavbarType) {
                 >
                   my dashboard
                 </button>
-                <button className={userProfileBtn} onClick={handleLogout}>
+                <button className={userProfileBtn} onClick={logout}>
                   logout
                 </button>
               </PopoverContent>
@@ -135,7 +132,6 @@ export default function OtherNavbar({ handleLogout }: OtherNavbarType) {
 
       {/* // toggle user icon */}
       <NavbarToggleBtn
-        handleLogout={handleLogout}
         btn={<TextWrap className={`lg:hidden block text-darkBlue `} />}
       />
     </div>

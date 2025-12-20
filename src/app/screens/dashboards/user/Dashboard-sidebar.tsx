@@ -13,7 +13,7 @@ const featuresClasses =
 
 // ------------------------------------------------- COMPONENT -------------------------------------------------
 export default function DashboardSideBar() {
-  const { authmember } = useGlobals();
+  const { authmember, logout } = useGlobals();
   const { avatar, memberName, memberAddress } = authmember as User;
 
   const [thisBtnHover, setBtnHover] = useState<string>("");
@@ -58,7 +58,7 @@ export default function DashboardSideBar() {
                 >
                   <button
                     className="flex flex-row items-center justify-start gap-2 w-full"
-                    onClick={() => {}}
+                    onClick={title === "Logout" ? logout : () => {}}
                   >
                     <Icon className="h-5 w-5" />
                     <span className="flex-1 text-start font-semibold capitalize">

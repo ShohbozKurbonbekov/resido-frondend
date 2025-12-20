@@ -1,7 +1,7 @@
 import type { UserDashboardOverviewType } from "@/lib/type/dashboard/user";
-import NoFound from "@/app/components/NoFound";
-import React from "react";
+import React, { useMemo } from "react";
 import { UserDashboardOververWrapper } from "./UserDashboardOverview";
+import UserOverviewCard from "./UserOverviewCard";
 
 // -------------------------------------------- COMPONENT ---------------------------------
 interface UserDashboardOverviewContentType {
@@ -10,17 +10,25 @@ interface UserDashboardOverviewContentType {
 
 const UserDashboardOverviewContent: React.FC<UserDashboardOverviewContentType> =
   React.memo(({ userDashboardOverview }) => {
+    const { generatedAt } = userDashboardOverview;
+
     // -------------------------------------------- RENDER ---------------------------------
+    const removeGenerateAt = useMemo(() => {
+      return Object.entries(userDashboardOverview).filter(
+        ([key, _]) => key !== "generatedAt"
+      );
+    }, [userDashboardOverview]);
     return (
-      <>
-        {userDashboardOverview?.generatedAt ? (
-          <div className="flex-1 flex flex-col justify-between">
-            <div className={UserDashboardOververWrapper}>Content</div>
-          </div>
-        ) : (
-          <NoFound title="No user messages found" />
-        )}
-      </>
+      <div className={UserDashboardOververWrapper}>
+        {removeGenerateAt.map(([key, amount]) => (
+          <UserOverviewCard
+            title={key}
+            key={key}
+            amount={amount}
+            updatedAt={generatedAt || "not given"}
+          />
+        ))}
+      </div>
     );
   });
 

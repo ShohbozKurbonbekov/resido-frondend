@@ -8,17 +8,13 @@ import { navbarPages } from "@/app/data/navbar";
 
 interface NavbarToggleBtnProps {
   btn: React.ReactNode;
-  handleLogout: () => Promise<void>;
 }
 
-export default function NavbarToggleBtn({
-  btn,
-  handleLogout,
-}: NavbarToggleBtnProps) {
+export default function NavbarToggleBtn({ btn }: NavbarToggleBtnProps) {
   const navbarToggleBtnClasses =
     "w-full text-white bg-slate-600 p-2 rounded-md hover:bg-slate-400 transition-colors duration-200 ease-linear";
   const navigation = useNavigate();
-  const { authmember } = useGlobals();
+  const { authmember, logout } = useGlobals();
   const registerBtnClasses =
     "text-white bg-slate-600  px-8 hover:no-underline hover:bg-slate-400 transtion-colors duration-200 ease-linear";
   const [isActive, setIsActive] = useState<string>("");
@@ -60,7 +56,7 @@ export default function NavbarToggleBtn({
             >
               My dashboard
             </button>
-            <button className={navbarToggleBtnClasses} onClick={handleLogout}>
+            <button className={navbarToggleBtnClasses} onClick={logout}>
               Logout
             </button>
           </div>

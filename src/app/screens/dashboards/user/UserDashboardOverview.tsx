@@ -12,7 +12,7 @@ import UserDashboardOverviewContent from "./UserDashboardOverviewContent";
 import UserDashboardOverviewHeader from "./UserDashboardOverviewHeader";
 
 export const UserDashboardOververWrapper =
-  "grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-4 py-4";
+  "grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-7  mt-5 px-2";
 
 // ----------------------------------------- REDUX INTEGRATION --------------------------
 const userDashboardOverviewDispatch = (dispatch: Dispatch) => ({
@@ -52,7 +52,7 @@ export default function UserDashboardOverview() {
   return (
     <div className="lg:col-span-9">
       {loading ? (
-        <SpinnerGrids columns={UserDashboardOververWrapper} count={3} />
+        <SpinnerGrids columns={UserDashboardOververWrapper} count={5} />
       ) : (
         <div className="flex flex-col gap-y-5 h-full">
           <UserDashboardOverviewHeader />

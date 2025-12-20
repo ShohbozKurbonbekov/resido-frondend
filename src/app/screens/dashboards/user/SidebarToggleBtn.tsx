@@ -10,7 +10,7 @@ export default function SidebarToggleBtn() {
           <CircleGauge className="h-4 w-4  group-active:rotate-90    transition-transform duration-200 ease-linear" />
           dashboard
         </SheetTrigger>
-        <SheetContent side={"left"} className="p-0 w-[70%]">
+        <SheetContent side={"left"} className="p-0 w-[70%] overflow-y-auto">
           <DashboardSideBar />
         </SheetContent>
       </Sheet>

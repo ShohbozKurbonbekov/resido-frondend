@@ -121,6 +121,8 @@ class MemberService {
 
       // Append text fields
       if (input.memberName) formData.append("memberName", input.memberName);
+      if (input.userFullname)
+        formData.append("userFullname", input.userFullname);
       if (input.memberEmail) formData.append("memberEmail", input.memberEmail);
       if (input.memberPhone) formData.append("memberPhone", input.memberPhone);
       if (input.memberAddress)

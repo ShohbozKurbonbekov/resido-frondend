@@ -4,6 +4,7 @@ import { createContext, useContext } from "react";
 interface GlobalInterface {
   authmember: null | CommonUsers;
   setAuthMember: (member: CommonUsers | null) => void;
+  logout: () => Promise<void>;
 }
 
 export const GlobalContext = createContext<GlobalInterface | undefined>(

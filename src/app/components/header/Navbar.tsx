@@ -22,12 +22,9 @@ const menuLinkClasses =
   "hover:text-slate-300 transition-all duration-75 ease-in";
 // ---------------------------------------------- COMPONENT ---------------------------------------
 
-interface NavbarType {
-  handleLogout: () => Promise<void>;
-}
-export default function Navbar({ handleLogout }: NavbarType) {
+export default function Navbar() {
   const [isPopover, setIsPopover] = useState<boolean>(false);
-  const { authmember } = useGlobals();
+  const { authmember, logout } = useGlobals();
   const navigation = useNavigate();
 
   const [navbarScrolled, setNavbarScrolled] = useState<boolean>(false);
@@ -47,7 +44,7 @@ export default function Navbar({ handleLogout }: NavbarType) {
   // --------------------------------------------- RENDER ---------------------------------------
   return (
     <nav
-      className={`py-4 w-full fixed  top-0 z-50 transition-all duration-300 ease-in  ${
+      className={`py-4 w-full fixed  top-0  will-change-transform duration-300 ease-in  z-40 ${
         navbarScrolled
           ? "bg-slate-50 shadow-[0_0.1rem_0.2rem_0_rgba(0,0,0,0.2)]"
           : "bg-transparent"
@@ -148,7 +145,7 @@ export default function Navbar({ handleLogout }: NavbarType) {
                   >
                     my dashboard
                   </button>
-                  <button className={userProfileBtn} onClick={handleLogout}>
+                  <button className={userProfileBtn} onClick={logout}>
                     logout
                   </button>
                 </PopoverContent>
@@ -160,7 +157,6 @@ export default function Navbar({ handleLogout }: NavbarType) {
         {/* //toggle part */}
 
         <NavbarToggleBtn
-          handleLogout={handleLogout}
           btn={
             <TextWrap
               className={` lg:hidden block ${

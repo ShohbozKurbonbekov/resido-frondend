@@ -12,12 +12,12 @@ import { store } from "./app/store.ts";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
-      <ContextProvider>
-        <Router>
+      <Router>
+        <ContextProvider>
           <CssBaseline />
           <App />
-        </Router>
-      </ContextProvider>
+        </ContextProvider>
+      </Router>
     </Provider>
   </StrictMode>
 );
