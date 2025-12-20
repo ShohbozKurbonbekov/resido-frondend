@@ -35,6 +35,7 @@ import { MemberType } from "@/lib/enums/agent.enum";
 import { useGlobals } from "../hooks/useGlobals";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { registrationInputClasses } from "./Login";
 // ✅ Validation schema with Zod
 
 const FormSchema = z.object({
@@ -132,7 +133,11 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
                     <FormItem>
                       <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter your name" {...field} />
+                        <Input
+                          placeholder="Enter your name"
+                          {...field}
+                          className={registrationInputClasses}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -147,7 +152,11 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter your email" {...field} />
+                        <Input
+                          placeholder="Enter your email"
+                          {...field}
+                          className={registrationInputClasses}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -162,7 +171,11 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
                     <FormItem>
                       <FormLabel>Phone</FormLabel>
                       <FormControl>
-                        <Input placeholder="+821012345678" {...field} />
+                        <Input
+                          placeholder="+821012345678"
+                          {...field}
+                          className={registrationInputClasses}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -183,6 +196,7 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
                         <Input
                           type="password"
                           placeholder="Password"
+                          className={registrationInputClasses}
                           {...field}
                         />
                       </FormControl>
@@ -199,7 +213,11 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
                     <FormItem>
                       <FormLabel>Occupation</FormLabel>
                       <FormControl>
-                        <Input placeholder="Developer, Student..." {...field} />
+                        <Input
+                          placeholder="Developer, Student..."
+                          {...field}
+                          className={registrationInputClasses}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -218,7 +236,7 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
                         defaultValue={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger className={registrationInputClasses}>
                             <SelectValue placeholder="Select role" />
                           </SelectTrigger>
                         </FormControl>

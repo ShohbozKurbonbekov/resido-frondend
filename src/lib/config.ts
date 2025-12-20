@@ -7,6 +7,8 @@ export const ErrorMessages = {
   error4: "Message is emty!",
   error5: "Only Images with jpeg, jpg formats allowed!",
   error6: "Only common users are allowed to the agent here",
+  error7: "Only Common users are allowed to apply for an agent position",
+  error8: "Your agent application is still under review!",
 };
 
 export const customTruncate = (text: string, limit: number) => {

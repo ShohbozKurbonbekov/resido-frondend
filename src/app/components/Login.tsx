@@ -18,7 +18,7 @@ import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import MemberService from "../services/MemberService";
 import { useState } from "react";
 
-const inputClasses =
+export const registrationInputClasses =
   "w-full px-4 py-5 text-gray-900 placeholder-gray-400 text-base font-medium rounded-sm border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition-all duration-200 ease-linear";
 
 interface LoginType {
@@ -97,7 +97,7 @@ export default function Login({ btnClasses, btnTitle }: LoginType) {
                     <FormControl>
                       <Input
                         {...field}
-                        className={inputClasses}
+                        className={registrationInputClasses}
                         placeholder="Your Email"
                       />
                     </FormControl>
@@ -114,7 +114,7 @@ export default function Login({ btnClasses, btnTitle }: LoginType) {
                     <FormControl>
                       <Input
                         {...field}
-                        className={inputClasses}
+                        className={registrationInputClasses}
                         placeholder="Your Password"
                         type="password"
                       />

@@ -2,6 +2,7 @@ import type { MemberStatus, MemberType } from "@/lib/enums/agent.enum";
 import type { Social, TotalCounter } from "../common";
 import type { UserSavingTargetGroup } from "@/lib/enums/user.enum";
 import type { LucideIcon } from "lucide-react";
+import type { AgentData } from "../agent";
 
 export interface User {
   _id: string;
@@ -19,6 +20,9 @@ export interface User {
   avatar?: string;
   createdAt: Date;
   updatedAt: Date;
+
+  // WHEN IS BECOMING AN AGENT
+  agent?: AgentData;
 }
 
 export interface UserUpdate {

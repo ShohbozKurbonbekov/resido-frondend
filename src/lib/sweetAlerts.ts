@@ -48,12 +48,12 @@ export const sweetTopSmallSuccessAlert = async (
   }).then();
 };
 
-export const sweetFailureProvider = (
+export const sweetFailureProvider = async (
   msg: string,
   show_button: boolean = false,
   forward_url: string = ""
 ) => {
-  Swal.fire({
+  await Swal.fire({
     icon: "error",
     title: msg,
     showConfirmButton: show_button,
