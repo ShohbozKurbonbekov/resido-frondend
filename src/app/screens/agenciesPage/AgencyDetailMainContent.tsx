@@ -10,10 +10,9 @@ import { createSelector } from "reselect";
 import { retrieveFeaturedProperties } from "../homePage/selector";
 import { useSelector } from "react-redux";
 import { useGlobals } from "@/app/hooks/useGlobals";
-import { AgentStatus, MemberType } from "@/lib/enums/agent.enum";
+import { MemberType } from "@/lib/enums/agent.enum";
 import { sweetFailureProvider } from "@/lib/sweetAlerts";
 import { ErrorMessages } from "@/lib/config";
-import type { User } from "@/lib/type/dashboard/user";
 
 // ------------------------------------ REDUX INTEGRATION -----------------------------------
 const featuredPropertiesRetriever = createSelector(
@@ -39,24 +38,12 @@ const AddNewAgent: React.FC<AddNewAgentType> = React.memo(
         return;
       }
 
-      if (authmember && authmember.role !== MemberType.USER) {
+      if (authmember.role !== MemberType.USER) {
         await sweetFailureProvider(ErrorMessages.error7, true);
         return;
       }
 
-      const user = authmember as User;
-
-      if (authmember && user.agent?.currentStatus === AgentStatus.AVAILABLE) {
-        navigation("/dashboard", { replace: true });
-        return;
-      }
-
-      if (authmember && user.agent?.currentStatus === AgentStatus.PENDING) {
-        await sweetFailureProvider(ErrorMessages.error8);
-        return;
-      }
-
-      if (authmember && !user?.agent) {
+      if (authmember && authmember.role === MemberType.USER) {
         navigation(
           `/agents/become-an-agent?agencyId=${agencyId}&agencyName=${agencyName}`
         );

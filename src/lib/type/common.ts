@@ -29,7 +29,7 @@ export type PaginationSetStateType =
 
 export type SetStateType<T> = React.Dispatch<React.SetStateAction<T>>;
 
-export type CommonUsers = User | Agency | AgentData;
+export type CommonUsers = User | Agency;
 export interface LoginResult {
   accessToken: string;
   member: CommonUsers;

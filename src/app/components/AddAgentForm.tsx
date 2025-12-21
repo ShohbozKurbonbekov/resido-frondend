@@ -10,621 +10,361 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { ErrorMessages } from "@/lib/config";
-import { sweetErrorHandling } from "@/lib/sweetAlerts";
-import { Images, Info } from "lucide-react";
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { AgentRegistrationSchema } from "../data/agent";
+import { useCallback, useState } from "react";
+import { sweetErrorHandling, sweetTopSuccessAlert } from "@/lib/sweetAlerts";
+import { Textarea } from "@/components/ui/textarea";
+import { USER_SOCIALS } from "../data/dashboard/user";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useGlobals } from "../hooks/useGlobals";
+import AgentService from "../services/AgentService";
+const rowWrapperClasses =
+  "grid grid-cols-1 md:grid-cols-2 gap-4 rounded-lg border border-slate-200 p-4 bg-slate-50/40";
 
-// zod schema
+const inputClasses =
+  "border-slate-300 bg-slate-50 text-slate-800 placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-emerald-600/30 focus-visible:border-emerald-600";
+const textClasses = "text-sm font-medium text-slate-700 font-jostFont";
 
-// ✅ Validation schema with Zod
-const FormSchema = z.object({
-  fullName: z
-    .string()
-    .min(2, { message: "Full name must be at least 2 characters." }),
-  designation: z.string().min(2, { message: "Designation is required." }),
-  phone: z.string().regex(/^[0-9+\-\s()]*$/, {
-    message: "Please enter a valid phone number.",
-  }),
-  landline: z
-    .string()
-    .regex(/^[0-9+\-\s()]*$/, { message: "Please enter a valid landline." })
-    .optional(),
-  email: z.string().email({ message: "Please enter a valid email address." }),
-  description: z
-    .string()
-    .min(10, { message: "Description must be at least 10 characters." })
-    .optional(),
-  address: z.string().min(5, { message: "Address is required." }),
-  address2: z.string().optional(),
-  country: z.string().min(2, { message: "Country is required." }),
-  state: z.string().min(2, { message: "Country is required." }),
-  city: z.string().min(2, { message: "City is required." }),
-  zipcode: z
-    .string()
-    .regex(/^\d{0,10}$/, { message: "Zip code must be between 4–10 digits." }),
-  facebook: z
-    .string()
-    .url({ message: "Please enter a valid Facebook profile link." })
-    .optional(),
-  twitter: z
-    .string()
-    .url({ message: "Please enter a valid Twitter profile link." })
-    .optional(),
-  linkedin: z
-    .string()
-    .url({ message: "Please enter a valid LinkedIn profile link." })
-    .optional(),
-  googlePlus: z
-    .string()
-    .url({ message: "Please enter a valid Google Plus profile link." })
-    .optional(),
-  instagram: z
-    .string()
-    .url({ message: "Please enter a valid Instagram profile link." })
-    .optional(),
-  tumbler: z
-    .string()
-    .url({ message: "Please enter a valid Tumbler profile link." })
-    .optional(),
-  gdpr: z.boolean().refine((val) => val === true, {
-    message: "You must accept GDPR agreement.",
-  }),
-});
-
-interface AddAgentFormProp {
+interface AddAgentFormType {
   qualityClasses?: string;
 }
 
-export default function AddAgentForm({ qualityClasses }: AddAgentFormProp) {
-  const [agentImage, setAgentImage] = useState<string>("");
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+export default function AddAgentForm({ qualityClasses }: AddAgentFormType) {
+  const [avatarPreview, setAvatarPreview] = useState<string | undefined>(
+    undefined
+  );
+  const [certificateFile, setCertificateFile] =
+    useState<string>("Choose a file");
+  const { authmember } = useGlobals();
+  const [searchParams] = useSearchParams();
+  const agencyId = searchParams.get("agencyId");
+  const navigation = useNavigate();
+  const form = useForm<z.infer<typeof AgentRegistrationSchema>>({
+    resolver: zodResolver(AgentRegistrationSchema),
     defaultValues: {
-      fullName: "",
-      designation: "",
-      phone: "",
-      landline: "",
-      email: "",
-      description: "",
+      avatar: undefined,
       address: "",
-      address2: "",
-      country: "",
-      state: "",
-      city: "",
-      zipcode: "",
-      facebook: "",
-      twitter: "",
-      linkedin: "",
-      googlePlus: "",
-      instagram: "",
-      tumbler: "",
-      gdpr: false,
+      agencyId: agencyId!,
+      userId: authmember?._id,
+      licenseNumber: "",
+      certificate: "",
+      bioInfo: "",
+      fullName: "",
+      nickname: "",
+      phone: "",
+      yearOfExperience: 0,
+      socialLinks: {
+        facebook: null,
+        instagram: null,
+        linkedin: null,
+        twitter: null,
+        email: null,
+      },
     },
   });
 
-  const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    console.log("form data: ", data);
-  };
+  const onSubmit = useCallback(
+    async (values: z.infer<typeof AgentRegistrationSchema>) => {
+      try {
+        const agent = new AgentService();
+        await agent.applyAgent(values);
+        await sweetTopSuccessAlert("You are registered as an agent");
+        navigation("/dashboard");
+      } catch (error) {
+        console.log("Error in agentRegistration: ", error);
+        await sweetErrorHandling(error!);
+      }
+    },
+    [navigation]
+  );
 
-  useEffect(() => {
-    return () => {
-      if (agentImage) URL.revokeObjectURL(agentImage);
-    };
-  }, [agentImage]);
-
-  const handleAgentImage = (
-    e: React.ChangeEvent<HTMLInputElement> | null
-  ): void => {
-    if (!e || !e.target) return;
-
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-
-    const file = files[0];
-    const fileType: string = file.type;
-    const validTypes = ["image/jpg", "image/jpeg", "image/png"];
-
-    if (!validTypes.includes(fileType)) {
-      console.log("oops");
-      sweetErrorHandling({ message: ErrorMessages.error5 });
-    } else {
-      setAgentImage(URL.createObjectURL(file));
-      e.target.value = "";
-    }
-  };
   return (
     <section className={qualityClasses}>
       <div className="container">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            action="#"
-            className="rounded-[10px] p-[30px] bg-white shadow-addAgentForm relative w-full"
+            className="space-y-6 bg-white rounded-md  p-5"
           >
-            <div className="my-4  flex flex-col items-center justify-center">
-              <h3 className="text-2xl leading-[30px] text-darkBlue font-jostFont font-bold capitalize mb-2">
-                Profile Logo
-              </h3>
-              <div className="w-[120px] h-[120px] min-h-[120px] rounded-full border border-slate-200 bg-slate-100  flex items-center justify-center px-4 mb-4  relative active:scale-90 duration-300 ease-linear">
-                {agentImage === "" ? (
-                  <Images className="h-3/5 w-3/5" />
-                ) : (
+            {/*IMAGE  */}
+            <div className="flex sm:flex-row flex-col items-center gap-6 rounded-lg border border-slate-200 bg-slate-50/50 p-4">
+              <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full border border-slate-300 bg-slate-100 ">
+                {avatarPreview ? (
                   <img
-                    src={agentImage}
-                    alt="agent profile"
-                    className="absolute inset-0  rounded-full z-10 h-full w-full "
+                    src={avatarPreview}
+                    alt="Avatar"
+                    className="h-full w-full object-cover"
                   />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center text-sm text-slate-400">
+                    No Image
+                  </div>
                 )}
-                <input
-                  type="file"
-                  className="absolute inset-0 z-20 cursor-pointer opacity-0"
-                  onChange={handleAgentImage}
-                />
-              </div>
-            </div>
-            {/* basic Information */}
-            <div className="mt-2 flex flex-col gap-y-3">
-              <h3 className="text-2xl text-darkBlue font-jostFont font-bold capitalize text-start leading-none">
-                Basic Information
-              </h3>
-
-              {/* //  fullname */}
-              <div className="grid grid-cols-1">
-                <FormField
-                  control={form.control}
-                  name="fullName"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-y-1 items-start justify-start w-full">
-                      <FormLabel className="text-base leading-tight text-blue-950 capitalize font-jostFont flex flex-row items-center justify-start gap-x-1">
-                        Full Name
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger>
-                              <Info className="fill-blue-800 stroke-white" />
-                            </TooltipTrigger>
-                            <TooltipContent className="bg-blue-800 py-3 px-3 font-jostFont text-sm">
-                              <p>Agent full name</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      </FormLabel>
-
-                      <FormControl>
-                        <Input
-                          className="bg-sky-50  py-5 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {/* // designation */}
+              <div className="flex flex-col gap-2">
                 <FormField
                   control={form.control}
-                  name="designation"
+                  name="avatar"
                   render={({ field }) => (
-                    <FormItem className="flex flex-col gap-y-1 items-start justify-start w-full">
-                      <FormLabel className="text-base leading-tight text-blue-950 capitalize font-jostFont  w-full">
-                        Designation
+                    <FormItem className="flex flex-col gap-1">
+                      <FormLabel
+                        className={`${textClasses} sm:text-start text-center`}
+                      >
+                        Profile Image
                       </FormLabel>
+
                       <FormControl>
-                        <Input
-                          {...field}
-                          className="bg-sky-50  py-5 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm w-full"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                        <div className="border border-slate-200 bg-slate-50/50 relative py-1 px-3 rounded-md truncate font-jostFont">
+                          <Input
+                            type="file"
+                            accept="image/*"
+                            className="border-none opacity-0 absolute inset-0"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (!file) return;
 
-                {/* // phone */}
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-y-1 items-start justify-start w-full">
-                      <FormLabel className="text-base leading-tight text-blue-950 capitalize font-jostFont  w-full">
-                        Phone
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="bg-sky-50  py-5 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm w-full"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {/* Email */}
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-y-1 items-start justify-start w-full">
-                      <FormLabel className="text-base leading-tight text-blue-950 capitalize font-jostFont w-full">
-                        Email
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="bg-sky-50  py-5 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm w-full"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* // Landline */}
-                <FormField
-                  control={form.control}
-                  name="landline"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-y-1 items-start justify-start w-full">
-                      <FormLabel className="text-base leading-tight text-blue-950 capitalize font-jostFont  w-full">
-                        Landline
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="bg-sky-50  py-5 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm w-full"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="grid grid-cols-1">
-                {/* Description */}
-                <FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-y-1 items-start justify-start w-full">
-                      <FormLabel className="text-base leading-tight text-blue-950 capitalize font-jostFont ">
-                        Description
-                      </FormLabel>
-                      <FormControl>
-                        <Textarea
-                          className="bg-sky-50  py-1 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm"
-                          rows={5}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-
-            {/* // location */}
-            <div className="mt-5 flex flex-col gap-y-3">
-              <h3 className="text-2xl text-darkBlue font-jostFont font-bold capitalize text-start leading-none">
-                Location
-              </h3>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {/* // Address 1 */}
-                <FormField
-                  control={form.control}
-                  name="address"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-y-1 items-start justify-start w-full">
-                      <FormLabel className="text-base leading-tight text-blue-950 capitalize font-jostFont w-full">
-                        Address
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="bg-sky-50  py-5 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm w-full"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* // Address 2 */}
-
-                <FormField
-                  control={form.control}
-                  name="address2"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-y-1 items-start justify-start w-full">
-                      <FormLabel className="text-base leading-tight text-blue-950 capitalize font-jostFont w-full">
-                        Address 2
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="bg-sky-50  py-5 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm w-full"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {/* // Country */}
-                <FormField
-                  control={form.control}
-                  name="country"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-y-1 items-start justify-start w-full">
-                      <FormLabel className="text-base leading-tight text-blue-950 capitalize font-jostFont w-full">
-                        Country
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="bg-sky-50  py-5 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm w-full"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* // State */}
-                <FormField
-                  control={form.control}
-                  name="state"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-y-1 items-start justify-start w-full">
-                      <FormLabel className="text-base leading-tight text-blue-950 capitalize font-jostFont w-full">
-                        State
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="bg-sky-50  py-5 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm w-full"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {/* // City */}
-                <FormField
-                  control={form.control}
-                  name="city"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-y-1 items-start justify-start w-full">
-                      <FormLabel className="text-base leading-tight text-blue-950 capitalize font-jostFont w-full">
-                        City
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="bg-sky-50  py-5 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm w-full"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* // Zip code  */}
-                <FormField
-                  control={form.control}
-                  name="zipcode"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-y-1 items-start justify-start w-full">
-                      <FormLabel className="text-base leading-tight text-blue-950 capitalize font-jostFont w-full">
-                        Zip Code
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="bg-sky-50  py-5 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm w-full"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-
-            {/* social Links */}
-            <div className="mt-5 flex flex-col gap-y-3">
-              <h3 className="text-2xl text-darkBlue font-jostFont font-bold capitalize text-start leading-none">
-                Social accounts
-              </h3>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                {/* // facebook */}
-                <FormField
-                  control={form.control}
-                  name="facebook"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-y-1 items-start justify-start w-full">
-                      <FormLabel className="text-base leading-tight text-blue-950 capitalize font-jostFont w-full">
-                        Facebook
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="bg-sky-50  py-5 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm w-full"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* // Twitter */}
-                <FormField
-                  control={form.control}
-                  name="twitter"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-y-1 items-start justify-start w-full">
-                      <FormLabel className="text-base leading-tight text-blue-950 capitalize font-jostFont w-full">
-                        twitter
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="bg-sky-50  py-5 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm w-full"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Linkedin */}
-                <FormField
-                  control={form.control}
-                  name="linkedin"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-y-1 items-start justify-start w-full">
-                      <FormLabel className="text-base leading-tight text-blue-950 capitalize font-jostFont w-full">
-                        linkedin
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="bg-sky-50  py-5 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm w-full"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                {/* // Google Plus */}
-                <FormField
-                  control={form.control}
-                  name="googlePlus"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-y-1 items-start justify-start w-full">
-                      <FormLabel className="text-base leading-tight text-blue-950 capitalize font-jostFont w-full">
-                        google Plus
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="bg-sky-50  py-5 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm w-full"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* // Instagram */}
-                <FormField
-                  control={form.control}
-                  name="instagram"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-y-1 items-start justify-start w-full">
-                      <FormLabel className="text-base leading-tight text-blue-950 capitalize font-jostFont w-full">
-                        instagram
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="bg-sky-50  py-5 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm w-full"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* // Tumbler */}
-                <FormField
-                  control={form.control}
-                  name="tumbler"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-y-1 items-start justify-start w-full">
-                      <FormLabel className="text-base leading-tight text-blue-950 capitalize font-jostFont w-full">
-                        Tumbler
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="bg-sky-50  py-5 focus-visible:ring-slate-300 text-xs text-slate-500 border-slate-200 rounded-sm w-full"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 mt-1">
-                {/* ✅ GDPR Agreement */}
-                <FormField
-                  control={form.control}
-                  name="gdpr"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-y-2 items-start justify-start w-full">
-                      <FormLabel className="text-base leading-tight text-blue-950 capitalize font-jostFont">
-                        GDPR Agreement *
-                      </FormLabel>
-                      <div className="flex flex-row gap-2 items-center">
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                            className="data-[state=checked]:shadow-[0_0_1px_4px_rgba(59,130,246,0.5)] 
-                               data-[state=checked]:bg-blue-600 
-                               data-[state=checked]:border-none 
-                               border-slate-300 transition-all duration-300 ease-linear"
+                              const url = URL.createObjectURL(file);
+                              setAvatarPreview(url);
+                              field.onChange(file);
+                            }}
                           />
-                        </FormControl>
-                        <p className="leading-none text-xs text-slate-500">
-                          I consent to having this website store my submitted
-                          information so they can respond to my inquiry.
-                        </p>
-                      </div>
-                      <FormMessage />
+                          <span className={textClasses}>Choose image</span>
+                        </div>
+                      </FormControl>
+
+                      <FormMessage className="text-xs text-rose-600/90" />
+                      <p className="text-xs text-slate-500">
+                        JPG, JPEG or PNG. Square images recommended.
+                      </p>
                     </FormItem>
                   )}
                 />
               </div>
-
-              <Button
-                type="submit"
-                className="text-sm text-white font-jostFont  capitalize py-3 px-6 leading-tight rounded-md 
-                     hover:bg-blue-500 bg-blue-900 transition-all duration-300 ease-linear 
-                     self-start mt-2 active:shadow-[0_0_0px_5px_rgba(59,130,246,0.4)]"
-              >
-                Submit & Preview
-              </Button>
             </div>
+
+            <div className={rowWrapperClasses}>
+              <FormField
+                control={form.control}
+                name="fullName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={textClasses}>Full Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        className={inputClasses}
+                        {...field}
+                        placeholder="Full Name..."
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-rose-600/90" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="nickname"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={textClasses}>Nickname</FormLabel>
+                    <FormControl>
+                      <Input
+                        className={inputClasses}
+                        {...field}
+                        placeholder="Nickname..."
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-rose-600/90" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={textClasses}>Phone</FormLabel>
+                    <FormControl>
+                      <Input
+                        className={inputClasses}
+                        {...field}
+                        placeholder="Phone..."
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-rose-600/90" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="address"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={textClasses}>Address</FormLabel>
+                    <FormControl>
+                      <Input
+                        className={inputClasses}
+                        {...field}
+                        placeholder="Address..."
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-rose-600/90" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="yearOfExperience"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={textClasses}>
+                      Experience Year
+                    </FormLabel>
+
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className={inputClasses}
+                        type="number"
+                        placeholder="Experience Period..."
+                        onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                      />
+                    </FormControl>
+
+                    <FormMessage className="text-xs text-rose-600/90" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="licenseNumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={textClasses}>
+                      License Number
+                    </FormLabel>
+
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className={inputClasses}
+                        placeholder="License Number..."
+                      />
+                    </FormControl>
+
+                    <FormMessage className="text-xs text-rose-600/90" />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div
+              className={
+                "rounded-lg border border-slate-200 p-4 bg-slate-50/40"
+              }
+            >
+              <FormField
+                control={form.control}
+                name="bioInfo"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={textClasses}>Biography</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        {...field}
+                        rows={4}
+                        className={inputClasses}
+                        placeholder="About You..."
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-rose-600/90" />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className={rowWrapperClasses}>
+              {USER_SOCIALS.map((key) => (
+                <FormField
+                  key={key}
+                  control={form.control}
+                  name={`socialLinks.${key}`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={`${textClasses} capitalize`}>
+                        {key}
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          value={field.value ?? ""}
+                          placeholder={
+                            key === "email" ? "email@example.com" : "https://"
+                          }
+                          className={inputClasses}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-xs text-rose-600/90" />
+                    </FormItem>
+                  )}
+                />
+              ))}
+              <FormField
+                control={form.control}
+                name="certificate"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col gap-1">
+                    <FormLabel className={`${textClasses} `}>
+                      Upload your certificate
+                    </FormLabel>
+
+                    <FormControl>
+                      <div
+                        className={`relative border border-slate-300 bg-slate-50 text-slate-600  font-jostFont  py-1.5 px-2 rounded-md w-full truncate`}
+                      >
+                        <Input
+                          type="file"
+                          className="opacity-0 absolute inset-0"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (!file) return;
+
+                            const url = file.name;
+                            setCertificateFile(url);
+                            field.onChange(file);
+                          }}
+                        />
+                        <span className={`truncate w-full`}>
+                          {certificateFile}
+                        </span>
+                      </div>
+                    </FormControl>
+
+                    <FormMessage className="text-xs text-rose-600/90" />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <Button
+              type="submit"
+              className="
+                        bg-emerald-700
+                        hover:bg-emerald-600
+                        text-white
+                        font-medium
+                        focus-visible:ring-2
+                        focus-visible:ring-emerald-700/30
+                    transition-all duration-200 ease-linear
+                      "
+            >
+              Register
+            </Button>
           </form>
         </Form>
       </div>

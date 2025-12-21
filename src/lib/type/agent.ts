@@ -1,9 +1,4 @@
-import type {
-  AgentPropertyType,
-  AgentStatus,
-  MemberStatus,
-  MemberType,
-} from "../enums/agent.enum";
+import type { AgentPropertyType, AgentStatus } from "../enums/agent.enum";
 import type { CommonInput, TotalCounter } from "./common";
 import type { Property } from "./property";
 
@@ -18,36 +13,57 @@ export interface AgentPropertiesType {
   sale?: Property[];
   rent?: Property[];
 }
-export interface AgentData {
-  _id: string;
+
+export interface AgentInput {
+  userId: string;
   agencyId: string;
   nickname: string;
   fullName: string;
-  memberEmail: string;
   phone: string;
-  memberPassword?: string;
-  role: MemberType;
   address: string;
+  avatar?: string | File;
   yearOfExperience: number;
   bioInfo: string;
-  memberStatus: MemberStatus;
   licenseNumber: string;
-  points: number;
+  certificate: string | File;
   socialLinks: Social;
+}
+export interface AgentData {
+  _id: string;
+  userId: string;
+  agencyId: string;
+
+  nickname: string;
+  fullName: string;
+  phone: string;
+  address: string;
+  avatar?: string;
+
+  yearOfExperience: number;
+  bioInfo: string;
+  licenseNumber: string;
+  certificate: string | File;
+
+  currentStatus: AgentStatus;
   isVerified: boolean;
-  totalComments: number;
+
+  points: number;
   views: number;
   totalLikes: number;
+  totalComments: number;
   averageRating: number;
-  featuredScore?: number;
-  rank?: string;
-  currentStatus: AgentStatus;
-  avatar?: string;
   totalProperties: number;
+  totalSavings: number;
+
+  featuredScore: number;
+  rank: string;
+
+  socialLinks: Social;
   properties?: AgentPropertiesType;
   limitedProperties?: Property[];
   featuredProperties?: Property[];
   comments?: [];
+
   meSaved?: boolean;
 }
 

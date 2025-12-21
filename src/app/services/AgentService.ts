@@ -1,6 +1,7 @@
 import { serverAPI } from "@/lib/config";
 import type {
   AgentData,
+  AgentInput,
   AgentProperties,
   AgentPropertiesInput,
   AgentsListPage,
@@ -92,6 +93,40 @@ class AgentService {
       return result.data;
     } catch (error) {
       console.log("Error in getFollowedAgents service: ", error);
+      throw error;
+    }
+  }
+
+  public async applyAgent(input: AgentInput): Promise<void> {
+    try {
+      const formData = new FormData();
+
+      if (input.userId) formData.append("userId", input.userId);
+      if (input.agencyId) formData.append("agencyId", input.agencyId);
+      if (input.nickname) formData.append("nickname", input.nickname);
+      if (input.fullName) formData.append("fullName", input.fullName);
+      if (input.phone) formData.append("phone", input.phone);
+      if (input.address) formData.append("address", input.address);
+      if (input.yearOfExperience)
+        formData.append("yearOfExperience", String(input.yearOfExperience));
+      if (input.bioInfo) formData.append("bioInfo", input.bioInfo);
+      if (input.licenseNumber)
+        formData.append("licenseNumber", input.licenseNumber);
+      if (input.socialLinks) {
+        formData.append("socialLinks", JSON.stringify(input.socialLinks));
+      }
+      if (input.certificate instanceof File) {
+        formData.append("certificate", input.certificate);
+      }
+      // Append file ONLY if it exists
+      if (input.avatar instanceof File) {
+        formData.append("avatar", input.avatar);
+      }
+      await axios.post(`${this.path}/agent/apply/become-agent`, formData, {
+        withCredentials: true,
+      });
+    } catch (error) {
+      console.log("Error in applyAgent service: ", error);
       throw error;
     }
   }

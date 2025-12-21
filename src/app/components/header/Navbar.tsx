@@ -12,7 +12,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { serverAPI } from "@/lib/config";
+import { defaultUserAvatar, serverAPI } from "@/lib/config";
 
 const userProfileBtn =
   "px-5 py-3 hover:bg-slate-400  hover:text-white text-start capitalize font-jostFont text-base font-semibold transition-all duration-300 ease-linear rounded-md";
@@ -131,7 +131,7 @@ export default function Navbar() {
                       src={
                         authmember.avatar
                           ? `${serverAPI}/${authmember.avatar}`
-                          : userProfileBtn
+                          : defaultUserAvatar
                       }
                     />
                   </Avatar>
