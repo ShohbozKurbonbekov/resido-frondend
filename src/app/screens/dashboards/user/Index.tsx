@@ -18,24 +18,19 @@ export default function UserDashboard() {
 
   // ------------------------------------------------- RENDER -------------------------------------------------
   return (
-    <>
-      <MainContentUSER>
-        <Routes>
-          <Route index element={<UserDashboardOverview />} />
-          <Route
-            path={`/saved-properties`}
-            element={<SavedProperties />}
-          ></Route>
-          <Route path={`followed-agents`} element={<FollowedAgents />}></Route>
-          <Route path={`/saved-articles`} element={<SavedArticles />}></Route>
+    <MainContentUSER>
+      <Routes>
+        <Route index element={<UserDashboardOverview />} />
+        <Route path={`/saved-properties`} element={<SavedProperties />}></Route>
+        <Route path={`followed-agents`} element={<FollowedAgents />}></Route>
+        <Route path={`/saved-articles`} element={<SavedArticles />}></Route>
 
-          <Route path={`/reviews`} element={<Reviews />}></Route>
+        <Route path={`/reviews`} element={<Reviews />}></Route>
 
-          <Route path={`/messages`} element={<Messages />}></Route>
+        <Route path={`/messages`} element={<Messages />}></Route>
 
-          <Route path={`/my-profile`} element={<MyProfile />}></Route>
-        </Routes>
-      </MainContentUSER>
-    </>
+        <Route path={`/my-profile`} element={<MyProfile />}></Route>
+      </Routes>
+    </MainContentUSER>
   );
 }

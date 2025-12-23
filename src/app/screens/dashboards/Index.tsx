@@ -8,6 +8,7 @@ import UserDashboard from "./user/Index";
 
 export default function DashboardRouter() {
   const { authmember } = useGlobals();
+  console.log(authmember);
 
   if (!authmember) return null;
   switch (authmember?.role) {
