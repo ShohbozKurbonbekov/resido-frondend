@@ -7,7 +7,7 @@ import AgentDashboardTransactions from "./AgentDashboardTransactions";
 import AgentDashboardReviews from "./AgentDashboardReviews";
 import AgentDashboardMessages from "./AgentDashboardMessages";
 import AgentDashboardCreateProperty from "./AgentDashboardCreateProperty";
-import AgentDashboardPostBlog from "./AgentDashboardPostBlog";
+import AgentDashboardPostBlog from "./post-blog/AgentDashboardPostBlog";
 import AgentDashboardMyProfile from "./AgentDashboardMyProfile";
 import { useGlobals } from "@/app/hooks/useGlobals";
 
