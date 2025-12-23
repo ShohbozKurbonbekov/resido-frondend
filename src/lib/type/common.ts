@@ -1,3 +1,4 @@
+import type { LucideIcon } from "lucide-react";
 import type { Agency } from "./agency";
 import type { AgentData, AgentPropertiesInput } from "./agent";
 import type { User } from "./dashboard/user";
@@ -29,7 +30,7 @@ export type PaginationSetStateType =
 
 export type SetStateType<T> = React.Dispatch<React.SetStateAction<T>>;
 
-export type CommonUsers = User | Agency;
+export type CommonUsers = User | Agency | AgentData;
 export interface LoginResult {
   accessToken: string;
   member: CommonUsers;
@@ -64,3 +65,9 @@ export type SocialsPlatform =
   | "instagram"
   | "linkedin"
   | "twitter";
+
+export interface DashboardSidebarFeauturesType {
+  url: string;
+  title: string;
+  Icon: LucideIcon; // Overview
+}

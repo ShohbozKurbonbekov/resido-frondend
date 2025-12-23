@@ -1,7 +1,5 @@
-import type {
-  DashboardSidebarType,
-  UserCardsType,
-} from "@/lib/type/dashboard/user";
+import type { DashboardSidebarFeauturesType } from "@/lib/type/common";
+import type { UserCardsType } from "@/lib/type/dashboard/user";
 import {
   Bookmark,
   BookMarked,
@@ -16,7 +14,7 @@ import {
 } from "lucide-react";
 import z from "zod";
 
-export const USER_DASHBOARD_FEATURES: DashboardSidebarType[] = [
+export const USER_DASHBOARD_FEATURES: DashboardSidebarFeauturesType[] = [
   { title: "Overview", Icon: Gauge, url: "/dashboard" },
   {
     title: "Saved Properties",

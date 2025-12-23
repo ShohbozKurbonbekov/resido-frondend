@@ -41,9 +41,7 @@ const AddNewAgent: React.FC<AddNewAgentType> = React.memo(
       if (authmember.role !== MemberType.USER) {
         await sweetFailureProvider(ErrorMessages.error7, true);
         return;
-      }
-
-      if (authmember && authmember.role === MemberType.USER) {
+      } else {
         navigation(
           `/agents/become-an-agent?agencyId=${agencyId}&agencyName=${agencyName}`
         );

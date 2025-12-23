@@ -97,7 +97,7 @@ class AgentService {
     }
   }
 
-  public async applyAgent(input: AgentInput): Promise<void> {
+  public async applyAgent(input: AgentInput): Promise<AgentData> {
     try {
       const formData = new FormData();
 
@@ -122,9 +122,16 @@ class AgentService {
       if (input.avatar instanceof File) {
         formData.append("avatar", input.avatar);
       }
-      await axios.post(`${this.path}/agent/apply/become-agent`, formData, {
-        withCredentials: true,
-      });
+
+      const agent = await axios.post(
+        `${this.path}/agent/apply/become-agent`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
+      localStorage.setItem("memberData", JSON.stringify(agent.data));
+      return agent.data;
     } catch (error) {
       console.log("Error in applyAgent service: ", error);
       throw error;

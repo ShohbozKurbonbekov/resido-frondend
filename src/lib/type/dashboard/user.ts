@@ -1,4 +1,8 @@
-import type { MemberStatus, MemberType } from "@/lib/enums/agent.enum";
+import type {
+  MemberStatus,
+  MemberType,
+  UserCurrentStatus,
+} from "@/lib/enums/agent.enum";
 import type { Social, TotalCounter } from "../common";
 import type { UserSavingTargetGroup } from "@/lib/enums/user.enum";
 import type { LucideIcon } from "lucide-react";
@@ -9,6 +13,8 @@ export interface User {
   memberEmail: string;
   memberPassword: string;
   role: MemberType;
+  agentStatus: UserCurrentStatus;
+
   memberStatus: MemberStatus;
 
   memberName: string;
@@ -51,11 +57,6 @@ export interface UserSavingsInput {
 }
 
 //////////////////////////////////////////////////
-export interface DashboardSidebarType {
-  url: string;
-  title: string;
-  Icon: LucideIcon; // Overview
-}
 export interface UserCardsType {
   cardTitle: string;
   cardClasses: string;

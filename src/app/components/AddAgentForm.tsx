@@ -14,7 +14,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AgentRegistrationSchema } from "../data/agent";
 import { useCallback, useState } from "react";
-import { sweetErrorHandling, sweetTopSuccessAlert } from "@/lib/sweetAlerts";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "@/lib/sweetAlerts";
 import { Textarea } from "@/components/ui/textarea";
 import { USER_SOCIALS } from "../data/dashboard/user";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -37,7 +40,7 @@ export default function AddAgentForm({ qualityClasses }: AddAgentFormType) {
   );
   const [certificateFile, setCertificateFile] =
     useState<string>("Choose a file");
-  const { authmember } = useGlobals();
+  const { authmember, setAuthMember } = useGlobals();
   const [searchParams] = useSearchParams();
   const agencyId = searchParams.get("agencyId");
   const navigation = useNavigate();
@@ -67,17 +70,20 @@ export default function AddAgentForm({ qualityClasses }: AddAgentFormType) {
 
   const onSubmit = useCallback(
     async (values: z.infer<typeof AgentRegistrationSchema>) => {
+      console.log(values);
       try {
         const agent = new AgentService();
-        await agent.applyAgent(values);
-        await sweetTopSuccessAlert("You are registered as an agent");
+        const agentData = await agent.applyAgent(values);
+        await sweetTopSmallSuccessAlert("You are registered as an agent");
+
+        setAuthMember(agentData);
         navigation("/dashboard");
       } catch (error) {
         console.log("Error in agentRegistration: ", error);
         await sweetErrorHandling(error!);
       }
     },
-    [navigation]
+    [navigation, setAuthMember]
   );
 
   return (

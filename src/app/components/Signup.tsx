@@ -93,7 +93,6 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
 
     try {
       const result = await member.signup(input);
-      console.log("RESULT: ", result);
       await sweetTopSmallSuccessAlert("You have successfully signed up!");
 
       form.reset();

@@ -1,6 +1,6 @@
 interface SectionIntroNoBackgroundProp {
-  title: string;
-  subtitle: string;
+  title?: string;
+  subtitle?: string;
 }
 const SectionIntroNoBackground = ({
   title,
