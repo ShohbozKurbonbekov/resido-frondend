@@ -51,12 +51,12 @@ const AgentProfileContent: React.FC<AgentProfileContentType> = React.memo(
     const form = useForm<z.infer<typeof AgentRegistrationSchema>>({
       resolver: zodResolver(AgentRegistrationSchema),
       defaultValues: {
-        avatar: agent?.avatar,
+        avatar: agent.avatar ? `${serverAPI}/${agent.avatar}` : undefined,
         address: agent?.address,
         agencyId: agent.agencyId,
         userId: agent.userId,
         licenseNumber: agent.licenseNumber,
-        certificate: agent.certificate,
+        certificate: `${serverAPI}/${agent.certificate}`,
         bioInfo: agent.bioInfo,
         fullName: agent.fullName,
         nickname: agent.nickname,
@@ -355,6 +355,26 @@ const AgentProfileContent: React.FC<AgentProfileContentType> = React.memo(
                       <FormMessage className="text-xs text-rose-600/90" />
                     </FormItem>
                   )}
+                />
+              </div>
+              <div className="rounded-lg border border-slate-200 p-4 bg-slate-50/40 flex flex-col gap-2 items-start">
+                <div className="flex flex-row flex-wrap justify-between w-full items-start gap-3">
+                  <span className={textClasses}>Uploaded certifiacete</span>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="bg-sky-600 text-white rounded-sm hover:bg-sky-800 duration-200 ease-linear "
+                    onClick={() =>
+                      window.open(`${serverAPI}/${agent.certificate}` as string)
+                    }
+                  >
+                    Full view
+                  </Button>
+                </div>
+                <iframe
+                  src={`${serverAPI}/${agent.certificate}` as string}
+                  className="w-full rounded-md border min-h-48 lg:min-h-96"
+                  title="PDF Viewer"
                 />
               </div>
 
