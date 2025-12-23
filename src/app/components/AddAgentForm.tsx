@@ -87,7 +87,7 @@ export default function AddAgentForm({ qualityClasses }: AddAgentFormType) {
   );
 
   return (
-    <section className={qualityClasses}>
+    <div className={qualityClasses}>
       <div className="container">
         <Form {...form}>
           <form
@@ -374,6 +374,6 @@ export default function AddAgentForm({ qualityClasses }: AddAgentFormType) {
           </form>
         </Form>
       </div>
-    </section>
+    </div>
   );
 }

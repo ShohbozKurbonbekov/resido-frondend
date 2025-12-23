@@ -137,6 +137,47 @@ class AgentService {
       throw error;
     }
   }
+
+  public async updateAgentProfile(input: AgentInput): Promise<AgentData> {
+    try {
+      const formData = new FormData();
+
+      if (input.userId) formData.append("userId", input.userId);
+      if (input.agencyId) formData.append("agencyId", input.agencyId);
+      if (input.nickname) formData.append("nickname", input.nickname);
+      if (input.fullName) formData.append("fullName", input.fullName);
+      if (input.phone) formData.append("phone", input.phone);
+      if (input.address) formData.append("address", input.address);
+      if (input.yearOfExperience)
+        formData.append("yearOfExperience", String(input.yearOfExperience));
+      if (input.bioInfo) formData.append("bioInfo", input.bioInfo);
+      if (input.licenseNumber)
+        formData.append("licenseNumber", input.licenseNumber);
+      if (input.socialLinks) {
+        formData.append("socialLinks", JSON.stringify(input.socialLinks));
+      }
+      if (input.certificate instanceof File) {
+        formData.append("certificate", input.certificate);
+      }
+      // Append file ONLY if it exists
+      if (input.avatar instanceof File) {
+        formData.append("avatar", input.avatar);
+      }
+
+      const agent = await axios.post(
+        `${this.path}/agent/update/agent-profile`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
+      localStorage.setItem("memberData", JSON.stringify(agent.data));
+      return agent.data;
+    } catch (error) {
+      console.log("Error in updateAgentProfile service: ", error);
+      throw error;
+    }
+  }
 }
 
 export default AgentService;

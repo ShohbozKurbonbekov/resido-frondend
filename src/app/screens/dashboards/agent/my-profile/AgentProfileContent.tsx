@@ -1,8 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import z from "zod";
+// Also, for the front-end validation, I am using this tools, like React hook form + Zod + shadcn
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -11,97 +10,100 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import React, { useCallback } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
-import type { User } from "@/lib/type/dashboard/user";
-import { USER_SOCIALS, UserProfileSchema } from "@/app/data/dashboard/user";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useCallback, useState } from "react";
 import {
   sweetErrorHandling,
   sweetTopSmallSuccessAlert,
 } from "@/lib/sweetAlerts";
+import { Textarea } from "@/components/ui/textarea";
+import type { AgentData } from "@/lib/type/agent";
+import { defaultUserAvatar, serverAPI } from "@/lib/config";
 import { useGlobals } from "@/app/hooks/useGlobals";
-import MemberService from "@/app/services/MemberService";
-import { serverAPI } from "@/lib/config";
-
-const inputClasses =
-  "border-slate-300 bg-slate-50 text-slate-800 placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-emerald-600/30 focus-visible:border-emerald-600";
-
-const textClasses = "text-sm font-medium text-slate-700 font-jostFont";
-
+import { AgentRegistrationSchema } from "@/app/data/agent";
+import AgentService from "@/app/services/AgentService";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { USER_SOCIALS } from "@/app/data/dashboard/user";
+import React from "react";
 const rowWrapperClasses =
   "grid grid-cols-1 md:grid-cols-2 gap-4 rounded-lg border border-slate-200 p-4 bg-slate-50/40";
 
-interface UserProfileContentType {
-  user: User;
-}
-const UserProfileContent: React.FC<UserProfileContentType> = React.memo(
-  ({ user }) => {
-    const [avatarPreview, setAvatarPreview] = React.useState<
-      string | undefined
-    >(user?.avatar ? `${serverAPI}/${user?.avatar}` : undefined);
+const inputClasses =
+  "border-slate-300 bg-slate-50 text-slate-800 placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-emerald-600/30 focus-visible:border-emerald-600";
+const textClasses = "text-sm font-medium text-slate-700 font-jostFont";
 
+interface AgentProfileContentType {
+  agent: AgentData;
+}
+
+const AgentProfileContent: React.FC<AgentProfileContentType> = React.memo(
+  ({ agent }) => {
     const { setAuthMember } = useGlobals();
-    const form = useForm<z.input<typeof UserProfileSchema>>({
-      resolver: zodResolver(UserProfileSchema),
+    const [avatarPreview, setAvatarPreview] = useState<string | undefined>(
+      agent.avatar ? `${serverAPI}/${agent.avatar}` : defaultUserAvatar
+    );
+    const [fileName, setFileName] = useState<string>("Choose a file");
+
+    const [certificateFile, setCertificateFile] =
+      useState<string>("Choose a file");
+
+    const form = useForm<z.infer<typeof AgentRegistrationSchema>>({
+      resolver: zodResolver(AgentRegistrationSchema),
       defaultValues: {
-        avatar: `${serverAPI}/${user?.avatar}`,
-        memberAddress: user?.memberAddress,
-        memberDescription: user?.memberDescription,
-        memberEmail: user?.memberEmail,
-        memberName: user?.memberName,
-        memberPhone: user?.memberPhone,
-        memberSocials: user?.memberSocials,
-        occupation: user?.occupation,
-        userFullname: user?.userFullname,
+        avatar: agent?.avatar,
+        address: agent?.address,
+        agencyId: agent.agencyId,
+        userId: agent.userId,
+        licenseNumber: agent.licenseNumber,
+        certificate: agent.certificate,
+        bioInfo: agent.bioInfo,
+        fullName: agent.fullName,
+        nickname: agent.nickname,
+        phone: agent.phone,
+        yearOfExperience: agent.yearOfExperience,
+        socialLinks: agent.socialLinks,
       },
     });
 
     const onSubmit = useCallback(
-      async (values: z.infer<typeof UserProfileSchema>) => {
+      async (values: z.infer<typeof AgentRegistrationSchema>) => {
         try {
-          console.log(values);
-          const member = new MemberService();
-          const data = await member.updateMember(values);
-          setAuthMember(data);
+          const target = new AgentService();
+          const agentData = await target.updateAgentProfile(values);
+          await sweetTopSmallSuccessAlert("Your Profile has been changed");
 
-          await sweetTopSmallSuccessAlert("Modified successfully!", 1000);
+          setAuthMember(agentData);
         } catch (error) {
-          console.log("Error in onSubmit: ", error);
+          console.log("Error in updateAgentProfile: ", error);
           await sweetErrorHandling(error!);
+          setAuthMember(agent);
         }
       },
-      [setAuthMember]
+      [setAuthMember, agent]
     );
 
     return (
       <Card className="w-full border border-slate-200 bg-slate-50/60 shadow-sm  rounded-md">
         <CardHeader className="border-b border-slate-200 bg-white rounded-md rounded-br-none rounded-bl-none">
           <CardTitle className="text-lg font-semibold text-slate-800 font-jostFont">
-            User Profile
+            Agent Profile
           </CardTitle>
         </CardHeader>
-
         <CardContent className="bg-white">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-6 pt-5"
+              className="space-y-6 bg-white rounded-md  p-5"
             >
-              {/* AVATAR */}
+              {/*IMAGE  */}
               <div className="flex sm:flex-row flex-col items-center gap-6 rounded-lg border border-slate-200 bg-slate-50/50 p-4">
                 <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full border border-slate-300 bg-slate-100 ">
-                  {avatarPreview ? (
-                    <img
-                      src={avatarPreview}
-                      alt="Avatar"
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center text-sm text-slate-400">
-                      No Image
-                    </div>
-                  )}
+                  <img
+                    src={avatarPreview}
+                    alt={agent.nickname}
+                    className="h-full w-full object-cover"
+                  />
                 </div>
 
                 <div className="flex flex-col gap-2">
@@ -128,10 +130,13 @@ const UserProfileContent: React.FC<UserProfileContentType> = React.memo(
 
                                 const url = URL.createObjectURL(file);
                                 setAvatarPreview(url);
+                                setFileName(file.name);
                                 field.onChange(file);
                               }}
                             />
-                            <span className={textClasses}>Choose image</span>
+                            <span className={`${textClasses} w-full truncate`}>
+                              {fileName}
+                            </span>
                           </div>
                         </FormControl>
 
@@ -144,49 +149,19 @@ const UserProfileContent: React.FC<UserProfileContentType> = React.memo(
                   />
                 </div>
               </div>
-              <div className={rowWrapperClasses}>
-                {/* NAME */}
-                <FormField
-                  control={form.control}
-                  name="memberName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className={textClasses}>Name</FormLabel>
-                      <FormControl>
-                        <Input {...field} className={inputClasses} />
-                      </FormControl>
-                      <FormMessage className="text-xs text-rose-600/90" />
-                    </FormItem>
-                  )}
-                />
 
-                {/* USER FULL NAME */}
+              <div className={rowWrapperClasses}>
                 <FormField
                   control={form.control}
-                  name="userFullname"
+                  name="fullName"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className={textClasses}>Full Name</FormLabel>
                       <FormControl>
-                        <Input {...field} className={inputClasses} />
-                      </FormControl>
-                      <FormMessage className="text-xs text-rose-600/90" />
-                    </FormItem>
-                  )}
-                />
-
-                {/* MEMBER EMAIL */}
-                <FormField
-                  control={form.control}
-                  name="memberEmail"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className={textClasses}>Email</FormLabel>
-                      <FormControl>
                         <Input
-                          {...field}
-                          type="email"
                           className={inputClasses}
+                          {...field}
+                          placeholder="Full Name..."
                         />
                       </FormControl>
                       <FormMessage className="text-xs text-rose-600/90" />
@@ -194,53 +169,107 @@ const UserProfileContent: React.FC<UserProfileContentType> = React.memo(
                   )}
                 />
 
-                {/* MEMBER PHONE */}
                 <FormField
                   control={form.control}
-                  name="memberPhone"
+                  name="nickname"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={textClasses}>Nickname</FormLabel>
+                      <FormControl>
+                        <Input
+                          className={inputClasses}
+                          {...field}
+                          placeholder="Nickname..."
+                        />
+                      </FormControl>
+                      <FormMessage className="text-xs text-rose-600/90" />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="phone"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className={textClasses}>Phone</FormLabel>
                       <FormControl>
-                        <Input {...field} className={inputClasses} />
+                        <Input
+                          className={inputClasses}
+                          {...field}
+                          placeholder="Phone..."
+                        />
                       </FormControl>
                       <FormMessage className="text-xs text-rose-600/90" />
                     </FormItem>
                   )}
                 />
-
-                {/* OCCUPATION */}
                 <FormField
                   control={form.control}
-                  name="occupation"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className={textClasses}>Occupation</FormLabel>
-                      <FormControl>
-                        <Input {...field} className={inputClasses} />
-                      </FormControl>
-                      <FormMessage className="text-xs text-rose-600/90" />
-                    </FormItem>
-                  )}
-                />
-
-                {/* MEMBER ADDRESS */}
-                <FormField
-                  control={form.control}
-                  name="memberAddress"
+                  name="address"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className={textClasses}>Address</FormLabel>
                       <FormControl>
-                        <Input {...field} className={inputClasses} />
+                        <Input
+                          className={inputClasses}
+                          {...field}
+                          placeholder="Address..."
+                        />
                       </FormControl>
+                      <FormMessage className="text-xs text-rose-600/90" />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="yearOfExperience"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={textClasses}>
+                        Experience Year
+                      </FormLabel>
+
+                      <FormControl>
+                        <Input
+                          {...field}
+                          className={inputClasses}
+                          type="number"
+                          placeholder="Experience Period..."
+                          onChange={(e) =>
+                            field.onChange(e.target.valueAsNumber)
+                          }
+                        />
+                      </FormControl>
+
+                      <FormMessage className="text-xs text-rose-600/90" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="licenseNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={textClasses}>
+                        License Number
+                      </FormLabel>
+
+                      <FormControl>
+                        <Input
+                          {...field}
+                          className={inputClasses}
+                          placeholder="License Number..."
+                        />
+                      </FormControl>
+
                       <FormMessage className="text-xs text-rose-600/90" />
                     </FormItem>
                   )}
                 />
               </div>
 
-              {/* DESCRIPTION */}
               <div
                 className={
                   "rounded-lg border border-slate-200 p-4 bg-slate-50/40"
@@ -248,15 +277,16 @@ const UserProfileContent: React.FC<UserProfileContentType> = React.memo(
               >
                 <FormField
                   control={form.control}
-                  name="memberDescription"
+                  name="bioInfo"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className={textClasses}>About</FormLabel>
+                      <FormLabel className={textClasses}>Biography</FormLabel>
                       <FormControl>
                         <Textarea
                           {...field}
                           rows={4}
                           className={inputClasses}
+                          placeholder="About You..."
                         />
                       </FormControl>
                       <FormMessage className="text-xs text-rose-600/90" />
@@ -270,7 +300,7 @@ const UserProfileContent: React.FC<UserProfileContentType> = React.memo(
                   <FormField
                     key={key}
                     control={form.control}
-                    name={`memberSocials.${key}`}
+                    name={`socialLinks.${key}`}
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className={`${textClasses} capitalize`}>
@@ -291,21 +321,56 @@ const UserProfileContent: React.FC<UserProfileContentType> = React.memo(
                     )}
                   />
                 ))}
+                <FormField
+                  control={form.control}
+                  name="certificate"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col gap-1">
+                      <FormLabel className={`${textClasses} `}>
+                        Upload your certificate
+                      </FormLabel>
+
+                      <FormControl>
+                        <div
+                          className={`relative border border-slate-300 bg-slate-50 text-slate-600  font-jostFont  py-1.5 px-2 rounded-md w-full truncate`}
+                        >
+                          <Input
+                            type="file"
+                            className="opacity-0 absolute inset-0"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (!file) return;
+
+                              const url = file.name;
+                              setCertificateFile(url);
+                              field.onChange(file);
+                            }}
+                          />
+                          <span className={`truncate w-full`}>
+                            {certificateFile}
+                          </span>
+                        </div>
+                      </FormControl>
+
+                      <FormMessage className="text-xs text-rose-600/90" />
+                    </FormItem>
+                  )}
+                />
               </div>
 
               <Button
                 type="submit"
                 className="
-            bg-emerald-700
-            hover:bg-emerald-600
-            text-white
-            font-medium
-            focus-visible:ring-2
-            focus-visible:ring-emerald-700/30
-        transition-all duration-200 ease-linear
-          "
+                        bg-emerald-700
+                        hover:bg-emerald-600
+                        text-white
+                        font-medium
+                        focus-visible:ring-2
+                        focus-visible:ring-emerald-700/30
+                    transition-all duration-200 ease-linear
+                      "
               >
-                Save Profile
+                Update profile
               </Button>
             </form>
           </Form>
@@ -314,4 +379,5 @@ const UserProfileContent: React.FC<UserProfileContentType> = React.memo(
     );
   }
 );
-export default UserProfileContent;
+
+export default AgentProfileContent;

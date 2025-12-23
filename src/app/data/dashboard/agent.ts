@@ -11,6 +11,7 @@ import {
   Users,
   Bell,
 } from "lucide-react";
+import z from "zod";
 
 export const AGENT_DASHBOARD_FEATURES: DashboardSidebarFeauturesType[] = [
   { title: "Overview", Icon: Gauge, url: "/dashboard" },
@@ -32,3 +33,29 @@ export const AGENT_DASHBOARD_FEATURES: DashboardSidebarFeauturesType[] = [
   { title: "My Profile", Icon: User, url: "/dashboard/agent-my-profile" },
   { title: "Logout", Icon: LogOut, url: "/logout" },
 ];
+
+const nullableUrl = z
+  .string()
+  .trim()
+  .nullable()
+  .refine(
+    (v) => v === null || v === "" || z.string().url().safeParse(v).success,
+    { message: "Invalid URL" }
+  )
+  .transform((v) => (v === "" ? null : v));
+
+export const SocialSchema = z.object({
+  facebook: nullableUrl,
+  twitter: nullableUrl,
+  instagram: nullableUrl,
+  linkedin: nullableUrl,
+  email: z
+    .string()
+    .trim()
+    .nullable()
+    .refine(
+      (v) => v === null || v === "" || z.string().email().safeParse(v).success,
+      { message: "Invalid email" }
+    )
+    .transform((v) => (v === "" ? null : v)),
+});
