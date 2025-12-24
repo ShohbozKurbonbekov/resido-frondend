@@ -12,10 +12,7 @@ interface PreviewCardType {
   comment: Comment;
 }
 export default function PreviewCard({ comment }: PreviewCardType) {
-  const {
-    userInfo: { avatar, name, occupation },
-    content,
-  } = comment;
+  const { content } = comment;
 
   return (
     <Card

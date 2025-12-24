@@ -22,6 +22,7 @@ export const updateShareUrl = (url: string): string => {
   return `multiBuilding.com/${url}`;
 };
 
+export const defaultPropertyAvatar = "/public/img/city.png";
 export const defaultUserAvatar =
   "https://cdn-icons-png.flaticon.com/512/149/149071.png";
 

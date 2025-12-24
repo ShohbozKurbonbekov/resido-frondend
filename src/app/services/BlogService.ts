@@ -2,6 +2,7 @@ import { serverAPI } from "@/lib/config";
 import type { BlogNeighborings } from "@/lib/enums/blog.enum";
 import type {
   Blog,
+  BlogInput,
   BlogSearchInput,
   BlogsListPage,
   ChosenBlogType,
@@ -98,6 +99,44 @@ class BlogService {
       return result.data;
     } catch (error) {
       console.log("Error in getFollowedAgents service: ", error);
+      throw error;
+    }
+  }
+
+  public async createBlog(input: BlogInput): Promise<SavedBlogsOutput> {
+    try {
+      const formData = new FormData();
+
+      if (input.blogImage instanceof File) {
+        formData.append("blogImage", input.blogImage);
+      }
+
+      if (input.blogCategory)
+        formData.append("blogCategory", input.blogCategory);
+
+      if (input.blogContent) formData.append("blogContent", input.blogContent);
+
+      if (input.blogTags) {
+        formData.append("blogTags", JSON.stringify(input.blogTags));
+      }
+      if (input.blogQuote) formData.append("blogQuote", input.blogQuote);
+
+      if (input.blogShortInfo)
+        formData.append("blogShortInfo", input.blogShortInfo);
+
+      if (input.blogTitle) formData.append("blogTitle", input.blogTitle);
+
+      const result = await axios.post(
+        `${this.path}/member/post/blog`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
+
+      return result.data;
+    } catch (error) {
+      console.error("Error in createBlog service", error);
       throw error;
     }
   }

@@ -22,8 +22,7 @@ const getUserCommentsRetriever = createSelector(
   (getUserComments) => ({ getUserComments })
 );
 
-export const UserCardWrapperClasses =
-  "w-full grid gap-y-4 md:gap-y-5 grid-cols-1";
+export const UserCardWrapperClasses = "w-full grid gap-4 lg:gap-5 grid-cols-1 ";
 // --------------------------------------- COMPONENT --------------------
 export default function Reviews() {
   const { setGetUserComments } = getUserCommentsDispatch(useDispatch());
@@ -55,7 +54,7 @@ export default function Reviews() {
   }, [getUserCommentsInput, mainPageLoading]);
   // --------------------------------------- COMPONENT --------------------
   return (
-    <div className="lg:col-span-9  flex flex-col gap-7">
+    <div className="lg:col-span-9">
       {loading ? (
         <SpinnerGrids columns={UserCardWrapperClasses} count={2} />
       ) : (

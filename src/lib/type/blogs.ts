@@ -12,6 +12,17 @@ export interface BlogAuthor {
   socials: Social;
   bioInfo?: string;
 }
+
+export interface BlogInput {
+  blogImage: string | File;
+  blogTitle: string;
+  blogContent: string;
+  blogQuote?: string;
+  blogTags: string[];
+  blogCategory: BlogCategory;
+  blogShortInfo: string;
+}
+
 export interface Blog {
   _id: string;
   blogImage: string;

@@ -81,7 +81,7 @@ const CustomersReview: React.FC = () => {
               <div className="flex touch-pan-y touch-pinch-zoom ">
                 {latestComments.map((comment: Comment) => (
                   <div className="flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.3333%] xl:flex-[0_0_25%] p-3">
-                    <PreviewCard comment={comment} />
+                    {/* <PreviewCard comment={comment} /> */}
                   </div>
                 ))}
               </div>

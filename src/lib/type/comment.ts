@@ -1,14 +1,9 @@
 import type { CommentStatus, CommentTargetType } from "../enums/comment.enum";
 import type { CommonInput, TotalCounter } from "./common";
 
-interface UserInfoType {
-  avatar: string;
-  name: string;
-  occupation: string;
-  phone?: string;
-  email?: string;
-  userAddress?: string;
-  userDescription?: string;
+export interface ReceiverDataType {
+  targetName: string;
+  targetImage: undefined | string;
 }
 export interface AuthorDataType {
   _id: string;
@@ -23,7 +18,7 @@ export interface Comment {
   targetType: CommentTargetType;
   targetId: string;
   content: string;
-  userInfo: UserInfoType;
+  receiverData: ReceiverDataType;
   authorData?: AuthorDataType;
   userId: string;
   rating: number;
@@ -45,7 +40,6 @@ export interface CommentInput {
   targetType: CommentTargetType;
   targetId: string;
   content: string;
-  userInfo?: UserInfoType;
   userId?: string;
   rating?: number;
   status?: CommentStatus;
