@@ -54,7 +54,7 @@ const MemberPostBlog: React.FC = () => {
       blogTitle: "",
       blogShortInfo: "",
       blogContent: "",
-      blogQuote: undefined,
+      blogQuote: "",
       blogCategory: BlogCategory.GENERAL,
     },
   });
@@ -86,8 +86,11 @@ const MemberPostBlog: React.FC = () => {
 
       try {
         await blog.createBlog(blogInput);
-        await sweetTopSmallSuccessAlert("New created blog added!");
         form.reset();
+        setBlogImage(undefined);
+        setImagePath("Upload an image");
+        setTags([]);
+        await sweetTopSmallSuccessAlert("New created blog added!");
       } catch (error) {
         console.log("Error in posting a blog: ", error);
         await sweetErrorHandling(error!);

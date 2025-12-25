@@ -10,6 +10,7 @@ import {
   Star,
   Users,
   Bell,
+  BookOpen,
 } from "lucide-react";
 import z from "zod";
 
@@ -29,6 +30,8 @@ export const AGENT_DASHBOARD_FEATURES: DashboardSidebarFeauturesType[] = [
     url: "/dashboard/agent-create-property",
   },
   { title: "Post blog", Icon: FilePenLine, url: "/dashboard/agent-post-blog" },
+
+  { title: "My blogs", Icon: BookOpen, url: "/dashboard/agent-my-blogs" },
 
   { title: "My Profile", Icon: User, url: "/dashboard/agent-my-profile" },
   { title: "Logout", Icon: LogOut, url: "/logout" },

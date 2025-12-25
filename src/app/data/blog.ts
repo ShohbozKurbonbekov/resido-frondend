@@ -52,7 +52,12 @@ export const BlogFormSchema = z.object({
 
   blogContent: z.string().trim().min(100, "Content is too short"),
 
-  blogQuote: z.string().trim().max(200, "Quote is too long").optional(),
+  blogQuote: z
+    .string()
+    .trim()
+    .max(200, "Quote is too long")
+    .optional()
+    .or(z.literal("")),
 
   blogCategory: z.nativeEnum(BlogCategory),
 });

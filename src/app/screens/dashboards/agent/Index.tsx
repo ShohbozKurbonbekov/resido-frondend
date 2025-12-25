@@ -10,6 +10,7 @@ import AgentDashboardCreateProperty from "./AgentDashboardCreateProperty";
 import AgentDashboardPostBlog from "./post-blog/AgentDashboardPostBlog";
 import AgentDashboardMyProfile from "./AgentDashboardMyProfile";
 import { useGlobals } from "@/app/hooks/useGlobals";
+import AgentDashboardMyBlogs from "./post-blog/AgentDashboardMyBlogs";
 
 export default function AgentDashboard() {
   const { authmember } = useGlobals();
@@ -51,6 +52,11 @@ export default function AgentDashboard() {
         <Route
           path="/agent-post-blog"
           element={<AgentDashboardPostBlog />}
+        ></Route>
+
+        <Route
+          path="/agent-my-blogs"
+          element={<AgentDashboardMyBlogs />}
         ></Route>
 
         <Route
