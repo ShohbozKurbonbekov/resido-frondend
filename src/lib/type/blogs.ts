@@ -25,7 +25,7 @@ export interface BlogInput {
 
 export interface Blog {
   _id: string;
-  blogImage: string;
+  blogImage: string | File;
   blogAuthorId: string;
   blogAuthorType: BlogAuthorType;
   blogStatus: BlogStatus;
@@ -58,6 +58,7 @@ export interface BlogSearchInput extends CommonInput {
   sort?: SortOrder;
   search?: BlogSearchType;
 }
+
 export interface BlogsListPage {
   blogs: Blog[];
   totalBlogsNumber: TotalCounter[];

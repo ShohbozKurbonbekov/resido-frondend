@@ -22,7 +22,6 @@ interface DashboardSideBarType {
 
 const DashboardSideBar: React.FC<DashboardSideBarType> = React.memo(
   ({ name, avatar, address, DASHBOARD_FEATURES }) => {
-    console.log(DASHBOARD_FEATURES);
     const { logout } = useGlobals();
     const navigation = useNavigate();
     const [isActive, setIsActive] = useState<string>("btn-1");

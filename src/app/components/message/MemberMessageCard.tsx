@@ -43,6 +43,7 @@ const MemberMessageCard: React.FC<MemberMessageCardType> = React.memo(
   }) => {
     const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
     const [isEditing, setIsEditing] = useState<boolean>(false);
+
     const [updatedContent, setUpdatedContent] = useState<string>(
       message.content
     );

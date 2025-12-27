@@ -4,34 +4,57 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import { Calendar } from "lucide-react";
+import { Calendar, Pencil, Trash2 } from "lucide-react";
 import React from "react";
 import type { Blog } from "@/lib/type/blogs";
 import { defaultBlogImage, serverAPI } from "@/lib/config";
 import { dateConverter } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import type { SetStateType } from "@/lib/type/common";
 
 // ----------------------------------- COMPONENT -----------------------
 interface MyBlogCardType {
   blog: Blog;
+  handleDeleteBlog: (id: string) => Promise<void>;
+  setModelOpen: SetStateType<boolean>;
+  setSelectedBlog: SetStateType<null | Blog>;
 }
-const MyBlogCard: React.FC<MyBlogCardType> = React.memo(({ blog }) => {
+const MyBlogCard: React.FC<MyBlogCardType> = ({
+  blog,
+  handleDeleteBlog,
+  setModelOpen,
+  setSelectedBlog,
+}) => {
+  const isEdited =
+    new Date(blog.updatedAt).getTime() !== new Date(blog.createdAt).getTime();
   const imgUrl = blog.blogImage
     ? `${serverAPI}/${blog.blogImage}`
     : defaultBlogImage;
+  console.log(blog.blogImage);
 
   // ----------------------------------- HANDLERS -----------------------
 
   // ----------------------------------- RENDER -----------------------
   return (
-    <Card className="overflow-hidden rounded-2xl shadow-sm hover:shadow-lg transition-all bg-white  max-w-md mx-auto">
+    <Card className="overflow-hidden rounded-2xl shadow-sm hover:shadow-lg transition-all bg-white  max-w-md mx-auto flex flex-col">
       <CardHeader className="p-0">
-        <div className="h-52 w-full overflow-hidden">
+        <div className="h-52 w-full overflow-hidden relative">
           <img
             src={imgUrl}
             alt={blog.blogTitle}
             className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
           />
+          {isEdited ? (
+            <Badge
+              variant={"outline"}
+              className={
+                "absolute top-2 right-2 h-5 px-2 text-size_10 bg-slate-100 inline-block text-gray-700 font-jostFont border italic"
+              }
+            >
+              Edited
+            </Badge>
+          ) : null}
         </div>
       </CardHeader>
 
@@ -49,16 +72,33 @@ const MyBlogCard: React.FC<MyBlogCardType> = React.memo(({ blog }) => {
         </p>
       </CardContent>
 
-      <CardFooter className="mt-2 flex items-center justify-between">
-        <Button variant={"secondary"} className="" onClick={() => {}}>
-          edit
-        </Button>
-        <Button className="" onClick={() => {}}>
-          delete
-        </Button>
+      <CardFooter className="flex flex-1  flex-col justify-end items-end">
+        <div className="flex gap-x-2">
+          <Button
+            size="sm"
+            variant="outline"
+            className="gap-1 duration-200 transition-all ease-linear active:scale-105"
+            onClick={() => {
+              setModelOpen(true);
+              setSelectedBlog(blog);
+            }}
+          >
+            <Pencil className="h-4 w-4" />
+            Edit
+          </Button>
+          <Button
+            size="sm"
+            variant="secondary"
+            className={`gap-1 duration-200 transition-colors ease-linear   hover:bg-red-600 bg-red-400 text-white`}
+            onClick={() => handleDeleteBlog(blog._id)}
+          >
+            <Trash2 className="h-4 w-4" />
+            Delete
+          </Button>
+        </div>
       </CardFooter>
     </Card>
   );
-});
+};
 
 export default MyBlogCard;

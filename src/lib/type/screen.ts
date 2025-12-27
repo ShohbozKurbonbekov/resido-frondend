@@ -34,6 +34,7 @@ export interface AppRootState {
   blogsPage: BlogsPageState;
   contactUsPage: ContactUsPageState;
   userDashboardPage: UserDashboardPage;
+  agentDashboardPage: AgentDashboardPage;
 }
 
 // HOMEPAGE
@@ -89,4 +90,9 @@ export interface UserDashboardPage {
   getUserComments: Comments;
   getMemberMessages: MemberMessages;
   userDashboardOverview: UserDashboardOverviewType;
+}
+
+// AGENT DASHBOARD PAGE
+export interface AgentDashboardPage {
+  agentMyBlogs: BlogsListPage;
 }
