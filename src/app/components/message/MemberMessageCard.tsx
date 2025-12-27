@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Pencil, Trash2, MailOpen, Reply, Undo } from "lucide-react";
-import { MemberType } from "@/lib/enums/agent.enum";
 import { defaultUserAvatar, ErrorMessages, serverAPI } from "@/lib/config";
 import {
   customLetterCustomise,
@@ -15,9 +14,9 @@ import {
 } from "@/lib/utils";
 import { emptyInputAlert, sweetErrorHandling } from "@/lib/sweetAlerts";
 import MemberService from "@/app/services/MemberService";
-import { useGlobals } from "@/app/hooks/useGlobals";
 import { Textarea } from "@/components/ui/textarea";
 import MessageReplyDialog from "./MessageReplyDialog";
+import { useGlobals } from "@/app/hooks/useGlobals";
 
 const contentClasses =
   "mt-1 text-sm text-muted-foreground font-jostFont rounded-xl bg-muted/40 p-3 flex-1";
@@ -41,14 +40,14 @@ const MemberMessageCard: React.FC<MemberMessageCardType> = React.memo(
     handleSavebtn,
     handleReply,
   }) => {
+    const { authmember } = useGlobals();
     const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
     const [updatedContent, setUpdatedContent] = useState<string>(
       message.content
     );
-    const { authmember } = useGlobals();
-    const isSender = message.senderType === MemberType.USER;
+    const isSender = message.senderType === authmember?.role;
     const counterpart =
       authmember?._id === message.senderId
         ? message.receiverData

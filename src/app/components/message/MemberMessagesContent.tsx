@@ -3,8 +3,8 @@ import { PaginationCom } from "@/app/components/PaginationCom";
 import type { CommonInput, SetStateType } from "@/lib/type/common";
 import React from "react";
 import type { MemberMessages, Message } from "@/lib/type/message";
-import MemberMessageCard from "../../../components/message/MemberMessageCard";
-import { MemberMessageCardWrapperClasses } from "./Messages";
+import MemberMessageCard from "./MemberMessageCard";
+import { MemberMessageCardWrapperClasses } from "../../screens/dashboards/user/Messages";
 
 interface MemberMessagesContentType {
   getMemberMessages: MemberMessages;

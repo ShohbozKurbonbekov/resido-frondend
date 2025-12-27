@@ -9,8 +9,8 @@ import type { CommonInput } from "@/lib/type/common";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import type { MemberMessages, Message, MessageInput } from "@/lib/type/message";
 import MemberService from "@/app/services/MemberService";
-import MemberMessagesHeader from "./MemberMessagesHeader";
-import MemberMessagesContent from "./MemberMessagesContent";
+import MemberMessagesHeader from "../../../components/message/MemberMessagesHeader";
+import MemberMessagesContent from "../../../components/message/MemberMessagesContent";
 import { useGlobals } from "@/app/hooks/useGlobals";
 import type { User } from "@/lib/type/dashboard/user";
 

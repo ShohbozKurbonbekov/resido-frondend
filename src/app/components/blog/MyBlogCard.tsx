@@ -74,7 +74,7 @@ const MyBlogCard: React.FC<MyBlogCardType> = ({
         <div className="group flex gap-1 ">
           <Link
             className="underline text-blue-700 text-sm"
-            to={`${serverAPI}/blogs/${blog._id}`}
+            to={`/blogs/${blog._id}`}
           >
             Visit my blog
           </Link>

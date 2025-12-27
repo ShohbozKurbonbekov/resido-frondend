@@ -9,3 +9,8 @@ export const retrieveAgentMyBlogs = createSelector(
   selectAgentDashboardPage,
   (agentDashboardPage) => agentDashboardPage.agentMyBlogs
 );
+
+export const retrieveGetAgentMessages = createSelector(
+  selectAgentDashboardPage,
+  (agentDashboardPage) => agentDashboardPage.getAgentMessages
+);
