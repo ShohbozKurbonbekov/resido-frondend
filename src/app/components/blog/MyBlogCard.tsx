@@ -12,6 +12,7 @@ import { dateConverter } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { SetStateType } from "@/lib/type/common";
+import { Link } from "react-router-dom";
 
 // ----------------------------------- COMPONENT -----------------------
 interface MyBlogCardType {
@@ -70,6 +71,17 @@ const MyBlogCard: React.FC<MyBlogCardType> = ({
         <p className="text-sm  text-muted-foreground font-light">
           {blog.blogShortInfo}
         </p>
+        <div className="group flex gap-1 ">
+          <Link
+            className="underline text-blue-700 text-sm"
+            to={`${serverAPI}/blogs/${blog._id}`}
+          >
+            Visit my blog
+          </Link>
+          <span className="opacity-0 group-hover:opacity-100 text-blue-700 transition-all duration-200 ease-linear">
+            ......
+          </span>
+        </div>
       </CardContent>
 
       <CardFooter className="flex flex-1  flex-col justify-end items-end">
