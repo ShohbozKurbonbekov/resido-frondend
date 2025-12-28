@@ -1,4 +1,3 @@
-import SpinnerGrids from "@/app/components/loading/SpinnerGrids";
 import AgentService from "@/app/services/AgentService";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import type { Dispatch } from "@reduxjs/toolkit";
@@ -14,7 +13,7 @@ import MyReviewsHeader from "@/app/components/reviews/MyReviewsHeader";
 import MyReviewsContent from "@/app/components/reviews/MyReviewsContent";
 
 export const myReviewsWrapperClasses =
-  "grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-4 py-4 ";
+  "grid gap-5 sm:grid-cols-2 lg:grid-cols-3";
 
 // ----------------------------------------- REDUX INTEGRATION --------------------------
 const myallReviewsDispatch = (dispatch: Dispatch) => ({
@@ -27,11 +26,11 @@ const myallReviewsRetriever = createSelector(
 );
 
 // ---------------------------------------- COMPONET -----------------------
-export default function AgentDashboardMyBlogs() {
+export default function AgentDashboardMyReviews() {
   const { setMyallReviews } = myallReviewsDispatch(useDispatch());
   const { myallReviews } = useSelector(myallReviewsRetriever);
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [myReviewSearch, setMyReviewSearch] = useState<CommentsSearchInput>({
     limit: 6,
     page: 1,
@@ -39,8 +38,10 @@ export default function AgentDashboardMyBlogs() {
     category: CommentTargetType.AGENT,
   });
 
+  console.log(myReviewSearch);
   useEffect(() => {
     const agent = new AgentService();
+    setLoading(true);
     (async () => {
       try {
         const result = await agent.getMyReviews(myReviewSearch);
@@ -62,15 +63,12 @@ export default function AgentDashboardMyBlogs() {
       <div className="flex flex-col gap-y-5 h-full">
         <MyReviewsHeader />
 
-        {loading ? (
-          <SpinnerGrids columns={myReviewsWrapperClasses} count={3} />
-        ) : (
-          <MyReviewsContent
-            myReviews={myallReviews}
-            myReviewSearch={myReviewSearch}
-            setMyReviewSearch={setMyReviewSearch}
-          />
-        )}
+        <MyReviewsContent
+          loading={loading}
+          myReviews={myallReviews}
+          myReviewSearch={myReviewSearch}
+          setMyReviewSearch={setMyReviewSearch}
+        />
       </div>
     </div>
   );

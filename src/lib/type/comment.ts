@@ -1,6 +1,7 @@
 import type { SortOrder } from "../enums/blog.enum";
 import type { CommentStatus, CommentTargetType } from "../enums/comment.enum";
 import type { CommonInput, TotalCounter } from "./common";
+import type { User } from "./dashboard/user";
 
 export interface ReceiverDataType {
   targetName: string;
@@ -20,6 +21,7 @@ export interface Comment {
   targetId: string;
   content: string;
   receiverData: ReceiverDataType;
+  senderData?: User;
   authorData?: AuthorDataType;
   userId: string;
   rating: number;
@@ -53,6 +55,6 @@ export interface CommentUpdate {
 
 export interface CommentsSearchInput extends CommonInput {
   // limit, page
-  sort: SortOrder;
+  sort?: SortOrder;
   category?: CommentTargetType;
 }
