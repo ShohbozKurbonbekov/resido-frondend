@@ -14,3 +14,7 @@ export const retrieveGetAgentMessages = createSelector(
   selectAgentDashboardPage,
   (agentDashboardPage) => agentDashboardPage.getAgentMessages
 );
+export const retrieveMyallReviews = createSelector(
+  selectAgentDashboardPage,
+  (agentDashboardPage) => agentDashboardPage.myallReviews
+);

@@ -22,7 +22,7 @@ const MyBlogsContent: React.FC<MyBlogsContentType> = React.memo(
     return (
       <>
         {myBlogs?.blogs?.length ? (
-          <div className="flex-1 flex flex-col justify-between">
+          <div className="flex-1 flex flex-col justify-between gap-y-6">
             <div className={myBlogsWrapperClasses}>
               {myBlogs.blogs.map((blog: Blog) => (
                 <MyBlogCard
@@ -38,7 +38,7 @@ const MyBlogsContent: React.FC<MyBlogsContentType> = React.memo(
               totalPages={Math.ceil(
                 (myBlogs.totalBlogsNumber[0]?.total ?? 0) / myBlogsInput.limit
               )}
-              styleclasses="flex flex-row items-center justify-center mt-6 gap-3"
+              styleclasses="flex flex-row items-center justify-center  gap-3"
               currentPage={myBlogsInput.page}
               onPageChange={setMyBlogsInput}
             />

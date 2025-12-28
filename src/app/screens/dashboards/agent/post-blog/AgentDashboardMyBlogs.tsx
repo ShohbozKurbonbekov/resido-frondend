@@ -55,7 +55,7 @@ export default function AgentDashboardMyBlogs() {
     async (id: string) => {
       const oldBlogs = {
         blogs: [...agentMyBlogs.blogs],
-        totalBlogsNumber: [...agentMyBlogs.totalBlogsNumber],
+        totalBlogsNumber: agentMyBlogs.totalBlogsNumber,
       };
       const updatedBlogs = oldBlogs.blogs.filter((blog) => blog._id !== id);
 

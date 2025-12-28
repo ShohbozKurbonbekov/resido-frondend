@@ -96,4 +96,5 @@ export interface UserDashboardPage {
 export interface AgentDashboardPage {
   agentMyBlogs: BlogsListPage;
   getAgentMessages: MemberMessages;
+  myallReviews: Comments;
 }

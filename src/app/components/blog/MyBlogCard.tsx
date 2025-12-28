@@ -32,9 +32,6 @@ const MyBlogCard: React.FC<MyBlogCardType> = ({
   const imgUrl = blog.blogImage
     ? `${serverAPI}/${blog.blogImage}`
     : defaultBlogImage;
-  console.log(blog.blogImage);
-
-  // ----------------------------------- HANDLERS -----------------------
 
   // ----------------------------------- RENDER -----------------------
   return (
@@ -68,7 +65,7 @@ const MyBlogCard: React.FC<MyBlogCardType> = ({
           <Calendar size={15} />
           <span>{dateConverter(blog.createdAt, "Do MMMM YYYY")}</span>
         </div>
-        <p className="text-sm  text-muted-foreground font-light">
+        <p className="text-sm  text-slate-400 font-light">
           {blog.blogShortInfo}
         </p>
         <div className="group flex gap-1 ">

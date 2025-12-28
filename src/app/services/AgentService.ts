@@ -11,6 +11,7 @@ import type {
   FollowedAgentsType,
 } from "@/lib/type/agent";
 import type { Blog, BlogsListPage } from "@/lib/type/blogs";
+import type { Comments, CommentsSearchInput } from "@/lib/type/comment";
 import type { CommonInput, SellersSearchInput } from "@/lib/type/common";
 import axios from "axios";
 
@@ -235,6 +236,19 @@ class AgentService {
       await axios.post(url, {}, { withCredentials: true });
     } catch (error) {
       console.log("Error in deleteMyBlog service: ", error);
+      throw error;
+    }
+  }
+
+  public async getMyReviews(input: CommentsSearchInput): Promise<Comments> {
+    try {
+      const url = `${this.path}/agent/get/my-reviews`;
+
+      const result = await axios.post(url, input, { withCredentials: true });
+
+      return result.data;
+    } catch (error) {
+      console.log("Error in getMyReviews service: ", error);
       throw error;
     }
   }

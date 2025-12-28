@@ -66,6 +66,7 @@ const inputClasses =
   "border-slate-300 bg-slate-50 text-slate-800 placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-emerald-600/30 focus-visible:border-emerald-600";
 const textClasses = "text-sm font-medium text-slate-700 font-jostFont";
 
+// --------------------------------------- COMPONENT -----------------------------
 interface UpdateBLogDialog {
   isModelOpen: boolean;
   setModelOpen: SetStateType<boolean>;
@@ -94,7 +95,7 @@ const UpdateBLogDialog: React.FC<UpdateBLogDialog> = ({
   const form = useForm<z.input<typeof BlogFormSchema>>({
     resolver: zodResolver(BlogFormSchema),
     defaultValues: {
-      blogImage: undefined,
+      blogImage: `${serverAPI}/${selectedBlog?.blogImage}`,
       blogTitle: selectedBlog?.blogTitle,
       blogShortInfo: selectedBlog?.blogShortInfo,
       blogContent: selectedBlog?.blogContent,
@@ -146,6 +147,7 @@ const UpdateBLogDialog: React.FC<UpdateBLogDialog> = ({
   const handleSavebtn = useCallback(
     async (values: z.infer<typeof BlogFormSchema>) => {
       if (!selectedBlog) return;
+
       const blogInput = {
         ...values,
         ...(values.blogImage instanceof File
@@ -174,13 +176,13 @@ const UpdateBLogDialog: React.FC<UpdateBLogDialog> = ({
           blogs: updatedBlogs,
           totalBlogsNumber: snapshot.totalBlogsNumber,
         });
+
         setModelOpen(false);
         setSelectedBlog(null);
         await sweetTopSmallSuccessAlert("Successfully updated!");
       } catch (error) {
         console.log("Error in handleSaveBtn: ", error);
         await sweetErrorHandling(error!);
-        setAgentMyBlogs(snapshot);
       }
     },
     [
