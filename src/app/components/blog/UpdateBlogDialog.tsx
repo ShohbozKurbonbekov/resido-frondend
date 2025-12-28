@@ -1,5 +1,5 @@
 import type { Blog, BlogsListPage } from "@/lib/type/blogs";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -66,13 +66,13 @@ const inputClasses =
   "border-slate-300 bg-slate-50 text-slate-800 placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-emerald-600/30 focus-visible:border-emerald-600";
 const textClasses = "text-sm font-medium text-slate-700 font-jostFont";
 
-interface UpdateBLogDiolog {
+interface UpdateBLogDialog {
   isModelOpen: boolean;
   setModelOpen: SetStateType<boolean>;
   setSelectedBlog: SetStateType<null | Blog>;
   selectedBlog: Blog | null;
 }
-const UpdateBLogDiolog: React.FC<UpdateBLogDiolog> = ({
+const UpdateBLogDialog: React.FC<UpdateBLogDialog> = ({
   isModelOpen,
   setModelOpen,
   selectedBlog,
@@ -94,7 +94,7 @@ const UpdateBLogDiolog: React.FC<UpdateBLogDiolog> = ({
   const form = useForm<z.input<typeof BlogFormSchema>>({
     resolver: zodResolver(BlogFormSchema),
     defaultValues: {
-      blogImage: `${serverAPI}/${selectedBlog?.blogImage}`,
+      blogImage: undefined,
       blogTitle: selectedBlog?.blogTitle,
       blogShortInfo: selectedBlog?.blogShortInfo,
       blogContent: selectedBlog?.blogContent,
@@ -102,6 +102,29 @@ const UpdateBLogDiolog: React.FC<UpdateBLogDiolog> = ({
       blogCategory: selectedBlog?.blogCategory,
     },
   });
+
+  useEffect(() => {
+    if (!selectedBlog) return;
+
+    form.reset({
+      blogImage: selectedBlog.blogImage
+        ? `${serverAPI}/${selectedBlog.blogImage}`
+        : undefined,
+      blogTitle: selectedBlog.blogTitle,
+      blogShortInfo: selectedBlog.blogShortInfo,
+      blogContent: selectedBlog.blogContent,
+      blogQuote: selectedBlog.blogQuote,
+      blogCategory: selectedBlog.blogCategory,
+    });
+
+    setTags(selectedBlog.blogTags || []);
+    setBlogImage(
+      selectedBlog.blogImage
+        ? `${serverAPI}/${selectedBlog.blogImage}`
+        : undefined
+    );
+    setImagePath("Upload an image");
+  }, [selectedBlog, form]);
 
   // ---------------------------------------- HANDLERS ------------------------
   const addTag = () => {
@@ -125,17 +148,23 @@ const UpdateBLogDiolog: React.FC<UpdateBLogDiolog> = ({
       if (!selectedBlog) return;
       const blogInput = {
         ...values,
+        ...(values.blogImage instanceof File
+          ? { blogImage: values.blogImage }
+          : {}),
         blogTags: tags,
       } as Blog;
 
       const snapshot = {
         blogs: [...agentMyBlogs.blogs],
-        totalBlogsNumber: [...agentMyBlogs.totalBlogsNumber],
+        totalBlogsNumber: agentMyBlogs.totalBlogsNumber,
       };
 
       try {
         const member = new AgentService();
-        const result = await member.agentUpdateMyBlog(blogInput);
+        const result = await member.agentUpdateMyBlog(
+          blogInput,
+          selectedBlog._id
+        );
         const updatedBlogs = [
           ...agentMyBlogs.blogs.map((blog) =>
             blog._id === result._id ? result : blog
@@ -165,7 +194,16 @@ const UpdateBLogDiolog: React.FC<UpdateBLogDiolog> = ({
   );
 
   return (
-    <Dialog open={isModelOpen} onOpenChange={setModelOpen}>
+    <Dialog
+      open={isModelOpen}
+      onOpenChange={(open) => {
+        if (!open) {
+          setSelectedBlog(null);
+        }
+
+        setModelOpen(open);
+      }}
+    >
       <DialogContent className="w-11/12 max-w-7xl overflow-y-auto h-5/6">
         <DialogHeader>
           <DialogTitle className="text-xl font-jostFont text-gray-700">
@@ -426,4 +464,4 @@ const UpdateBLogDiolog: React.FC<UpdateBLogDiolog> = ({
   );
 };
 
-export default UpdateBLogDiolog;
+export default UpdateBLogDialog;

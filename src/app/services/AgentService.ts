@@ -191,7 +191,7 @@ class AgentService {
     }
   }
 
-  public async agentUpdateMyBlog(input: Blog): Promise<Blog> {
+  public async agentUpdateMyBlog(input: Blog, id: string): Promise<Blog> {
     try {
       const formData = new FormData();
 
@@ -215,7 +215,7 @@ class AgentService {
       if (input.blogTitle) formData.append("blogTitle", input.blogTitle);
 
       const result = await axios.post(
-        `${this.path}/agent/update/myBlog`,
+        `${this.path}/agent/update/myBlog/${id}`,
         formData,
         {
           withCredentials: true,

@@ -17,6 +17,8 @@ const MyBlogsContent: React.FC<MyBlogsContentType> = React.memo(
   ({ myBlogs, myBlogsInput, setMyBlogsInput, handleDeleteBlog }) => {
     const [isModelOpen, setModelOpen] = useState<boolean>(false);
     const [selectedBlog, setSelectedBlog] = useState<null | Blog>(null);
+
+    // --------------------------------------- RENDER ------------------------------
     return (
       <>
         {myBlogs?.blogs?.length ? (
@@ -28,6 +30,7 @@ const MyBlogsContent: React.FC<MyBlogsContentType> = React.memo(
                   handleDeleteBlog={handleDeleteBlog}
                   setModelOpen={setModelOpen}
                   setSelectedBlog={setSelectedBlog}
+                  key={blog._id}
                 />
               ))}
             </div>
@@ -46,6 +49,7 @@ const MyBlogsContent: React.FC<MyBlogsContentType> = React.memo(
 
         {selectedBlog && (
           <UpdateBLogDiolog
+            key={selectedBlog._id}
             isModelOpen={isModelOpen}
             setModelOpen={setModelOpen}
             selectedBlog={selectedBlog}
