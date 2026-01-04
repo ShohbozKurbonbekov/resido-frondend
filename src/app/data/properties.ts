@@ -9,6 +9,46 @@ import {
 } from "@/lib/enums/property.enum";
 import { z } from "zod";
 
+export const PROPERTY_ADDRESS = [
+  "street",
+  "district",
+  "city",
+  "postalCode",
+  "country",
+] as const;
+
+export const PROPERTY_FEATURES = [
+  { name: "floors", label: "Floors" },
+  { name: "bathrooms", label: "Bathrooms" },
+  { name: "bedrooms", label: "Bedrooms" },
+  { name: "hall", label: "Hall" },
+  { name: "kitchen", label: "Kitchen" },
+  { name: "garageSpace", label: "Garage Space" },
+  { name: "area", label: "Area (sq.m)" },
+  { name: "yearBuilt", label: "Year Built" },
+] as const;
+
+export const PROPERTY_OPTIONS = [
+  {
+    name: "propertyType",
+    enumObj: PropertyType,
+    label: "Property Type",
+  },
+  { name: "heating", enumObj: PropertyHeating, label: "Heating" },
+  { name: "cooling", enumObj: PropertyCooling, label: "Cooling" },
+  {
+    name: "furnished",
+    enumObj: PropertyFurnature,
+    label: "Furnished",
+  },
+  {
+    name: "security",
+    enumObj: PropertySecurity,
+    label: "Security",
+  },
+  { name: "mood", enumObj: PropertyMood, label: "Mood" },
+] as const;
+
 export const propertiesOrder = ["high price", "low price", "most popular"];
 
 export const cityList: string[] = [
@@ -67,6 +107,99 @@ export const ameneties: string[] = [
   "spa Massage",
 ];
 
+export const RENT_OPTION = [
+  { name: "monthlyPayment", label: "Monthly Payment" },
+  { name: "totalAmount", label: "Total Amount" },
+  { name: "dividedMonths", label: "Divided Months" },
+] as const;
+
+export const SALE_OPTION = [
+  { name: "totalAmount", label: "Total Amount" },
+  { name: "discount", label: "Discount" },
+] as const;
+
+export const PROPERTY_AMENITIES = [
+  { name: "airConditioning", label: "Air Conditioning" },
+  { name: "swimmingPool", label: "Swimming Pool" },
+  { name: "centralHeating", label: "Central Heating" },
+  { name: "laundryRoom", label: "Laundry Room" },
+  { name: "gym", label: "Gym" },
+  { name: "alarm", label: "Alarm" },
+  { name: "windowCovering", label: "Window Covering" },
+  { name: "internet", label: "Internet" },
+  { name: "petsAllow", label: "Pets Allowed" },
+  { name: "freeWifi", label: "Free Wi-Fi" },
+  { name: "carParking", label: "Car Parking" },
+  { name: "spaMassage", label: "Spa / Massage" },
+] as const;
+
+export const PROPERTY_OTHER_FEATURES = [
+  { name: "nearBySchools", label: "NearBy schools" },
+  { name: "nearByTransports", label: "NearBy transports" },
+  { name: "firePlace", label: "firePlace" },
+] as const;
+
+export const OPTION_RENT = [
+  { name: "monthlyPayment", label: "Monthly Payment" },
+  { name: "overalAmount", label: "Overal Amount" },
+  { name: "devidedMonths", label: "Devided Months" },
+] as const;
+export const OPTION_SELL = [
+  { name: "overalAmunt", label: "Overal Amount" },
+  { name: "discount", label: "Discount" },
+] as const;
+
+export const PROPERTY_IMAGES = [
+  "image1",
+  "image2",
+  "image3",
+  "image4",
+  "image5",
+] as const;
+// -------------------------------- helper function --------------
+
+/* ----------------------------------
+  FILE
+----------------------------------- */
+const fileRequired = z.union([z.instanceof(File), z.string().url()]);
+
+const fileOptional = z
+  .union([z.instanceof(File), z.string().url(), z.literal("")])
+  .optional();
+
+/* ----------------------------------
+ Selling options
+----------------------------------- */
+
+export const decimalStringRequired = z
+  .string()
+  .trim()
+  .min(1, "Required")
+  .refine((val) => !Number.isNaN(Number(val)), {
+    message: "Must be a number",
+  });
+
+export const decimalStringOptional = z
+  .string()
+  .trim()
+  .refine((val) => val === "" || !Number.isNaN(Number(val)), {
+    message: "Must be a number",
+  })
+  .optional();
+
+const optionRentSchema = z.object({
+  type: z.literal(SellingTypeEnum.RENT),
+  monthlyPayment: decimalStringRequired,
+  overalAmount: decimalStringRequired,
+  devidedMonths: decimalStringRequired,
+});
+
+const optionSellSchema = z.object({
+  type: z.literal(SellingTypeEnum.SALE),
+  overalAmunt: decimalStringRequired,
+  discount: decimalStringRequired,
+});
+
 /* ----------------------------------
  Address
 ----------------------------------- */
@@ -79,47 +212,21 @@ export const PropertyAddressSchema = z.object({
 });
 
 /* ----------------------------------
- Selling Options
------------------------------------ */
-const RentOptionSchema = z.object({
-  type: z.literal(SellingTypeEnum.RENT),
-  monthlyPayment: z.number().min(0),
-  overalAmount: z.number().min(0),
-  devidedMonths: z.number().min(0),
-});
-
-const SellOptionSchema = z.object({
-  type: z.literal(SellingTypeEnum.SALE),
-  overalAmount: z.number().min(0), // fixed typo
-  discount: z.number().min(0),
-});
-
-export const PropertySellingOptionSchema = z
-  .object({
-    optionRent: RentOptionSchema.optional(),
-    optionSell: SellOptionSchema.optional(),
-  })
-  .refine((data) => data.optionRent || data.optionSell, {
-    message: "Either rent or sell option must be provided",
-    path: ["sellingOption"],
-  });
-
-/* ----------------------------------
  Amenities
 ----------------------------------- */
 export const PropertyAmenitiesSchema = z.object({
-  airConditioning: z.boolean().default(false),
-  swimmingPool: z.boolean().default(false),
-  centralHeating: z.boolean().default(false),
-  laundryRoom: z.boolean().default(false),
-  gym: z.boolean().default(false),
-  alarm: z.boolean().default(false),
-  windowCovering: z.boolean().default(false),
-  internet: z.boolean().default(false),
-  petsAllow: z.boolean().default(false),
-  freeWifi: z.boolean().default(false),
-  carParking: z.boolean().default(false),
-  spaMassage: z.boolean().default(false),
+  airConditioning: z.boolean(),
+  swimmingPool: z.boolean(),
+  centralHeating: z.boolean(),
+  laundryRoom: z.boolean(),
+  gym: z.boolean(),
+  alarm: z.boolean(),
+  windowCovering: z.boolean(),
+  internet: z.boolean(),
+  petsAllow: z.boolean(),
+  freeWifi: z.boolean(),
+  carParking: z.boolean(),
+  spaMassage: z.boolean(),
 });
 
 /* ----------------------------------
@@ -127,46 +234,60 @@ export const PropertyAmenitiesSchema = z.object({
 ----------------------------------- */
 export const PropertyFormSchema = z.object({
   title: z.string().trim().min(1, { message: "Title is required" }),
-  sellingOption: PropertySellingOptionSchema,
-  floors: z.number().int().min(0),
-  propertyType: z.nativeEnum(PropertyType),
-  area: z.number().positive(),
-  images: z
-    .array(
-      z.union([
-        z.instanceof(File),
-        z.string().url({ message: "Please provide a valid URL" }),
-      ])
-    )
-    .length(5, "You must provide exactly 5 images"),
-  bathrooms: z.number().int().min(0),
-  bedrooms: z.number().int().min(0),
-  hall: z.number().int().min(0),
-  kitchen: z.number().int().min(0),
   address: PropertyAddressSchema,
-  description: z.string().trim().min(10, { message: "Description too short" }),
+  description: z
+    .string()
+    .trim()
+    .min(1, { message: "Description is required" })
+    .max(200, { message: "Description must be max 200 characters" }),
+
+  // NUMBERS
+  floors: decimalStringRequired,
+  bathrooms: decimalStringRequired,
+  bedrooms: decimalStringRequired,
+  hall: decimalStringRequired,
+  kitchen: decimalStringRequired,
+  garageSpace: decimalStringRequired,
+  area: decimalStringRequired,
+  yearBuilt: decimalStringRequired,
+
+  // SELECT OPTIONS
+  propertyType: z.nativeEnum(PropertyType),
   heating: z.nativeEnum(PropertyHeating),
   cooling: z.nativeEnum(PropertyCooling),
   furnished: z.nativeEnum(PropertyFurnature),
   security: z.nativeEnum(PropertySecurity),
-  yearBuilt: z.number().int().min(1800).max(new Date().getFullYear()),
-  garageSpace: z.number().int().min(0),
-  amenities: PropertyAmenitiesSchema,
-  nearBySchools: z.boolean().default(false),
-  nearByTransports: z.boolean().default(false),
   mood: z.nativeEnum(PropertyMood),
-  firePlace: z.boolean().default(false),
-  videos: z
-    .array(
-      z.union([
-        z.instanceof(File),
-        z.string().url({ message: "Please provide a valid URL" }),
-      ])
-    )
-    .optional(),
+
+  // AMENETIES
+  amenities: PropertyAmenitiesSchema,
+
+  // CHECKBOX OPTIONS
+  nearBySchools: z.boolean(),
+  nearByTransports: z.boolean(),
+  firePlace: z.boolean(),
+
+  // SELLING OPTIONS
+  sellingOption: z.discriminatedUnion("type", [
+    optionRentSchema,
+    optionSellSchema,
+  ]),
+
+  // IMAGES
+  images: z.object({
+    image1: fileRequired,
+    image2: fileRequired,
+    image3: fileRequired,
+    image4: fileRequired,
+    image5: fileRequired,
+  }),
+
+  // VIDEO
+  videos: fileOptional,
 });
 
 /* ----------------------------------
  Types
 ----------------------------------- */
-export type PropertyFormInput = z.infer<typeof PropertyFormSchema>;
+
+export type PropertyFormType = z.infer<typeof PropertyFormSchema>;

@@ -117,7 +117,7 @@ const MemberPostBlog: React.FC = () => {
                     className="h-full w-full object-cover"
                   />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center text-sm text-slate-400 fontj">
+                  <div className="flex h-full w-full items-center justify-center text-sm text-slate-400 font-jostFont">
                     No Image
                   </div>
                 )}

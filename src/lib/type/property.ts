@@ -20,44 +20,44 @@ interface PropertyAuthor {
 }
 export interface SellingType {
   optionRent?: {
-    type?: SellingTypeEnum.RENT;
-    overalAmount?: number;
-    monthlyPayment?: number;
-    devidedMonths?: number;
+    type: SellingTypeEnum.RENT;
+    overalAmount: number;
+    monthlyPayment: number;
+    devidedMonths: number;
   };
   optionSell?: {
-    type?: SellingTypeEnum.SALE;
-    overalAmunt?: number;
-    discount?: string;
+    type: SellingTypeEnum.SALE;
+    overalAmunt: number;
+    discount: number;
   };
 }
 interface GeocodeType {
-  lat?: number;
-  long?: number;
+  lat: number;
+  long: number;
 }
 
 export interface PropertyAddress {
-  street?: string;
-  city?: string;
-  district?: string;
-  postalCode?: string;
-  country?: string;
+  street: string;
+  city: string;
+  district: string;
+  postalCode: string;
+  country: string;
   geoCode?: GeocodeType;
 }
 
 export interface PropertyAmenities {
-  airConditioning?: boolean;
-  swimmingPool?: boolean;
-  centralHeating?: boolean;
-  laundryRoom?: boolean;
-  gym?: boolean;
-  alarm?: boolean;
-  windowCovering?: boolean;
-  internet?: boolean;
-  petsAllow?: boolean;
-  freeWifi?: boolean;
-  carParking?: boolean;
-  spaMassage?: boolean;
+  airConditioning: boolean;
+  swimmingPool: boolean;
+  centralHeating: boolean;
+  laundryRoom: boolean;
+  gym: boolean;
+  alarm: boolean;
+  windowCovering: boolean;
+  internet: boolean;
+  petsAllow: boolean;
+  freeWifi: boolean;
+  carParking: boolean;
+  spaMassage: boolean;
 }
 
 export interface Property {
@@ -103,6 +103,33 @@ export interface Property {
   mood?: PropertyMood;
   totalSavings: number;
   meSaved?: boolean;
+}
+
+export interface PropertyInput {
+  title: string;
+  sellingOption: SellingType;
+  floors: number;
+  propertyType: PropertyType;
+  area: number;
+  images: (string | File)[];
+  bathrooms: number;
+  bedrooms: number;
+  hall: number;
+  kitchen: number;
+  address: PropertyAddress;
+  description: string;
+  heating: PropertyHeating;
+  cooling: PropertyCooling;
+  furnished: PropertyFurnature;
+  security: PropertySecurity;
+  yearBuilt: number;
+  garageSpace: number;
+  amenities: PropertyAmenities;
+  nearBySchools: boolean;
+  nearByTransports: boolean;
+  firePlace: boolean;
+  videos?: (string | File)[];
+  mood: PropertyMood;
 }
 
 export interface CommonPropertyResults {
