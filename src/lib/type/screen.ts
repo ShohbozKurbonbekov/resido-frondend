@@ -1,5 +1,6 @@
 import type {
   ChosenProperty,
+  CommonPropertyResults,
   FeaturedPropertyResults,
   Properties,
   RecentPropertyResult,
@@ -97,4 +98,5 @@ export interface AgentDashboardPage {
   agentMyBlogs: BlogsListPage;
   getAgentMessages: MemberMessages;
   myallReviews: Comments;
+  agentMyProperties: CommonPropertyResults;
 }

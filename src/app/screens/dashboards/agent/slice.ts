@@ -8,6 +8,7 @@ const initialState: AgentDashboardPage = {
   },
   getAgentMessages: { messages: [], metaCounter: [{ total: 0 }] },
   myallReviews: { comments: [], metaCounter: [{ total: 0 }] },
+  agentMyProperties: { properties: [], totalPropertiesNumber: [{ total: 0 }] },
 };
 
 const agentDashboardPageSlice = createSlice({
@@ -25,11 +26,18 @@ const agentDashboardPageSlice = createSlice({
     setMyallReviews: (state, action) => {
       state.myallReviews = action.payload;
     },
+    setAgentMyProperties: (state, action) => {
+      state.agentMyProperties = action.payload;
+    },
   },
 });
 
-export const { setAgentMyBlogs, setGetAgentMessages, setMyallReviews } =
-  agentDashboardPageSlice.actions;
+export const {
+  setAgentMyBlogs,
+  setGetAgentMessages,
+  setMyallReviews,
+  setAgentMyProperties,
+} = agentDashboardPageSlice.actions;
 
 const AgentDashoardPageReducer = agentDashboardPageSlice.reducer;
 export default AgentDashoardPageReducer;

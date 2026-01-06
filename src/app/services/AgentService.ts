@@ -13,7 +13,7 @@ import type {
 import type { Blog, BlogsListPage } from "@/lib/type/blogs";
 import type { Comments, CommentsSearchInput } from "@/lib/type/comment";
 import type { CommonInput, SellersSearchInput } from "@/lib/type/common";
-import type { Property } from "@/lib/type/property";
+import type { CommonPropertyResults, Property } from "@/lib/type/property";
 import axios from "axios";
 import type { PropertyFormType } from "../data/properties";
 import { SellingTypeEnum } from "@/lib/enums/property.enum";
@@ -384,6 +384,21 @@ class AgentService {
       return property.data;
     } catch (error) {
       console.log("Error in createProprty service: ", error);
+      throw error;
+    }
+  }
+
+  public async getAgentMyProperties(
+    input: CommentsSearchInput
+  ): Promise<CommonPropertyResults> {
+    try {
+      const url = `${this.path}/agent/get/all-properties?page=${input.page}&limit=${input.limit}`;
+
+      const result = await axios.get(url, { withCredentials: true });
+
+      return result.data;
+    } catch (error) {
+      console.log("Error in getAgentMyProperties service: ", error);
       throw error;
     }
   }

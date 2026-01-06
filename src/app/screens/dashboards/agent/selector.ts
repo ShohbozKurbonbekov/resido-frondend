@@ -18,3 +18,8 @@ export const retrieveMyallReviews = createSelector(
   selectAgentDashboardPage,
   (agentDashboardPage) => agentDashboardPage.myallReviews
 );
+
+export const retrieveAgentMyProperties = createSelector(
+  selectAgentDashboardPage,
+  (agentDashboardPage) => agentDashboardPage.agentMyProperties
+);
