@@ -13,7 +13,11 @@ import type {
 import type { Blog, BlogsListPage } from "@/lib/type/blogs";
 import type { Comments, CommentsSearchInput } from "@/lib/type/comment";
 import type { CommonInput, SellersSearchInput } from "@/lib/type/common";
-import type { CommonPropertyResults, Property } from "@/lib/type/property";
+import type {
+  AgentMyProperties,
+  CommonPropertyResults,
+  Property,
+} from "@/lib/type/property";
 import axios from "axios";
 import type { PropertyFormType } from "../data/properties";
 import { SellingTypeEnum } from "@/lib/enums/property.enum";
@@ -390,7 +394,7 @@ class AgentService {
 
   public async getAgentMyProperties(
     input: CommentsSearchInput
-  ): Promise<CommonPropertyResults> {
+  ): Promise<CommonPropertyResults<AgentMyProperties>> {
     try {
       const url = `${this.path}/agent/get/all-properties?page=${input.page}&limit=${input.limit}`;
 

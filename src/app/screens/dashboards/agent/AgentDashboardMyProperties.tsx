@@ -7,14 +7,17 @@ import type { CommonInput } from "@/lib/type/common";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import { setAgentMyProperties } from "./slice";
 import { retrieveAgentMyProperties } from "./selector";
-import type { CommonPropertyResults } from "@/lib/type/property";
+import type {
+  AgentMyProperties,
+  CommonPropertyResults,
+} from "@/lib/type/property";
 import AgentService from "@/app/services/AgentService";
 import AgentMyPropertiesHeader from "./my-properties/AgentMyPropertiesHeader";
 import AgentMyPropertiesContent from "./my-properties/AgentMyPropertiesContent";
 
 // ----------------------------------------- REDUX INTEGRATION --------------------------
 const agentMyPropertiesDispatch = (dispatch: Dispatch) => ({
-  setAgentMyProperties: (data: CommonPropertyResults) =>
+  setAgentMyProperties: (data: CommonPropertyResults<AgentMyProperties>) =>
     dispatch(setAgentMyProperties(data)),
 });
 
@@ -112,7 +115,11 @@ export default function AgentDashboardMyProperties() {
         <SpinnerGrids columns={agentMyPropertiesCardWrapper} count={2} />
       ) : (
         <div className="flex flex-col gap-y-5 h-full">
-          <AgentMyPropertiesContent agentMyProperties={agentMyProperties} />
+          <AgentMyPropertiesContent
+            agentMyProperties={agentMyProperties}
+            agentMyPropertiesInput={agentMyPropertiesInput}
+            setAgentMyPropertiesInput={setAgentMyPropertiesInput}
+          />
         </div>
       )}
     </div>
