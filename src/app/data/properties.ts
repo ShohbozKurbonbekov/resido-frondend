@@ -4,10 +4,62 @@ import {
   PropertyHeating,
   PropertyMood,
   PropertySecurity,
+  PropertyStatus,
   PropertyType,
   SellingTypeEnum,
 } from "@/lib/enums/property.enum";
 import { z } from "zod";
+
+export const STATUS_META: Record<
+  PropertyStatus,
+  {
+    label: string;
+    tooltip: string;
+    variant: "default" | "secondary" | "destructive" | "outline";
+  }
+> = {
+  [PropertyStatus.DRAFT]: {
+    label: "Draft",
+    tooltip: "Not submitted for review yet",
+    variant: "secondary",
+  },
+
+  [PropertyStatus.PENDING_APPROVAL]: {
+    label: "Under Review",
+    tooltip: "The agency is reviewing this listing",
+    variant: "outline",
+  },
+
+  [PropertyStatus.REJECTED]: {
+    label: "Needs Fix",
+    tooltip: "Changes are required before approval",
+    variant: "destructive",
+  },
+
+  [PropertyStatus.AVAILABLE]: {
+    label: "Live",
+    tooltip: "This property is visible to users",
+    variant: "default",
+  },
+
+  [PropertyStatus.RENTED]: {
+    label: "Rented",
+    tooltip: "This property has been rented",
+    variant: "secondary",
+  },
+
+  [PropertyStatus.SOLD]: {
+    label: "Sold",
+    tooltip: "This property has been sold",
+    variant: "secondary",
+  },
+
+  [PropertyStatus.ARCHIVED]: {
+    label: "Archived",
+    tooltip: "This listing is no longer active",
+    variant: "outline",
+  },
+};
 
 export const PROPERTY_ADDRESS = [
   "street",

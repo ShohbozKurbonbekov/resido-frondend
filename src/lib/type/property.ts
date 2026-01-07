@@ -135,6 +135,7 @@ export interface PropertyInput {
 }
 
 export interface AgentMyProperties {
+  status: PropertyStatus;
   images: string[];
   _id: string;
   title: string;
