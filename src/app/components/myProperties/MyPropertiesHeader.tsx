@@ -1,14 +1,14 @@
 import { Building2 } from "lucide-react";
 
-interface AgentMyPropertiesHeaderType {
+interface MyPropertiesHeaderType {
   title?: string;
   subtitle?: string;
 }
 
-export default function AgentMyPropertiesHeader({
+export default function MyPropertiesHeader({
   title = "My Properties",
   subtitle = "Manage all properties you have listed. You can view details, edit information, or remove properties you no longer represent.",
-}: AgentMyPropertiesHeaderType) {
+}: MyPropertiesHeaderType) {
   return (
     <div className="flex flex-col gap-3 bg-white rounded-md py-5 px-4 shadow-sm">
       <div className="flex items-center gap-2 text-darkBlue font-bold font-jostFont">

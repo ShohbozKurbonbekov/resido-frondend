@@ -1,5 +1,5 @@
 import SpinnerGrids from "@/app/components/loading/SpinnerGrids";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createSelector } from "reselect";
 import type { Dispatch } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,17 +7,17 @@ import type { CommonInput } from "@/lib/type/common";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import { setAgentMyProperties } from "./slice";
 import { retrieveAgentMyProperties } from "./selector";
-import type {
-  AgentMyProperties,
-  CommonPropertyResults,
-} from "@/lib/type/property";
+import type { CommonPropertyResults, MyProperties } from "@/lib/type/property";
 import AgentService from "@/app/services/AgentService";
-import AgentMyPropertiesHeader from "./my-properties/AgentMyPropertiesHeader";
-import AgentMyPropertiesContent from "./my-properties/AgentMyPropertiesContent";
+import { PropertyStatus } from "@/lib/enums/property.enum";
+import MyPropertiesHeader from "../../../components/myProperties/MyPropertiesHeader";
+import MyPropertiesContent from "../../../components/myProperties/MyPropertiesContent";
+
+export const myPropertiesCardWrapper = "grid grid-cols-1 gap-y-3";
 
 // ----------------------------------------- REDUX INTEGRATION --------------------------
 const agentMyPropertiesDispatch = (dispatch: Dispatch) => ({
-  setAgentMyProperties: (data: CommonPropertyResults<AgentMyProperties>) =>
+  setAgentMyProperties: (data: CommonPropertyResults<MyProperties>) =>
     dispatch(setAgentMyProperties(data)),
 });
 
@@ -26,7 +26,6 @@ const agentMyPropertieRetriever = createSelector(
   (agentMyProperties) => ({ agentMyProperties })
 );
 
-export const agentMyPropertiesCardWrapper = "grid grid-cols-1 gap-y-3";
 // --------------------------------------- COMPONENT --------------------
 export default function AgentDashboardMyProperties() {
   const { setAgentMyProperties } = agentMyPropertiesDispatch(useDispatch());
@@ -55,30 +54,35 @@ export default function AgentDashboardMyProperties() {
     fetchAgentMyProperties();
   }, [agentMyPropertiesInput]);
   // --------------------------------------- HANDLERS --------------------
-  // const handleDeleteMessage = useCallback(
-  //   async (id: string) => {
-  //     const oldMessages = getAgentMessages;
-  //     const updatedMessages = oldMessages.messages.filter(
-  //       (message) => message._id !== id
-  //     );
-  //     setGetAgentMessages({
-  //       messages: updatedMessages,
-  //       metaCounter: [
-  //         { total: Math.max(0, (oldMessages.metaCounter[0]?.total || 1) - 1) },
-  //       ],
-  //     });
+  const handleArchive = useCallback(
+    async (id: string) => {
+      const oldMyProperties = agentMyProperties;
+      const updatedAgentMyProperties = oldMyProperties.properties.map(
+        (property) =>
+          property._id === id
+            ? { ...property, status: PropertyStatus.ARCHIVED }
+            : property
+      );
+      setAgentMyProperties({
+        properties: updatedAgentMyProperties,
+        totalPropertiesNumber: [
+          {
+            total: oldMyProperties.totalPropertiesNumber[0].total || 0,
+          },
+        ],
+      });
 
-  //     const member = new MemberService();
-  //     try {
-  //       await member.deleteMessage(id);
-  //     } catch (error) {
-  //       console.log("Error in handleDeleteMessage: ", error);
-  //       await sweetErrorHandling(error!);
-  //       setGetAgentMessages(oldMessages);
-  //     }
-  //   },
-  //   [getAgentMessages, setGetAgentMessages]
-  // );
+      const agent = new AgentService();
+      try {
+        await agent.archiveMyProperty(id);
+      } catch (error) {
+        console.log("Error in handleArchive: ", error);
+        await sweetErrorHandling(error!);
+        setAgentMyProperties(oldMyProperties);
+      }
+    },
+    [agentMyProperties, setAgentMyProperties]
+  );
 
   // const handleSavebtn = useCallback(
   //   async (content: string, id: string) => {
@@ -109,16 +113,17 @@ export default function AgentDashboardMyProperties() {
   // --------------------------------------- RENDER --------------------
   return (
     <div className="lg:col-span-9  flex flex-col gap-7">
-      <AgentMyPropertiesHeader />
+      <MyPropertiesHeader />
 
       {loading ? (
-        <SpinnerGrids columns={agentMyPropertiesCardWrapper} count={2} />
+        <SpinnerGrids columns={myPropertiesCardWrapper} count={2} />
       ) : (
         <div className="flex flex-col gap-y-5 h-full">
-          <AgentMyPropertiesContent
-            agentMyProperties={agentMyProperties}
-            agentMyPropertiesInput={agentMyPropertiesInput}
-            setAgentMyPropertiesInput={setAgentMyPropertiesInput}
+          <MyPropertiesContent
+            handleArchive={handleArchive}
+            myProperties={agentMyProperties}
+            myPropertiesInput={agentMyPropertiesInput}
+            setMyPropertiesInput={setAgentMyPropertiesInput}
           />
         </div>
       )}

@@ -1,8 +1,8 @@
 import type {
-  AgentMyProperties,
   ChosenProperty,
   CommonPropertyResults,
   FeaturedPropertyResults,
+  MyProperties,
   Properties,
   RecentPropertyResult,
 } from "./property";
@@ -99,5 +99,5 @@ export interface AgentDashboardPage {
   agentMyBlogs: BlogsListPage;
   getAgentMessages: MemberMessages;
   myallReviews: Comments;
-  agentMyProperties: CommonPropertyResults<AgentMyProperties>;
+  agentMyProperties: CommonPropertyResults<MyProperties>;
 }

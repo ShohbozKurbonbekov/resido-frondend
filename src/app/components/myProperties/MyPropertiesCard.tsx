@@ -7,10 +7,11 @@ import {
 } from "@/components/ui/tooltip";
 import { defaultPropertyAvatar, serverAPI } from "@/lib/config";
 import { PropertyStatus } from "@/lib/enums/property.enum";
-import type { AgentMyProperties } from "@/lib/type/property";
 import { customiseAddress, formatCurrency } from "@/lib/utils";
 import { CircleX, Eye, SquarePen } from "lucide-react";
 import PropertyStatusBadge from "./PropertyStatusBadge";
+import { useMemo } from "react";
+import type { MyProperties } from "@/lib/type/property";
 
 const subtitleClasses =
   "leading-none capitalize text-xs md:text-sm w-full truncate text-gray-700 font-light";
@@ -19,12 +20,25 @@ const tooltipContentClasses =
 
 const iconClasses = "h-3 w-3";
 const iconWrapperClasses = "mt-1 p-1 bg-slate-800 rounded-sm text-white";
-interface AgentMyPropertiesCardType {
-  property: AgentMyProperties;
+interface MyPropertiesCardType {
+  property: MyProperties;
+  handleArchive: (id: string) => Promise<void>;
 }
-export default function AgentMyPropertiesCard({
+export default function MyPropertiesCard({
   property,
-}: AgentMyPropertiesCardType) {
+  handleArchive,
+}: MyPropertiesCardType) {
+  const actions = useMemo(() => {
+    const canEdit = [PropertyStatus.DRAFT, PropertyStatus.REJECTED].includes(
+      property.status
+    );
+
+    const canArchive = [PropertyStatus.DRAFT, PropertyStatus.REJECTED].includes(
+      property.status
+    );
+    return { canEdit, canArchive };
+  }, [property]);
+
   const imageUrl = property.images.length
     ? `${serverAPI}/${property.images[0]}`
     : defaultPropertyAvatar;
@@ -66,8 +80,7 @@ export default function AgentMyPropertiesCard({
           </p>
         </div>
         <div className="flex flex-row flex-wrap gap-x-1">
-          {property.status === PropertyStatus.DRAFT ||
-          property.status === PropertyStatus.REJECTED ? (
+          {actions.canEdit && (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger className={iconWrapperClasses}>
@@ -78,7 +91,7 @@ export default function AgentMyPropertiesCard({
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-          ) : null}
+          )}
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger className={iconWrapperClasses}>
@@ -90,19 +103,21 @@ export default function AgentMyPropertiesCard({
             </Tooltip>
           </TooltipProvider>
 
-          {property.status === PropertyStatus.DRAFT ||
-          property.status === PropertyStatus.REJECTED ? (
+          {actions.canArchive && (
             <TooltipProvider>
               <Tooltip>
-                <TooltipTrigger className={iconWrapperClasses}>
+                <TooltipTrigger
+                  className={iconWrapperClasses}
+                  onClick={() => handleArchive(property._id)}
+                >
                   <CircleX className={iconClasses} />
                 </TooltipTrigger>
                 <TooltipContent side="bottom" className={tooltipContentClasses}>
-                  <p>Delete property </p>
+                  <p>Archieve property </p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-          ) : null}
+          )}
         </div>
       </CardContent>
     </Card>

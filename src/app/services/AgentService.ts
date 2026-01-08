@@ -406,6 +406,17 @@ class AgentService {
       throw error;
     }
   }
+
+  public async archiveMyProperty(id: string): Promise<Property> {
+    try {
+      const url = `${this.path}/agent/my-properties/archive/${id}`;
+      const result = await axios.post(url, {}, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in archiveMyProperty: ", error);
+      throw error;
+    }
+  }
 }
 
 export default AgentService;

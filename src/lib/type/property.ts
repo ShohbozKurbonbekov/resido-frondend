@@ -134,7 +134,7 @@ export interface PropertyInput {
   mood: PropertyMood;
 }
 
-export interface AgentMyProperties {
+export interface MyProperties {
   status: PropertyStatus;
   images: string[];
   _id: string;
