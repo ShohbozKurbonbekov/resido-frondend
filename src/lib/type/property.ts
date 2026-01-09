@@ -100,7 +100,7 @@ export interface Property {
   recentBoost: number;
   comments?: [];
   daysSinceCreated: number;
-  mood?: PropertyMood;
+  mood: PropertyMood;
   totalSavings: number;
   meSaved?: boolean;
   createdAt: string;
@@ -197,4 +197,12 @@ export interface MortageInputs {
   inputLoan: string | number;
   inputInterestRate: string | number;
   mortgageValue: number;
+}
+
+export interface PropertyImagesType {
+  image1: string;
+  image2: string;
+  image3: string;
+  image4: string;
+  image5: string;
 }

@@ -10,8 +10,8 @@ import { retrieveAgentMyProperties } from "./selector";
 import type { CommonPropertyResults, MyProperties } from "@/lib/type/property";
 import AgentService from "@/app/services/AgentService";
 import { PropertyStatus } from "@/lib/enums/property.enum";
-import MyPropertiesHeader from "../../../components/myProperties/MyPropertiesHeader";
-import MyPropertiesContent from "../../../components/myProperties/MyPropertiesContent";
+import MyPropertiesHeader from "./myProperties/MyPropertiesHeader";
+import MyPropertiesContent from "./myProperties/MyPropertiesContent";
 
 export const myPropertiesCardWrapper = "grid grid-cols-1 gap-y-3";
 
@@ -83,32 +83,6 @@ export default function AgentDashboardMyProperties() {
     },
     [agentMyProperties, setAgentMyProperties]
   );
-
-  // const handleSavebtn = useCallback(
-  //   async (content: string, id: string) => {
-  //     const oldMessages = getAgentMessages;
-  //     const updatedMessages = oldMessages.messages.map((message) => {
-  //       if (message._id === id) {
-  //         return { ...message, content: content, isEdited: true };
-  //       } else {
-  //         return message;
-  //       }
-  //     });
-  //     setGetAgentMessages({
-  //       messages: updatedMessages,
-  //       metaCounter: oldMessages.metaCounter,
-  //     });
-  //     try {
-  //       const member = new MemberService();
-  //       await member.messageEdit(id, content);
-  //     } catch (error) {
-  //       console.log("Error in handleSavebtn: ", error);
-  //       await sweetErrorHandling(error!);
-  //       setGetAgentMessages(oldMessages);
-  //     }
-  //   },
-  //   [getAgentMessages, setGetAgentMessages]
-  // );
 
   // --------------------------------------- RENDER --------------------
   return (

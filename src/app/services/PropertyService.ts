@@ -112,6 +112,17 @@ class PropertyService {
       throw error;
     }
   }
+
+  public async getPublisherProperty(propertyId: string): Promise<Property> {
+    try {
+      const url = `${serverAPI}/property/publisher/${propertyId}`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in getPublisherProperty");
+      throw error;
+    }
+  }
 }
 
 export default PropertyService;

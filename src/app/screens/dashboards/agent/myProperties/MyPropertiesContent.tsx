@@ -1,10 +1,17 @@
 import NoFound from "@/app/components/NoFound";
-import type { CommonPropertyResults, MyProperties } from "@/lib/type/property";
-import React from "react";
+import type {
+  CommonPropertyResults,
+  MyProperties,
+  Property,
+} from "@/lib/type/property";
+import React, { useEffect, useState } from "react";
 import { PaginationCom } from "@/app/components/PaginationCom";
 import type { CommonInput, SetStateType } from "@/lib/type/common";
-import { myPropertiesCardWrapper } from "../../screens/dashboards/agent/AgentDashboardMyProperties";
+import { myPropertiesCardWrapper } from "../AgentDashboardMyProperties";
 import MyPropertiesCard from "./MyPropertiesCard";
+import MyPropertiesEditModel from "./MyPropertiesEditModel";
+import { sweetErrorHandling } from "@/lib/sweetAlerts";
+import PropertyService from "@/app/services/PropertyService";
 
 interface MyPropertiesContentType {
   myProperties: CommonPropertyResults<MyProperties>;
@@ -20,6 +27,29 @@ const MyPropertiesContent: React.FC<MyPropertiesContentType> = React.memo(
     setMyPropertiesInput,
     handleArchive,
   }) => {
+    const [fetchedProperty, setFetchedProperty] = useState<null | Property>(
+      null
+    );
+    const [selectedId, setSelectedId] = useState<string>("");
+
+    const [openModal, setOpenModal] = useState<boolean>(false);
+
+    useEffect(() => {
+      if (!selectedId) return;
+      const property = new PropertyService();
+      const fetchProperty = async () => {
+        try {
+          const result = await property.getPublisherProperty(selectedId);
+
+          setFetchedProperty(result);
+        } catch (error) {
+          console.log("Error in fetching a property: ", error);
+          setSelectedId("");
+          await sweetErrorHandling(error!);
+        }
+      };
+      fetchProperty();
+    }, [selectedId]);
     return (
       <>
         {myProperties?.properties?.length ? (
@@ -32,6 +62,8 @@ const MyPropertiesContent: React.FC<MyPropertiesContentType> = React.memo(
               </h5>
               {myProperties?.properties.map((property: MyProperties) => (
                 <MyPropertiesCard
+                  setOpenModal={setOpenModal}
+                  setSelectedId={setSelectedId}
                   handleArchive={handleArchive}
                   property={property}
                   key={property._id}
@@ -50,6 +82,15 @@ const MyPropertiesContent: React.FC<MyPropertiesContentType> = React.memo(
           </div>
         ) : (
           <NoFound title="No properties found" />
+        )}
+
+        {fetchedProperty && (
+          <MyPropertiesEditModel
+            openModal={openModal}
+            fetchedProperty={fetchedProperty}
+            setOpenModal={setOpenModal}
+            key={fetchedProperty._id}
+          />
         )}
       </>
     );

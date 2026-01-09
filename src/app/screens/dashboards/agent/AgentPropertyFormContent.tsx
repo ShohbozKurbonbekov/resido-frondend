@@ -19,15 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  PropertyType,
-  PropertyHeating,
-  PropertyCooling,
-  PropertyFurnature,
-  PropertySecurity,
-  PropertyMood,
-  SellingTypeEnum,
-} from "@/lib/enums/property.enum";
+import { SellingTypeEnum } from "@/lib/enums/property.enum";
 import {
   PROPERTY_ADDRESS,
   PROPERTY_AMENITIES,
@@ -36,33 +28,14 @@ import {
   PROPERTY_OPTIONS,
   PROPERTY_OTHER_FEATURES,
   PropertyFormSchema,
+  type PropertyFormInputType,
   type PropertyFormType,
 } from "@/app/data/properties";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type z from "zod";
-import { useCallback, useState } from "react";
-import {
-  sweetErrorHandling,
-  sweetTopSmallSuccessAlert,
-} from "@/lib/sweetAlerts";
-import AgentService from "@/app/services/AgentService";
-
-// ----------------------------------- INITIAL STATES --------------------
-const PROPERTY_IMAGES_INITIAL = {
-  image1: "",
-  image2: "",
-  image3: "",
-  image4: "",
-  image5: "",
-};
-
-const IMAGES_PATH_INITIAL = {
-  image1: "Upload first image",
-  image2: "Upload second image",
-  image3: "Upload third image",
-  image4: "Upload fourth image",
-  image5: "Upload fifth image",
-};
+import { useCallback } from "react";
+import type { PropertyImagesType } from "@/lib/type/property";
+import type { SetStateType } from "@/lib/type/common";
+import { sweetErrorHandling } from "@/lib/sweetAlerts";
 
 // ------------------------------------- CLASSES -------------------------
 const sellingOptionInputClasses = "flex flex-col gap-2 w-full";
@@ -74,84 +47,34 @@ const inputClasses =
 const textClasses = "text-sm font-medium text-slate-700 font-jostFont";
 
 // ------------------------------------------- COMPONENT --------------------------------
-export default function AgentCreatePropertyContent() {
-  const [propertyVideo, setPropertyVideo] = useState("");
-  const [videoPath, setVideoPath] = useState("Upload a video");
+interface AgentPropertyFormContentType {
+  propertyVideo: string;
+  setPropertyVideo: SetStateType<string>;
+  propertyImages: PropertyImagesType;
+  setPropertyImages: SetStateType<PropertyImagesType>;
+  propertiesValues: PropertyFormInputType;
+  setImagesPath: SetStateType<PropertyImagesType>;
+  imagesPath: PropertyImagesType;
+  handleSubmit: (values: PropertyFormType) => Promise<void>;
+  videoPath: string;
+  setVideoPath: SetStateType<string>;
+}
 
-  const [propertyImages, setPropertyImages] = useState(PROPERTY_IMAGES_INITIAL);
-  const [imagesPath, setImagesPath] = useState(IMAGES_PATH_INITIAL);
-
-  const form = useForm<z.input<typeof PropertyFormSchema>>({
+export default function AgentPropertyFormContent({
+  propertyVideo,
+  propertyImages,
+  propertiesValues,
+  setPropertyImages,
+  setPropertyVideo,
+  imagesPath,
+  setImagesPath,
+  handleSubmit,
+  setVideoPath,
+  videoPath,
+}: AgentPropertyFormContentType) {
+  const form = useForm<PropertyFormInputType>({
     resolver: zodResolver(PropertyFormSchema),
-    defaultValues: {
-      // FIRST ROW
-      title: "",
-      address: {
-        street: "",
-        district: "",
-        city: "",
-        postalCode: "",
-        country: "",
-      },
-      description: "",
-
-      // NUMBERS
-      floors: "",
-      bathrooms: "",
-      bedrooms: "",
-      hall: "",
-      kitchen: "",
-      garageSpace: "",
-      area: "",
-      yearBuilt: "",
-
-      // SELECT OPTIONS
-      propertyType: PropertyType.APARTMENT,
-      heating: PropertyHeating.CENTRAL,
-      cooling: PropertyCooling.NONE,
-      furnished: PropertyFurnature.NONE,
-      security: PropertySecurity.None,
-      mood: PropertyMood.Artistic,
-
-      // AMENETIES
-      amenities: {
-        airConditioning: false,
-        alarm: false,
-        carParking: false,
-        centralHeating: false,
-        freeWifi: false,
-        gym: false,
-        internet: false,
-        laundryRoom: false,
-        petsAllow: false,
-        spaMassage: false,
-        swimmingPool: false,
-        windowCovering: false,
-      },
-
-      // CHECKBOX OPTIONS
-      nearBySchools: false,
-      nearByTransports: false,
-      firePlace: false,
-
-      // SELLING OPTIONS
-      sellingOption: {
-        type: SellingTypeEnum.RENT,
-        overalAmount: "",
-        devidedMonths: "",
-        monthlyPayment: "",
-      },
-
-      // IMAGES
-      images: {
-        image1: "",
-        image2: "",
-        image3: "",
-        image4: "",
-        image5: "",
-      },
-      videos: "",
-    },
+    defaultValues: propertiesValues,
   });
 
   // CONDITIONAL RENDERING
@@ -159,26 +82,15 @@ export default function AgentCreatePropertyContent() {
 
   const onSubmit = useCallback(
     async (values: PropertyFormType) => {
-      const agent = new AgentService();
-
       try {
-        await agent.createProperty(values);
-        await sweetTopSmallSuccessAlert("You have created a property");
+        await handleSubmit(values);
+
         form.reset();
-
-        // IMAGES RESET
-        setPropertyImages(PROPERTY_IMAGES_INITIAL);
-        setImagesPath(IMAGES_PATH_INITIAL);
-
-        // VIDEOS RESET
-        setPropertyVideo("");
-        setVideoPath("Upload a video");
       } catch (error) {
-        console.log("Error in createProperty: ", error);
         await sweetErrorHandling(error!);
       }
     },
-    [form]
+    [handleSubmit, form]
   );
 
   return (

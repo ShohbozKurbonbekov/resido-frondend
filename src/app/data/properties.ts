@@ -60,6 +60,24 @@ export const STATUS_META: Record<
     variant: "outline",
   },
 };
+// ----------------------------------- INITIAL STATES --------------------
+
+export const IMAGES_PATH_INITIAL = {
+  image1: "Upload first image",
+  image2: "Upload second image",
+  image3: "Upload third image",
+  image4: "Upload fourth image",
+  image5: "Upload fifth image",
+};
+
+export const INITIAL_VIDEO_PATH = "Upload a video";
+export const PROPERTY_IMAGES_INITIAL = {
+  image1: "",
+  image2: "",
+  image3: "",
+  image4: "",
+  image5: "",
+};
 
 export const PROPERTY_ADDRESS = [
   "street",
@@ -342,4 +360,5 @@ export const PropertyFormSchema = z.object({
  Types
 ----------------------------------- */
 
+export type PropertyFormInputType = z.input<typeof PropertyFormSchema>;
 export type PropertyFormType = z.infer<typeof PropertyFormSchema>;

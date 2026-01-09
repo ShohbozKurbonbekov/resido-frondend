@@ -12,6 +12,7 @@ import { CircleX, Eye, SquarePen } from "lucide-react";
 import PropertyStatusBadge from "./PropertyStatusBadge";
 import { useMemo } from "react";
 import type { MyProperties } from "@/lib/type/property";
+import type { SetStateType } from "@/lib/type/common";
 
 const subtitleClasses =
   "leading-none capitalize text-xs md:text-sm w-full truncate text-gray-700 font-light";
@@ -21,12 +22,16 @@ const tooltipContentClasses =
 const iconClasses = "h-3 w-3";
 const iconWrapperClasses = "mt-1 p-1 bg-slate-800 rounded-sm text-white";
 interface MyPropertiesCardType {
+  setOpenModal: SetStateType<boolean>;
+  setSelectedId: SetStateType<string>;
   property: MyProperties;
   handleArchive: (id: string) => Promise<void>;
 }
 export default function MyPropertiesCard({
   property,
   handleArchive,
+  setOpenModal,
+  setSelectedId,
 }: MyPropertiesCardType) {
   const actions = useMemo(() => {
     const canEdit = [PropertyStatus.DRAFT, PropertyStatus.REJECTED].includes(
@@ -83,7 +88,13 @@ export default function MyPropertiesCard({
           {actions.canEdit && (
             <TooltipProvider>
               <Tooltip>
-                <TooltipTrigger className={iconWrapperClasses}>
+                <TooltipTrigger
+                  className={iconWrapperClasses}
+                  onClick={() => {
+                    setOpenModal(true);
+                    setSelectedId(property._id);
+                  }}
+                >
                   <SquarePen className={iconClasses} />
                 </TooltipTrigger>
                 <TooltipContent side="bottom" className={tooltipContentClasses}>
