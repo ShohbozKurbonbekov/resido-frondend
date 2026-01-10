@@ -31,6 +31,29 @@ export interface SellingType {
     discount: number;
   };
 }
+
+type SellingOptionMap = {
+  [SellingTypeEnum.RENT]: {
+    overalAmount: string;
+    monthlyPayment: string;
+    devidedMonths: string;
+  };
+  [SellingTypeEnum.SALE]: {
+    overalAmunt: string;
+    discount: string;
+  };
+};
+
+type SellingOption<T extends SellingTypeEnum> = {
+  type: T;
+} & SellingOptionMap[T];
+
+type RentSellingOption = SellingOption<SellingTypeEnum.RENT>;
+
+export type SaleSellingOption = SellingOption<SellingTypeEnum.SALE>;
+
+export type SellingOptionUnion = RentSellingOption | SaleSellingOption;
+
 interface GeocodeType {
   lat: number;
   long: number;

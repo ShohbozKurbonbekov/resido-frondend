@@ -14,8 +14,8 @@ import type { Blog, BlogsListPage } from "@/lib/type/blogs";
 import type { Comments, CommentsSearchInput } from "@/lib/type/comment";
 import type { CommonInput, SellersSearchInput } from "@/lib/type/common";
 import type {
-  AgentMyProperties,
   CommonPropertyResults,
+  MyProperties,
   Property,
 } from "@/lib/type/property";
 import axios from "axios";
@@ -392,9 +392,151 @@ class AgentService {
     }
   }
 
+  public async updatePublisherProperty(
+    propertyId: string,
+    input: PropertyFormType
+  ): Promise<MyProperties> {
+    const staticImages = Object.values(input.images)
+      .filter((image) => typeof image === "string")
+      .map((image) => {
+        const idx = image.indexOf("uploads");
+        return idx !== -1 ? image.slice(idx) : null;
+      })
+      .filter((image) => image !== null);
+
+    try {
+      const propertyForm = new FormData();
+
+      if (staticImages.length) {
+        propertyForm.append("staticImages", JSON.stringify(staticImages));
+      }
+      if (input.address)
+        propertyForm.append("address", JSON.stringify(input.address));
+
+      if (input.amenities)
+        propertyForm.append("amenities", JSON.stringify(input.amenities));
+
+      if (input.area) propertyForm.append("area", String(input.area));
+
+      if (input.bathrooms)
+        propertyForm.append("bathrooms", String(input.bathrooms));
+
+      if (input.bedrooms)
+        propertyForm.append("bedrooms", String(input.bedrooms));
+
+      if (input.cooling) propertyForm.append("cooling", input.cooling);
+
+      if (input.description)
+        propertyForm.append("description", input.description);
+
+      if (input.firePlace === false || input.firePlace === true)
+        propertyForm.append("firePlace", String(input.firePlace));
+
+      if (input.floors) propertyForm.append("floors", String(input.floors));
+
+      if (input.furnished) {
+        propertyForm.append("furnished", input.furnished);
+      }
+
+      if (input.garageSpace) {
+        propertyForm.append("garageSpace", String(input.garageSpace));
+      }
+
+      if (input.hall) {
+        propertyForm.append("hall", String(input.hall));
+      }
+
+      if (input.heating) {
+        propertyForm.append("heating", input.heating);
+      }
+
+      Object.values(input.images).forEach((value) => {
+        if (value instanceof File) {
+          propertyForm.append("images", value);
+        }
+      });
+
+      if (input.kitchen) {
+        propertyForm.append("kitchen", String(input.kitchen));
+      }
+
+      if (input.mood) {
+        propertyForm.append("mood", input.mood);
+      }
+
+      if (input.nearBySchools === true || input.nearBySchools === false) {
+        propertyForm.append("nearBySchools", String(input.nearBySchools));
+      }
+
+      if (input.nearByTransports === true || input.nearByTransports === false) {
+        propertyForm.append("nearByTransports", String(input.nearByTransports));
+      }
+
+      if (input.propertyType) {
+        propertyForm.append("propertyType", input.propertyType);
+      }
+
+      if (input.security) {
+        propertyForm.append("security", input.security);
+      }
+
+      if (input.sellingOption) {
+        if (input.sellingOption.type === SellingTypeEnum.RENT) {
+          propertyForm.append(
+            "sellingOption",
+            JSON.stringify({
+              optionRent: {
+                type: SellingTypeEnum.RENT,
+                monthlyPayment: String(input.sellingOption.monthlyPayment),
+                overalAmount: String(input.sellingOption.overalAmount),
+                devidedMonths: String(input.sellingOption.devidedMonths),
+              },
+            })
+          );
+        }
+        if (input.sellingOption.type === SellingTypeEnum.SALE) {
+          propertyForm.append(
+            "sellingOption",
+            JSON.stringify({
+              optionSell: {
+                type: SellingTypeEnum.SALE,
+                overalAmunt: String(input.sellingOption.overalAmunt),
+                discount: String(input.sellingOption.discount),
+              },
+            })
+          );
+        }
+      }
+
+      if (input.title) {
+        propertyForm.append("title", input.title);
+      }
+
+      if (input.videos instanceof File) {
+        propertyForm.append("videos", input.videos);
+      }
+
+      if (input.yearBuilt) {
+        propertyForm.append("yearBuilt", String(input.yearBuilt));
+      }
+
+      const property = await axios.post(
+        `${this.path}/agent/update/my-property/${propertyId}`,
+        propertyForm,
+        {
+          withCredentials: true,
+        }
+      );
+      return property.data;
+    } catch (error) {
+      console.log("Error in updatePublisherProperty service: ", error);
+      throw error;
+    }
+  }
+
   public async getAgentMyProperties(
     input: CommentsSearchInput
-  ): Promise<CommonPropertyResults<AgentMyProperties>> {
+  ): Promise<CommonPropertyResults<MyProperties>> {
     try {
       const url = `${this.path}/agent/get/all-properties?page=${input.page}&limit=${input.limit}`;
 

@@ -13,6 +13,7 @@ import MyPropertiesEditModel from "./MyPropertiesEditModel";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import PropertyService from "@/app/services/PropertyService";
 
+///////////////////////////////////// COMPONENT //////////////////
 interface MyPropertiesContentType {
   myProperties: CommonPropertyResults<MyProperties>;
   myPropertiesInput: CommonInput;
@@ -36,6 +37,7 @@ const MyPropertiesContent: React.FC<MyPropertiesContentType> = React.memo(
 
     useEffect(() => {
       if (!selectedId) return;
+
       const property = new PropertyService();
       const fetchProperty = async () => {
         try {
@@ -50,6 +52,8 @@ const MyPropertiesContent: React.FC<MyPropertiesContentType> = React.memo(
       };
       fetchProperty();
     }, [selectedId]);
+
+    //////////////////////////////////// RENDER /////////////////////////////
     return (
       <>
         {myProperties?.properties?.length ? (
@@ -84,8 +88,11 @@ const MyPropertiesContent: React.FC<MyPropertiesContentType> = React.memo(
           <NoFound title="No properties found" />
         )}
 
+        {/*UPDATE MODAL*/}
         {fetchedProperty && (
           <MyPropertiesEditModel
+            setSelectedId={setSelectedId}
+            setFetchedProperty={setFetchedProperty}
             openModal={openModal}
             fetchedProperty={fetchedProperty}
             setOpenModal={setOpenModal}
