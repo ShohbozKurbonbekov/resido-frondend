@@ -90,7 +90,7 @@ export default function AgentDashboardMyProperties() {
       <MyPropertiesHeader />
 
       {loading ? (
-        <SpinnerGrids columns={myPropertiesCardWrapper} count={2} />
+        <SpinnerGrids columns={myPropertiesCardWrapper} count={3} />
       ) : (
         <div className="flex flex-col gap-y-5 h-full">
           <MyPropertiesContent

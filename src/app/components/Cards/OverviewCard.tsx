@@ -9,17 +9,18 @@ interface OverviewCardType {
   title: string;
   amount: TotalCounter;
   updatedAt: string;
+  initialUrl?: string;
 }
 const OverviewCard: React.FC<OverviewCardType> = React.memo(
-  ({ amount, title, updatedAt }) => {
+  ({ amount, title, updatedAt, initialUrl = "/dashboard/" }) => {
     const formattedTitle = title.split(/(?=[A-Z])/).join(" ");
     const urlPath = useMemo(() => {
       const url = title
         .split(/(?=[A-Z])/)
         .join("-")
         .toLowerCase();
-      return `/dashboard/${url}`;
-    }, [title]);
+      return `${initialUrl}${url}`;
+    }, [title, initialUrl]);
 
     return (
       <Link to={urlPath}>

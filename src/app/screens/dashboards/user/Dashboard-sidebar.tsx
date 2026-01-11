@@ -1,16 +1,13 @@
 import { useGlobals } from "@/app/hooks/useGlobals";
-import { Button } from "@/components/ui/button";
 import { defaultUserAvatar, serverAPI } from "@/lib/config";
 import type { DashboardSidebarFeauturesType } from "@/lib/type/common";
-import React, { useCallback } from "react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { NavLink } from "react-router-dom";
 
 const wrapperClasses =
   "w-full mb-7 pt-14 p-6 flex flex-col gap-y-7 bg-white rounded-md shadow-md shadow-slate-200 box-border items-center";
 
-const featuresClasses =
-  "flex flex-col list-none [&>*:last-child]:border-b-0 w-full gap-y-1";
+const featuresClasses = "flex flex-col list-none  w-full gap-y-1";
 
 // ------------------------------------------------- COMPONENT -------------------------------------------------
 interface DashboardSideBarType {
@@ -23,18 +20,10 @@ interface DashboardSideBarType {
 const DashboardSideBar: React.FC<DashboardSideBarType> = React.memo(
   ({ name, avatar, address, DASHBOARD_FEATURES }) => {
     const { logout } = useGlobals();
-    const navigation = useNavigate();
-    const [isActive, setIsActive] = useState<string>("btn-1");
     const imgUrl = avatar ? `${serverAPI}/${avatar}` : defaultUserAvatar;
 
-    // ---------------------------------------------- HANDLERS ----------------------------------------------
-    const handleClick = useCallback(
-      (btn: string, url: string) => {
-        setIsActive(btn);
-        navigation(url, { replace: true });
-      },
-      [navigation]
-    );
+    ///// ------------------------------- HANDLERS -------------------------
+
     // ------------------------------------------------- RENDER -------------------------------------------------
     return (
       <div className={wrapperClasses}>
@@ -55,29 +44,30 @@ const DashboardSideBar: React.FC<DashboardSideBarType> = React.memo(
           </p>
         </div>
         <ul className={featuresClasses}>
-          {DASHBOARD_FEATURES.map(
-            (feature: DashboardSidebarFeauturesType, index: number) => {
-              const { title, Icon, url } = feature;
-              return (
-                <li className="w-full">
-                  <Button
-                    variant={"default"}
-                    className={`w-full text-base bg-white text-gray-800 border-sm shadow-none py-5  border-gray-200 border font-jostFont hover:bg-sky-600 hover:text-white hover:border-transparent ${isActive === `btn-${index + 1}` ? "bg-sky-600 text-white" : ""}`}
-                    onClick={
-                      title === "Logout"
-                        ? logout
-                        : () => handleClick(`btn-${index + 1}`, url)
-                    }
-                  >
-                    <Icon className="h-5 w-5" />
-                    <span className="flex-1 text-start font-semibold capitalize">
-                      {title}
-                    </span>
-                  </Button>
-                </li>
-              );
-            }
-          )}
+          {DASHBOARD_FEATURES.map((feature: DashboardSidebarFeauturesType) => {
+            const { title, Icon, url } = feature;
+            const overview = url === "/dashboard";
+            return (
+              <NavLink
+                to={url}
+                end={overview}
+                onClick={title === "Logout" ? logout : undefined}
+                className={({ isActive }) =>
+                  `w-full flex items-center gap-3 px-4 py-2.5 rounded-md text-sm md:text-base font-jostFont font-semibold transition-colors duration-200 border border-gray-200
+    ${
+      isActive
+        ? "bg-sky-600 text-white border-transparent shadow-sm"
+        : "bg-white text-gray-800 hover:bg-sky-600 hover:text-white hover:border-transparent"
+    }
+    `
+                }
+              >
+                <Icon className="h-5 w-5 shrink-0" />
+
+                <span className="flex-1 text-left capitalize">{title}</span>
+              </NavLink>
+            );
+          })}
         </ul>
       </div>
     );
