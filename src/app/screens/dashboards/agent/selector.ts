@@ -23,3 +23,8 @@ export const retrieveAgentMyProperties = createSelector(
   selectAgentDashboardPage,
   (agentDashboardPage) => agentDashboardPage.agentMyProperties
 );
+
+export const retrieveAgentDashboardOverview = createSelector(
+  selectAgentDashboardPage,
+  (agentDashboardPage) => agentDashboardPage.agentDashboardOverview
+);

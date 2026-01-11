@@ -1,7 +1,7 @@
 import type { UserDashboardOverviewType } from "@/lib/type/dashboard/user";
 import React, { useMemo } from "react";
 import { UserDashboardOververWrapper } from "./UserDashboardOverview";
-import UserOverviewCard from "./UserOverviewCard";
+import OverviewCard from "../../../components/Cards/OverviewCard";
 
 // -------------------------------------------- COMPONENT ---------------------------------
 interface UserDashboardOverviewContentType {
@@ -21,7 +21,7 @@ const UserDashboardOverviewContent: React.FC<UserDashboardOverviewContentType> =
     return (
       <div className={UserDashboardOververWrapper}>
         {removeGenerateAt.map(([key, amount]) => (
-          <UserOverviewCard
+          <OverviewCard
             title={key}
             key={key}
             amount={amount}

@@ -5,12 +5,12 @@ import { TrendingUp } from "lucide-react";
 import { dateConverter } from "@/lib/utils";
 import { Link } from "react-router-dom";
 
-interface UserOverviewCardType {
+interface OverviewCardType {
   title: string;
   amount: TotalCounter;
   updatedAt: string;
 }
-const UserOverviewCard: React.FC<UserOverviewCardType> = React.memo(
+const OverviewCard: React.FC<OverviewCardType> = React.memo(
   ({ amount, title, updatedAt }) => {
     const formattedTitle = title.split(/(?=[A-Z])/).join(" ");
     const urlPath = useMemo(() => {
@@ -54,4 +54,4 @@ const UserOverviewCard: React.FC<UserOverviewCardType> = React.memo(
     );
   }
 );
-export default UserOverviewCard;
+export default OverviewCard;

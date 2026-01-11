@@ -7,6 +7,7 @@ import type {
   RecentPropertyResult,
 } from "./property";
 import type {
+  AgentDashboardOverviewType,
   AgentProperties,
   AgentsListPage,
   ChosenAgentPageType,
@@ -100,4 +101,5 @@ export interface AgentDashboardPage {
   getAgentMessages: MemberMessages;
   myallReviews: Comments;
   agentMyProperties: CommonPropertyResults<MyProperties>;
+  agentDashboardOverview: AgentDashboardOverviewType;
 }

@@ -1,5 +1,6 @@
 import { serverAPI } from "@/lib/config";
 import type {
+  AgentDashboardOverviewType,
   AgentData,
   AgentInput,
   AgentProperties,
@@ -556,6 +557,17 @@ class AgentService {
       return result.data;
     } catch (error) {
       console.log("Error in archiveMyProperty: ", error);
+      throw error;
+    }
+  }
+
+  public async agentDashboardOverview(): Promise<AgentDashboardOverviewType> {
+    try {
+      const url = `${this.path}/agent/dashboard/overview`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in agentDashboardOverview service: ", error);
       throw error;
     }
   }
