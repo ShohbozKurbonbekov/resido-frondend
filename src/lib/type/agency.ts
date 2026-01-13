@@ -1,5 +1,6 @@
 import type {
   AgencyCurrentBadge,
+  AgencyStatus,
   AgencyTargetType,
   SubscriptionStatus,
   SubscriptionTarrif,
@@ -28,9 +29,10 @@ export interface Agency {
   memberName: string;
   memberEmail: string;
   memberStatus: MemberStatus;
+  currentStatus: AgencyStatus;
   memberPhone: string;
   address: string;
-  bioInfo: string;
+  bioInfo?: string;
   avatar?: string;
   agencyOwner: string;
   memberSince: string;

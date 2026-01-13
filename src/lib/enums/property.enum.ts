@@ -50,7 +50,6 @@ export enum PropertyStatus {
   RENTED = "rented",
   SOLD = "sold",
   ARCHIVED = "archived",
-  DELETED = "deleted",
 }
 
 export enum PropertySortOrder {

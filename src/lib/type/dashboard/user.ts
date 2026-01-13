@@ -1,22 +1,16 @@
-import type {
-  MemberStatus,
-  MemberType,
-  UserCurrentStatus,
-} from "@/lib/enums/agent.enum";
+import type { MemberStatus, MemberType } from "@/lib/enums/agent.enum";
 import type { Social, TotalCounter } from "../common";
 import type { UserSavingTargetGroup } from "@/lib/enums/user.enum";
 import type { LucideIcon } from "lucide-react";
 
 export interface User {
   _id: string;
-
   memberEmail: string;
   memberPassword: string;
   role: MemberType;
-  agentStatus: UserCurrentStatus;
-
+  agentMode: boolean;
+  agencyMode: boolean;
   memberStatus: MemberStatus;
-
   memberName: string;
   memberPhone: string;
   occupation: string;

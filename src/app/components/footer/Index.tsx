@@ -1,4 +1,4 @@
-import AgentRegistration from "./AgentRegistration";
+import AgentRegistration from "./AgencyRegistration";
 import MainFooterContent from "./MainFooterContent";
 
 export default function Footer() {

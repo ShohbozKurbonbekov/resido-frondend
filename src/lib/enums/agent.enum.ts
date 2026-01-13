@@ -21,8 +21,3 @@ export enum AgentPropertyType {
   SALE = "SALE",
   RENT = "RENT",
 }
-
-export enum UserCurrentStatus {
-  NONE = "NONE",
-  AGENT = "AGENT",
-}

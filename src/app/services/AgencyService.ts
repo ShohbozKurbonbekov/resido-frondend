@@ -7,6 +7,7 @@ import type {
 } from "@/lib/type/agency";
 import type { SellersSearchInput } from "@/lib/type/common";
 import axios from "axios";
+import type { AgencyFormType } from "../data/agency";
 
 class AgencyService {
   private readonly path;
@@ -47,6 +48,44 @@ class AgencyService {
       return result.data;
     } catch (error) {
       console.log("Error in getAgencyAgeProperties service: ", error);
+      throw error;
+    }
+  }
+
+  public async registerAgency(input: AgencyFormType): Promise<void> {
+    try {
+      const agencyForm = new FormData();
+      if (input.address) agencyForm.append("address", input.address);
+
+      if (input.agencyOwner)
+        agencyForm.append("agencyOwner", input.agencyOwner);
+
+      if (input.licenseNumber)
+        agencyForm.append("licenseNumber", input.licenseNumber);
+
+      if (input.memberEmail)
+        agencyForm.append("memberEmail", input.memberEmail);
+
+      if (input.memberName) agencyForm.append("memberName", input.memberName);
+
+      if (input.memberPhone)
+        agencyForm.append("memberPhone", input.memberPhone);
+
+      if (input.yearOfExperience)
+        agencyForm.append("yearOfExperience", input.yearOfExperience);
+
+      if (input.certificate && input.certificate instanceof File)
+        agencyForm.append("certificate", input.certificate);
+
+      const url = `${this.path}/agency/appy/agency-position`;
+
+      const result = await axios.post(url, agencyForm, {
+        withCredentials: true,
+      });
+
+      return result.data;
+    } catch (error) {
+      console.log("ERORR in registerAgency: ", error);
       throw error;
     }
   }

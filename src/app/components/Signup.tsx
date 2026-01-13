@@ -1,11 +1,3 @@
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -84,7 +76,7 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
       memberPhone: "",
       memberPassword: "",
       occupation: "",
-      role: "",
+      role: MemberType.USER,
     },
   });
 
@@ -92,6 +84,10 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
     const member = new MemberService();
 
     try {
+      if (input.role === MemberType.AGENCY) {
+        return navigation("/register-agency");
+      }
+
       const result = await member.signup(input);
       await sweetTopSmallSuccessAlert("You have successfully signed up!");
 
@@ -229,46 +225,18 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
                   name="role"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Register as</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className={registrationInputClasses}>
-                            <SelectValue placeholder="Select role" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="USER">User</SelectItem>
-                          <SelectItem value="AGENCY">Agency</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <FormLabel>Being registered as</FormLabel>
+                      <Input
+                        placeholder="User"
+                        {...field}
+                        className={registrationInputClasses}
+                        disabled={true}
+                      />
+
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                {/* <div>
-                  <Label
-                    htmlFor="member"
-                    className="font-bold text-lg font-jostFont text-darkBlue "
-                  >
-                    Signup As
-                  </Label>
-
-                  <Select>
-                    <SelectTrigger className="w-full bg-sky-50 py-6  text-darkBlue   box-border mt-1 focus-visible:ring-0 md:text-lg">
-                      <SelectValue placeholder="As a Customer" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>As an Customer</SelectLabel>
-                        <SelectItem value="agent">As an Agent</SelectItem>
-                        <SelectItem value="agency">As an Agency</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div> */}
               </div>
             </div>
             <div className="flex flex-row  mt-4">
