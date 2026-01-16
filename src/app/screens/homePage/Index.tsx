@@ -5,7 +5,7 @@ import FeaturedAgents from "./FeaturedAgents";
 import FeaturedProperties from "./FeaturedProperties";
 import Hero from "./Hero";
 import NewProperties from "./NewProperties";
-import Packages from "@/app/components/Cards/PackageCards";
+import Packages from "@/app/screens/pricing/Packages";
 import {
   setFeaturedAgents,
   setFeaturedProperties,

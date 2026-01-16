@@ -16,7 +16,6 @@ import {
   sweetErrorHandling,
   sweetTopSmallSuccessAlert,
 } from "@/lib/sweetAlerts";
-import { useNavigate } from "react-router-dom";
 import {
   AGENCY_FORM_FIELDS,
   agencyRequiredInputSchema,
@@ -26,11 +25,10 @@ import {
 import AgencyService from "@/app/services/AgencyService";
 import { inputClasses, rowWrapperClasses, textClasses } from "@/lib/config";
 
+const INITIAL_FILE_NAME = "Choose a PDF file";
 export default function ApplyAgency() {
   const [certificateFileName, setCertificateFileName] =
-    useState<string>("Choose a PDF file");
-
-  const navigation = useNavigate();
+    useState<string>(INITIAL_FILE_NAME);
 
   const form = useForm<AgencyFormInputType>({
     resolver: zodResolver(agencyRequiredInputSchema),
@@ -52,21 +50,42 @@ export default function ApplyAgency() {
         const agencyService = new AgencyService();
         await agencyService.registerAgency(values);
 
-        await sweetTopSmallSuccessAlert("Agency registered successfully");
-        navigation("/dashboard");
+        await sweetTopSmallSuccessAlert(
+          "application sent!, Please wait for your approval"
+        );
+        setCertificateFileName(INITIAL_FILE_NAME);
+        form.reset();
       } catch (error) {
         await sweetErrorHandling(error!);
       }
     },
-    [navigation]
+    [form]
   );
 
   return (
-    <section className="bg-sky-50 py-20">
+    <section className="py-20">
       <div className="container max-w-3xl w-full">
-        <h4 className="text-center mb-2 leading-relaxed font-jostFont tracking-tight text-lg capitalize text-darkBlue font-semibold lg:text-xl">
-          Agency registration form
-        </h4>
+        <div className="mb-8 text-center font-jostFont">
+          <p className="mb-2 text-xs font-medium uppercase tracking-wider text-slate-500">
+            Step 1 of 3
+          </p>
+
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
+            Apply for an agency account
+          </h1>
+
+          <p className="mt-2 text-sm text-slate-600">
+            Submit the required details to request agency access. Your
+            application will be reviewed by an administrator.
+          </p>
+
+          <p className="mt-2 text-xs text-slate-500">
+            No payment is required at this stage.
+          </p>
+
+          <div className="mx-auto mt-4 h-px w-16 bg-slate-200" />
+        </div>
+
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}

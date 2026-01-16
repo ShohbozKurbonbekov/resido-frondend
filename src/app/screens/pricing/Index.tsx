@@ -1,4 +1,4 @@
-import Packages from "@/app/components/Cards/PackageCards";
+import Packages from "@/app/screens/pricing/Packages";
 import SectionIntroNoBackground from "@/app/components/SectionIntroNoBackground";
 
 export default function PricingPage() {

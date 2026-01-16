@@ -2,6 +2,7 @@ import type {
   AgencyCurrentBadge,
   AgencyStatus,
   AgencyTargetType,
+  PaymentProvider,
   SubscriptionStatus,
   SubscriptionTarrif,
 } from "../enums/agency.enum";
@@ -10,19 +11,6 @@ import type { AgentData } from "./agent";
 import type { CommonInput, Social, TotalCounter } from "./common";
 import type { Property } from "./property";
 
-export interface agencyContactsType {
-  facebook: string;
-  twitter: string;
-  instagram: string;
-  linkedin: string;
-  email: string;
-  skype?: string;
-}
-export interface BillingInfoType {
-  planName: SubscriptionTarrif;
-  subscriptionDate: string;
-  subscriptionStatus: SubscriptionStatus;
-}
 export interface Agency {
   _id: string;
   role: MemberType.AGENCY;
@@ -44,8 +32,7 @@ export interface Agency {
   agentsTotalNumber: number;
   propertiesTotalNumber: number;
   featuredScore: number;
-  billingInfo: BillingInfoType;
-  socialLinks: Social;
+  socialLinks?: Social;
   isVerified: boolean;
   views: number;
   paginatedAgents?: AgentData[];
@@ -82,4 +69,22 @@ export interface AgencyAgePropertiesInput extends CommonInput {
 
 export interface ChosenAgencyTargetItemsType {
   agency: Agency | null;
+}
+
+//////////////////////////////// PAYMENT //////////////////
+export interface AgencyPaymentSubmit {
+  planName: SubscriptionTarrif;
+  billingName: string;
+  billingEmail: string;
+  billingAddress: string;
+  billingCountry: string;
+}
+
+export interface AgencyPaymentInfoResult extends AgencyPaymentSubmit {
+  agencyId: string;
+  subscriptionStatus: SubscriptionStatus;
+  paymentProvider: PaymentProvider;
+  stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
+  createdAt: Date;
 }

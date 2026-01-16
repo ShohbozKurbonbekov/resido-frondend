@@ -23,7 +23,9 @@ interface SocialsNetworkType {
 const SocialsNetwork: React.FC<SocialsNetworkType> = React.memo(
   ({ networks }) => {
     const socialNetworks = useMemo(() => {
-      return (Object.entries(networks) as [SocialsPlatform, string | null][])
+      return (
+        Object.entries(networks || {}) as [SocialsPlatform, string | null][]
+      )
         .filter(([_, value]) => value)
         .map(([key, value]) => ({
           key: IconsObj[key],

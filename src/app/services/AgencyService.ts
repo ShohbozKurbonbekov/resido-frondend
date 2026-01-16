@@ -3,6 +3,7 @@ import type {
   AgenciesListPage,
   Agency,
   AgencyAgePropertiesInput,
+  AgencyPaymentSubmit,
   ChosenAgencyTargetItemsType,
 } from "@/lib/type/agency";
 import type { SellersSearchInput } from "@/lib/type/common";
@@ -86,6 +87,31 @@ class AgencyService {
       return result.data;
     } catch (error) {
       console.log("ERORR in registerAgency: ", error);
+      throw error;
+    }
+  }
+
+  public async validatePrePayment(): Promise<boolean> {
+    try {
+      const url = `${this.path}/agency/validation/pre-payment`;
+
+      const result = await axios.get(url, { withCredentials: true });
+
+      return result.data;
+    } catch (error) {
+      console.log("Error in validatePrePayment  service");
+      throw error;
+    }
+  }
+
+  public async proceedPayment(input: AgencyPaymentSubmit): Promise<Agency> {
+    try {
+      const url = `${this.path}/agency/payment/info/submit`;
+      const result = await axios.post(url, input, { withCredentials: true });
+      localStorage.setItem("memberData", JSON.stringify(result.data));
+      return result.data;
+    } catch (error) {
+      console.log("Error in proceedPayment: ", error);
       throw error;
     }
   }

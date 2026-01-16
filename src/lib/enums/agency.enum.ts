@@ -1,13 +1,18 @@
 export enum SubscriptionTarrif {
-  FREE = "FREE",
+  BASIC = "BASIC",
   STANDART = "STANDART",
-  PREMIUM = "PREMIUM",
+  PLATINUM = "PLATINUM",
 }
 
 export enum SubscriptionStatus {
   INACTIVE = "INACTIVE",
   ACTIVE = "ACTIVE",
   CANCELLED = "CANCELLED",
+}
+
+export enum PaymentProvider {
+  MANUAL = "MANUAL",
+  STRIPE = "STRIPE",
 }
 export enum AgencyCurrentBadge {
   VERIFIED_AGENCY = "VERIFIED AGENCY",
@@ -24,6 +29,7 @@ export enum AgencyTargetType {
 export enum AgencyStatus {
   PENDING = "pending",
   AVAILABLE = "available",
+  PAYMENT = "payment_waiting",
   PAUSED = "paused",
   REJECTED = "rejected",
 }
