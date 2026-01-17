@@ -33,11 +33,11 @@ const DashboardSideBar: React.FC<DashboardSideBarType> = React.memo(
             alt={name}
             className="max-w-44 rounded-full object-cover mb-2 "
           />
-          <h3 className="text-xl mt-2.5 mb-1 text-darkBlue font-bold font-jostFont capitalize text-center leading-tight w-full truncate">
+          <h3 className="text-lg lg:text-xl mt-2.5 mb-1 text-darkBlue font-bold font-jostFont capitalize text-center leading-tight line-clamp-2">
             {name}
           </h3>
           <p
-            className="text-blue-700 font-jostFont capitalize font-normal text-size_15 text-center w-full truncate
+            className="text-blue-700 font-jostFont capitalize font-normal text-size_15 text-center line-clamp-2
         "
           >
             {address || "No address"}

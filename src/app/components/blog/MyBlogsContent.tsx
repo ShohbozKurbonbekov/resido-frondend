@@ -1,4 +1,4 @@
-import { myBlogsWrapperClasses } from "@/app/screens/dashboards/agent/post-blog/AgentDashboardMyBlogs";
+import { myBlogsWrapperClasses } from "@/app/screens/dashboards/agent/blog/AgentDashboardMyBlogs";
 import type { Blog, BlogsListPage } from "@/lib/type/blogs";
 import type { CommonInput, SetStateType } from "@/lib/type/common";
 import React, { useState } from "react";

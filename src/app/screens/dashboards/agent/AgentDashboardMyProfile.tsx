@@ -1,8 +1,8 @@
 import { useGlobals } from "@/app/hooks/useGlobals";
 import type { AgentData } from "@/lib/type/agent";
 import { Navigate } from "react-router-dom";
-import AgentProfileHeader from "./my-profile/AgentProfileHeader";
-import AgentProfileContent from "./my-profile/AgentProfileContent";
+import AgentProfileHeader from "./myProfile/AgentProfileHeader";
+import AgentProfileContent from "./myProfile/AgentProfileContent";
 
 export default function AgentDashboardMyProfile() {
   const { authmember } = useGlobals();

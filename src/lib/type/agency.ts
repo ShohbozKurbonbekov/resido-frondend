@@ -21,10 +21,12 @@ export interface Agency {
   memberPhone: string;
   address: string;
   bioInfo?: string;
+  socialLinks?: Social;
   avatar?: string;
   agencyOwner: string;
   memberSince: string;
   permittedProperties: number;
+  permittedAgents: number;
   agencyBadge?: AgencyCurrentBadge;
   yearOfExperience: number | string;
   agencyItems?: AgencyToggleStateType;
@@ -32,7 +34,6 @@ export interface Agency {
   agentsTotalNumber: number;
   propertiesTotalNumber: number;
   featuredScore: number;
-  socialLinks?: Social;
   isVerified: boolean;
   views: number;
   paginatedAgents?: AgentData[];

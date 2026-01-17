@@ -9,6 +9,7 @@ import UserDashboard from "./user/Index";
 export default function DashboardRouter() {
   const { authmember } = useGlobals();
   if (!authmember) return null;
+
   switch (authmember?.role) {
     case MemberType.REAL_ESTATE_ADMIN:
       return <AdminDashboard />;

@@ -1,22 +1,63 @@
-import SectionIntroNoBackground from "@/app/components/SectionIntroNoBackground";
+import { useGlobals } from "@/app/hooks/useGlobals";
+import { Navigate, Route, Routes } from "react-router-dom";
+import MainContentAgency from "./MainContentAgency";
+import AgencyDashboardNotifications from "./AgencyDashboardNotifications";
+import AgencyDashboardOverview from "./overview/AgencyDashboardOverview";
+import AgencyDashboardMyProperties from "./myProperties/AgencyDashboardMyProperties";
+import AgencyDashboardMessages from "./AgencyDashboardMessages";
+import AgencyDashboardPostBlog from "./blog/AgencyDashboardPostBlog";
+import AgencyDashboardMyBlogs from "./blog/AgencyDashboardMyBlogs";
+import AgencyDashboardMyProfile from "./myProfle/AgencyDashboardMyProfile";
+import AgencyDashboardMyAgents from "./myAgents.tsx/AgencyDashboardMyAgents";
+import AgencyDashboardBilling from "./AgencyDashboardBilling";
 
 export default function AgencyDashboard() {
-  return (
-    <>
-      <SectionIntroNoBackground
-        title={"Welcome!"}
-        subtitle={"Welcome to your account"}
-      />
-      <section className="py-20 bg-sky-100 ">
-        <div className="px-3 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:items-start">
-          {/* // sidebar */}
-          <div className="lg:col-span-3 hidden lg:block "></div>
+  const { authmember } = useGlobals();
+  if (!authmember) {
+    return <Navigate to="/" replace />;
+  }
 
-          <div className="lg:col-span-9 flex flex-col gap-7">
-            <div className="cards  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-          </div>
-        </div>
-      </section>
-    </>
+  return (
+    <MainContentAgency>
+      <Routes>
+        <Route index element={<AgencyDashboardOverview />} />
+        <Route
+          path="/agency-notifications"
+          element={<AgencyDashboardNotifications />}
+        ></Route>
+        <Route
+          path="/agency-my-properties"
+          element={<AgencyDashboardMyProperties />}
+        ></Route>
+        <Route
+          path="/agency-my-agents"
+          element={<AgencyDashboardMyAgents />}
+        ></Route>
+
+        <Route
+          path="/agency-messages"
+          element={<AgencyDashboardMessages />}
+        ></Route>
+        <Route
+          path="/agency-billing"
+          element={<AgencyDashboardBilling />}
+        ></Route>
+
+        <Route
+          path="/agency-post-blog"
+          element={<AgencyDashboardPostBlog />}
+        ></Route>
+
+        <Route
+          path="/agency-my-blogs"
+          element={<AgencyDashboardMyBlogs />}
+        ></Route>
+
+        <Route
+          path="/agency-my-profile"
+          element={<AgencyDashboardMyProfile />}
+        ></Route>
+      </Routes>
+    </MainContentAgency>
   );
 }

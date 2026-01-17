@@ -1,4 +1,50 @@
+import type { DashboardSidebarFeauturesType } from "@/lib/type/common";
+import {
+  Bell,
+  BookOpen,
+  CreditCard,
+  FilePenLine,
+  Gauge,
+  Home,
+  LogOut,
+  MessageSquare,
+  User,
+  UserCog,
+} from "lucide-react";
 import { z } from "zod";
+
+export const AGENCY_DASHBOARD_FEATURES: DashboardSidebarFeauturesType[] = [
+  { title: "Overview", Icon: Gauge, url: "/dashboard" },
+  {
+    title: "Notifications",
+    Icon: Bell,
+    url: "/dashboard/agency-notifications",
+  },
+
+  {
+    title: "My properties",
+    Icon: Home,
+    url: "/dashboard/agency-my-properties",
+  },
+
+  {
+    title: "My agents",
+    Icon: UserCog,
+    url: "/dashboard/agency-my-agents",
+  },
+  { title: "Messages", Icon: MessageSquare, url: "/dashboard/agency-messages" },
+  {
+    title: "Billing",
+    Icon: CreditCard,
+    url: "/dashboard/agency-billing",
+  },
+  { title: "Post blog", Icon: FilePenLine, url: "/dashboard/agency-post-blog" },
+
+  { title: "My blogs", Icon: BookOpen, url: "/dashboard/agency-my-blogs" },
+
+  { title: "My Profile", Icon: User, url: "/dashboard/agency-my-profile" },
+  { title: "Logout", Icon: LogOut, url: "/logout" },
+];
 
 export const AGENCY_FORM_FIELDS = [
   {

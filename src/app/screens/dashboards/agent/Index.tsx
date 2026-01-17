@@ -7,10 +7,10 @@ import AgentDashboardTransactions from "./AgentDashboardTransactions";
 import AgentDashboardReviews from "./AgentDashboardReviews";
 import AgentDashboardMessages from "./AgentDashboardMessages";
 import AgentDashboardCreateProperty from "./AgentDashboardCreateProperty";
-import AgentDashboardPostBlog from "./post-blog/AgentDashboardPostBlog";
+import AgentDashboardPostBlog from "./blog/AgentDashboardPostBlog";
 import AgentDashboardMyProfile from "./AgentDashboardMyProfile";
 import { useGlobals } from "@/app/hooks/useGlobals";
-import AgentDashboardMyBlogs from "./post-blog/AgentDashboardMyBlogs";
+import AgentDashboardMyBlogs from "./blog/AgentDashboardMyBlogs";
 
 export default function AgentDashboard() {
   const { authmember } = useGlobals();
