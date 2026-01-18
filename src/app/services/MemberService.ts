@@ -144,7 +144,7 @@ class MemberService {
         formData,
         {
           withCredentials: true,
-        }
+        },
       );
 
       const member: User = result.data;

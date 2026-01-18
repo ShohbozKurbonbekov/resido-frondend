@@ -6,9 +6,10 @@ import type {
   AgencyPaymentSubmit,
   ChosenAgencyTargetItemsType,
 } from "@/lib/type/agency";
-import type { SellersSearchInput } from "@/lib/type/common";
+import type { CommonInput, SellersSearchInput } from "@/lib/type/common";
 import axios from "axios";
 import type { AgencyFormType, AgencyProfileType } from "../data/agency";
+import type { BlogsListPage } from "@/lib/type/blogs";
 
 class AgencyService {
   private readonly path;
@@ -164,6 +165,27 @@ class AgencyService {
       return agency.data;
     } catch (error) {
       console.log("Error in updateAgentProfile service: ", error);
+      throw error;
+    }
+  }
+
+  public async myBlogs(input: CommonInput): Promise<BlogsListPage> {
+    try {
+      const url = `${serverAPI}/agency/get/myBlogs?page=${input.page}&limit=${input.limit}`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in  agency myBlogs service: ", error);
+      throw error;
+    }
+  }
+
+  public async deleteMyBlog(id: string): Promise<void> {
+    try {
+      const url = `${this.path}/agency/delete/myBlog/${id}`;
+      await axios.post(url, {}, { withCredentials: true });
+    } catch (error) {
+      console.log("Error in agency deleteMyBlog service: ", error);
       throw error;
     }
   }

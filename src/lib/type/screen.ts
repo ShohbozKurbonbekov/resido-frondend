@@ -38,6 +38,7 @@ export interface AppRootState {
   contactUsPage: ContactUsPageState;
   userDashboardPage: UserDashboardPage;
   agentDashboardPage: AgentDashboardPage;
+  agencyDashboardPage: AgencyDashboardPage;
 }
 
 // HOMEPAGE
@@ -102,4 +103,9 @@ export interface AgentDashboardPage {
   myallReviews: Comments;
   agentMyProperties: CommonPropertyResults<MyProperties>;
   agentDashboardOverview: AgentDashboardOverviewType;
+}
+
+// AGENCY DASHBOARD PAGE
+export interface AgencyDashboardPage {
+  agencyMyBlogs: BlogsListPage;
 }
