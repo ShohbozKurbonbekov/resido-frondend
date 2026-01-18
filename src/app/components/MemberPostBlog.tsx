@@ -19,6 +19,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  errorClasses,
+  inputClasses,
+  rowWrapperClasses,
+  textClasses,
+} from "@/lib/config";
 import { BlogCategory } from "@/lib/enums/blog.enum";
 import {
   sweetErrorHandling,
@@ -30,15 +36,6 @@ import { MessageCircleWarningIcon } from "lucide-react";
 import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import type z from "zod";
-
-// --------------------------------------- CLASSES ----------------------
-const errorClasses = "text-xs text-rose-600/90";
-const rowWrapperClasses =
-  "grid grid-cols-1 md:grid-cols-2 gap-4 rounded-lg border border-slate-200 p-4 bg-slate-50/40";
-
-const inputClasses =
-  "border-slate-300 bg-slate-50 text-slate-800 placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-emerald-600/30 focus-visible:border-emerald-600";
-const textClasses = "text-sm font-medium text-slate-700 font-jostFont";
 
 // -----------------------------------COMPONENT -----------------------
 
@@ -97,10 +94,10 @@ const MemberPostBlog: React.FC = () => {
       }
     },
 
-    [tags, form]
+    [tags, form],
   );
   return (
-    <Card className="w-full border border-slate-200 bg-slate-50">
+    <Card className="w-full  border border-slate-200 bg-slate-50">
       <CardContent className="bg-white rounded-md">
         <Form {...form}>
           <form

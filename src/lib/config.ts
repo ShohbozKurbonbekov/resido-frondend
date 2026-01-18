@@ -31,12 +31,10 @@ export const defaultAgencyAvatar = "/img/ag-3.png";
 export const defaultBlogImage =
   "https://images.unsplash.com/photo-1522199755839-a2bacb67c546";
 
+export const errorClasses = "text-xs text-rose-600/90";
 export const rowWrapperClasses =
   "grid grid-cols-1 md:grid-cols-2 gap-4 rounded-lg border border-slate-200 p-4 bg-slate-50/40";
 
 export const inputClasses =
-  "border-slate-300 bg-slate-50 text-slate-800 placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-emerald-600/30 focus-visible:border-emerald-600 font-jostFont";
-
+  "tracking-wide font-jostFont border-slate-300 bg-slate-50 text-slate-600 placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-emerald-600/30 focus-visible:border-emerald-600 text-size_10 sm:text-xs md:text-sm lg:text-lg";
 export const textClasses = "text-sm font-medium text-slate-700 font-jostFont";
-
-export const errorMessageClasses = "text-xs text-rose-600/90";

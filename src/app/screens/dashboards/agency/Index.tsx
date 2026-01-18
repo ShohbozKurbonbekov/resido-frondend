@@ -5,11 +5,11 @@ import AgencyDashboardNotifications from "./AgencyDashboardNotifications";
 import AgencyDashboardOverview from "./overview/AgencyDashboardOverview";
 import AgencyDashboardMyProperties from "./myProperties/AgencyDashboardMyProperties";
 import AgencyDashboardMessages from "./AgencyDashboardMessages";
-import AgencyDashboardPostBlog from "./blog/AgencyDashboardPostBlog";
 import AgencyDashboardMyBlogs from "./blog/AgencyDashboardMyBlogs";
 import AgencyDashboardMyProfile from "./myProfle/AgencyDashboardMyProfile";
 import AgencyDashboardMyAgents from "./myAgents.tsx/AgencyDashboardMyAgents";
 import AgencyDashboardBilling from "./AgencyDashboardBilling";
+import DashboardPostBlog from "../../../components/blog/DashboardPostBlog";
 
 export default function AgencyDashboard() {
   const { authmember } = useGlobals();
@@ -43,10 +43,7 @@ export default function AgencyDashboard() {
           element={<AgencyDashboardBilling />}
         ></Route>
 
-        <Route
-          path="/agency-post-blog"
-          element={<AgencyDashboardPostBlog />}
-        ></Route>
+        <Route path="/agency-post-blog" element={<DashboardPostBlog />}></Route>
 
         <Route
           path="/agency-my-blogs"

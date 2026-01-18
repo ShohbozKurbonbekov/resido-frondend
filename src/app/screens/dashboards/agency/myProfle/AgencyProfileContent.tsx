@@ -7,7 +7,7 @@ import {
 import { useGlobals } from "@/app/hooks/useGlobals";
 import {
   defaultUserAvatar,
-  errorMessageClasses,
+  errorClasses,
   inputClasses,
   rowWrapperClasses,
   serverAPI,
@@ -144,7 +144,7 @@ export default function AgencyProfileContent() {
                         </div>
                       </FormControl>
 
-                      <FormMessage className={errorMessageClasses} />
+                      <FormMessage className={errorClasses} />
                       <p className="text-xs text-slate-500">
                         JPG, JPEG or PNG. Square images recommended.
                       </p>
@@ -170,7 +170,7 @@ export default function AgencyProfileContent() {
                           placeholder={placeholder}
                         />
                       </FormControl>
-                      <FormMessage className={errorMessageClasses} />
+                      <FormMessage className={errorClasses} />
                     </FormItem>
                   )}
                 />
@@ -196,7 +196,7 @@ export default function AgencyProfileContent() {
                         placeholder="About You..."
                       />
                     </FormControl>
-                    <FormMessage className={errorMessageClasses} />
+                    <FormMessage className={errorClasses} />
                   </FormItem>
                 )}
               />
@@ -223,7 +223,7 @@ export default function AgencyProfileContent() {
                           className={inputClasses}
                         />
                       </FormControl>
-                      <FormMessage className={errorMessageClasses} />
+                      <FormMessage className={errorClasses} />
                     </FormItem>
                   )}
                 />
@@ -261,7 +261,7 @@ export default function AgencyProfileContent() {
                       </div>
                     </FormControl>
 
-                    <FormMessage className={errorMessageClasses} />
+                    <FormMessage className={errorClasses} />
                   </FormItem>
                 )}
               />

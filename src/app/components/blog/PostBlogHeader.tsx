@@ -1,13 +1,13 @@
 import { FileText, PenLine } from "lucide-react";
 
-interface AgentPostBlogHeaderType {
+interface PostBlogHeaderType {
   title?: string;
   subtitle?: string;
 }
-export default function AgentPostBlogHeader({
+export default function PostBlogHeader({
   title = "Create Blog Post",
   subtitle = "Write and publish articles to share insights, updates, and expertise with your audience.",
-}: AgentPostBlogHeaderType) {
+}: PostBlogHeaderType) {
   return (
     <div className="flex flex-col gap-4 rounded-lg bg-white px-5 py-6 shadow-sm">
       <div className="flex items-center gap-3">
