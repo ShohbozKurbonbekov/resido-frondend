@@ -12,6 +12,7 @@ import {
   UserCog,
 } from "lucide-react";
 import { z } from "zod";
+import { SocialSchema } from "./agent";
 
 export const AGENCY_DASHBOARD_FEATURES: DashboardSidebarFeauturesType[] = [
   { title: "Overview", Icon: Gauge, url: "/dashboard" },
@@ -133,12 +134,8 @@ export const agencyRequiredInputSchema = z.object({
       })
       .refine((file) => file.size <= 5 * 1024 * 1024, {
         message: "Certificate must be smaller than 5MB",
-      }),
-    z
-      .string()
-      .trim()
-      .min(1, { message: "File is required" })
-      .url("Invalid certificate URL"),
+      })
+      .nullable(),
   ]),
 
   licenseNumber: z
@@ -147,6 +144,16 @@ export const agencyRequiredInputSchema = z.object({
     .min(1, "License number must be provided required")
     .max(30, "License number is too long"),
 });
+
+export const agencyProfileSchema = agencyRequiredInputSchema.extend({
+  socialLinks: SocialSchema,
+  bioInfo: z.string().trim().max(60, "Biography is too long").optional(),
+  avatar: z.union([z.instanceof(File), z.string().url()]).optional(),
+});
+
+export type AgencyPofileInput = z.input<typeof agencyProfileSchema>;
+
+export type AgencyProfileType = z.infer<typeof agencyProfileSchema>;
 
 export type AgencyFormInputType = z.input<typeof agencyRequiredInputSchema>;
 export type AgencyFormType = z.infer<typeof agencyRequiredInputSchema>;

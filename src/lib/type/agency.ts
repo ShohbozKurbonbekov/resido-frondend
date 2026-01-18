@@ -18,6 +18,8 @@ export interface Agency {
   memberEmail: string;
   memberStatus: MemberStatus;
   currentStatus: AgencyStatus;
+  certificate: string | File;
+  licenseNumber: string;
   memberPhone: string;
   address: string;
   bioInfo?: string;

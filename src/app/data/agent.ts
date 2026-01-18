@@ -6,7 +6,7 @@ const nullableUrl = z
   .nullable()
   .refine(
     (v) => v === null || v === "" || z.string().url().safeParse(v).success,
-    { message: "Invalid URL" }
+    { message: "Invalid URL" },
   )
   .transform((v) => (v === "" ? null : v));
 
@@ -21,7 +21,7 @@ export const SocialSchema = z.object({
     .nullable()
     .refine(
       (v) => v === null || v === "" || z.string().email().safeParse(v).success,
-      { message: "Invalid email" }
+      { message: "Invalid email" },
     )
     .transform((v) => (v === "" ? null : v)),
 });

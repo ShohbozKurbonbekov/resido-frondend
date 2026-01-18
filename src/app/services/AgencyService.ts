@@ -8,7 +8,7 @@ import type {
 } from "@/lib/type/agency";
 import type { SellersSearchInput } from "@/lib/type/common";
 import axios from "axios";
-import type { AgencyFormType } from "../data/agency";
+import type { AgencyFormType, AgencyProfileType } from "../data/agency";
 
 class AgencyService {
   private readonly path;
@@ -17,7 +17,7 @@ class AgencyService {
   }
 
   public async getAgencyByLocation(
-    input: SellersSearchInput
+    input: SellersSearchInput,
   ): Promise<AgenciesListPage> {
     try {
       const url = `${this.path}/agency/search/byLocation`;
@@ -41,7 +41,7 @@ class AgencyService {
   }
   public async getAgencyAgeProperties(
     agencyId: string,
-    input: AgencyAgePropertiesInput
+    input: AgencyAgePropertiesInput,
   ): Promise<ChosenAgencyTargetItemsType> {
     try {
       const url = `${this.path}/agency/${agencyId}/agents-properties`;
@@ -112,6 +112,58 @@ class AgencyService {
       return result.data;
     } catch (error) {
       console.log("Error in proceedPayment: ", error);
+      throw error;
+    }
+  }
+
+  public async updateAgencyProfile(input: AgencyProfileType): Promise<Agency> {
+    try {
+      const formData = new FormData();
+
+      if (input.address) formData.append("address", input.address);
+
+      if (input.agencyOwner) formData.append("agencyOwner", input.agencyOwner);
+
+      if (input?.bioInfo) formData.append("bioInfo", input.bioInfo);
+
+      if (input.licenseNumber)
+        formData.append("licenseNumber", input.licenseNumber);
+
+      if (input.memberEmail) formData.append("memberEmail", input.memberEmail);
+
+      if (input.memberName) formData.append("memberName", input.memberName);
+
+      if (input.memberPhone) formData.append("memberPhone", input.memberPhone);
+
+      if (input.yearOfExperience)
+        formData.append("yearOfExperience", input.yearOfExperience);
+
+      if (input?.socialLinks) {
+        formData.append("socialLinks", JSON.stringify(input.socialLinks));
+      }
+
+      if (input.certificate instanceof File) {
+        formData.append("certificate", input.certificate);
+      }
+
+      // Append file ONLY if it exists
+      if (input.avatar instanceof File) {
+        formData.append("avatar", input.avatar);
+      }
+
+      const agency = await axios.post(
+        `${this.path}/agency/update/agency-profile`,
+        formData,
+        {
+          withCredentials: true,
+        },
+      );
+
+      localStorage.setItem("memberData", JSON.stringify(agency.data));
+
+      return agency.data;
+    } catch (error) {
+      console.log("Error in updateAgentProfile service: ", error);
       throw error;
     }
   }
