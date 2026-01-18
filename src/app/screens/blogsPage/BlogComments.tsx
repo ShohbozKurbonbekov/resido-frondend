@@ -1,5 +1,4 @@
 import NoFound from "@/app/components/NoFound";
-import { PaginationCom } from "@/app/components/PaginationCom";
 import type { CommentType } from "@/lib/type/blogs";
 import { dateConverter } from "@/lib/utils";
 import { useMemo, useState } from "react";
@@ -60,7 +59,7 @@ export default function BlogComments({ comments }: BlogCommentsProp) {
 
   const chunkBlogs = useMemo(
     () => chunkingArray(comments, blogQuery.limit),
-    [comments, blogQuery]
+    [comments, blogQuery],
   );
 
   console.log(chunkBlogs[1]);
@@ -72,7 +71,7 @@ export default function BlogComments({ comments }: BlogCommentsProp) {
           <h3 className="text-2xl text-darkBlue leading-7 mb-8 capitalize font-jostFont font-bold">
             {String(comments.length).padStart(
               comments.length === 0 ? 1 : 2,
-              "0"
+              "0",
             )}{" "}
             comment{comments.length > 1 ? "s" : ""}
           </h3>
@@ -92,7 +91,7 @@ export default function BlogComments({ comments }: BlogCommentsProp) {
                     {comment.name}
                   </h4>
                   <span className="text-red-500 mt-1.5 uppercase text-xs font-medium font-jostFont">
-                    {dateConverter(comment.date, "Do MMMM YYYY")}
+                    {dateConverter(comment.date)}
                   </span>
                   <p className="mt-5 text-slate-500 leading-onePointEight font-jostFont text-size_15">
                     {comment.text}
@@ -100,12 +99,6 @@ export default function BlogComments({ comments }: BlogCommentsProp) {
                 </div>
               </li>
             ))}
-            {/* <PaginationCom
-              totalPages={chunkBlogs.length}
-              currentPage={blogQuery.page}
-              onPageChange={setBlogQuery}
-              styleclasses="flex flex-row items-center justify-center gap-3"
-            /> */}
           </ul>
 
           <div className="flex flex-col  mt-12 gap-2 items-stretch">

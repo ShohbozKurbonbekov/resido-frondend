@@ -36,7 +36,7 @@ const BlogCard: React.FC<BlogCardType> = React.memo(
           await sweetErrorHandling(error!);
         }
       },
-      [setReloadMainPage]
+      [setReloadMainPage],
     );
     return (
       <Card className="max-w-lg mx-auto shadow-sm rounded-md border-0 flex flex-col">
@@ -63,7 +63,7 @@ const BlogCard: React.FC<BlogCardType> = React.memo(
         <CardContent className="p-0 flex flex-col  h-full">
           <div className="info py-2.5 px-5">
             <span className="inline-block py-1 px-4 text-white bg-green-800 text-xs rounded-md">
-              {dateConverter(createdAt, "Do MMM YYYY")}
+              {dateConverter(createdAt)}
             </span>
           </div>
 
@@ -89,7 +89,7 @@ const BlogCard: React.FC<BlogCardType> = React.memo(
         </CardContent>
       </Card>
     );
-  }
+  },
 );
 
 export default BlogCard;

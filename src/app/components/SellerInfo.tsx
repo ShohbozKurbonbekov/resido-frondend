@@ -51,7 +51,7 @@ const SellerInfo: React.FC<SellerInfoType> = React.memo(
         const ceo = { key: "ceo", value: name || "N/A" };
         const yearMember = {
           key: "memberSince",
-          value: memberYear ? dateConverter(memberYear, "Do MMMM YYYY") : "N/A",
+          value: memberYear ? dateConverter(memberYear) : "N/A",
         };
 
         const agencyRank = {
@@ -86,7 +86,7 @@ const SellerInfo: React.FC<SellerInfoType> = React.memo(
         </ul>
       </div>
     );
-  }
+  },
 );
 
 export default SellerInfo;

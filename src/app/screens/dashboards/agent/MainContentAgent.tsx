@@ -34,8 +34,7 @@ export default function MainContentAgent({ children }: MainContentAgentType) {
             address={member.address}
             DASHBOARD_FEATURES={AGENT_DASHBOARD_FEATURES}
           />
-
-          {children}
+          <div className="lg:col-span-9">{children}</div>
         </div>
       </section>
     </>

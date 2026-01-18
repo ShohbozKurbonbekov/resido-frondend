@@ -6,6 +6,7 @@ const initialState: AgencyDashboardPage = {
     blogs: [],
     totalBlogsNumber: [{ total: 0 }],
   },
+  getAgencyMessages: { messages: [], metaCounter: [{ total: 0 }] },
 };
 
 const agencyDashboardPageSlice = createSlice({
@@ -15,10 +16,14 @@ const agencyDashboardPageSlice = createSlice({
     setAgencyMyBlogs: (state, action) => {
       state.agencyMyBlogs = action.payload;
     },
+    setGetAgencyMessages: (state, action) => {
+      state.getAgencyMessages = action.payload;
+    },
   },
 });
 
-export const { setAgencyMyBlogs } = agencyDashboardPageSlice.actions;
+export const { setAgencyMyBlogs, setGetAgencyMessages } =
+  agencyDashboardPageSlice.actions;
 
 const AgencyDashoardPageReducer = agencyDashboardPageSlice.reducer;
 export default AgencyDashoardPageReducer;

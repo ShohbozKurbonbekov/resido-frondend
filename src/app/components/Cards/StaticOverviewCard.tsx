@@ -27,7 +27,7 @@ const StatTile: React.FC<StatTileType> = React.memo(
               {formattedTitle}
             </span>
             <span className="text-xs text-slate-400 font-jostFont">
-              Updated {dateConverter(updatedAt, "Do MMM")}
+              Updated {dateConverter(updatedAt)}
             </span>
           </div>
         </div>
@@ -38,7 +38,7 @@ const StatTile: React.FC<StatTileType> = React.memo(
         </div>
       </div>
     );
-  }
+  },
 );
 
 export default StatTile;

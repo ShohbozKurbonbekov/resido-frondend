@@ -56,7 +56,7 @@ const AgentCard: React.FC<AgentCardType> = React.memo(
           </CardTitle>
           <p className="flex flex-row justify-between items-center truncate gap-2 text-xs text-gray-500 font-jostFont capitalize">
             <span> agent since</span>
-            {dateConverter(String(agent.createdAt), "Do MMM YYYY")}
+            {dateConverter(String(agent.createdAt))}
           </p>
         </CardHeader>
 
@@ -87,7 +87,7 @@ const AgentCard: React.FC<AgentCardType> = React.memo(
         </CardContent>
       </Card>
     );
-  }
+  },
 );
 
 export default AgentCard;

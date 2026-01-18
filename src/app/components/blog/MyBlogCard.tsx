@@ -63,7 +63,7 @@ const MyBlogCard: React.FC<MyBlogCardType> = ({
 
         <div className="flex items-center gap-2 text-sm text-muted-foreground font-jostFont capitalize">
           <Calendar size={15} />
-          <span>{dateConverter(blog.createdAt, "Do MMMM YYYY")}</span>
+          <span>{dateConverter(blog.createdAt)}</span>
         </div>
         <p className="text-sm  text-slate-400 font-light">
           {blog.blogShortInfo}

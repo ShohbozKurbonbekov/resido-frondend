@@ -22,7 +22,7 @@ const agentDashboardOverviewDispatch = (dispatch: Dispatch) => ({
 
 const agentDashboardOverviewRetriever = createSelector(
   retrieveAgentDashboardOverview,
-  (agentDashboardOverview) => ({ agentDashboardOverview })
+  (agentDashboardOverview) => ({ agentDashboardOverview }),
 );
 
 // --------------------------------------- COMPONENT --------------------
@@ -30,7 +30,7 @@ export default function AgentDashboardOverview() {
   const { setAgentDashboardOverview } =
     agentDashboardOverviewDispatch(useDispatch());
   const { agentDashboardOverview } = useSelector(
-    agentDashboardOverviewRetriever
+    agentDashboardOverviewRetriever,
   );
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -52,7 +52,7 @@ export default function AgentDashboardOverview() {
   }, []);
   // --------------------------------------- RENDER --------------------
   return (
-    <div className="lg:col-span-9">
+    <>
       {loading ? (
         <SpinnerGrids columns={agentDashboardOververWrapper} count={3} />
       ) : (
@@ -63,6 +63,6 @@ export default function AgentDashboardOverview() {
           />
         </div>
       )}
-    </div>
+    </>
   );
 }

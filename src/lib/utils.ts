@@ -31,19 +31,19 @@ export const formatPropertyArea = (num: number): string => {
 
 export const findContactMemberRole = (
   members: TeamMemberType[],
-  role: string
+  role: string,
 ): TeamMemberType | null => {
   const member = members.find(
     (member: TeamMemberType) =>
-      member.memberRole.toLowerCase() === role.toLowerCase()
+      member.memberRole.toLowerCase() === role.toLowerCase(),
   );
   if (!member) return null;
   return member;
 };
 
 // Date converter funtion
-export const dateConverter = (str: string, format: string): string => {
-  return moment(str).format(format);
+export const dateConverter = (str: string): string => {
+  return moment(str).fromNow();
 };
 
 // Chunk array
@@ -60,7 +60,7 @@ export const chunkingArray = (arr: string[], size: number): string[][] => {
 export const calculateTotalPages = (
   page: number,
   limit: number,
-  total: number
+  total: number,
 ) => {
   const start: number = (page - 1) * limit + 1;
   const end: number = Math.min(page * limit, total);
@@ -78,7 +78,7 @@ export const customiseAddress = (address: PropertyAddress) => {
 export const customiseTime = (timeString: string) => {
   const noramizedTime = new Date(timeString).getTime();
   const daysSinceCreated = Math.floor(
-    (Date.now() - noramizedTime) / (1000 * 60 * 60 * 24)
+    (Date.now() - noramizedTime) / (1000 * 60 * 60 * 24),
   );
   if (daysSinceCreated <= 7) {
     if (daysSinceCreated === 0) {

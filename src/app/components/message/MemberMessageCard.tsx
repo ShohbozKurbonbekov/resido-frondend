@@ -1,40 +1,38 @@
 import { Card, CardContent } from "@/components/ui/card";
-import type { SetStateType } from "@/lib/type/common";
 import type { Message } from "@/lib/type/message";
 import React, { useCallback, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash2, MailOpen, Reply, Undo } from "lucide-react";
+import { Pencil, Trash2, MailOpen, Reply, Undo, Mail } from "lucide-react";
 import { defaultUserAvatar, ErrorMessages, serverAPI } from "@/lib/config";
 import {
   customLetterCustomise,
   dateConverter,
   getMilliSeconds,
 } from "@/lib/utils";
-import { emptyInputAlert, sweetErrorHandling } from "@/lib/sweetAlerts";
-import MemberService from "@/app/services/MemberService";
+import { emptyInputAlert } from "@/lib/sweetAlerts";
 import { Textarea } from "@/components/ui/textarea";
 import MessageReplyDialog from "./MessageReplyDialog";
 import { useGlobals } from "@/app/hooks/useGlobals";
 
 const contentClasses =
   "mt-1 text-sm text-muted-foreground font-jostFont rounded-xl bg-muted/40 p-3 flex-1";
-const badgeClasses = "h-5 px-2 text-size_10";
 
 const subjectContentClasses = "flex flex-row gap-x-2 items-center flex-wrap";
 
 const subConTextClasses = "text-sm font-jostFont capitalize text-gray-500";
+
 interface MemberMessageCardType {
   message: Message;
-  setMainPageLoading: SetStateType<boolean>;
   handleDeleteMessage: (id: string) => Promise<void>;
   handleSavebtn: (content: string, id: string) => Promise<void>;
+  handleMarkRead: (id: string) => Promise<void>;
   handleReply: (oldMsg: Message, content: string) => Promise<void>;
 }
 const MemberMessageCard: React.FC<MemberMessageCardType> = React.memo(
   ({
-    setMainPageLoading,
+    handleMarkRead,
     message,
     handleDeleteMessage,
     handleSavebtn,
@@ -45,7 +43,7 @@ const MemberMessageCard: React.FC<MemberMessageCardType> = React.memo(
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
     const [updatedContent, setUpdatedContent] = useState<string>(
-      message.content
+      message.content,
     );
     const isSender = message.senderType === authmember?.role;
     const counterpart =
@@ -58,16 +56,6 @@ const MemberMessageCard: React.FC<MemberMessageCardType> = React.memo(
       : defaultUserAvatar;
 
     // --------------------------------------- HANDLERS -----------------------------
-    const handleMarkRead = useCallback(async () => {
-      try {
-        const member = new MemberService();
-        await member.messageRead(message._id);
-        setMainPageLoading((prev) => !prev);
-      } catch (error) {
-        console.log("Error in handleMarkRead: ", error);
-        await sweetErrorHandling(error!);
-      }
-    }, [message, setMainPageLoading]);
 
     const isInTenMins = useMemo(() => {
       return Date.now() - getMilliSeconds(message.createdAt) <= 1000 * 60 * 10;
@@ -82,7 +70,7 @@ const MemberMessageCard: React.FC<MemberMessageCardType> = React.memo(
         const input = e.target.value;
         setUpdatedContent(input);
       },
-      []
+      [],
     );
 
     const editBtn = useCallback(() => {
@@ -100,10 +88,10 @@ const MemberMessageCard: React.FC<MemberMessageCardType> = React.memo(
     return (
       <>
         <Card
-          className={`group rounded-2xl shadow-sm transition-all hover:shadow-md ${
+          className={`group rounded-xl shadow-sm transition-all hover:shadow-md ${
             message.isRead
               ? "border border-slate-300"
-              : "border-l-4 border-t-0 border-r-0 border-b-0 border-primary"
+              : "border-l-4 border-t-0 border-r-0 border-b-0 border-s-emerald-600"
           }`}
         >
           <CardContent className="flex gap-4 p-5">
@@ -120,30 +108,23 @@ const MemberMessageCard: React.FC<MemberMessageCardType> = React.memo(
                   <h4 className="truncate text-sm lg:text-lg font-semibold text-foreground font-jostFont capitalize">
                     {counterpart?.name || "Unknown"}
                   </h4>
-                  {!message.isRead && (
-                    <Badge
-                      variant="default"
-                      className={`${badgeClasses} bg-green-700 text-white hover:bg-green-700`}
-                    >
-                      New
-                    </Badge>
-                  )}
+
                   {message.isEdited ? (
-                    <Badge variant={"outline"} className={badgeClasses}>
+                    <Badge variant={"outline"} className="px-2">
                       Edited
                     </Badge>
                   ) : null}
                 </div>
 
                 {message.isRead && message.whenIsRead ? (
-                  <span className="text-xs text-green-600">
-                    Read at:{" "}
-                    {dateConverter(message.whenIsRead, "D/MM/YYYY, HH:mm")}
+                  <span className="text-xs text-green-600 flex flex-row items-center gap-2">
+                    <MailOpen className={"h-4 w-4 text-emerald-600"} />
+                    {dateConverter(message.whenIsRead)}
                   </span>
                 ) : (
-                  <span className="text-xs text-destructive">
-                    Sent at{" "}
-                    {dateConverter(message.createdAt, "D/MM/YYYY, HH:mm")}
+                  <span className="text-xs text-slate-400 flex flex-row itmes-center gap-2">
+                    <Mail className={"h-4 w-4 text-slate-400"} />
+                    {dateConverter(message.createdAt)}
                   </span>
                 )}
               </div>
@@ -210,7 +191,7 @@ const MemberMessageCard: React.FC<MemberMessageCardType> = React.memo(
                 ) : (
                   <>
                     <Button
-                      onClick={handleMarkRead}
+                      onClick={() => handleMarkRead(message._id)}
                       size="sm"
                       variant="outline"
                       className={`gap-1 duration-200 transition-colors ease-linear ${message.isRead && "cursor-not-allowed bg-slate-200"}`}
@@ -244,7 +225,7 @@ const MemberMessageCard: React.FC<MemberMessageCardType> = React.memo(
         />
       </>
     );
-  }
+  },
 );
 
 export default MemberMessageCard;

@@ -41,7 +41,7 @@ const TrendingPost: React.FC<TrendingPostType> = React.memo(({ blogs }) => {
                       {post?.blogShortInfo}
                     </div>
                     <p className="text-slate-400  text-sm leading-tight font-normal font-jostFont">
-                      {dateConverter(post?.createdAt, "Do MMM YYYY")}
+                      {dateConverter(post?.createdAt)}
                     </p>
                   </div>
                 </li>

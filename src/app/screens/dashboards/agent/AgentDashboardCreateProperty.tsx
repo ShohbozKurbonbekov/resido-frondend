@@ -96,7 +96,7 @@ export default function AgentDashboardCreateProperty() {
   };
   const [propertyVideoValue, setPropertyVideo] = useState<string>("");
   const [propertyImages, setPropertyImages] = useState<PropertyImagesType>(
-    PROPERTY_IMAGES_INITIAL
+    PROPERTY_IMAGES_INITIAL,
   );
   const [imagesPath, setImagesPath] = useState(IMAGES_PATH_INITIAL);
   const [videoPath, setVideoPath] = useState(INITIAL_VIDEO_PATH);
@@ -121,22 +121,20 @@ export default function AgentDashboardCreateProperty() {
     }
   }, []);
   return (
-    <div className="lg:col-span-9">
-      <div className="flex flex-col gap-y-5">
-        <AgentCreatePropertyHeader />
-        <AgentPropertyFormContent
-          handleSubmit={handleSubmit}
-          imagesPath={imagesPath}
-          setImagesPath={setImagesPath}
-          setVideoPath={setVideoPath}
-          videoPath={videoPath}
-          propertiesValues={propertiesValues}
-          setPropertyVideo={setPropertyVideo}
-          setPropertyImages={setPropertyImages}
-          propertyImages={propertyImages}
-          propertyVideo={propertyVideoValue}
-        />
-      </div>
+    <div className="flex flex-col gap-y-5">
+      <AgentCreatePropertyHeader />
+      <AgentPropertyFormContent
+        handleSubmit={handleSubmit}
+        imagesPath={imagesPath}
+        setImagesPath={setImagesPath}
+        setVideoPath={setVideoPath}
+        videoPath={videoPath}
+        propertiesValues={propertiesValues}
+        setPropertyVideo={setPropertyVideo}
+        setPropertyImages={setPropertyImages}
+        propertyImages={propertyImages}
+        propertyVideo={propertyVideoValue}
+      />
     </div>
   );
 }

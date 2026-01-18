@@ -22,7 +22,7 @@ const agentMyBlogsDispatch = (dispatch: Dispatch) => ({
 
 const agentMyBlogsRetriever = createSelector(
   retrieveAgentMyBlogs,
-  (agentMyBlogs) => ({ agentMyBlogs })
+  (agentMyBlogs) => ({ agentMyBlogs }),
 );
 
 // ---------------------------------------- COMPONET -----------------------
@@ -77,26 +77,24 @@ export default function AgentDashboardMyBlogs() {
         setAgentMyBlogs(oldBlogs);
       }
     },
-    [agentMyBlogs, setAgentMyBlogs]
+    [agentMyBlogs, setAgentMyBlogs],
   );
 
   // ---------------------------------------------- RENDER --------------------------------------------
   return (
-    <div className="lg:col-span-9">
-      <div className="flex flex-col gap-y-5 h-full">
-        <MyBlogsHeader />
+    <div className="flex flex-col gap-y-5 h-full">
+      <MyBlogsHeader />
 
-        {loading ? (
-          <SpinnerGrids columns={myBlogsWrapperClasses} count={3} />
-        ) : (
-          <MyBlogsContent
-            handleDeleteBlog={handleDeleteBlog}
-            myBlogs={agentMyBlogs}
-            myBlogsInput={MyBlogsInput}
-            setMyBlogsInput={setMyBlogsInput}
-          />
-        )}
-      </div>
+      {loading ? (
+        <SpinnerGrids columns={myBlogsWrapperClasses} count={3} />
+      ) : (
+        <MyBlogsContent
+          handleDeleteBlog={handleDeleteBlog}
+          myBlogs={agentMyBlogs}
+          myBlogsInput={MyBlogsInput}
+          setMyBlogsInput={setMyBlogsInput}
+        />
+      )}
     </div>
   );
 }

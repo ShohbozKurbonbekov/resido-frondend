@@ -42,7 +42,7 @@ const OverviewCard: React.FC<OverviewCardType> = React.memo(
                 {amount.total}
               </div>
               <span className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700 shadow-sm font-jostFont">
-                According to {dateConverter(updatedAt, "Do MMMM")}
+                According to {dateConverter(updatedAt)}
               </span>
             </div>
 
@@ -53,6 +53,6 @@ const OverviewCard: React.FC<OverviewCardType> = React.memo(
         </Card>
       </Link>
     );
-  }
+  },
 );
 export default OverviewCard;

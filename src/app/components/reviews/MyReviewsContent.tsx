@@ -91,7 +91,7 @@ export default function MyReviewsContent({
                         {review.targetType}
                       </Badge>
                       <span className="text-xs text-muted-foreground">
-                        {dateConverter(review.createdAt, "D/MM/YY")}
+                        {dateConverter(review.createdAt)}
                       </span>
                     </div>
                   </CardHeader>
@@ -118,7 +118,7 @@ export default function MyReviewsContent({
           {/* ---------- Pagination ---------- */}
           <PaginationCom
             totalPages={Math.ceil(
-              (myReviews.metaCounter?.[0]?.total ?? 0) / myReviewSearch.limit
+              (myReviews.metaCounter?.[0]?.total ?? 0) / myReviewSearch.limit,
             )}
             styleclasses="flex justify-center mt-6 gap-3"
             currentPage={myReviewSearch.page}

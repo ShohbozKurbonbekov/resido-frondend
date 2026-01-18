@@ -108,4 +108,5 @@ export interface AgentDashboardPage {
 // AGENCY DASHBOARD PAGE
 export interface AgencyDashboardPage {
   agencyMyBlogs: BlogsListPage;
+  getAgencyMessages: MemberMessages;
 }

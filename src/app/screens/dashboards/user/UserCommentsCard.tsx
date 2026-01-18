@@ -127,7 +127,7 @@ const UserCommentsCard: React.FC<UserCommentsCardType> = React.memo(
                 <div className="flex items-center gap-2 text-xs text-slate-400 mt-1 capitalize">
                   <Badge variant="secondary">{comment.targetType}</Badge>
                   <span>•</span>
-                  <span>{dateConverter(comment.createdAt, "Do MMM YYYY")}</span>
+                  <span>{dateConverter(comment.createdAt)}</span>
                   {edited && <span className="italic">edited</span>}
                 </div>
               </div>
@@ -188,7 +188,7 @@ const UserCommentsCard: React.FC<UserCommentsCardType> = React.memo(
         </CardFooter>
       </Card>
     );
-  }
+  },
 );
 
 export default UserCommentsCard;

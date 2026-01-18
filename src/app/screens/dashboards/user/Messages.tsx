@@ -22,7 +22,7 @@ const getMemberMessagesDispatch = (dispatch: Dispatch) => ({
 
 const getMemberMessagesRetriever = createSelector(
   retrieveGetMemberMessages,
-  (getMemberMessages) => ({ getMemberMessages })
+  (getMemberMessages) => ({ getMemberMessages }),
 );
 
 export const MemberMessageCardWrapperClasses =
@@ -62,7 +62,7 @@ export default function Messages() {
     async (id: string) => {
       const oldMessages = getMemberMessages;
       const updatedMessages = oldMessages.messages.filter(
-        (message) => message._id !== id
+        (message) => message._id !== id,
       );
       setGetMemberMessages({
         messages: updatedMessages,
@@ -80,7 +80,7 @@ export default function Messages() {
         setGetMemberMessages(oldMessages);
       }
     },
-    [getMemberMessages, setGetMemberMessages]
+    [getMemberMessages, setGetMemberMessages],
   );
 
   const handleSavebtn = useCallback(
@@ -106,7 +106,7 @@ export default function Messages() {
         setGetMemberMessages(oldMessages);
       }
     },
-    [getMemberMessages, setGetMemberMessages]
+    [getMemberMessages, setGetMemberMessages],
   );
 
   const handleReply = useCallback(
@@ -141,7 +141,7 @@ export default function Messages() {
         setGetMemberMessages(prevMsgs);
       }
     },
-    [getMemberMessages, setGetMemberMessages, member]
+    [getMemberMessages, setGetMemberMessages, member],
   );
   // --------------------------------------- RENDER --------------------
   return (

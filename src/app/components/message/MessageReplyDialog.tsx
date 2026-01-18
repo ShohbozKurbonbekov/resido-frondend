@@ -33,7 +33,7 @@ const MessageReplyDialog: React.FC<MessageReplyDialogType> = memo(
             <DialogTitle className="flex flex-row items-center gap-3 font-jostFont text-gray-600 text-sm md:text-lg">
               <Undo2 className="h-4 w-4 md:h-6 md:w-6 rotate-180" />
               Reply to{" "}
-              <span className="bg-slate-200  py-2 px-4 rounded-lg text-slate-900 font-normal">
+              <span className="bg-slate-200  py-2 px-4 rounded-lg text-slate-900 font-normal capitalize">
                 {" "}
                 {receiverName}
               </span>
@@ -77,6 +77,6 @@ const MessageReplyDialog: React.FC<MessageReplyDialogType> = memo(
         </DialogContent>
       </Dialog>
     );
-  }
+  },
 );
 export default MessageReplyDialog;

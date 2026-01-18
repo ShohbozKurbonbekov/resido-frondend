@@ -23,7 +23,7 @@ const agentMyPropertiesDispatch = (dispatch: Dispatch) => ({
 
 const agentMyPropertieRetriever = createSelector(
   retrieveAgentMyProperties,
-  (agentMyProperties) => ({ agentMyProperties })
+  (agentMyProperties) => ({ agentMyProperties }),
 );
 
 // --------------------------------------- COMPONENT --------------------
@@ -61,7 +61,7 @@ export default function AgentDashboardMyProperties() {
         (property) =>
           property._id === id
             ? { ...property, status: PropertyStatus.ARCHIVED }
-            : property
+            : property,
       );
       setAgentMyProperties({
         properties: updatedAgentMyProperties,
@@ -81,12 +81,12 @@ export default function AgentDashboardMyProperties() {
         setAgentMyProperties(oldMyProperties);
       }
     },
-    [agentMyProperties, setAgentMyProperties]
+    [agentMyProperties, setAgentMyProperties],
   );
 
   // --------------------------------------- RENDER --------------------
   return (
-    <div className="lg:col-span-9  flex flex-col gap-7">
+    <div className="flex-col gap-7">
       <MyPropertiesHeader />
 
       {loading ? (

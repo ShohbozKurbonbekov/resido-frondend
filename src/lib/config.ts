@@ -38,3 +38,6 @@ export const rowWrapperClasses =
 export const inputClasses =
   "tracking-wide font-jostFont border-slate-300 bg-slate-50 text-slate-600 placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-emerald-600/30 focus-visible:border-emerald-600 text-size_10 sm:text-xs md:text-sm lg:text-lg";
 export const textClasses = "text-sm font-medium text-slate-700 font-jostFont";
+
+export const MemberMessageCardWrapperClasses =
+  "w-full grid gap-y-4 md:gap-y-2 grid-cols-1";

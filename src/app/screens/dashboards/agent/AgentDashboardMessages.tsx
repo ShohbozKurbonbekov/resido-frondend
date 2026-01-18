@@ -13,6 +13,7 @@ import MemberMessagesHeader from "../../../components/message/MemberMessagesHead
 import MemberMessagesContent from "@/app/components/message/MemberMessagesContent";
 import { setGetAgentMessages } from "./slice";
 import { retrieveGetAgentMessages } from "./selector";
+import { MemberMessageCardWrapperClasses } from "@/lib/config";
 
 // ----------------------------------------- REDUX INTEGRATION --------------------------
 const getAgentMessagesDispatch = (dispatch: Dispatch) => ({
@@ -22,11 +23,9 @@ const getAgentMessagesDispatch = (dispatch: Dispatch) => ({
 
 const getAgentMessagesRetriever = createSelector(
   retrieveGetAgentMessages,
-  (getAgentMessages) => ({ getAgentMessages })
+  (getAgentMessages) => ({ getAgentMessages }),
 );
 
-export const MemberMessageCardWrapperClasses =
-  "w-full grid gap-y-4 md:gap-y-2 grid-cols-1";
 // --------------------------------------- COMPONENT --------------------
 export default function AgentDashboardMessages() {
   const { authmember } = useGlobals();
@@ -34,7 +33,6 @@ export default function AgentDashboardMessages() {
   const { setGetAgentMessages } = getAgentMessagesDispatch(useDispatch());
   const { getAgentMessages } = useSelector(getAgentMessagesRetriever);
   const [loading, setLoading] = useState<boolean>(true);
-  const [mainPageLoading, setMainPageLoading] = useState<boolean>(false);
   const [getAgentMessagesInput, setGetAgentMessagesInput] =
     useState<CommonInput>({
       page: 1,
@@ -56,13 +54,13 @@ export default function AgentDashboardMessages() {
     };
 
     fetchGetAgentMessages();
-  }, [getAgentMessagesInput, mainPageLoading]);
+  }, [getAgentMessagesInput]);
   // --------------------------------------- HANDLERS --------------------
   const handleDeleteMessage = useCallback(
     async (id: string) => {
       const oldMessages = getAgentMessages;
       const updatedMessages = oldMessages.messages.filter(
-        (message) => message._id !== id
+        (message) => message._id !== id,
       );
       setGetAgentMessages({
         messages: updatedMessages,
@@ -80,7 +78,7 @@ export default function AgentDashboardMessages() {
         setGetAgentMessages(oldMessages);
       }
     },
-    [getAgentMessages, setGetAgentMessages]
+    [getAgentMessages, setGetAgentMessages],
   );
 
   const handleSavebtn = useCallback(
@@ -106,7 +104,7 @@ export default function AgentDashboardMessages() {
         setGetAgentMessages(oldMessages);
       }
     },
-    [getAgentMessages, setGetAgentMessages]
+    [getAgentMessages, setGetAgentMessages],
   );
 
   const handleReply = useCallback(
@@ -141,21 +139,47 @@ export default function AgentDashboardMessages() {
         setGetAgentMessages(prevMsgs);
       }
     },
-    [getAgentMessages, setGetAgentMessages, member]
+    [getAgentMessages, setGetAgentMessages, member],
   );
+
+  const handleMarkRead = useCallback(
+    async (id: string) => {
+      const prevMsgs = getAgentMessages;
+      const updatedMsg = prevMsgs.messages.map((msg) =>
+        msg._id === id
+          ? { ...msg, isRead: true, whenIsRead: new Date().toISOString() }
+          : msg,
+      );
+      setGetAgentMessages({
+        messages: updatedMsg,
+        metaCounter: prevMsgs.metaCounter,
+      });
+
+      try {
+        const member = new MemberService();
+        await member.messageRead(id);
+      } catch (error) {
+        console.log("Error in handleMarkRead: ", error);
+        await sweetErrorHandling(error!);
+        setGetAgentMessages(prevMsgs);
+      }
+    },
+    [getAgentMessages, setGetAgentMessages],
+  );
+
   // --------------------------------------- RENDER --------------------
   return (
-    <div className="lg:col-span-9  flex flex-col gap-7">
+    <div className="h-full">
       {loading ? (
         <SpinnerGrids columns={MemberMessageCardWrapperClasses} count={2} />
       ) : (
         <div className="flex flex-col gap-y-5 h-full">
           <MemberMessagesHeader />
           <MemberMessagesContent
+            handleMarkRead={handleMarkRead}
             getMemberMessages={getAgentMessages}
             getMemberMessagesInput={getAgentMessagesInput}
             setGetMemberMessagesInput={setGetAgentMessagesInput}
-            setMainPageLoading={setMainPageLoading}
             handleDeleteMessage={handleDeleteMessage}
             handleSavebtn={handleSavebtn}
             handleReply={handleReply}

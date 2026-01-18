@@ -9,3 +9,8 @@ export const retrieveAgencyMyBlogs = createSelector(
   selectAgencyDashboardPage,
   (agencyDashboardPage) => agencyDashboardPage.agencyMyBlogs,
 );
+
+export const retrieveGetAgencyMessages = createSelector(
+  selectAgencyDashboardPage,
+  (agencyDashboardPage) => agencyDashboardPage.getAgencyMessages,
+);

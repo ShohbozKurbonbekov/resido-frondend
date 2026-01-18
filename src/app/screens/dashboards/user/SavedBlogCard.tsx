@@ -57,7 +57,7 @@ const SavedBlogCard: React.FC<SavedBlogCardType> = React.memo(
 
           <div className="flex items-center gap-2 text-sm text-muted-foreground font-jostFont capitalize">
             <Calendar size={15} />
-            <span>{dateConverter(blog.createdAt, "Do MMMM YYYY")}</span>
+            <span>{dateConverter(blog.createdAt)}</span>
           </div>
           <p className="text-sm  text-muted-foreground font-light">
             {blog.blogShortInfo}
@@ -81,7 +81,7 @@ const SavedBlogCard: React.FC<SavedBlogCardType> = React.memo(
         </CardContent>
       </Card>
     );
-  }
+  },
 );
 
 export default SavedBlogCard;

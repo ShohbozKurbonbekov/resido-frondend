@@ -13,7 +13,7 @@ export default function AgentDashboardMyProfile() {
   }
 
   return (
-    <div className="lg:col-span-9  flex flex-col gap-7">
+    <div className="flex flex-col gap-7">
       <div className="flex flex-col gap-y-5 h-full">
         <AgentProfileHeader />
         <AgentProfileContent agent={agent} />

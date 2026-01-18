@@ -22,7 +22,7 @@ const myallReviewsDispatch = (dispatch: Dispatch) => ({
 
 const myallReviewsRetriever = createSelector(
   retrieveMyallReviews,
-  (myallReviews) => ({ myallReviews })
+  (myallReviews) => ({ myallReviews }),
 );
 
 // ---------------------------------------- COMPONET -----------------------
@@ -59,17 +59,15 @@ export default function AgentDashboardMyReviews() {
 
   // ---------------------------------------------- RENDER --------------------------------------------
   return (
-    <div className="lg:col-span-9">
-      <div className="flex flex-col gap-y-5 h-full">
-        <MyReviewsHeader />
+    <div className="flex flex-col gap-y-5 h-full">
+      <MyReviewsHeader />
 
-        <MyReviewsContent
-          loading={loading}
-          myReviews={myallReviews}
-          myReviewSearch={myReviewSearch}
-          setMyReviewSearch={setMyReviewSearch}
-        />
-      </div>
+      <MyReviewsContent
+        loading={loading}
+        myReviews={myallReviews}
+        myReviewSearch={myReviewSearch}
+        setMyReviewSearch={setMyReviewSearch}
+      />
     </div>
   );
 }

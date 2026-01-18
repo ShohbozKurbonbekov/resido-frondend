@@ -86,10 +86,11 @@ class MemberService {
     }
   }
 
-  public async messageRead(id: string): Promise<void> {
+  public async messageRead(id: string): Promise<Message> {
     try {
       const url = `${this.serverApi}/member/message/${id}/read`;
-      await axios.post(url, {}, { withCredentials: true });
+      const result = await axios.post(url, {}, { withCredentials: true });
+      return result.data;
     } catch (error) {
       console.log("Error in messageRead service: ", error);
       throw error;
