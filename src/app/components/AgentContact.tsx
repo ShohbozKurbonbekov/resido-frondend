@@ -11,7 +11,7 @@ import {
 } from "@/lib/sweetAlerts";
 import type { MessageInput } from "@/lib/type/message";
 import React, { useCallback, useState } from "react";
-import MemberService from "../services/MemberService";
+import MemberService from "../services/Member.service";
 import { useGlobals } from "../hooks/useGlobals";
 import { MemberType } from "@/lib/enums/agent.enum";
 
@@ -59,7 +59,7 @@ const AgentContact: React.FC<AgentContactProp> = React.memo(
         e.preventDefault();
         try {
           const isValid = Object.values(messageInput).every(
-            (value: string) => value.trim() !== ""
+            (value: string) => value.trim() !== "",
           );
           if (!isValid) {
             throw new Error(ErrorMessages.error3);
@@ -84,7 +84,7 @@ const AgentContact: React.FC<AgentContactProp> = React.memo(
           await sweetErrorHandling(error!);
         }
       },
-      [authmember?.role, messageInput, _id, role]
+      [authmember?.role, messageInput, _id, role],
     );
 
     const handleEmail = useCallback(
@@ -92,7 +92,7 @@ const AgentContact: React.FC<AgentContactProp> = React.memo(
         const emailInput = e.target.value;
         setMessageInput((prev) => ({ ...prev, email: emailInput }));
       },
-      []
+      [],
     );
 
     const handlePhone = useCallback(
@@ -100,7 +100,7 @@ const AgentContact: React.FC<AgentContactProp> = React.memo(
         const phoneInput = e.target.value;
         setMessageInput((prev) => ({ ...prev, phone: phoneInput }));
       },
-      []
+      [],
     );
 
     const handleContent = useCallback(
@@ -108,7 +108,7 @@ const AgentContact: React.FC<AgentContactProp> = React.memo(
         const contentInput = e.target.value;
         setMessageInput((prev) => ({ ...prev, content: contentInput }));
       },
-      []
+      [],
     );
 
     const handleSubject = useCallback(
@@ -116,7 +116,7 @@ const AgentContact: React.FC<AgentContactProp> = React.memo(
         const subjectInput = e.target.value;
         setMessageInput((prev) => ({ ...prev, subject: subjectInput }));
       },
-      []
+      [],
     );
 
     // ------------------------------------------ RENDER ---------------------------------------------------
@@ -207,7 +207,7 @@ const AgentContact: React.FC<AgentContactProp> = React.memo(
         </form>
       </div>
     );
-  }
+  },
 );
 
 export default AgentContact;

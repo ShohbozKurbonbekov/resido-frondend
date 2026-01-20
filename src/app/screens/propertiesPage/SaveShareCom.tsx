@@ -29,9 +29,9 @@ import {
 } from "react-share";
 import type { SetStateType } from "@/lib/type/common";
 import { UserSavingTargetGroup } from "@/lib/enums/user.enum";
-import BlogService from "@/app/services/BlogService";
-import PropertyService from "@/app/services/PropertyService";
-import AgentService from "@/app/services/AgentService";
+import BlogService from "@/app/services/Blog.service";
+import PropertyService from "@/app/services/Property.service";
+import AgentService from "@/app/services/Agent.service";
 
 const shareIconWrapper =
   "hover:scale-125 transition-all duration-200 ease-linear active:scale-90  ";
@@ -173,7 +173,7 @@ const SaveShareCom: React.FC<SaveShareComType> = React.memo(
         </button>
       </div>
     );
-  }
+  },
 );
 
 export default SaveShareCom;

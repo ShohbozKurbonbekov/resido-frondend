@@ -6,17 +6,17 @@ import { retrieveChosenAgentPage } from "./selector";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import AgentService from "@/app/services/AgentService";
+import AgentService from "@/app/services/Agent.service";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import SectionIntroNoBackground from "@/app/components/SectionIntroNoBackground";
 import SectionTopShortInfo from "@/app/components/SectionTopShortInfo";
 import AgentDetailMainContent from "./AgentDetailMainContent";
 import type { ChosenItemCommentsInput, Comments } from "@/lib/type/comment";
 import { CommentTargetType } from "@/lib/enums/comment.enum";
-import CommentService from "@/app/services/CommentService";
+import CommentService from "@/app/services/Comment.service";
 import type { FeaturedPropertyResults } from "@/lib/type/property";
 import { setFeaturedProperties } from "../homePage/slice";
-import PropertyService from "@/app/services/PropertyService";
+import PropertyService from "@/app/services/Property.service";
 import DetailPageLoading from "@/app/components/loading/DetailPageLoading";
 
 // ----------------------------------------- REDUX INTEGRATION ------------------------------
@@ -33,7 +33,7 @@ const FeaturedPropertiesDispatch = (dispatch: Dispatch) => ({
 
 const chosenAgentPageRetriever = createSelector(
   retrieveChosenAgentPage,
-  (chosenAgentPage) => ({ chosenAgentPage })
+  (chosenAgentPage) => ({ chosenAgentPage }),
 );
 
 // --------------------------------------- COMPONENT --------------------------------------
@@ -70,14 +70,14 @@ const ChooseAgent: React.FC = () => {
         // AGENT COMMENTS DATA
         const result = await comment.getItemComments(
           agentId!,
-          agentCommentsInput
+          agentCommentsInput,
         );
         setChosenAgentComments(result);
 
         // FEATURED PROPERTY
         const featuredPropertiesInput = { page: 1, limit: 4 };
         const result2 = await property.getFeaturedProperty(
-          featuredPropertiesInput
+          featuredPropertiesInput,
         );
         setFeaturedProperties(result2);
       } catch (error) {

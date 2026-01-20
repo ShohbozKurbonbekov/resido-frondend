@@ -22,7 +22,7 @@ import {
   type AgencyFormInputType,
   type AgencyFormType,
 } from "@/app/data/agency";
-import AgencyService from "@/app/services/AgencyService";
+import AgencyService from "@/app/services/Agency.service";
 import { inputClasses, rowWrapperClasses, textClasses } from "@/lib/config";
 
 const INITIAL_FILE_NAME = "Choose a PDF file";
@@ -51,7 +51,7 @@ export default function ApplyAgency() {
         await agencyService.registerAgency(values);
 
         await sweetTopSmallSuccessAlert(
-          "application sent!, Please wait for your approval"
+          "application sent!, Please wait for your approval",
         );
         setCertificateFileName(INITIAL_FILE_NAME);
         form.reset();
@@ -59,7 +59,7 @@ export default function ApplyAgency() {
         await sweetErrorHandling(error!);
       }
     },
-    [form]
+    [form],
   );
 
   return (

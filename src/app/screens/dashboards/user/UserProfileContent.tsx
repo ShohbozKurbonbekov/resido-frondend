@@ -21,7 +21,7 @@ import {
   sweetTopSmallSuccessAlert,
 } from "@/lib/sweetAlerts";
 import { useGlobals } from "@/app/hooks/useGlobals";
-import MemberService from "@/app/services/MemberService";
+import MemberService from "@/app/services/Member.service";
 import { serverAPI } from "@/lib/config";
 
 const inputClasses =
@@ -71,7 +71,7 @@ const UserProfileContent: React.FC<UserProfileContentType> = React.memo(
           await sweetErrorHandling(error!);
         }
       },
-      [setAuthMember]
+      [setAuthMember],
     );
 
     return (
@@ -312,6 +312,6 @@ const UserProfileContent: React.FC<UserProfileContentType> = React.memo(
         </CardContent>
       </Card>
     );
-  }
+  },
 );
 export default UserProfileContent;

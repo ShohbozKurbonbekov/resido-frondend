@@ -9,7 +9,7 @@ import {
   sweetErrorHandling,
   sweetTopSmallSuccessAlert,
 } from "@/lib/sweetAlerts";
-import PropertyService from "../services/PropertyService";
+import PropertyService from "../services/Property.service";
 import type { SetStateType } from "@/lib/type/common";
 
 interface SavedItemsCardType {
@@ -99,6 +99,6 @@ const SavedItemsCard: React.FC<SavedItemsCardType> = React.memo(
         </CardContent>
       </Card>
     );
-  }
+  },
 );
 export default SavedItemsCard;

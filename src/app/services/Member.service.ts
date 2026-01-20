@@ -7,6 +7,7 @@ import type {
 } from "@/lib/type/dashboard/user";
 import type { LoginInput, UserMemberInput } from "@/lib/type/member";
 import type { MemberMessages, Message, MessageInput } from "@/lib/type/message";
+import type { PaymentTariffsType } from "@/lib/type/pricing";
 import axios from "axios";
 
 class MemberService {
@@ -164,6 +165,17 @@ class MemberService {
       return result.data;
     } catch (error) {
       console.log("Error in userDashboardOverview service: ", error);
+      throw error;
+    }
+  }
+
+  public async paymentTariffs(input: CommonInput): Promise<PaymentTariffsType> {
+    try {
+      const url = `${this.serverApi}/member/public/tariffs?page=${input.page}&limit=${input.limit}`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in PaymentTariffs of memberService  service: ", error);
       throw error;
     }
   }

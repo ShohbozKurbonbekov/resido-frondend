@@ -22,7 +22,7 @@ import type { User } from "@/lib/type/dashboard/user";
 import { useCallback, useMemo } from "react";
 import type { MessageInput } from "@/lib/type/message";
 import { useGlobals } from "@/app/hooks/useGlobals";
-import MemberService from "@/app/services/MemberService";
+import MemberService from "@/app/services/Member.service";
 import {
   sweetErrorHandling,
   sweetTopSmallSuccessAlert,
@@ -124,7 +124,7 @@ const MainContent: React.FC<MainContentType> = React.memo(({ adminData }) => {
         await sweetErrorHandling(error!);
       }
     },
-    [adminData, authmember, form]
+    [adminData, authmember, form],
   );
 
   //------------------------------------------- RENDER ---------------------------------

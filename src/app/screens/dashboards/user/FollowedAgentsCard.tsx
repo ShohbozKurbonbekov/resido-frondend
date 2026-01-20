@@ -1,5 +1,5 @@
 import Stars from "@/app/components/Stars";
-import AgentService from "@/app/services/AgentService";
+import AgentService from "@/app/services/Agent.service";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { defaultUserAvatar, serverAPI } from "@/lib/config";
 import {

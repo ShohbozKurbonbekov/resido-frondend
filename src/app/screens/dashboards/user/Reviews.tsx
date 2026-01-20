@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { CommonInput } from "@/lib/type/common";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import type { Comments } from "@/lib/type/comment";
-import CommentService from "@/app/services/CommentService";
+import CommentService from "@/app/services/Comment.service";
 import UserCommentsHeader from "./UserCommentsHeader";
 import UserCommentsContent from "./UserCommentsContent";
 
@@ -19,7 +19,7 @@ const getUserCommentsDispatch = (dispatch: Dispatch) => ({
 
 const getUserCommentsRetriever = createSelector(
   retrieveGetUserComments,
-  (getUserComments) => ({ getUserComments })
+  (getUserComments) => ({ getUserComments }),
 );
 
 export const UserCardWrapperClasses = "w-full grid gap-4 lg:gap-5 grid-cols-1 ";
@@ -33,7 +33,7 @@ export default function Reviews() {
     {
       page: 1,
       limit: 4,
-    }
+    },
   );
 
   useEffect(() => {

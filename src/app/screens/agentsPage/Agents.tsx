@@ -11,7 +11,7 @@ import { retrieveAgentsListPage } from "./selector";
 import { useDispatch, useSelector } from "react-redux";
 import type { SellersSearchInput } from "@/lib/type/common";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
-import AgentService from "@/app/services/AgentService";
+import AgentService from "@/app/services/Agent.service";
 import { PaginationCom } from "@/app/components/PaginationCom";
 
 // ----------------------------------------- REDUX INTEGRATION ------------------------------
@@ -21,7 +21,7 @@ const actionDispatch = (dispatch: Dispatch) => ({
 
 const agentsListRetriever = createSelector(
   retrieveAgentsListPage,
-  (agentsList) => ({ agentsList })
+  (agentsList) => ({ agentsList }),
 );
 
 // ------------------------------------------ COMPONENT -------------------------------------
@@ -58,7 +58,7 @@ export default function AgentsList() {
       const input = e.target.value;
       setAgentLocation(input);
     },
-    []
+    [],
   );
 
   const handleSearch = useCallback(
@@ -66,7 +66,7 @@ export default function AgentsList() {
       e.preventDefault();
       setSearchInput((prev) => ({ ...prev, location: agentLocation.trim() }));
     },
-    [agentLocation]
+    [agentLocation],
   );
 
   const totalPages = useMemo(() => {
@@ -106,7 +106,7 @@ export default function AgentsList() {
             </button>
           </form>
 
-          {totalNumbers[0]?.total ?? 0 ? (
+          {(totalNumbers[0]?.total ?? 0) ? (
             <>
               <div className="agents-wrapper grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 pb-10  pt-5">
                 {agents.map((agent: AgentData) => (

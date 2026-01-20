@@ -11,7 +11,7 @@ import { myPropertiesCardWrapper } from "../AgentDashboardMyProperties";
 import MyPropertiesCard from "./MyPropertiesCard";
 import MyPropertiesEditModel from "./MyPropertiesEditModel";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
-import PropertyService from "@/app/services/PropertyService";
+import PropertyService from "@/app/services/Property.service";
 
 ///////////////////////////////////// COMPONENT //////////////////
 interface MyPropertiesContentType {
@@ -29,7 +29,7 @@ const MyPropertiesContent: React.FC<MyPropertiesContentType> = React.memo(
     handleArchive,
   }) => {
     const [fetchedProperty, setFetchedProperty] = useState<null | Property>(
-      null
+      null,
     );
     const [selectedId, setSelectedId] = useState<string>("");
 
@@ -77,7 +77,7 @@ const MyPropertiesContent: React.FC<MyPropertiesContentType> = React.memo(
             <PaginationCom
               totalPages={Math.ceil(
                 (myProperties.totalPropertiesNumber[0]?.total ?? 0) /
-                  myPropertiesInput.limit
+                  myPropertiesInput.limit,
               )}
               styleclasses="flex flex-row items-center justify-center mt-6 gap-3 "
               currentPage={myPropertiesInput.page}
@@ -101,7 +101,7 @@ const MyPropertiesContent: React.FC<MyPropertiesContentType> = React.memo(
         )}
       </>
     );
-  }
+  },
 );
 
 export default MyPropertiesContent;

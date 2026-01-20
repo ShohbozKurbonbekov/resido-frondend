@@ -4,7 +4,7 @@ import { createSelector } from "reselect";
 import type { Dispatch } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
-import AgentService from "@/app/services/AgentService";
+import AgentService from "@/app/services/Agent.service";
 import AgentDashboardOverviewHeader from "./dashboardOverview/AgentDashboardOverviewHeader";
 import AgentDashboardOverviewContent from "./dashboardOverview/AgentDashboardOverviewContent";
 import type { AgentDashboardOverviewType } from "@/lib/type/agent";

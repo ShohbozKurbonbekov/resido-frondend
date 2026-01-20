@@ -1,8 +1,7 @@
-import AgencyService from "@/app/services/AgencyService";
+import AgencyService from "@/app/services/Agency.service";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import { useEffect, useState } from "react";
 import PaymentInfoHeader from "./PaymentInfoHeader";
-import PaymentInfoContent from "./PaymentInfoContent";
 import ValidationModel from "@/app/components/dialog/ValidationModel";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -38,7 +37,10 @@ export default function PaymentInfo() {
     <section className="py-20">
       <PaymentInfoHeader />
 
-      {memberAllowed && <PaymentInfoContent id={Number(id)} />}
+      {memberAllowed && (
+        // <PaymentInfoContent id={Number(id)} />
+        <div></div>
+      )}
       <ValidationModel isOpen={isOpen} setIsOpen={setIsOpen} />
     </section>
   );

@@ -1,5 +1,3 @@
-import PaymentCard from "@/app/components/Cards/MemberPayPackages";
-import { paymentPackages } from "@/app/data/packages";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +8,7 @@ export default function SelectPaymentTarrif() {
     (id: number) => {
       navigation(`/agencies/payment-info/${id}`, { replace: true });
     },
-    [navigation]
+    [navigation],
   );
   return (
     <section className="py-20">
@@ -37,7 +35,7 @@ export default function SelectPaymentTarrif() {
 
       <div className="container ">
         <div className="w-full max-w-screen-lg mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {paymentPackages.map((card) => (
+          {/* {paymentPackages.map((card) => (
             <PaymentCard
               key={card.id}
               id={card.id}
@@ -47,7 +45,7 @@ export default function SelectPaymentTarrif() {
               benefits={card.benefits}
               handleClick={(id: number) => handleClick(id)}
             />
-          ))}
+          ))} */}
         </div>
       </div>
     </section>

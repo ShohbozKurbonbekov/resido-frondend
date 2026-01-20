@@ -12,7 +12,6 @@ import PricingPage from "./app/screens/pricing/Index";
 import BlogsPage from "./app/screens/blogsPage/Index";
 import PropertiesPage from "./app/screens/propertiesPage/Index";
 import DashboardRouter from "./app/screens/dashboards/Index";
-import MemberPayment from "./app/screens/payment/MemberPayment";
 
 // ------------------------------------------ MAIN COMPONENT -------------------------------------
 export default function App() {
@@ -34,7 +33,13 @@ export default function App() {
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/Faqs" element={<FaqPage />} />
         <Route path="/pricing" element={<PricingPage />} />
-        <Route path="/payment" element={<MemberPayment />} />
+        <Route
+          path="/payment"
+          element={
+            // <MemberPayment />
+            null
+          }
+        />
         <Route path="/" element={<HomePage />} />
       </Routes>
 

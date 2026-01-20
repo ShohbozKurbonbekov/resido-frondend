@@ -1,4 +1,4 @@
-import BlogService from "@/app/services/BlogService";
+import BlogService from "@/app/services/Blog.service";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { customTruncate, defaultBlogImage, serverAPI } from "@/lib/config";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";

@@ -8,7 +8,7 @@ import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import { setAgentMyProperties } from "./slice";
 import { retrieveAgentMyProperties } from "./selector";
 import type { CommonPropertyResults, MyProperties } from "@/lib/type/property";
-import AgentService from "@/app/services/AgentService";
+import AgentService from "@/app/services/Agent.service";
 import { PropertyStatus } from "@/lib/enums/property.enum";
 import MyPropertiesHeader from "./myProperties/MyPropertiesHeader";
 import MyPropertiesContent from "./myProperties/MyPropertiesContent";

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, useState } from "react";
 import SpinnerGrids from "@/app/components/loading/SpinnerGrids";
 import type { CommonInput } from "@/lib/type/common";
-import PropertyService from "@/app/services/PropertyService";
+import PropertyService from "@/app/services/Property.service";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import { FileChartColumn } from "lucide-react";
 import SavedItemsCard from "@/app/components/SavedItemsCard";
@@ -23,7 +23,7 @@ const savedPropertiesDispatch = (dispatch: Dispatch) => ({
 
 const savedPropertiesRetriever = createSelector(
   retrieveSavedProperties,
-  (savedProperties) => ({ savedProperties })
+  (savedProperties) => ({ savedProperties }),
 );
 
 // --------------------------------------- COMPONENT --------------------
@@ -37,7 +37,7 @@ export default function SavedProperties() {
     {
       page: 1,
       limit: 5,
-    }
+    },
   );
 
   useEffect(() => {
@@ -103,7 +103,7 @@ export default function SavedProperties() {
               <PaginationCom
                 totalPages={Math.ceil(
                   (savedProperties.totalPropertiesNumber[0]?.total ?? 0) /
-                    savedPropertiesInput.limit
+                    savedPropertiesInput.limit,
                 )}
                 styleclasses="flex flex-row items-center justify-center mt-4 gap-3 "
                 currentPage={savedPropertiesInput.page}

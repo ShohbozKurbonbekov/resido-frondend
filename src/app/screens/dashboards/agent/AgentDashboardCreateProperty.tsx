@@ -18,7 +18,7 @@ import {
   PropertyType,
   SellingTypeEnum,
 } from "@/lib/enums/property.enum";
-import AgentService from "@/app/services/AgentService";
+import AgentService from "@/app/services/Agent.service";
 import {
   sweetErrorHandling,
   sweetTopSmallSuccessAlert,

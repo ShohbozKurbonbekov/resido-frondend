@@ -1,4 +1,4 @@
-import PropertyService from "@/app/services/PropertyService";
+import PropertyService from "@/app/services/Property.service";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import type { SetStateType } from "@/lib/type/common";
 import type { Property } from "@/lib/type/property";
@@ -36,7 +36,7 @@ const ChosenPropTopIntro: React.FC<ChosenPropTopIntroType> = React.memo(
     // ----------------------------------- HANDLERS --------------------------------
     const updatePropertyAddress = useMemo(
       () => customiseAddress(address),
-      [address]
+      [address],
     );
 
     const handleLike = useCallback(async () => {
@@ -69,11 +69,11 @@ const ChosenPropTopIntro: React.FC<ChosenPropTopIntroType> = React.memo(
           {sellingOption.optionRent?.type === "RENT"
             ? formatCurrency(
                 sellingOption.optionRent.monthlyPayment ?? 0,
-                "USD"
+                "USD",
               )
             : formatCurrency(
                 sellingOption.optionSell?.overalAmunt ?? 0,
-                "USD"
+                "USD",
               )}{" "}
           <sub className="leading-none text-slate-400  text-sm font-normal">
             {sellingOption.optionRent?.type === "RENT"
@@ -110,7 +110,7 @@ const ChosenPropTopIntro: React.FC<ChosenPropTopIntroType> = React.memo(
         </motion.button>
       </div>
     );
-  }
+  },
 );
 
 export default ChosenPropTopIntro;

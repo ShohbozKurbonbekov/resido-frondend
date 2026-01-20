@@ -7,7 +7,7 @@ import type { FollowedAgentsType } from "@/lib/type/agent";
 import { retrieveFollowedAgents } from "./selector";
 import { useDispatch, useSelector } from "react-redux";
 import type { CommonInput } from "@/lib/type/common";
-import AgentService from "@/app/services/AgentService";
+import AgentService from "@/app/services/Agent.service";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import FollowedAgentsContent from "./FollowedAgentsContent";
 import FollowedAgentsHeader from "./FollowedAgentsHeader";
@@ -20,7 +20,7 @@ const followedAgentsDispatch = (dispatch: Dispatch) => ({
 
 const followedAgentsRetriever = createSelector(
   retrieveFollowedAgents,
-  (followedAgents) => ({ followedAgents })
+  (followedAgents) => ({ followedAgents }),
 );
 
 export const cardsWrapperClass =

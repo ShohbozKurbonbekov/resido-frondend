@@ -22,7 +22,7 @@ import {
   sweetErrorHandling,
   sweetTopSmallSuccessAlert,
 } from "@/lib/sweetAlerts";
-import MemberService from "../services/MemberService";
+import MemberService from "../services/Member.service";
 import { MemberType } from "@/lib/enums/agent.enum";
 import { useGlobals } from "../hooks/useGlobals";
 import { useState } from "react";

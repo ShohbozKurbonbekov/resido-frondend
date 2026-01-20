@@ -1,7 +1,7 @@
 import MyBlogsContent from "@/app/components/blog/MyBlogsContent";
 import MyBlogsHeader from "@/app/components/blog/MyBlogsHeader";
 import SpinnerGrids from "@/app/components/loading/SpinnerGrids";
-import AgentService from "@/app/services/AgentService";
+import AgentService from "@/app/services/Agent.service";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import type { CommonInput } from "@/lib/type/common";
 import type { Dispatch } from "@reduxjs/toolkit";

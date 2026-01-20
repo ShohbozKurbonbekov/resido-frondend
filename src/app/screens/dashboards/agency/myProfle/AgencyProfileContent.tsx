@@ -17,7 +17,7 @@ import type { Agency } from "@/lib/type/agency";
 import { useCallback, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import AgencyService from "@/app/services/AgencyService";
+import AgencyService from "@/app/services/Agency.service";
 import {
   sweetErrorHandling,
   sweetTopSmallSuccessAlert,

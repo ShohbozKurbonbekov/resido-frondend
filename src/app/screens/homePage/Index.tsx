@@ -18,10 +18,10 @@ import type {
   RecentPropertyResult,
 } from "@/lib/type/property";
 import { useEffect } from "react";
-import PropertyService from "@/app/services/PropertyService";
-import AgentService from "@/app/services/AgentService";
+import PropertyService from "@/app/services/Property.service";
+import AgentService from "@/app/services/Agent.service";
 import type { FeaturedAgentsResult } from "@/lib/type/agent";
-import CommentService from "@/app/services/CommentService";
+import CommentService from "@/app/services/Comment.service";
 import type { Comment } from "@/lib/type/comment";
 // REDUX SLICE $ SELECTOR
 const actionDispatch = (dispatch: Dispatch) => ({

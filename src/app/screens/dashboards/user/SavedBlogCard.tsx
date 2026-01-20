@@ -7,7 +7,7 @@ import { defaultBlogImage, serverAPI } from "@/lib/config";
 import { dateConverter } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import type { SetStateType } from "@/lib/type/common";
-import BlogService from "@/app/services/BlogService";
+import BlogService from "@/app/services/Blog.service";
 import {
   sweetErrorHandling,
   sweetTopSmallSuccessAlert,

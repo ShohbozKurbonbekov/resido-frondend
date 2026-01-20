@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import DetailPageLoading from "@/app/components/loading/DetailPageLoading";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
-import MemberService from "@/app/services/MemberService";
+import MemberService from "@/app/services/Member.service";
 // ---------------------------------------------- REDUX INTEGRATION ---------------------------------------
 const contactUsPageDispatch = (dispatch: Dispatch) => ({
   setContactUsPage: (data: User) => dispatch(setAdminData(data)),
@@ -17,7 +17,7 @@ const contactUsPageDispatch = (dispatch: Dispatch) => ({
 
 const contactUsPageRetriever = createSelector(
   retrieveContactUsPage,
-  (contactUsPage) => ({ contactUsPage })
+  (contactUsPage) => ({ contactUsPage }),
 );
 
 // ---------------------------------------------- COMPONENT ---------------------------------------

@@ -1,4 +1,4 @@
-import AgentService from "@/app/services/AgentService";
+import AgentService from "@/app/services/Agent.service";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import type { Dispatch } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";

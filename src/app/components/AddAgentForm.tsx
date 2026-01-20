@@ -22,7 +22,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { USER_SOCIALS } from "../data/dashboard/user";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useGlobals } from "../hooks/useGlobals";
-import AgentService from "../services/AgentService";
+import AgentService from "../services/Agent.service";
 const rowWrapperClasses =
   "grid grid-cols-1 md:grid-cols-2 gap-4 rounded-lg border border-slate-200 p-4 bg-slate-50/40";
 
@@ -36,7 +36,7 @@ interface AddAgentFormType {
 
 export default function AddAgentForm({ qualityClasses }: AddAgentFormType) {
   const [avatarPreview, setAvatarPreview] = useState<string | undefined>(
-    undefined
+    undefined,
   );
   const [certificateFile, setCertificateFile] =
     useState<string>("Choose a file");
@@ -83,7 +83,7 @@ export default function AddAgentForm({ qualityClasses }: AddAgentFormType) {
         await sweetErrorHandling(error!);
       }
     },
-    [navigation, setAuthMember]
+    [navigation, setAuthMember],
   );
 
   return (

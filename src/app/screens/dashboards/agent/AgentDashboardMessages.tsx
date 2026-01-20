@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { CommonInput } from "@/lib/type/common";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import type { MemberMessages, Message, MessageInput } from "@/lib/type/message";
-import MemberService from "@/app/services/MemberService";
+import MemberService from "@/app/services/Member.service";
 import { useGlobals } from "@/app/hooks/useGlobals";
 import type { AgentData } from "@/lib/type/agent";
 import MemberMessagesHeader from "../../../components/message/MemberMessagesHeader";

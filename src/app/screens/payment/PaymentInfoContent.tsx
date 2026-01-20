@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { useCallback, useMemo, useState } from "react";
-import AgencyService from "@/app/services/AgencyService";
+import AgencyService from "@/app/services/Agency.service";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import { inputClasses, textClasses } from "@/lib/config";
 import type { AgencyPaymentSubmit } from "@/lib/type/agency";
@@ -98,7 +98,7 @@ export default function PaymentInfoContent({ id }: PaymentInfoContentType) {
         await sweetErrorHandling(error!);
       }
     },
-    [form, planTarrif, setAuthMember]
+    [form, planTarrif, setAuthMember],
   );
 
   if (!isIdValid) {
@@ -139,7 +139,7 @@ export default function PaymentInfoContent({ id }: PaymentInfoContentType) {
                           </FormItem>
                         )}
                       />
-                    )
+                    ),
                   )}
                 </div>
               </div>

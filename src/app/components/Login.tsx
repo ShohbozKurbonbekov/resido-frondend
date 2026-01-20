@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import { useGlobals } from "../hooks/useGlobals";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
-import MemberService from "../services/MemberService";
+import MemberService from "../services/Member.service";
 import { useState } from "react";
 
 export const registrationInputClasses =

@@ -8,13 +8,13 @@ import type { Agency } from "@/lib/type/agency";
 import { useDispatch, useSelector } from "react-redux";
 import { retrieveChosenAgencyPage } from "./selector";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
-import AgencyService from "@/app/services/AgencyService";
+import AgencyService from "@/app/services/Agency.service";
 import DetailPageLoading from "@/app/components/loading/DetailPageLoading";
 import SectionTopShortInfo from "@/app/components/SectionTopShortInfo";
 import AgencyDetailMainContent from "./AgencyDetailMainContent";
 import type { FeaturedPropertyResults } from "@/lib/type/property";
 import { setFeaturedProperties } from "../homePage/slice";
-import PropertyService from "@/app/services/PropertyService";
+import PropertyService from "@/app/services/Property.service";
 // ----------------------------------------- REDUX INTEGRATION --------------------------
 const chosenAgencyPageDispatch = (dispatch: Dispatch) => ({
   setChosenAgencyPage: (data: Agency) => dispatch(setChosenAgencyPage(data)),
@@ -26,7 +26,7 @@ const featuredPropertiesDispatch = (dispatch: Dispatch) => ({
 
 const chosenAgencyPageRetriever = createSelector(
   retrieveChosenAgencyPage,
-  (chosenAgencyPage) => ({ chosenAgencyPage })
+  (chosenAgencyPage) => ({ chosenAgencyPage }),
 );
 
 // ------------------------------------------ COMPONENT ------------------------------
@@ -56,7 +56,7 @@ export default function ChooseAgency() {
         // FEATURED PROPERTY
         const featuredPropertiesInput = { page: 1, limit: 4 };
         const result2 = await property.getFeaturedProperty(
-          featuredPropertiesInput
+          featuredPropertiesInput,
         );
         setFeaturedProperties(result2);
       } catch (error) {

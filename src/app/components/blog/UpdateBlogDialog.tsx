@@ -41,7 +41,7 @@ import { retrieveAgentMyBlogs } from "@/app/screens/dashboards/agent/selector";
 import { useDispatch, useSelector } from "react-redux";
 import type { Dispatch } from "@reduxjs/toolkit";
 import { setAgentMyBlogs } from "@/app/screens/dashboards/agent/slice";
-import AgentService from "@/app/services/AgentService";
+import AgentService from "@/app/services/Agent.service";
 import {
   sweetErrorHandling,
   sweetTopSmallSuccessAlert,
@@ -50,7 +50,7 @@ import {
 // ---------------------------------------- REDUX INTEGRATION --------------------------------------
 const agentMyBlogsRetriever = createSelector(
   retrieveAgentMyBlogs,
-  (agentMyBlogs) => ({ agentMyBlogs })
+  (agentMyBlogs) => ({ agentMyBlogs }),
 );
 
 const agentMyBlogsDispatch = (dispatch: Dispatch) => ({
@@ -87,7 +87,7 @@ const UpdateBLogDialog: React.FC<UpdateBLogDialog> = ({
   const [blogImage, setBlogImage] = useState<string | undefined>(
     selectedBlog?.blogImage
       ? `${serverAPI}/${selectedBlog?.blogImage}`
-      : undefined
+      : undefined,
   );
 
   const [tags, setTags] = useState<string[]>(selectedBlog?.blogTags || []);
@@ -122,7 +122,7 @@ const UpdateBLogDialog: React.FC<UpdateBLogDialog> = ({
     setBlogImage(
       selectedBlog.blogImage
         ? `${serverAPI}/${selectedBlog.blogImage}`
-        : undefined
+        : undefined,
     );
     setImagePath("Upload an image");
   }, [selectedBlog, form]);
@@ -165,11 +165,11 @@ const UpdateBLogDialog: React.FC<UpdateBLogDialog> = ({
         const member = new AgentService();
         const result = await member.agentUpdateMyBlog(
           blogInput,
-          selectedBlog._id
+          selectedBlog._id,
         );
         const updatedBlogs = [
           ...agentMyBlogs.blogs.map((blog) =>
-            blog._id === result._id ? result : blog
+            blog._id === result._id ? result : blog,
           ),
         ];
         setAgentMyBlogs({
@@ -192,7 +192,7 @@ const UpdateBLogDialog: React.FC<UpdateBLogDialog> = ({
       tags,
       setModelOpen,
       setSelectedBlog,
-    ]
+    ],
   );
 
   return (

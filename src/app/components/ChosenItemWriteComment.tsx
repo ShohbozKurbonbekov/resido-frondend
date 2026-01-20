@@ -15,7 +15,7 @@ import {
   sweetTopSmallSuccessAlert,
 } from "@/lib/sweetAlerts";
 import { ErrorMessages } from "@/lib/config";
-import CommentService from "@/app/services/CommentService";
+import CommentService from "@/app/services/Comment.service";
 import type { SetStateType } from "@/lib/type/common";
 
 interface ChosenItemWriteCommentType {

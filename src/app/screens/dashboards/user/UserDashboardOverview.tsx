@@ -7,7 +7,7 @@ import { retrieveUserdashboardOverview } from "./selector";
 import { useDispatch, useSelector } from "react-redux";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import type { UserDashboardOverviewType } from "@/lib/type/dashboard/user";
-import MemberService from "@/app/services/MemberService";
+import MemberService from "@/app/services/Member.service";
 import UserDashboardOverviewContent from "./UserDashboardOverviewContent";
 import UserDashboardOverviewHeader from "./UserDashboardOverviewHeader";
 
@@ -22,7 +22,7 @@ const userDashboardOverviewDispatch = (dispatch: Dispatch) => ({
 
 const userDashboardOverviewRetriever = createSelector(
   retrieveUserdashboardOverview,
-  (userDashboardOverview) => ({ userDashboardOverview })
+  (userDashboardOverview) => ({ userDashboardOverview }),
 );
 
 // --------------------------------------- COMPONENT --------------------

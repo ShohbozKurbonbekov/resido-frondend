@@ -8,7 +8,7 @@ import type { Dispatch } from "@reduxjs/toolkit";
 import { setAgenciesListPage } from "./slice";
 import { useDispatch, useSelector } from "react-redux";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
-import AgencyService from "@/app/services/AgencyService";
+import AgencyService from "@/app/services/Agency.service";
 import type { SellersSearchInput } from "@/lib/type/common";
 import { createSelector } from "reselect";
 import { retrieveAgenciesListPage } from "./selector";
@@ -23,7 +23,7 @@ const actionDispatch = (dispatch: Dispatch) => ({
 
 const agenciesListPageRetriever = createSelector(
   retrieveAgenciesListPage,
-  (agenciesListPage) => ({ agenciesListPage })
+  (agenciesListPage) => ({ agenciesListPage }),
 );
 // -------------------------------- COMPONENT ------------------------
 export default function AgenciesList() {
@@ -40,7 +40,7 @@ export default function AgenciesList() {
   const totalPages = useMemo(() => {
     return Math.ceil(
       (agenciesListPage?.totalNumbers[0]?.total ?? 0) /
-        agenciesSearchInput?.limit
+        agenciesSearchInput?.limit,
     );
   }, [agenciesListPage, agenciesSearchInput]);
 

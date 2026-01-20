@@ -22,7 +22,7 @@ import type { AgentData } from "@/lib/type/agent";
 import { defaultUserAvatar, serverAPI } from "@/lib/config";
 import { useGlobals } from "@/app/hooks/useGlobals";
 import { AgentRegistrationSchema } from "@/app/data/agent";
-import AgentService from "@/app/services/AgentService";
+import AgentService from "@/app/services/Agent.service";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { USER_SOCIALS } from "@/app/data/dashboard/user";
 import React from "react";
@@ -41,7 +41,7 @@ const AgentProfileContent: React.FC<AgentProfileContentType> = React.memo(
   ({ agent }) => {
     const { setAuthMember } = useGlobals();
     const [avatarPreview, setAvatarPreview] = useState<string | undefined>(
-      agent.avatar ? `${serverAPI}/${agent.avatar}` : defaultUserAvatar
+      agent.avatar ? `${serverAPI}/${agent.avatar}` : defaultUserAvatar,
     );
     const [fileName, setFileName] = useState<string>("Choose a file");
 
@@ -80,7 +80,7 @@ const AgentProfileContent: React.FC<AgentProfileContentType> = React.memo(
           setAuthMember(agent);
         }
       },
-      [setAuthMember, agent]
+      [setAuthMember, agent],
     );
 
     return (
@@ -397,7 +397,7 @@ const AgentProfileContent: React.FC<AgentProfileContentType> = React.memo(
         </CardContent>
       </Card>
     );
-  }
+  },
 );
 
 export default AgentProfileContent;

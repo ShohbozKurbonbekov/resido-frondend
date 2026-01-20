@@ -1,5 +1,5 @@
 import Divider from "@/app/components/Divider";
-import BlogService from "@/app/services/BlogService";
+import BlogService from "@/app/services/Blog.service";
 import { customTruncate, defaultBlogImage, serverAPI } from "@/lib/config";
 import { BlogAuthorType, BlogNeighborings } from "@/lib/enums/blog.enum";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
@@ -69,7 +69,7 @@ const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
         setLoading(true);
       },
 
-      [prevBlog, nextBlog, navigation]
+      [prevBlog, nextBlog, navigation],
     );
 
     const handleLike = useCallback(
@@ -84,7 +84,7 @@ const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
           await sweetErrorHandling(error!);
         }
       },
-      [setReloadMainPage]
+      [setReloadMainPage],
     );
     return (
       <div className="p-5 bg-white border-2 border-slate-200 rounded-md w-full flex  flex-col">
@@ -195,7 +195,7 @@ const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
         </div>
       </div>
     );
-  }
+  },
 );
 
 export default BlogDetailDescription;

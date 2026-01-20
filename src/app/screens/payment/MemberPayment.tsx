@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import { useNavigate } from "react-router-dom";
-import AgencyService from "@/app/services/AgencyService";
+import AgencyService from "@/app/services/Agency.service";
 import ValidationModel from "@/app/components/dialog/ValidationModel";
 import SelectPaymentTarrif from "./SelectPaymentTarrif";
 

@@ -6,12 +6,12 @@ import { createSelector } from "reselect";
 import { setChosenPropComments, setChosenProperty } from "./slice";
 import { useDispatch, useSelector } from "react-redux";
 import { retrieveChosenProperty } from "./selector";
-import PropertyService from "@/app/services/PropertyService";
+import PropertyService from "@/app/services/Property.service";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import NoFound from "@/app/components/NoFound";
 import ChosePropertyTopImages from "./ChosePropertyTopImages";
 import ChosenPropertyMainContent from "./ChosenPropertyMainContent";
-import CommentService from "@/app/services/CommentService";
+import CommentService from "@/app/services/Comment.service";
 import { CommentTargetType } from "@/lib/enums/comment.enum";
 import type { ChosenItemCommentsInput, Comments } from "@/lib/type/comment";
 
@@ -25,14 +25,13 @@ const actionDispatch = (dispatch: Dispatch) => ({
 
 const chosenPropertyRetriever = createSelector(
   retrieveChosenProperty,
-  (chosenProperty) => ({ chosenProperty })
+  (chosenProperty) => ({ chosenProperty }),
 );
 
 // ------------------------------------------- COMPONENT ------------------------------------
 export default function ChoseProduct() {
-  const { setChosenProperty, setChosenPropComments } = actionDispatch(
-    useDispatch()
-  );
+  const { setChosenProperty, setChosenPropComments } =
+    actionDispatch(useDispatch());
   const { chosenProperty } = useSelector(chosenPropertyRetriever);
   const { propertyId } = useParams<{ propertyId: string }>();
   const [reloadMainPage, setReloadMainPage] = useState<boolean>(false);

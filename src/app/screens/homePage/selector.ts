@@ -5,20 +5,20 @@ const selectHomePage = (state: AppRootState) => state.homepage;
 
 export const retrieveRecentRentProperties = createSelector(
   selectHomePage,
-  (homepage) => homepage.recentPropertyForRent
+  (homepage) => homepage.recentPropertyForRent,
 );
 
 export const retrieveFeaturedProperties = createSelector(
   selectHomePage,
-  (homepage) => homepage.featuredProperties
+  (homepage) => homepage.featuredProperties,
 );
 
 export const retrieveFeaturedAgents = createSelector(
   selectHomePage,
-  (homepage) => homepage.featuredAgents
+  (homepage) => homepage.featuredAgents,
 );
 
 export const retrieveLatestComments = createSelector(
   selectHomePage,
-  (homepage) => homepage.latestComments
+  (homepage) => homepage.latestComments,
 );

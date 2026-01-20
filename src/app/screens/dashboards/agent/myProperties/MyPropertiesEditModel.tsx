@@ -31,7 +31,7 @@ import { setAgentMyProperties } from "../slice";
 import { retrieveAgentMyProperties } from "../selector";
 import { createSelector } from "reselect";
 import { useDispatch, useSelector } from "react-redux";
-import AgentService from "@/app/services/AgentService";
+import AgentService from "@/app/services/Agent.service";
 
 // ----------------------------------------- REDUX INTEGRATION --------------------------
 const agentMyPropertiesDispatch = (dispatch: Dispatch) => ({
@@ -41,7 +41,7 @@ const agentMyPropertiesDispatch = (dispatch: Dispatch) => ({
 
 const agentMyPropertieRetriever = createSelector(
   retrieveAgentMyProperties,
-  (agentMyProperties) => ({ agentMyProperties })
+  (agentMyProperties) => ({ agentMyProperties }),
 );
 
 ////////////////////////////////// COMPONENT ///////////////////////
@@ -77,7 +77,7 @@ export default function MyPropertiesEditModel({
   const [propertyVideo, setPropertyVideo] = useState<string>(
     fetchedProperty.videos.length
       ? `${serverAPI}/${fetchedProperty.videos[0]}`
-      : ""
+      : "",
   );
   const [videoPath, setVideoPath] = useState<string>(INITIAL_VIDEO_PATH);
 
@@ -159,12 +159,12 @@ export default function MyPropertiesEditModel({
       try {
         const result = await agent.updatePublisherProperty(
           fetchedProperty._id,
-          values
+          values,
         );
         await sweetTopSmallSuccessAlert("Property updated!");
         setAgentMyProperties({
           properties: snaptShot.properties.map((property) =>
-            property._id === result._id ? result : property
+            property._id === result._id ? result : property,
           ),
           totalPropertiesNumber: snaptShot.totalPropertiesNumber,
         });
@@ -185,7 +185,7 @@ export default function MyPropertiesEditModel({
       fetchedProperty._id,
       setFetchedProperty,
       setSelectedId,
-    ]
+    ],
   );
 
   return (

@@ -11,7 +11,7 @@ import type { Comment, CommentUpdate } from "@/lib/type/comment";
 import type { SetStateType } from "@/lib/type/common";
 import { CommentTargetType } from "@/lib/enums/comment.enum";
 import { dateConverter, handleRating } from "@/lib/utils";
-import CommentService from "@/app/services/CommentService";
+import CommentService from "@/app/services/Comment.service";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import {
   defaultBlogImage,

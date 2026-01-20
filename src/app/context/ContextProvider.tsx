@@ -2,7 +2,7 @@ import type { CommonUsers } from "@/lib/type/common";
 import { useState, type ReactNode } from "react";
 import Cookies from "universal-cookie";
 import { GlobalContext } from "../hooks/useGlobals";
-import MemberService from "../services/MemberService";
+import MemberService from "../services/Member.service";
 import {
   sweetErrorHandling,
   sweetTopSmallSuccessAlert,
@@ -17,7 +17,7 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [authmember, setAuthMember] = useState<null | CommonUsers>(
     localStorage.getItem("memberData")
       ? JSON.parse(localStorage.getItem("memberData") as string)
-      : null
+      : null,
   );
 
   const logout = async () => {

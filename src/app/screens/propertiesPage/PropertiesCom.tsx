@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { Dispatch } from "@reduxjs/toolkit";
 import { retrieveProperties } from "./selector";
 import { PropertySortOrder } from "@/lib/enums/property.enum";
-import PropertyService from "@/app/services/PropertyService";
+import PropertyService from "@/app/services/Property.service.ts";
 import PropertiesTopSection from "./PropertiesTopSection.tsx";
 import PropertiesCenterSection from "./PropertiesCenterSection.tsx";
 
@@ -21,7 +21,7 @@ const actionDispatch = (dispatch: Dispatch) => ({
 
 const propertiesRetriever = createSelector(
   retrieveProperties,
-  (properties) => ({ properties })
+  (properties) => ({ properties }),
 );
 
 // ------------------------- COMPONENT ------------------

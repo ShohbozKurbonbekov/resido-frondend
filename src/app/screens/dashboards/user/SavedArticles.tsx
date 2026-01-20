@@ -7,7 +7,7 @@ import { retrieveSavedBlogs } from "./selector";
 import { useDispatch, useSelector } from "react-redux";
 import type { CommonInput } from "@/lib/type/common";
 import type { SavedBlogsOutput } from "@/lib/type/blogs";
-import BlogService from "@/app/services/BlogService";
+import BlogService from "@/app/services/Blog.service";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import SavedBlogsHeader from "./SavedBlogsHeader";
 import SavedBlogsContent from "./SavedBlogsContent";
@@ -22,7 +22,7 @@ const savedBlogsDispatch = (dispatch: Dispatch) => ({
 
 const savedBlogsRetriever = createSelector(
   retrieveSavedBlogs,
-  (savedBlogs) => ({ savedBlogs })
+  (savedBlogs) => ({ savedBlogs }),
 );
 
 // --------------------------------------- COMPONENT --------------------

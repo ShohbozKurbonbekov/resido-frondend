@@ -8,7 +8,7 @@ import { useCallback, useEffect, useState } from "react";
 import { createSelector } from "reselect";
 import { useDispatch, useSelector } from "react-redux";
 import type { BlogsListPage } from "@/lib/type/blogs";
-import AgencyService from "@/app/services/AgencyService";
+import AgencyService from "@/app/services/Agency.service";
 import { setAgencyMyBlogs } from "../slice";
 import { retrieveAgencyMyBlogs } from "../selector";
 

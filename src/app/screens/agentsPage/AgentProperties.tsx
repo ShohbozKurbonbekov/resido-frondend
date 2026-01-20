@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
-import AgentService from "@/app/services/AgentService";
+import AgentService from "@/app/services/Agent.service";
 import { AgentPropertyType } from "@/lib/enums/agent.enum";
 import NoFound from "@/app/components/NoFound";
 import PropertyCard from "@/app/components/PropertyCard";
@@ -31,7 +31,7 @@ const actionDispatch = (dispatch: Dispatch) => ({
 
 const chosenAgentPropertiesRetriever = createSelector(
   retrieveChosenAgentProperties,
-  (chosenAgentProperties) => ({ chosenAgentProperties })
+  (chosenAgentProperties) => ({ chosenAgentProperties }),
 );
 
 // ------------------------------------------ COMPONENT ----------------------------------------
@@ -58,7 +58,7 @@ const AgentProperties: React.FC = () => {
         const agent = new AgentService();
         const result = await agent.getAgentProperties(
           agentId!,
-          agentPropertiesInput
+          agentPropertiesInput,
         );
         setChosenAgentProperties(result);
       } catch (error) {
@@ -86,7 +86,7 @@ const AgentProperties: React.FC = () => {
         searchLocation: query.trim(),
       }));
     },
-    [query]
+    [query],
   );
   const handleInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
@@ -171,7 +171,7 @@ const AgentProperties: React.FC = () => {
         {agent[0]?.limitedProperties?.length ? (
           <PaginationCom
             totalPages={Math.ceil(
-              agent[0]?.totalProperties / agentPropertiesInput.limit
+              agent[0]?.totalProperties / agentPropertiesInput.limit,
             )}
             currentPage={agentPropertiesInput.page}
             styleclasses="flex flex-row items-center justify-center gap-3"

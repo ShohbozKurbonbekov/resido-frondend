@@ -1,5 +1,5 @@
 import { BlogFormSchema } from "@/app/data/blog";
-import BlogService from "@/app/services/BlogService";
+import BlogService from "@/app/services/Blog.service";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {

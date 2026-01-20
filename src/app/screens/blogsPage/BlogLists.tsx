@@ -16,14 +16,14 @@ const actionDispatch = (dispatch: Dispatch) => ({
 
 const blogsListPageRetriever = createSelector(
   retrieveBlogsListPage,
-  (blogsListPage) => ({ blogsListPage })
+  (blogsListPage) => ({ blogsListPage }),
 );
 
 import { Button } from "@/components/ui/button";
 import { BlogCategory, SortOrder } from "@/lib/enums/blog.enum";
 import type { BlogSearchInput, BlogsListPage } from "@/lib/type/blogs";
 import SpinnerGrids from "@/app/components/loading/SpinnerGrids";
-import BlogService from "@/app/services/BlogService";
+import BlogService from "@/app/services/Blog.service";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import SectionIntroNoBackground from "@/app/components/SectionIntroNoBackground";
 import { customLetterCustomise } from "@/lib/utils";
@@ -75,7 +75,7 @@ export default function BlogLists() {
 
   const totalPages = useMemo(() => {
     return Math.ceil(
-      (blogsListPage?.totalBlogsNumber[0].total ?? 0) / blogsSearchInput.limit
+      (blogsListPage?.totalBlogsNumber[0].total ?? 0) / blogsSearchInput.limit,
     );
   }, [blogsListPage, blogsSearchInput]);
   // ---------------------------------------- HANLDERS ----------------------------
@@ -111,7 +111,7 @@ export default function BlogLists() {
         },
       }));
     },
-    [setBlogsSearchInput, search]
+    [setBlogsSearchInput, search],
   );
 
   // ---------------------------------------- RENDER ----------------------------

@@ -9,7 +9,7 @@ import type {
 import { createSelector } from "reselect";
 import { retrieveChosenAgencyTargetItems } from "./selector";
 import { useDispatch, useSelector } from "react-redux";
-import AgencyService from "@/app/services/AgencyService";
+import AgencyService from "@/app/services/Agency.service";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import { AgencyTargetType } from "@/lib/enums/agency.enum";
 import { useParams } from "react-router-dom";
@@ -37,7 +37,7 @@ const actionDispatch = (dispatch: Dispatch) => ({
 
 const chosenAgencyTargetItemsRetriever = createSelector(
   retrieveChosenAgencyTargetItems,
-  (chosenAgencyTargetItems) => ({ chosenAgencyTargetItems })
+  (chosenAgencyTargetItems) => ({ chosenAgencyTargetItems }),
 );
 
 export default function AgencyAgeProperties() {
@@ -68,7 +68,7 @@ export default function AgencyAgeProperties() {
       try {
         const result = await agency.getAgencyAgeProperties(
           agencyId,
-          agencyItemsSearch
+          agencyItemsSearch,
         );
         setChosenAgencyTargetItems(result);
       } catch (error) {
@@ -92,7 +92,7 @@ export default function AgencyAgeProperties() {
       e.preventDefault();
       setAgencyItemsSearch((prev) => ({ ...prev, location: query.trim() }));
     },
-    [query]
+    [query],
   );
 
   const handleSelect = useCallback((value: AgencyTargetType) => {
@@ -188,7 +188,7 @@ export default function AgencyAgeProperties() {
               </div>
               <PaginationCom
                 totalPages={Math.ceil(
-                  (totalPages ?? 0) / agencyItemsSearch.limit
+                  (totalPages ?? 0) / agencyItemsSearch.limit,
                 )}
                 currentPage={agencyItemsSearch.page}
                 styleclasses="flex flex-row items-center justify-center gap-3"

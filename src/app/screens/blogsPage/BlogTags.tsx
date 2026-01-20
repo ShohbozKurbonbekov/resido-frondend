@@ -1,6 +1,6 @@
 import SpinnerGrids from "@/app/components/loading/SpinnerGrids";
 import NoFound from "@/app/components/NoFound";
-import BlogService from "@/app/services/BlogService";
+import BlogService from "@/app/services/Blog.service";
 import {
   Card,
   CardContent,

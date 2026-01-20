@@ -1,10 +1,17 @@
+import type {
+  BillingCycle,
+  TarrifCurrencyType,
+} from "@/lib/enums/pricing.enum";
+import { customLetterCustomise, formatCurrency } from "@/lib/utils";
+
 interface PaymentCardType {
-  id: number;
+  id: string;
   name: string;
   price: number;
-  paymentType: string;
+  paymentType: BillingCycle;
   benefits: string[];
-  handleClick: (id: number) => void;
+  currency: TarrifCurrencyType;
+  handleClick: (id: string) => void;
 }
 
 export default function PaymentCard({
@@ -13,6 +20,7 @@ export default function PaymentCard({
   price,
   paymentType,
   benefits,
+  currency,
   handleClick,
 }: PaymentCardType) {
   return (
@@ -25,15 +33,19 @@ export default function PaymentCard({
           <h3 className="text-lg font-semibold tracking-tight text-darkBlue">
             {name}
           </h3>
-          <p className="text-sm text-slate-500">Billed {paymentType}</p>
+          <p className="text-sm text-slate-500">
+            Billed {customLetterCustomise(paymentType)}
+          </p>
         </div>
 
         {/* Price */}
         <div className="flex items-end gap-1">
           <span className="text-4xl font-bold tracking-tight text-slate-800">
-            ${price}
+            {formatCurrency(price, String(currency))}
           </span>
-          <span className="pb-1 text-sm text-slate-500">/{paymentType}</span>
+          <span className="pb-1 text-sm text-slate-500">
+            /{customLetterCustomise(paymentType)}
+          </span>
         </div>
 
         {/* Divider */}

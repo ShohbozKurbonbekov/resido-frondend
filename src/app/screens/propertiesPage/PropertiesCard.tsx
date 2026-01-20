@@ -30,7 +30,7 @@ import { formatCurrency, formatPropertyArea } from "@/lib/utils";
 import type { Property } from "@/lib/type/property";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import PropertyService from "@/app/services/PropertyService";
+import PropertyService from "@/app/services/Property.service";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 
 import type { SetStateType } from "@/lib/type/common";
@@ -86,13 +86,13 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
       (propertyId: string) => {
         navigation(`/property/${propertyId}`);
       },
-      [navigation]
+      [navigation],
     );
 
     // ----------------------------------------- INSERTING DATA INTO DB ------------------------------------
     const handleLikebtn = (
       e: React.MouseEvent<HTMLButtonElement>,
-      propertyId: string
+      propertyId: string,
     ) => {
       e.stopPropagation();
 
@@ -115,7 +115,7 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
 
     const scrollTo = useCallback(
       (index: number) => carouselApi && carouselApi.scrollTo(index),
-      [carouselApi]
+      [carouselApi],
     );
 
     useEffect(() => {
@@ -300,7 +300,7 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
         </CardContent>
       </Card>
     );
-  }
+  },
 );
 
 export default PropertiesCard;

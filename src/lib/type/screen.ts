@@ -28,6 +28,7 @@ import type {
 } from "./blogs";
 import type { User, UserDashboardOverviewType } from "./dashboard/user";
 import type { MemberMessages } from "./message";
+import type { PaymentTariffsType } from "./pricing";
 // REACTT APP STATE
 export interface AppRootState {
   homepage: HomePageState;
@@ -39,6 +40,7 @@ export interface AppRootState {
   userDashboardPage: UserDashboardPage;
   agentDashboardPage: AgentDashboardPage;
   agencyDashboardPage: AgencyDashboardPage;
+  paymentTariffsPage: PaymentTariffsPage;
 }
 
 // HOMEPAGE
@@ -81,6 +83,10 @@ export interface BlogsPageState {
 // CONTACT US PAGE
 export interface ContactUsPageState {
   adminData: User | null;
+}
+
+export interface PaymentTariffsPage {
+  tariffPlans: PaymentTariffsType;
 }
 
 ////////////////////////////////////////////////////////////////

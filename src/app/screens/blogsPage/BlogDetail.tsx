@@ -8,8 +8,8 @@ import { retrieveChosenBlogComments, retrieveChosenBlogPage } from "./selector";
 import BlogDetailDescription from "./BlogDetailDescription";
 import { useEffect, useMemo, useState } from "react";
 import DetailPageLoading from "@/app/components/loading/DetailPageLoading";
-import BlogService from "@/app/services/BlogService";
-import CommentService from "@/app/services/CommentService";
+import BlogService from "@/app/services/Blog.service";
+import CommentService from "@/app/services/Comment.service";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import type { ChosenItemCommentsInput } from "@/lib/type/comment";
 import { CommentTargetType } from "@/lib/enums/comment.enum";
@@ -36,12 +36,12 @@ const chosenBlogCommentsDispatch = (dispatch: Dispatch) => ({
 
 const chosenBlogPageRetriever = createSelector(
   retrieveChosenBlogPage,
-  (chosenBlogPage) => ({ chosenBlogPage })
+  (chosenBlogPage) => ({ chosenBlogPage }),
 );
 
 const choseBlogCommentsRetriever = createSelector(
   retrieveChosenBlogComments,
-  (chosenBlogComments) => ({ chosenBlogComments })
+  (chosenBlogComments) => ({ chosenBlogComments }),
 );
 
 // ---------------------------------------------- COMPONENT ---------------------------------------
@@ -78,7 +78,7 @@ export default function BlogDetail() {
 
         const result2 = await comment.getItemComments(
           blogId,
-          chosenBlogCommentsInput
+          chosenBlogCommentsInput,
         );
         setChosenBlogComments(result2);
       } catch (error) {
