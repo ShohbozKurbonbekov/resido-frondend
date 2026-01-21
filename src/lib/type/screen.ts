@@ -18,6 +18,7 @@ import type { Comment, Comments } from "./comment";
 import type {
   AgenciesListPage,
   Agency,
+  AgencySubscriptionInfoType,
   ChosenAgencyTargetItemsType,
 } from "./agency";
 import type {
@@ -115,4 +116,5 @@ export interface AgentDashboardPage {
 export interface AgencyDashboardPage {
   agencyMyBlogs: BlogsListPage;
   getAgencyMessages: MemberMessages;
+  agencySubscriptionInfo: AgencySubscriptionInfoType;
 }

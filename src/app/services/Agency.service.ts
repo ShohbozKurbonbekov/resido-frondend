@@ -4,6 +4,7 @@ import type {
   Agency,
   AgencyAgePropertiesInput,
   AgencyPaymentSubmit,
+  AgencySubscriptionInfoType,
   ChosenAgencyTargetItemsType,
 } from "@/lib/type/agency";
 import type { CommonInput, SellersSearchInput } from "@/lib/type/common";
@@ -186,6 +187,17 @@ class AgencyService {
       await axios.post(url, {}, { withCredentials: true });
     } catch (error) {
       console.log("Error in agency deleteMyBlog service: ", error);
+      throw error;
+    }
+  }
+
+  public async getSubscriptionInfo(): Promise<AgencySubscriptionInfoType> {
+    try {
+      const url = `${this.path}/agency/subscription/info`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in getSubscriptionInfo: ", error);
       throw error;
     }
   }

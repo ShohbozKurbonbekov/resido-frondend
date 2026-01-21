@@ -14,3 +14,8 @@ export const retrieveGetAgencyMessages = createSelector(
   selectAgencyDashboardPage,
   (agencyDashboardPage) => agencyDashboardPage.getAgencyMessages,
 );
+
+export const retrieveAgencySubscriptionInfo = createSelector(
+  selectAgencyDashboardPage,
+  (agencyDashboardPage) => agencyDashboardPage.agencySubscriptionInfo,
+);

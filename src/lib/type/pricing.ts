@@ -29,3 +29,8 @@ export interface PaymentTariffsType {
   paymentTariffs: TarrifOutputType[];
   metaCounter: TotalCounter[];
 }
+export interface BillingSnapShotType {
+  name: string;
+  features: string[];
+  limit: TarrifLimitsType;
+}

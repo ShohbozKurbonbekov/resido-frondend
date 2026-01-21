@@ -6,6 +6,7 @@ export enum SubscriptionTarrif {
 
 export enum SubscriptionStatus {
   INACTIVE = "INACTIVE",
+  EXPIRED = "EXPIRED",
   ACTIVE = "ACTIVE",
   CANCELLED = "CANCELLED",
 }

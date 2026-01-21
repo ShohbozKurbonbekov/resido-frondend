@@ -1,5 +1,12 @@
 import z from "zod";
 
+// STYLES
+export const SUBSCRIPTION_STATUS_STYLES: Record<string, string> = {
+  ACTIVE: "bg-green-100 text-green-700",
+  CANCELLED: "bg-yellow-100 text-yellow-700",
+  EXPIRED: "bg-red-100 text-red-700",
+};
+
 // PAYMENT INPUT SCHEMAS
 export const AGENCY_SUBSCRIPTION_FIELDS = [
   {
@@ -15,15 +22,21 @@ export const AGENCY_SUBSCRIPTION_FIELDS = [
     type: "email",
   },
   {
-    name: "billingAddress",
-    label: "Billing Address",
-    placeholder: "Street, building, office",
+    name: "billingCity",
+    label: "Billing City",
+    placeholder: "City Name",
     type: "text",
   },
   {
     name: "billingCountry",
     label: "Billing Country",
     placeholder: "Country",
+    type: "text", // can be select later
+  },
+  {
+    name: "billingPostalCode",
+    label: "Billing Postal Code",
+    placeholder: "PostCode CRC-85",
     type: "text", // can be select later
   },
 ] as const;
@@ -36,8 +49,10 @@ export const AgencySubscriptionSchema = z.object({
     .min(1, { message: "Email is required" })
     .email("Invalid email address"),
 
-  billingAddress: z.string().trim().min(1, "Address is required"),
+  billingCity: z.string().trim().min(1, "City is required"),
+
   billingCountry: z.string().trim().min(1, "Country is required"),
+  billingPostalCode: z.string().trim().min(1, "Postal Code is required"),
 });
 
 export type AgencySubscriptionInput = z.input<typeof AgencySubscriptionSchema>;

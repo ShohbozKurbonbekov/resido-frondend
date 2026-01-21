@@ -4,11 +4,12 @@ import type {
   AgencyTargetType,
   PaymentProvider,
   SubscriptionStatus,
-  SubscriptionTarrif,
 } from "../enums/agency.enum";
 import type { MemberStatus, MemberType } from "../enums/agent.enum";
+import type { BillingCycle, TarrifCurrencyType } from "../enums/pricing.enum";
 import type { AgentData } from "./agent";
 import type { CommonInput, Social, TotalCounter } from "./common";
+import type { BillingSnapShotType, TarrifOutputType } from "./pricing";
 import type { Property } from "./property";
 
 export interface Agency {
@@ -76,11 +77,12 @@ export interface ChosenAgencyTargetItemsType {
 
 //////////////////////////////// PAYMENT //////////////////
 export interface AgencyPaymentSubmit {
-  planName: SubscriptionTarrif;
+  billingTariffId: string;
   billingName: string;
   billingEmail: string;
-  billingAddress: string;
+  billingCity: string;
   billingCountry: string;
+  billingPostalCode: string;
 }
 
 export interface AgencyPaymentInfoResult extends AgencyPaymentSubmit {
@@ -90,4 +92,39 @@ export interface AgencyPaymentInfoResult extends AgencyPaymentSubmit {
   stripeCustomerId?: string;
   stripeSubscriptionId?: string;
   createdAt: Date;
+}
+/////////////////  SUBSCRIPTIONS /////////////
+export interface AgencySubscription {
+  agencyId: string;
+  billingTariffId: string;
+
+  amount: number;
+  billingSnapshot: BillingSnapShotType;
+  currency: TarrifCurrencyType;
+  paymentProvider: PaymentProvider;
+  subscriptionStatus: SubscriptionStatus;
+
+  stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
+
+  billingName: string;
+  billingEmail: string;
+  billingCity: string;
+  billingCountry: string;
+  billingPostalCode: string;
+  billingCyle: BillingCycle;
+
+  updatedAt: string;
+  createdAt: string;
+  startedAt: string;
+  currentPeriodStart: string;
+  currentPeriodEnd: string;
+  lastPaymentAt: string;
+  nextPaymentAt: string;
+  cancelledAt: string | null;
+}
+
+export interface AgencySubscriptionInfoType {
+  tariffPlans: TarrifOutputType[];
+  agencySubscription: AgencySubscription | null;
 }

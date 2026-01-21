@@ -7,7 +7,7 @@ import type {
 } from "@/lib/type/dashboard/user";
 import type { LoginInput, UserMemberInput } from "@/lib/type/member";
 import type { MemberMessages, Message, MessageInput } from "@/lib/type/message";
-import type { PaymentTariffsType } from "@/lib/type/pricing";
+import type { PaymentTariffsType, TarrifOutputType } from "@/lib/type/pricing";
 import axios from "axios";
 
 class MemberService {
@@ -176,6 +176,16 @@ class MemberService {
       return result.data;
     } catch (error) {
       console.log("Error in PaymentTariffs of memberService  service: ", error);
+      throw error;
+    }
+  }
+  public async getTariff(id: string): Promise<TarrifOutputType> {
+    try {
+      const url = `${this.serverApi}/member/public/tariffs/${id}`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in fethcing getTariff: ", error);
       throw error;
     }
   }

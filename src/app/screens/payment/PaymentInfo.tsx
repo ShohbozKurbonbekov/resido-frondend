@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import PaymentInfoHeader from "./PaymentInfoHeader";
 import ValidationModel from "@/app/components/dialog/ValidationModel";
 import { useNavigate, useParams } from "react-router-dom";
+import PaymentInfoContent from "./PaymentInfoContent";
 
 export default function PaymentInfo() {
   const navigation = useNavigate();
@@ -37,10 +38,7 @@ export default function PaymentInfo() {
     <section className="py-20">
       <PaymentInfoHeader />
 
-      {memberAllowed && (
-        // <PaymentInfoContent id={Number(id)} />
-        <div></div>
-      )}
+      {memberAllowed && <PaymentInfoContent id={id} />}
       <ValidationModel isOpen={isOpen} setIsOpen={setIsOpen} />
     </section>
   );
