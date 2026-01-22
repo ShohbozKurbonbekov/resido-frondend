@@ -4,6 +4,7 @@ import type {
   Agency,
   AgencyAgePropertiesInput,
   AgencyPaymentSubmit,
+  AgencySubscription,
   AgencySubscriptionInfoType,
   ChosenAgencyTargetItemsType,
 } from "@/lib/type/agency";
@@ -117,6 +118,18 @@ class AgencyService {
       throw error;
     }
   }
+  public async reProceedPayment(
+    input: AgencyPaymentSubmit,
+  ): Promise<AgencySubscription> {
+    try {
+      const url = `${this.path}/agency/subscription/resubscribe`;
+      const result = await axios.post(url, input, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in reProceedPayment: ", error);
+      throw error;
+    }
+  }
 
   public async updateAgencyProfile(input: AgencyProfileType): Promise<Agency> {
     try {
@@ -198,6 +211,17 @@ class AgencyService {
       return result.data;
     } catch (error) {
       console.log("Error in getSubscriptionInfo: ", error);
+      throw error;
+    }
+  }
+
+  public async cancelSubscription(): Promise<AgencySubscription> {
+    try {
+      const url = `${this.path}/agency/subscription/cancel`;
+      const result = await axios.post(url, {}, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in cancelSubscription: ", error);
       throw error;
     }
   }

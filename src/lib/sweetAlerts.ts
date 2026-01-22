@@ -19,7 +19,7 @@ export const sweetErrorHandling = async (err: T) => {
 
 export const sweetTopSuccessAlert = async (
   msg: string,
-  duration: number = 2000
+  duration: number = 2000,
 ) => {
   await Swal.fire({
     position: "top-end",
@@ -32,7 +32,7 @@ export const sweetTopSuccessAlert = async (
 
 export const sweetTopSmallSuccessAlert = async (
   msg: string,
-  duration: number = 2000
+  duration: number = 2000,
 ) => {
   const Toast = Swal.mixin({
     toast: true,
@@ -51,7 +51,7 @@ export const sweetTopSmallSuccessAlert = async (
 export const sweetFailureProvider = async (
   msg: string,
   show_button: boolean = false,
-  forward_url: string = ""
+  forward_url: string = "",
 ) => {
   await Swal.fire({
     icon: "error",
@@ -72,4 +72,19 @@ export const emptyInputAlert = (msg: string, show_button: boolean = false) => {
     showConfirmButton: show_button,
     confirmButtonText: "I got it",
   }).then();
+};
+
+export const sweetCancelSubscription = async (message: string) => {
+  const result = await Swal.fire({
+    icon: "warning",
+    title: "Cancel subscription?",
+    text: message,
+    showCancelButton: true,
+    confirmButtonText: "Yes, cancel",
+    cancelButtonText: "No, keep it",
+    confirmButtonColor: "#111827",
+    cancelButtonColor: "#9CA3AF",
+  });
+
+  return result.isConfirmed;
 };

@@ -4,13 +4,13 @@ import React from "react";
 
 interface SubscriptionPlansCardType {
   data: TarrifOutputType;
-  isCurrent: boolean;
+  onSubscribe: (id: string) => void;
 }
 
 const limitNumClasses =
   "mt-1 text-lg font-semibold  bg-green-300 text-white  flex items-center justify-center p-1 rounded-2xl";
 const SubscriptionPlansCard: React.FC<SubscriptionPlansCardType> = React.memo(
-  ({ data, isCurrent }) => {
+  ({ data, onSubscribe }) => {
     const { name, price, billingCycle, currency, features, limits } = data;
 
     return (
@@ -18,26 +18,11 @@ const SubscriptionPlansCard: React.FC<SubscriptionPlansCardType> = React.memo(
         className={`flex flex-col 
           relative rounded-2xl border bg-white
           p-6 md:p-8
-          transition-all
-          ${
-            isCurrent
-              ? "border-blue-500 shadow-md"
-              : "border-gray-200 hover:shadow-md"
-          }
-        `}
+          transition-all border-gray-200 hover:shadow-md `}
       >
-        {/* Current badge */}
-        {isCurrent && (
-          <span className="font-jostFont absolute -top-3 left-6 rounded-full bg-blue-600 px-3 py-1 text-xs font-medium text-white">
-            Current plan
-          </span>
-        )}
-
         {/* Header */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <h3 className="text-xl font-semibold text-gray-900 font-jostFont">
-            {name}
-          </h3>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between font-jostFont">
+          <h3 className="text-xl font-semibold text-gray-900">{name}</h3>
 
           <div className="text-left sm:text-right font-jostFont">
             <div className="flex items-end gap-1">
@@ -78,24 +63,18 @@ const SubscriptionPlansCard: React.FC<SubscriptionPlansCardType> = React.memo(
 
         {/* Footer */}
         <div className="mt-8 flex-1  flex items-end">
-          {isCurrent ? (
-            <button className="rounded-lg bg-blue-50 px-4 py-3 text-center text-sm font-medium text-blue-700 w-full truncate">
-              You are currently on this plan
-            </button>
-          ) : (
-            <button
-              disabled
-              className="
-                w-full rounded-lg border border-gray-300
+          <button
+            onClick={() => onSubscribe(data._id)}
+            className="
+                w-full rounded-lg 
                 px-4 py-3 text-sm font-medium
-                text-gray-400
-                cursor-not-allowed
-                bg-gray-50 truncate
+                text-white
+                
+                bg-green-300 active:scale-95 hover:bg-green-500 duration-200 ease-linear transition-all cursor-pointer
               "
-            >
-              Switch plan (coming soon)
-            </button>
-          )}
+          >
+            Subscribe Again
+          </button>
         </div>
       </div>
     );

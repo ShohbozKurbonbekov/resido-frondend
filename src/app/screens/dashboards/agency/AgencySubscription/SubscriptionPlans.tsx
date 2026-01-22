@@ -4,10 +4,11 @@ import SubscriptionPlansCard from "./SubscriptionPlansCard";
 interface SubscriptionPlansType {
   plans: TarrifOutputType[];
   currentTariff: string;
+  onSubscribe: (id: string) => void;
 }
 export default function SubscriptionPlans({
   plans,
-  currentTariff,
+  onSubscribe,
 }: SubscriptionPlansType) {
   return (
     <div className="mt-8 rounded-md border border-gray-200 p-6 ">
@@ -23,7 +24,7 @@ export default function SubscriptionPlans({
           <SubscriptionPlansCard
             key={plan._id}
             data={plan}
-            isCurrent={String(currentTariff) === String(plan._id)}
+            onSubscribe={onSubscribe}
           />
         ))}
       </div>

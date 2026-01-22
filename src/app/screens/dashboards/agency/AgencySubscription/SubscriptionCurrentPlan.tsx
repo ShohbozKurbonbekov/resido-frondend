@@ -11,6 +11,7 @@ interface SubscriptionCurrentPlanType {
   billingCycle: BillingCycle;
   status: SubscriptionStatus;
   periodStart: string;
+  readonly?: boolean;
   periodEnd: string;
   onCancel?: () => void;
   onRenew?: () => void;
@@ -27,6 +28,7 @@ const SubscriptionCurrentPlan: React.FC<SubscriptionCurrentPlanType> =
       status,
       onCancel,
       onRenew,
+      readonly,
     } = props;
 
     return (
@@ -35,10 +37,10 @@ const SubscriptionCurrentPlan: React.FC<SubscriptionCurrentPlanType> =
         <div className="flex items-start justify-between font-jostFont">
           <div>
             <h2 className="text-lg font-semibold text-gray-900 ">
-              Current Plan
+              {readonly ? "Previous" : "Current"} Plan
             </h2>
             <p className="mt-1 text-sm text-gray-500">
-              Your active subscription details
+              Your {readonly ? "previus" : "active"} subscription details
             </p>
           </div>
 
@@ -78,13 +80,19 @@ const SubscriptionCurrentPlan: React.FC<SubscriptionCurrentPlanType> =
             </button>
           )}
 
-          {status === SubscriptionStatus.EXPIRED && onRenew && (
+          {!readonly && status === SubscriptionStatus.EXPIRED && onRenew && (
             <button
               onClick={onRenew}
               className="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 font-jostFont"
             >
               Renew subscription
             </button>
+          )}
+
+          {readonly ?? (
+            <p className="text-sm text-gray-500 font-jostFont">
+              This subscription is no loner active
+            </p>
           )}
         </div>
       </div>
