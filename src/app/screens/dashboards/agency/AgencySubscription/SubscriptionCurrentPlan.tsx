@@ -5,6 +5,7 @@ import { formatCurrency } from "@/lib/utils";
 import React from "react";
 
 interface SubscriptionCurrentPlanType {
+  tariffId:string,
   planName: string;
   amount: number;
   currency: string;
@@ -14,7 +15,7 @@ interface SubscriptionCurrentPlanType {
   readonly?: boolean;
   periodEnd: string;
   onCancel?: () => void;
-  onRenew?: () => void;
+  onRenew?: (id:string) => void;
 }
 const SubscriptionCurrentPlan: React.FC<SubscriptionCurrentPlanType> =
   React.memo((props) => {
@@ -29,6 +30,7 @@ const SubscriptionCurrentPlan: React.FC<SubscriptionCurrentPlanType> =
       onCancel,
       onRenew,
       readonly,
+    tariffId
     } = props;
 
     return (
@@ -82,7 +84,7 @@ const SubscriptionCurrentPlan: React.FC<SubscriptionCurrentPlanType> =
 
           {!readonly && status === SubscriptionStatus.EXPIRED && onRenew && (
             <button
-              onClick={onRenew}
+              onClick={()=> onRenew(tariffId)}
               className="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 font-jostFont"
             >
               Renew subscription

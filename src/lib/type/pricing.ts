@@ -33,4 +33,5 @@ export interface BillingSnapShotType {
   name: string;
   features: string[];
   limit: TarrifLimitsType;
+  usage:TarrifLimitsType
 }

@@ -1,7 +1,7 @@
 /** SweetAlertHandling **/
 import Swal from "sweetalert2";
 import { ErrorMessages } from "./config";
-import type { T } from "./type/common";
+import type { SweetConfirmInputsType, T } from "./type/common";
 
 export const sweetErrorHandling = async (err: T) => {
   const error = err.response?.data ?? err;
@@ -74,14 +74,14 @@ export const emptyInputAlert = (msg: string, show_button: boolean = false) => {
   }).then();
 };
 
-export const sweetCancelSubscription = async (message: string) => {
+export const sweetConfirmHandling = async ( customTexts:SweetConfirmInputsType) => {
   const result = await Swal.fire({
     icon: "warning",
-    title: "Cancel subscription?",
-    text: message,
+    title: customTexts.title,
+    text: customTexts.message,
     showCancelButton: true,
-    confirmButtonText: "Yes, cancel",
-    cancelButtonText: "No, keep it",
+    confirmButtonText:customTexts.confirmBtnText,
+    cancelButtonText: customTexts.cancelBtnText,
     confirmButtonColor: "#111827",
     cancelButtonColor: "#9CA3AF",
   });

@@ -1,3 +1,4 @@
+import type { SweetConfirmInputsType } from "@/lib/type/common";
 import z from "zod";
 
 // STYLES
@@ -6,6 +7,9 @@ export const SUBSCRIPTION_STATUS_STYLES: Record<string, string> = {
   CANCELLED: "bg-yellow-100 text-yellow-700",
   EXPIRED: "bg-red-100 text-red-700",
 };
+
+// RENEW AGENCY PAYMENT STATUS
+export const RENEW_CONFIRM_INPUTS :SweetConfirmInputsType= {cancelBtnText:"No Cancel", confirmBtnText:"Yes, Renew",message:"You are about to update your payment status",title:"Updating pevious payment"}
 
 // PAYMENT INPUT SCHEMAS
 export const AGENCY_SUBSCRIPTION_FIELDS = [

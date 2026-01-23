@@ -71,3 +71,11 @@ export interface DashboardSidebarFeauturesType {
   title: string;
   Icon: LucideIcon; // Overview
 }
+
+
+export interface SweetConfirmInputsType {
+  message:string;
+  title: string;
+  confirmBtnText:string;
+  cancelBtnText:string
+}

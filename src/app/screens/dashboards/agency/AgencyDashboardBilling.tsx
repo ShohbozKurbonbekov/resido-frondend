@@ -9,7 +9,7 @@ import { setAgencySubscriptionInfo } from "./slice";
 import { retrieveAgencySubscriptionInfo } from "./selector";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect } from "react";
-import { sweetCancelSubscription, sweetErrorHandling } from "@/lib/sweetAlerts";
+import {  sweetConfirmHandling, sweetErrorHandling } from "@/lib/sweetAlerts";
 import AgencyService from "@/app/services/Agency.service";
 import SubscriptionHeader from "./AgencySubscription/SubscriptionHeader";
 import SubscriptionCurrentPlan from "./AgencySubscription/SubscriptionCurrentPlan";
@@ -18,6 +18,7 @@ import SubscriptionHistory from "./AgencySubscription/SubscriptionHistory";
 import { useGlobals } from "@/app/hooks/useGlobals";
 import SubscriptionPlans from "./AgencySubscription/SubscriptionPlans";
 import { SubscriptionStatus } from "@/lib/enums/agency.enum";
+import { RENEW_CONFIRM_INPUTS } from "@/app/data/packages";
 // ----------------------------------------- REDUX INTEGRATION --------------------------
 const agencySubscriptionInfoDispatch = (dispatch: Dispatch) => ({
   setAgencySubscriptionInfo: (data: AgencySubscriptionInfoType) =>
@@ -84,8 +85,10 @@ export default function AgencyDashboardBilling() {
   const onCancel = useCallback(async () => {
     try {
       const agency = new AgencyService();
-      const confirmed = await sweetCancelSubscription(
-        "Your plan will remain active until the end of the billing period.",
+      const confirmed = await sweetConfirmHandling(
+        
+        {message:"Your plan will be udpated, as soon as you move on",title: "Cancel subscription?", confirmBtnText:"Yes, cancel", cancelBtnText:"No, keep it"}
+       
       );
       if (!confirmed) {
         return;
@@ -98,9 +101,24 @@ export default function AgencyDashboardBilling() {
     }
   }, [setAgencySubscriptionInfo, tariffPlans]);
 
-  const onRenew = useCallback(() => {
-    console.log("It is running onRenew");
-  }, []);
+  const onRenew = useCallback(async (id:string) => {
+try {
+  const  agency = new AgencyService()
+  const confirm = await        sweetConfirmHandling(RENEW_CONFIRM_INPUTS)
+
+  if(!confirm)  return
+ const result = await  agency.renewSubscription(id);
+ setAgencySubscriptionInfo({agencySubscription:result, tariffPlans})
+
+} catch (error) {
+
+  console.log("Error in onRenew of AgencyDashboardBilling: ", error)
+  await sweetErrorHandling(error!)
+}
+
+
+
+  }, [setAgencySubscriptionInfo,tariffPlans]);
   // ----------------------------------------- RENDER ----------------------------------
   if (!agencySubscription) return null;
   console.log(agencySubscription);
@@ -111,6 +129,7 @@ export default function AgencyDashboardBilling() {
 
       {/* CURRENT PLAN*/}
       <SubscriptionCurrentPlan
+      tariffId ={agencySubscription.billingTariffId}
         planName={agencySubscription.billingSnapshot.name}
         amount={agencySubscription.amount}
         currency={agencySubscription.currency}

@@ -225,5 +225,16 @@ class AgencyService {
       throw error;
     }
   }
+
+  public async renewSubscription(id:string):Promise<AgencySubscription> {
+    try {
+      const url = `${serverAPI}/agency/subscription/renew`
+      const result  = await axios.post(url, {id}, {withCredentials:true})
+      return result.data
+    } catch (error) {
+      console.log("Error in renewSubscription: ", error)
+      throw error
+    }
+  }
 }
 export default AgencyService;

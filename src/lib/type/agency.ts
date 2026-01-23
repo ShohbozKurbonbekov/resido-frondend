@@ -95,6 +95,7 @@ export interface AgencyPaymentInfoResult extends AgencyPaymentSubmit {
 }
 /////////////////  SUBSCRIPTIONS /////////////
 export interface AgencySubscription {
+  _id:string,
   agencyId: string;
   billingTariffId: string;
 
