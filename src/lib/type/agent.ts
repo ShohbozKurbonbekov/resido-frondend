@@ -71,6 +71,8 @@ export interface AgentData {
   comments?: [];
 
   meSaved?: boolean;
+  createdAt: string;
+  updatedDate: string;
 }
 
 export interface AgentsListPage {

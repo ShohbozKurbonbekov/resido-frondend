@@ -3,6 +3,7 @@ import type {
   AgentNotificationEntityType,
   AgentNotificationType,
 } from "../enums/notification.enum";
+import type { AgentData } from "./agent";
 import type { TotalCounter } from "./common";
 
 export interface AgentApprovePayload {
@@ -18,6 +19,16 @@ export type AgentNotificationPayload =
   | AgentRejectedPayload
   | null;
 
+export interface NotificationOwnerType {
+  ownerId: string;
+  name: string;
+  status: "available" | "rejected" | "pending" | "paused" | "payment_waiting";
+  address: string;
+  avatar?: string;
+  createdAt: string;
+  ownerType: MemberType;
+}
+
 export interface AgentNotificationCreation {
   _id: string;
   recipientId: string;
@@ -29,9 +40,15 @@ export interface AgentNotificationCreation {
   payload?: AgentNotificationPayload;
   createdAt: string;
   updatedAt: string;
+  notificationOwner: NotificationOwnerType;
 }
 
-export interface MyNotifications {
+export interface AgencyNotifications {
   notifications: AgentNotificationCreation[];
   metaCounter: TotalCounter[];
+}
+
+export interface ReviewNotificationType {
+  agent: AgentData;
+  notification: AgentNotificationCreation;
 }

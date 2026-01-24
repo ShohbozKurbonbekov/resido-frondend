@@ -12,7 +12,7 @@ import type { CommonInput, SellersSearchInput } from "@/lib/type/common";
 import axios from "axios";
 import type { AgencyFormType, AgencyProfileType } from "../data/agency";
 import type { BlogsListPage } from "@/lib/type/blogs";
-import type { MyNotifications } from "@/lib/type/notification";
+import type { AgencyNotifications } from "@/lib/type/notification";
 
 class AgencyService {
   private readonly path;
@@ -195,7 +195,9 @@ class AgencyService {
     }
   }
 
-  public async myNotifications(input: CommonInput): Promise<MyNotifications> {
+  public async myNotifications(
+    input: CommonInput,
+  ): Promise<AgencyNotifications> {
     try {
       const url = `${serverAPI}/agency/get/notifications?page=${input.page}&limit=${input.limit}`;
       const result = await axios.get(url, { withCredentials: true });
