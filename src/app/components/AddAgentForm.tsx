@@ -40,7 +40,7 @@ export default function AddAgentForm({ qualityClasses }: AddAgentFormType) {
   );
   const [certificateFile, setCertificateFile] =
     useState<string>("Choose a file");
-  const { authmember, setAuthMember } = useGlobals();
+  const { authmember } = useGlobals();
   const [searchParams] = useSearchParams();
   const agencyId = searchParams.get("agencyId");
   const navigation = useNavigate();
@@ -70,20 +70,18 @@ export default function AddAgentForm({ qualityClasses }: AddAgentFormType) {
 
   const onSubmit = useCallback(
     async (values: z.infer<typeof AgentRegistrationSchema>) => {
-      console.log(values);
       try {
         const agent = new AgentService();
-        const agentData = await agent.applyAgent(values);
-        await sweetTopSmallSuccessAlert("You are registered as an agent");
+        await agent.applyAgent(values);
+        await sweetTopSmallSuccessAlert("Your application has been accepted, Please wait!");
 
-        setAuthMember(agentData);
         navigation("/dashboard");
       } catch (error) {
         console.log("Error in agentRegistration: ", error);
         await sweetErrorHandling(error!);
       }
     },
-    [navigation, setAuthMember],
+    [navigation,],
   );
 
   return (

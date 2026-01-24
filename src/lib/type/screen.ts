@@ -30,6 +30,7 @@ import type {
 import type { User, UserDashboardOverviewType } from "./dashboard/user";
 import type { MemberMessages } from "./message";
 import type { PaymentTariffsType } from "./pricing";
+import type { MyNotifications } from "./notification";
 // REACTT APP STATE
 export interface AppRootState {
   homepage: HomePageState;
@@ -117,4 +118,5 @@ export interface AgencyDashboardPage {
   agencyMyBlogs: BlogsListPage;
   getAgencyMessages: MemberMessages;
   agencySubscriptionInfo: AgencySubscriptionInfoType;
+  agencyNotifications: MyNotifications;
 }

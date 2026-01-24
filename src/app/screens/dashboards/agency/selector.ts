@@ -19,3 +19,8 @@ export const retrieveAgencySubscriptionInfo = createSelector(
   selectAgencyDashboardPage,
   (agencyDashboardPage) => agencyDashboardPage.agencySubscriptionInfo,
 );
+
+export const retrieveAgencyNotifications = createSelector(
+  selectAgencyDashboardPage,
+  (agencyDashboardPage) => agencyDashboardPage.agencyNotifications,
+);

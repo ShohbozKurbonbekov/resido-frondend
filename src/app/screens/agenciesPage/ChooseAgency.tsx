@@ -36,11 +36,7 @@ export default function ChooseAgency() {
   const [loading, setLoading] = useState<boolean>(true);
   const { chosenAgencyPage: agency } = useSelector(chosenAgencyPageRetriever);
   const { agencyId } = useParams();
-  // const [activeTab, setActiveTab] = useState<"properties" | "agents">("agents");
 
-  // const handleTabContent = (str: "agents" | "properties"): void => {
-  //   setActiveTab(str);
-  // };
   useEffect(() => {
     // ------------------------------- FETCHING DATA ------------------------
     if (!agencyId) return;
@@ -84,9 +80,9 @@ export default function ChooseAgency() {
             role: "agency",
             address: agency?.address,
             avatar: agency.avatar,
-            bioInfo: agency.bioInfo,
+            bioInfo: agency.bioInfo!,
             name: agency.memberName,
-            socialLinks: agency.socialLinks,
+            socialLinks: agency.socialLinks!,
             totalProperties: agency.propertiesTotalNumber,
           }}
         />

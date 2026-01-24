@@ -12,6 +12,7 @@ import type { CommonInput, SellersSearchInput } from "@/lib/type/common";
 import axios from "axios";
 import type { AgencyFormType, AgencyProfileType } from "../data/agency";
 import type { BlogsListPage } from "@/lib/type/blogs";
+import type { MyNotifications } from "@/lib/type/notification";
 
 class AgencyService {
   private readonly path;
@@ -194,6 +195,16 @@ class AgencyService {
     }
   }
 
+  public async myNotifications(input: CommonInput): Promise<MyNotifications> {
+    try {
+      const url = `${serverAPI}/agency/get/notifications?page=${input.page}&limit=${input.limit}`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in  agency myNotifications service: ", error);
+      throw error;
+    }
+  }
   public async deleteMyBlog(id: string): Promise<void> {
     try {
       const url = `${this.path}/agency/delete/myBlog/${id}`;
@@ -226,14 +237,14 @@ class AgencyService {
     }
   }
 
-  public async renewSubscription(id:string):Promise<AgencySubscription> {
+  public async renewSubscription(id: string): Promise<AgencySubscription> {
     try {
-      const url = `${serverAPI}/agency/subscription/renew`
-      const result  = await axios.post(url, {id}, {withCredentials:true})
-      return result.data
+      const url = `${serverAPI}/agency/subscription/renew`;
+      const result = await axios.post(url, { id }, { withCredentials: true });
+      return result.data;
     } catch (error) {
-      console.log("Error in renewSubscription: ", error)
-      throw error
+      console.log("Error in renewSubscription: ", error);
+      throw error;
     }
   }
 }
