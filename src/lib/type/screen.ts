@@ -30,7 +30,11 @@ import type {
 import type { User, UserDashboardOverviewType } from "./dashboard/user";
 import type { MemberMessages } from "./message";
 import type { PaymentTariffsType } from "./pricing";
-import type { AgencyNotifications } from "./notification";
+import type {
+  NotificationCreation,
+  NotificationsType,
+  UserNotifications,
+} from "./notification";
 // REACTT APP STATE
 export interface AppRootState {
   homepage: HomePageState;
@@ -102,6 +106,7 @@ export interface UserDashboardPage {
   getUserComments: Comments;
   getMemberMessages: MemberMessages;
   userDashboardOverview: UserDashboardOverviewType;
+  userNotifications: UserNotifications;
 }
 
 // AGENT DASHBOARD PAGE
@@ -118,5 +123,5 @@ export interface AgencyDashboardPage {
   agencyMyBlogs: BlogsListPage;
   getAgencyMessages: MemberMessages;
   agencySubscriptionInfo: AgencySubscriptionInfoType;
-  agencyNotifications: AgencyNotifications;
+  agencyNotifications: NotificationsType<NotificationCreation>;
 }

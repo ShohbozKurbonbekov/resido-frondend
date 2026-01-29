@@ -15,6 +15,10 @@ const initialState: UserDashboardPage = {
     messages: { total: 0 },
     generatedAt: null,
   },
+  userNotifications: {
+    metaCounter: [{ total: 0 }],
+    notifications: [],
+  },
 };
 
 const userDashboardPageSlice = createSlice({
@@ -39,6 +43,10 @@ const userDashboardPageSlice = createSlice({
     setUserdashboardOverview: (state, action) => {
       state.userDashboardOverview = action.payload;
     },
+
+    setUserNotifications: (state, action) => {
+      state.userNotifications = action.payload;
+    },
   },
 });
 
@@ -49,6 +57,7 @@ export const {
   setGetUserComments,
   setGetMemberMessages,
   setUserdashboardOverview,
+  setUserNotifications,
 } = userDashboardPageSlice.actions;
 
 const UserDashoardPageReducer = userDashboardPageSlice.reducer;

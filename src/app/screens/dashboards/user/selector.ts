@@ -7,29 +7,34 @@ const selectUserDashboardPage = (state: AppRootState) =>
 // RETREIVE SAVED PROPERTIES
 export const retrieveSavedProperties = createSelector(
   selectUserDashboardPage,
-  (userDashboardPage) => userDashboardPage.savedProperties
+  (userDashboardPage) => userDashboardPage.savedProperties,
 );
 
 export const retrieveFollowedAgents = createSelector(
   selectUserDashboardPage,
-  (userDashboardPage) => userDashboardPage.followedAgents
+  (userDashboardPage) => userDashboardPage.followedAgents,
 );
 
 export const retrieveSavedBlogs = createSelector(
   selectUserDashboardPage,
-  (userDashboardPage) => userDashboardPage.savedBlogs
+  (userDashboardPage) => userDashboardPage.savedBlogs,
 );
 
 export const retrieveGetUserComments = createSelector(
   selectUserDashboardPage,
-  (userDashboardPage) => userDashboardPage.getUserComments
+  (userDashboardPage) => userDashboardPage.getUserComments,
 );
 
 export const retrieveGetMemberMessages = createSelector(
   selectUserDashboardPage,
-  (userDashboardPage) => userDashboardPage.getMemberMessages
+  (userDashboardPage) => userDashboardPage.getMemberMessages,
 );
 export const retrieveUserdashboardOverview = createSelector(
   selectUserDashboardPage,
-  (userDashboardPage) => userDashboardPage.userDashboardOverview
+  (userDashboardPage) => userDashboardPage.userDashboardOverview,
+);
+
+export const retrieveUserNotifications = createSelector(
+  selectUserDashboardPage,
+  (userDashboardPage) => userDashboardPage.userNotifications,
 );

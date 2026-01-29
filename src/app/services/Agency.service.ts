@@ -12,7 +12,10 @@ import type { CommonInput, SellersSearchInput } from "@/lib/type/common";
 import axios from "axios";
 import type { AgencyFormType, AgencyProfileType } from "../data/agency";
 import type { BlogsListPage } from "@/lib/type/blogs";
-import type { AgencyNotifications } from "@/lib/type/notification";
+import type {
+  NotificationCreation,
+  NotificationsType,
+} from "@/lib/type/notification";
 
 class AgencyService {
   private readonly path;
@@ -197,7 +200,7 @@ class AgencyService {
 
   public async myNotifications(
     input: CommonInput,
-  ): Promise<AgencyNotifications> {
+  ): Promise<NotificationsType<NotificationCreation>> {
     try {
       const url = `${serverAPI}/agency/get/notifications?page=${input.page}&limit=${input.limit}`;
       const result = await axios.get(url, { withCredentials: true });
@@ -249,5 +252,31 @@ class AgencyService {
       throw error;
     }
   }
+
+  public async agencyApproveApplication(
+    agentId: string,
+  ): Promise<NotificationCreation> {
+    try {
+      const url = `${this.path}/agency/approve/application/${agentId}`;
+      const result = await axios.post(url, {}, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in agencyApproveApplication service: ", error);
+      throw error;
+    }
+  }
+  public async agencyRejectApplication(
+    agentId: string,
+  ): Promise<NotificationCreation> {
+    try {
+      const url = `${this.path}/agency/reject/application/${agentId}`;
+      const result = await axios.post(url, {}, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in agencyRejectApplication service: ", error);
+      throw error;
+    }
+  }
 }
+
 export default AgencyService;

@@ -2,20 +2,29 @@ import { myNotificationsWrapperClasses } from "@/app/screens/dashboards/agency/A
 import type { CommonInput, SetStateType } from "@/lib/type/common";
 import type {
   AgencyNotifications,
-  AgentNotificationCreation,
+  NotificationCreation,
 } from "@/lib/type/notification";
 import React from "react";
 import MyNotificationCard from "./MyNotificationCard";
 import { PaginationCom } from "../PaginationCom";
 import NoFound from "../NoFound";
+import type { AgentData } from "@/lib/type/agent";
+import type { Agency } from "@/lib/type/agency";
+import ReviewApplicationModal from "./ReviewApplicationModal";
+import AgentReviewContent from "@/app/screens/dashboards/agent/AgentReviewContent";
+import AgencyReviewContent from "@/app/screens/dashboards/agency/AgencyReviewContent";
 
 interface MyNotificationsContentType {
   myNotifications: AgencyNotifications;
   myNotificationInput: CommonInput;
   setMyNotificationsInput: SetStateType<CommonInput>;
   onReview?: (entityId: string) => void;
-  fetchDataLoading: boolean;
-  setFetchDataLoading: SetStateType<boolean>;
+  modalOpen: boolean;
+  setModalOpen: SetStateType<boolean>;
+  agent?: AgentData;
+  agency?: Agency;
+  onApprove?: (agentId: string) => Promise<void>;
+  onReject?: (agentId: string) => Promise<void>;
 }
 const MyNotificationsContent: React.FC<MyNotificationsContentType> = React.memo(
   ({
@@ -23,8 +32,12 @@ const MyNotificationsContent: React.FC<MyNotificationsContentType> = React.memo(
     myNotifications,
     setMyNotificationsInput,
     onReview,
-    fetchDataLoading,
-    setFetchDataLoading,
+    agency,
+    agent,
+    modalOpen,
+    setModalOpen,
+    onApprove,
+    onReject,
   }) => {
     return (
       <>
@@ -32,15 +45,14 @@ const MyNotificationsContent: React.FC<MyNotificationsContentType> = React.memo(
           <div className="flex-1 flex flex-col justify-between gap-y-6">
             <div className={myNotificationsWrapperClasses}>
               {myNotifications.notifications.map(
-                (notification: AgentNotificationCreation) => (
-                  <MyNotificationCard
-                    notification={notification}
-                    key={notification._id}
-                    onReview={onReview}
-                    fetchDataLoading={fetchDataLoading}
-                    setFetchDataLoading={setFetchDataLoading}
-                  />
-                ),
+                (notification: NotificationCreation) =>
+                  notification.resolvedAt ? null : (
+                    <MyNotificationCard
+                      notification={notification}
+                      key={notification._id}
+                      onReview={onReview}
+                    />
+                  ),
               )}
             </div>
             <PaginationCom
@@ -55,6 +67,27 @@ const MyNotificationsContent: React.FC<MyNotificationsContentType> = React.memo(
           </div>
         ) : (
           <NoFound title="No blogs found" />
+        )}
+        {agent && (
+          <ReviewApplicationModal
+            modalOpen={modalOpen}
+            setModalOpen={setModalOpen}
+          >
+            <AgentReviewContent
+              agent={agent}
+              onApprove={onApprove}
+              onReject={onReject}
+            />
+          </ReviewApplicationModal>
+        )}
+
+        {agency && (
+          <ReviewApplicationModal
+            modalOpen={modalOpen}
+            setModalOpen={setModalOpen}
+          >
+            <AgencyReviewContent agency={agency} />
+          </ReviewApplicationModal>
         )}
       </>
     );

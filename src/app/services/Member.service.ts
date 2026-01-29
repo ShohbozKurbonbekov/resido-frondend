@@ -7,6 +7,10 @@ import type {
 } from "@/lib/type/dashboard/user";
 import type { LoginInput, UserMemberInput } from "@/lib/type/member";
 import type { MemberMessages, Message, MessageInput } from "@/lib/type/message";
+import type {
+  NotificationCreation,
+  UserNotifications,
+} from "@/lib/type/notification";
 import type { PaymentTariffsType, TarrifOutputType } from "@/lib/type/pricing";
 import axios from "axios";
 
@@ -186,6 +190,42 @@ class MemberService {
       return result.data;
     } catch (error) {
       console.log("Error in fethcing getTariff: ", error);
+      throw error;
+    }
+  }
+
+  public async myNotifications(input: CommonInput): Promise<UserNotifications> {
+    try {
+      const url = `${serverAPI}/member/get/notifications?page=${input.page}&limit=${input.limit}`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in  member myNotifications service: ", error);
+      throw error;
+    }
+  }
+  public async authorizeAgentAccount(
+    notificationId: string,
+  ): Promise<Omit<NotificationCreation, "notificationOwner">> {
+    try {
+      const url = `${serverAPI}/member/authorize/agent/account/${notificationId}`;
+      const result = await axios.post(url, {}, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in authorizeAgentAccount service: ", error);
+      throw error;
+    }
+  }
+
+  public async approveAgentRejection(
+    notificationId: string,
+  ): Promise<Omit<NotificationCreation, "notificationOwner">> {
+    try {
+      const url = `${serverAPI}/member/approve/agent/rejection/${notificationId}`;
+      const result = await axios.post(url, {}, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in approveAgentRejection service: ", error);
       throw error;
     }
   }

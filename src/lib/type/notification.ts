@@ -6,18 +6,10 @@ import type {
 import type { AgentData } from "./agent";
 import type { TotalCounter } from "./common";
 
-export interface AgentApprovePayload {
-  agencyName: string;
+export interface PaylaodType {
+  agencyName?: string;
+  reason?: string;
 }
-
-export interface AgentRejectedPayload {
-  reason: string;
-}
-
-export type AgentNotificationPayload =
-  | AgentApprovePayload
-  | AgentRejectedPayload
-  | null;
 
 export interface NotificationOwnerType {
   ownerId: string;
@@ -29,26 +21,31 @@ export interface NotificationOwnerType {
   ownerType: MemberType;
 }
 
-export interface AgentNotificationCreation {
+export interface NotificationCreation {
   _id: string;
   recipientId: string;
   recipientRole: MemberType;
   type: AgentNotificationType;
   entityType: AgentNotificationEntityType;
   entityId: string;
+  resolvedAt?: string;
   actionRequired: boolean;
-  payload?: AgentNotificationPayload;
+  payload?: PaylaodType;
   createdAt: string;
   updatedAt: string;
   notificationOwner: NotificationOwnerType;
 }
 
-export interface AgencyNotifications {
-  notifications: AgentNotificationCreation[];
+export interface NotificationsType<TNotification> {
+  notifications: TNotification[];
+  metaCounter: TotalCounter[];
+}
+export interface UserNotifications {
+  notifications: Omit<NotificationCreation, "notificationOwner">[];
   metaCounter: TotalCounter[];
 }
 
 export interface ReviewNotificationType {
   agent: AgentData;
-  notification: AgentNotificationCreation;
+  notification: NotificationCreation;
 }

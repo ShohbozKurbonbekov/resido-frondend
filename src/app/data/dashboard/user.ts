@@ -16,6 +16,8 @@ import z from "zod";
 
 export const USER_DASHBOARD_FEATURES: DashboardSidebarFeauturesType[] = [
   { title: "Overview", Icon: Gauge, url: "/dashboard" },
+  { title: "notifications", Icon: Gauge, url: "/dashboard/notifications" },
+
   {
     title: "Saved Properties",
     Icon: BookMarked,
@@ -75,7 +77,7 @@ const nullableUrl = z
   .nullable()
   .refine(
     (v) => v === null || v === "" || z.string().url().safeParse(v).success,
-    { message: "Invalid URL" }
+    { message: "Invalid URL" },
   )
   .transform((v) => (v === "" ? null : v));
 
@@ -90,7 +92,7 @@ export const SocialSchema = z.object({
     .nullable()
     .refine(
       (v) => v === null || v === "" || z.string().email().safeParse(v).success,
-      { message: "Invalid email" }
+      { message: "Invalid email" },
     )
     .transform((v) => (v === "" ? null : v)),
 });

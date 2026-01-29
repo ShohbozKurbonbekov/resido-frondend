@@ -8,6 +8,7 @@ import Messages from "./Messages";
 import FollowedAgents from "./FollowedAgents";
 import MyProfile from "./MyProfile";
 import UserDashboardOverview from "./UserDashboardOverview";
+import UserNotifications from "./UserNotifications";
 
 // ------------------------------------------------- COMPONENT -------------------------------------------------
 export default function UserDashboard() {
@@ -21,6 +22,8 @@ export default function UserDashboard() {
     <MainContentUSER>
       <Routes>
         <Route index element={<UserDashboardOverview />} />
+        <Route path={`/notifications`} element={<UserNotifications />}></Route>
+
         <Route path={`/saved-properties`} element={<SavedProperties />}></Route>
         <Route path={`followed-agents`} element={<FollowedAgents />}></Route>
         <Route path={`/saved-articles`} element={<SavedArticles />}></Route>
