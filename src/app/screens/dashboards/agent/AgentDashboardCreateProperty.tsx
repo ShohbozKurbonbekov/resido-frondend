@@ -8,7 +8,10 @@ import {
   type PropertyFormInputType,
   type PropertyFormType,
 } from "@/app/data/properties";
-import type { PropertyImagesType } from "@/lib/type/property";
+import type {
+  MemberPropertyActionsType,
+  PropertyImagesType,
+} from "@/lib/type/property";
 import {
   PropertyCooling,
   PropertyFurnature,
@@ -100,7 +103,10 @@ export default function AgentDashboardCreateProperty() {
   );
   const [imagesPath, setImagesPath] = useState(IMAGES_PATH_INITIAL);
   const [videoPath, setVideoPath] = useState(INITIAL_VIDEO_PATH);
-
+  const propertyActions: MemberPropertyActionsType = {
+    canChangeProperty: false,
+    canCheckProperty: false,
+  };
   // -------------------------------------------- HANDLERS --------------------------
   const handleSubmit = useCallback(async (values: PropertyFormType) => {
     const agent = new AgentService();
@@ -124,7 +130,9 @@ export default function AgentDashboardCreateProperty() {
     <div className="flex flex-col gap-y-5">
       <AgentCreatePropertyHeader />
       <AgentPropertyFormContent
-        handleSubmit={handleSubmit}
+        propertyUpdate={false}
+        onUpdate={handleSubmit}
+        propertyActions={propertyActions}
         imagesPath={imagesPath}
         setImagesPath={setImagesPath}
         setVideoPath={setVideoPath}

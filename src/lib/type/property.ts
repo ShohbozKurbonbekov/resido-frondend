@@ -158,16 +158,16 @@ export interface PropertyInput {
 }
 
 export interface MyProperties {
+  _id: string;
   status: PropertyStatus;
   images: string[];
-  _id: string;
   title: string;
-  propertyType: PropertyType;
   address: PropertyAddress;
+  createdAt: string;
+  propertyType: PropertyType;
   area: number;
   views: number;
-  createdAt: string;
-  priceValue: number;
+  sellingOption: SellingType;
 }
 export interface CommonPropertyResults<TProperty = Property> {
   properties: TProperty[];
@@ -228,4 +228,9 @@ export interface PropertyImagesType {
   image3: string;
   image4: string;
   image5: string;
+}
+
+export interface MemberPropertyActionsType {
+  canChangeProperty: boolean;
+  canCheckProperty: boolean;
 }

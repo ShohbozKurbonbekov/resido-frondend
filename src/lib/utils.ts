@@ -2,7 +2,7 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import type { TeamMemberType } from "./type/about-us";
 import moment from "moment";
-import type { PropertyAddress } from "./type/property";
+import type { PropertyAddress, SellingType } from "./type/property";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -108,4 +108,22 @@ export const customLetterCustomise = (str: string): string => {
 
 export const getMilliSeconds = (date: string): number => {
   return new Date(date).getTime();
+};
+
+export const customizePropertyPrice = (option: SellingType) => {
+  if (option.optionRent) {
+    const rentOption = option.optionRent;
+    return {
+      type: rentOption.type,
+      sellingPrice: rentOption.monthlyPayment,
+    };
+  }
+  if (option.optionSell) {
+    const sellOption = option.optionSell;
+    return {
+      type: sellOption.type,
+      sellingPrice: sellOption.overalAmunt,
+    };
+  }
+  return null;
 };

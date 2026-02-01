@@ -124,4 +124,5 @@ export interface AgencyDashboardPage {
   getAgencyMessages: MemberMessages;
   agencySubscriptionInfo: AgencySubscriptionInfoType;
   agencyNotifications: NotificationsType<NotificationCreation>;
+  myAllProperties: CommonPropertyResults<MyProperties>;
 }

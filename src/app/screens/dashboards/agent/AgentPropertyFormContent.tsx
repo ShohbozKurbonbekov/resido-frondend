@@ -33,19 +33,24 @@ import {
 } from "@/app/data/properties";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCallback } from "react";
-import type { PropertyImagesType } from "@/lib/type/property";
+import type {
+  MemberPropertyActionsType,
+  PropertyImagesType,
+} from "@/lib/type/property";
 import type { SetStateType } from "@/lib/type/common";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
+import {
+  errorClasses,
+  inputClasses,
+  rowWrapperClasses,
+  textClasses,
+} from "@/lib/config";
+import { customLetterCustomise } from "@/lib/utils";
 
 // ------------------------------------- CLASSES -------------------------
 const sellingOptionInputClasses = "flex flex-col gap-2 w-full";
-const errorClasses = "text-xs text-rose-600/90";
-const rowWrapperClasses =
-  "grid grid-cols-1 md:grid-cols-2 gap-4 rounded-lg border border-slate-200 p-4 bg-slate-50/40";
-const inputClasses =
-  "border-slate-300 bg-slate-50 text-slate-800 placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-emerald-600/30 focus-visible:border-emerald-600";
-const textClasses = "text-sm font-medium text-slate-700 font-jostFont";
 
+const videoTitleClasses = `text-lg font-jostFont text-slate-700/90 mt-3 font-[500]`;
 // ------------------------------------------- COMPONENT --------------------------------
 interface AgentPropertyFormContentType {
   propertyVideo: string;
@@ -55,9 +60,13 @@ interface AgentPropertyFormContentType {
   propertiesValues: PropertyFormInputType;
   setImagesPath: SetStateType<PropertyImagesType>;
   imagesPath: PropertyImagesType;
-  handleSubmit: (values: PropertyFormType) => Promise<void>;
+  onUpdate?: (values: PropertyFormType) => Promise<void>;
+  onApprove?: () => Promise<void>;
+  onReject?: () => Promise<void>;
   videoPath: string;
   setVideoPath: SetStateType<string>;
+  propertyActions: MemberPropertyActionsType;
+  propertyUpdate: boolean;
 }
 
 export default function AgentPropertyFormContent({
@@ -68,29 +77,37 @@ export default function AgentPropertyFormContent({
   setPropertyVideo,
   imagesPath,
   setImagesPath,
-  handleSubmit,
+  onUpdate,
   setVideoPath,
+  onApprove,
+  onReject,
+  propertyActions,
   videoPath,
+  propertyUpdate,
 }: AgentPropertyFormContentType) {
   const form = useForm<PropertyFormInputType>({
     resolver: zodResolver(PropertyFormSchema),
     defaultValues: propertiesValues,
   });
 
+  const isEditMode = !!propertyActions && propertyActions.canChangeProperty;
+  const isReviewMode = !!propertyActions && propertyActions.canCheckProperty;
+  const isReadOnly = isReviewMode;
+
   // CONDITIONAL RENDERING
   const sellingType = form.watch("sellingOption.type");
 
   const onSubmit = useCallback(
     async (values: PropertyFormType) => {
+      if (!isEditMode && propertyUpdate) return;
       try {
-        await handleSubmit(values);
-
+        await onUpdate?.(values);
         form.reset();
       } catch (error) {
         await sweetErrorHandling(error!);
       }
     },
-    [handleSubmit, form]
+    [onUpdate, form, isEditMode, propertyUpdate],
   );
 
   return (
@@ -98,9 +115,15 @@ export default function AgentPropertyFormContent({
       <CardHeader>
         <CardTitle
           className="hidden opacity-0"
-          aria-labelledby="Create a property"
+          aria-labelledby={
+            isReviewMode
+              ? "Check property and Chose options between Approve or Reject"
+              : "Edit current property"
+          }
         >
-          Fill the form to make it visible to user
+          {isEditMode
+            ? "Fill the form to make it visible to user"
+            : "Here choose Approve or Reject after checking the property"}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -121,6 +144,7 @@ export default function AgentPropertyFormContent({
                       {...field}
                       value={field.value ?? ""}
                       onChange={field.onChange}
+                      disabled={isReadOnly}
                       className={inputClasses}
                       placeholder="Property Title"
                     />
@@ -140,11 +164,12 @@ export default function AgentPropertyFormContent({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className={textClasses}>
-                        {key.charAt(0).toUpperCase() + key.slice(1)}
+                        {customLetterCustomise(key)}
                       </FormLabel>
                       <FormControl>
                         <Input
                           {...field}
+                          disabled={isReadOnly}
                           value={field.value ?? ""}
                           onChange={field.onChange}
                           className={inputClasses}
@@ -171,6 +196,7 @@ export default function AgentPropertyFormContent({
                     <FormControl>
                       <Textarea
                         {...field}
+                        disabled={isReadOnly}
                         className={inputClasses}
                         value={field.value ?? ""}
                         onChange={field.onChange}
@@ -195,6 +221,7 @@ export default function AgentPropertyFormContent({
                       <FormLabel className={textClasses}>{label}</FormLabel>
                       <FormControl>
                         <Input
+                          disabled={isReadOnly}
                           {...field}
                           className={inputClasses}
                           onChange={field.onChange}
@@ -222,6 +249,7 @@ export default function AgentPropertyFormContent({
                         <Select
                           onValueChange={field.onChange}
                           value={field.value}
+                          disabled={isReadOnly}
                         >
                           <SelectTrigger className={inputClasses}>
                             <SelectValue placeholder={`Select ${label}`} />
@@ -253,6 +281,7 @@ export default function AgentPropertyFormContent({
                     <FormItem className="flex flex-row items-center space-x-2">
                       <FormControl>
                         <Checkbox
+                          disabled={isReadOnly}
                           checked={field.value}
                           onCheckedChange={field.onChange}
                         />
@@ -276,6 +305,7 @@ export default function AgentPropertyFormContent({
                     <FormItem className="flex flex-row items-center space-x-2">
                       <FormControl>
                         <Checkbox
+                          disabled={isReadOnly}
                           checked={field.value}
                           onCheckedChange={field.onChange}
                         />
@@ -297,7 +327,11 @@ export default function AgentPropertyFormContent({
                   <FormItem className="flex flex-col gap-2 items-start">
                     <FormLabel className={textClasses}>Selling Type</FormLabel>
 
-                    <Select value={field.value} onValueChange={field.onChange}>
+                    <Select
+                      value={field.value}
+                      disabled={isReadOnly}
+                      onValueChange={field.onChange}
+                    >
                       <FormControl>
                         <SelectTrigger className="max-w-52">
                           <SelectValue placeholder="Select selling type" />
@@ -329,6 +363,7 @@ export default function AgentPropertyFormContent({
                           Total Amount
                         </FormLabel>
                         <Input
+                          disabled={isReadOnly}
                           {...field}
                           value={field.value}
                           onChange={field.onChange}
@@ -346,6 +381,7 @@ export default function AgentPropertyFormContent({
                       <FormItem>
                         <FormLabel>Discount</FormLabel>
                         <Input
+                          disabled={isReadOnly}
                           {...field}
                           value={field.value}
                           onChange={field.onChange}
@@ -367,6 +403,7 @@ export default function AgentPropertyFormContent({
                       <FormItem>
                         <FormLabel>Monthly Payment</FormLabel>
                         <Input
+                          disabled={isReadOnly}
                           {...field}
                           value={field.value}
                           onChange={field.onChange}
@@ -384,6 +421,7 @@ export default function AgentPropertyFormContent({
                       <FormItem>
                         <FormLabel>Total Amount</FormLabel>
                         <Input
+                          disabled={isReadOnly}
                           {...field}
                           value={field.value}
                           onChange={field.onChange}
@@ -401,6 +439,7 @@ export default function AgentPropertyFormContent({
                       <FormItem>
                         <FormLabel>Months</FormLabel>
                         <Input
+                          disabled={isReadOnly}
                           {...field}
                           value={field.value}
                           onChange={field.onChange}
@@ -415,17 +454,23 @@ export default function AgentPropertyFormContent({
             </div>
 
             {/* IMAGES*/}
-            <div className="flex flex-col items-stretch rounded-lg gap-4 border border-slate-200 p-4 bg-slate-50/40">
-              <div>
-                <h5
-                  className={`text-lg font-jostFont text-slate-700/90 mt-3 font-[500]`}
-                >
-                  You are gonna upload your property images here
-                </h5>
-                <span className={textClasses}>
-                  Jpeg, png and jpg formats are recommended
-                </span>
-              </div>
+            <div className="flex flex-col items-stretch rounded-lg gap-y-4 border border-slate-200 p-4 bg-slate-50/40">
+              {isEditMode || !propertyUpdate ? (
+                <div>
+                  <h5
+                    className={`text-lg font-jostFont text-slate-700/90 mt-3 font-[500]`}
+                  >
+                    You are gonna upload your property images here
+                  </h5>
+                  <span className={textClasses}>
+                    Jpeg, png and jpg formats are recommended
+                  </span>
+                </div>
+              ) : (
+                <div className="text-gray-800 font-jostFont capitalize font-semibold">
+                  Uploaded images here
+                </div>
+              )}
               <div className="grid grid-cols-1 md:grid-cols-2 mt-3 gap-3">
                 {PROPERTY_IMAGES.map((image, i) => (
                   <div
@@ -445,47 +490,54 @@ export default function AgentPropertyFormContent({
                         </div>
                       )}
                     </div>
-                    <FormField
-                      control={form.control}
-                      name={`images.${image}`}
-                      render={({ field }) => (
-                        <FormItem className="flex flex-col gap-1 items-start w-full justify-start">
-                          <FormLabel className={`${textClasses}`}>
-                            Property Image {i + 1}
-                          </FormLabel>
+                    {isEditMode || !propertyUpdate ? (
+                      <FormField
+                        control={form.control}
+                        name={`images.${image}`}
+                        render={({ field }) => (
+                          <FormItem className="flex flex-col gap-1 items-start w-full justify-start">
+                            <FormLabel className={textClasses}>
+                              Property Image {i + 1}
+                            </FormLabel>
 
-                          <FormControl>
-                            <div className="border border-slate-200 bg-slate-50/50 py-1 px-3 w-full truncate font-jostFont relative">
-                              <Input
-                                type="file"
-                                accept="image/*"
-                                className="border-none opacity-0 absolute inset-0"
-                                onChange={(e) => {
-                                  const file = e.target.files?.[0];
-                                  if (!file) return;
+                            <FormControl>
+                              <div className="border border-slate-200 bg-slate-50/50 py-1 px-3 w-full truncate font-jostFont relative">
+                                <Input
+                                  type="file"
+                                  disabled={isReadOnly}
+                                  accept="image/*"
+                                  className="border-none opacity-0 absolute inset-0"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (!file) return;
 
-                                  const url = URL.createObjectURL(file);
-                                  setPropertyImages((prev) => ({
-                                    ...prev,
-                                    [`image${i + 1}`]: url,
-                                  }));
-                                  setImagesPath((prev) => ({
-                                    ...prev,
-                                    [`image${i + 1}`]: file.name,
-                                  }));
-                                  field.onChange(file);
-                                }}
-                              />
-                              <span className={textClasses}>
-                                {imagesPath[image]}
-                              </span>
-                            </div>
-                          </FormControl>
+                                    const url = URL.createObjectURL(file);
+                                    setPropertyImages((prev) => ({
+                                      ...prev,
+                                      [`image${i + 1}`]: url,
+                                    }));
+                                    setImagesPath((prev) => ({
+                                      ...prev,
+                                      [`image${i + 1}`]: file.name,
+                                    }));
+                                    field.onChange(file);
+                                  }}
+                                />
+                                <span className={textClasses}>
+                                  {imagesPath[image]}
+                                </span>
+                              </div>
+                            </FormControl>
 
-                          <FormMessage className={errorClasses} />
-                        </FormItem>
-                      )}
-                    />
+                            <FormMessage className={errorClasses} />
+                          </FormItem>
+                        )}
+                      />
+                    ) : (
+                      <div className="text-muted-foreground text-sm font-jostFont capitalize p-1 border border-slate-200 w-full bg-slate-100">
+                        Property image - {i + 1}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -493,14 +545,21 @@ export default function AgentPropertyFormContent({
 
             {/* VIDEOS*/}
             <div className="flex flex-col items-stretch rounded-lg gap-4 border border-slate-200 p-4 bg-slate-50/40">
-              <h5
-                className={`text-lg font-jostFont text-slate-700/90 mt-3 font-[500]`}
-              >
-                You are gonna upload your property video here{" "}
-                <span className={"text-sm text-muted-foreground "}>
-                  (Optional)
-                </span>
-              </h5>
+              {isEditMode || !propertyUpdate ? (
+                <h5 className={videoTitleClasses}>
+                  You are gonna upload your property video here{" "}
+                  <span className={"text-sm text-muted-foreground "}>
+                    (Optional)
+                  </span>
+                </h5>
+              ) : (
+                <h5 className={videoTitleClasses}>
+                  Uploaded video{" "}
+                  <span className="text-sm text-muted-foreground ">
+                    (Optional)
+                  </span>
+                </h5>
+              )}
               <div className="flex flex-col gap-2 items-start border-slate-200 border">
                 {/* Preview */}
                 <div className="w-full h-72 overflow-hidden  bg-slate-100">
@@ -518,55 +577,90 @@ export default function AgentPropertyFormContent({
                 </div>
 
                 {/* Form Field */}
-                <FormField
-                  control={form.control}
-                  name="videos"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-1 items-start w-full p-1">
-                      <FormLabel className={textClasses}>
-                        Property Video{" "}
-                        <span className="text-muted-foreground">
-                          (Optional)
-                        </span>
-                      </FormLabel>
-
-                      <FormControl>
-                        <div className="border border-slate-200 bg-slate-50/50 py-1 px-3 w-full truncate font-jostFont relative">
-                          <Input
-                            type="file"
-                            accept="video/*"
-                            className="border-none opacity-0 absolute inset-0 cursor-pointer"
-                            onChange={(e) => {
-                              const file = e.target.files?.[0];
-                              if (!file) return;
-
-                              const url = URL.createObjectURL(file);
-
-                              setPropertyVideo(url); // preview
-                              setVideoPath(file.name); // filename
-                              field.onChange(file); // RHF
-                            }}
-                          />
-
-                          <span className={textClasses}>
-                            {videoPath || "Choose a video"}
+                {isEditMode || !propertyUpdate ? (
+                  <FormField
+                    control={form.control}
+                    name="videos"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col gap-1 items-start w-full p-1">
+                        <FormLabel className={textClasses}>
+                          Property Video{" "}
+                          <span className="text-muted-foreground">
+                            (Optional)
                           </span>
-                        </div>
-                      </FormControl>
+                        </FormLabel>
 
-                      <FormMessage className={errorClasses} />
-                    </FormItem>
-                  )}
-                />
+                        <FormControl>
+                          <div className="border border-slate-200 bg-slate-50/50 py-1 px-3 w-full truncate font-jostFont relative">
+                            <Input
+                              disabled={isReadOnly}
+                              type="file"
+                              accept="video/*"
+                              className="border-none opacity-0 absolute inset-0 cursor-pointer"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (!file) return;
+
+                                const url = URL.createObjectURL(file);
+
+                                setPropertyVideo(url); // preview
+                                setVideoPath(file.name); // filename
+                                field.onChange(file); // RHF
+                              }}
+                            />
+
+                            <span className={textClasses}>
+                              {videoPath || "Choose a video"}
+                            </span>
+                          </div>
+                        </FormControl>
+
+                        <FormMessage className={errorClasses} />
+                      </FormItem>
+                    )}
+                  />
+                ) : (
+                  <div className="text-muted-foreground text-sm font-jostFont capitalize p-1   ">
+                    Uploaded video
+                  </div>
+                )}
               </div>
             </div>
 
-            <Button
-              type="submit"
-              className="bg-sky-600 hover:bg-sky-800 transition-all duration-200 ease-linear font-jostFont"
-            >
-              Submit Property
-            </Button>
+            {isEditMode ||
+              (!propertyUpdate && (
+                <Button
+                  type="submit"
+                  className="bg-sky-600 hover:bg-sky-800 transition-all duration-200 ease-linear font-jostFont"
+                >
+                  {!propertyUpdate
+                    ? "Submit Property"
+                    : "Update & Submit for Review"}
+                </Button>
+              ))}
+            {isReviewMode && (
+              <div className="mt-1 flex gap-4">
+                {onReject && (
+                  <Button
+                    className=""
+                    type="button"
+                    variant={"destructive"}
+                    onClick={onReject}
+                  >
+                    Reject
+                  </Button>
+                )}
+                {onApprove && (
+                  <Button
+                    type="button"
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white hover:text-white"
+                    onClick={onApprove}
+                  >
+                    Approve
+                  </Button>
+                )}
+              </div>
+            )}
           </form>
         </Form>
       </CardContent>

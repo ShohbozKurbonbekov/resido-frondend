@@ -6,13 +6,18 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { defaultPropertyAvatar, serverAPI } from "@/lib/config";
-import { PropertyStatus } from "@/lib/enums/property.enum";
-import { customiseAddress, formatCurrency } from "@/lib/utils";
-import { CircleX, Eye, SquarePen } from "lucide-react";
+import { PropertyStatus, SellingTypeEnum } from "@/lib/enums/property.enum";
+import {
+  customiseAddress,
+  customizePropertyPrice,
+  formatCurrency,
+} from "@/lib/utils";
+import { CircleQuestionMark, CircleX, Eye, SquarePen } from "lucide-react";
 import PropertyStatusBadge from "./PropertyStatusBadge";
 import { useMemo } from "react";
 import type { MyProperties } from "@/lib/type/property";
-import type { SetStateType } from "@/lib/type/common";
+import type { CommonUsers, SetStateType } from "@/lib/type/common";
+import { MemberType } from "@/lib/enums/agent.enum";
 
 const subtitleClasses =
   "leading-none capitalize text-xs md:text-sm w-full truncate text-gray-700 font-light";
@@ -21,35 +26,47 @@ const tooltipContentClasses =
 
 const iconClasses = "h-3 w-3";
 const iconWrapperClasses = "mt-1 p-1 bg-slate-800 rounded-sm text-white";
+
 interface MyPropertiesCardType {
-  setOpenModal: SetStateType<boolean>;
-  setSelectedId: SetStateType<string>;
+  setModal: SetStateType<boolean>;
   property: MyProperties;
-  handleArchive: (id: string) => Promise<void>;
+  setSelectedPropertyId: SetStateType<string | null>;
+  onArchive?: (id: string) => Promise<void>;
+  authmember: CommonUsers;
 }
 export default function MyPropertiesCard({
   property,
-  handleArchive,
-  setOpenModal,
-  setSelectedId,
+  setModal,
+  setSelectedPropertyId,
+  onArchive,
+  authmember,
 }: MyPropertiesCardType) {
-  const actions = useMemo(() => {
-    const canEdit = [PropertyStatus.DRAFT, PropertyStatus.REJECTED].includes(
-      property.status
-    );
+  const getPropertyPermissions = useMemo(() => {
+    const canEdit =
+      authmember.role === MemberType.AGENT &&
+      [PropertyStatus.DRAFT, PropertyStatus.REJECTED].includes(property.status);
 
-    const canArchive = [PropertyStatus.DRAFT, PropertyStatus.REJECTED].includes(
-      property.status
-    );
-    return { canEdit, canArchive };
-  }, [property]);
+    const canArchive =
+      authmember.role === MemberType.AGENCY &&
+      property.status === PropertyStatus.AVAILABLE;
+
+    const canApproveReject =
+      authmember.role === MemberType.AGENCY &&
+      property.status === PropertyStatus.PENDING_APPROVAL;
+    return { canEdit, canArchive, canApproveReject };
+  }, [property.status, authmember.role]);
 
   const imageUrl = property.images.length
-    ? `${serverAPI}/${property.images[0]}`
+    ? property.images[0].startsWith("blob")
+      ? property.images[0]
+      : `${serverAPI}/${property.images[0]}`
     : defaultPropertyAvatar;
+
   return (
     <Card
-      className={"shadow-none border-slate-200/90 rounded-sm flex flex-row"}
+      className={
+        "shadow-none border-slate-200/90 rounded-sm flex flex-row h-auto"
+      }
     >
       <CardHeader className="p-0">
         <div className="max-h-40 max-w-32 sm:max-w-fit aspect-blogCardRatio overflow-hidden w-full h-full ">
@@ -61,7 +78,7 @@ export default function MyPropertiesCard({
         </div>
       </CardHeader>
       <CardContent className="px-4 py-3 font-jostFont flex flex-col justify-between items-start truncate ">
-        <div className="flex flex-col truncate w-full items-start gap-y-2">
+        <div className="flex flex-col truncate  items-start gap-y-2">
           <div className="flex flex-row gap-2">
             <PropertyStatusBadge
               status={property.status}
@@ -77,22 +94,33 @@ export default function MyPropertiesCard({
           </span>
 
           <p className={subtitleClasses}>
-            Price: {formatCurrency(property.priceValue, "USD")}{" "}
-            <span className="text-slate-400 text-xs">(overall)</span>
+            Price:{" "}
+            {formatCurrency(
+              customizePropertyPrice(property.sellingOption)?.sellingPrice ?? 0,
+              "USD",
+            )}{" "}
+            <span className="text-slate-400 text-xs">
+              (
+              {customizePropertyPrice(property.sellingOption)?.type ===
+              SellingTypeEnum.RENT
+                ? "monthly"
+                : "overall"}
+              )
+            </span>
           </p>
           <p className={subtitleClasses}>
             location: {customiseAddress(property.address)}
           </p>
         </div>
-        <div className="flex flex-row flex-wrap gap-x-1">
-          {actions.canEdit && (
-            <TooltipProvider>
+        <TooltipProvider>
+          <div className="flex flex-row flex-wrap gap-x-1">
+            {getPropertyPermissions.canEdit && (
               <Tooltip>
                 <TooltipTrigger
                   className={iconWrapperClasses}
                   onClick={() => {
-                    setOpenModal(true);
-                    setSelectedId(property._id);
+                    setModal(true);
+                    setSelectedPropertyId(property._id);
                   }}
                 >
                   <SquarePen className={iconClasses} />
@@ -101,9 +129,7 @@ export default function MyPropertiesCard({
                   <p>edit</p>
                 </TooltipContent>
               </Tooltip>
-            </TooltipProvider>
-          )}
-          <TooltipProvider>
+            )}
             <Tooltip>
               <TooltipTrigger className={iconWrapperClasses}>
                 <Eye className={iconClasses} />
@@ -112,14 +138,12 @@ export default function MyPropertiesCard({
                 <p>{property.views || 0} user view </p>
               </TooltipContent>
             </Tooltip>
-          </TooltipProvider>
 
-          {actions.canArchive && (
-            <TooltipProvider>
+            {getPropertyPermissions.canArchive && onArchive && (
               <Tooltip>
                 <TooltipTrigger
                   className={iconWrapperClasses}
-                  onClick={() => handleArchive(property._id)}
+                  onClick={() => onArchive(property._id)}
                 >
                   <CircleX className={iconClasses} />
                 </TooltipTrigger>
@@ -127,9 +151,25 @@ export default function MyPropertiesCard({
                   <p>Archieve property </p>
                 </TooltipContent>
               </Tooltip>
-            </TooltipProvider>
-          )}
-        </div>
+            )}
+            {getPropertyPermissions.canApproveReject && (
+              <Tooltip>
+                <TooltipTrigger
+                  className={iconWrapperClasses}
+                  onClick={() => {
+                    setModal(true);
+                    setSelectedPropertyId(property._id);
+                  }}
+                >
+                  <CircleQuestionMark className={iconClasses} />
+                </TooltipTrigger>
+                <TooltipContent side="bottom" className={tooltipContentClasses}>
+                  <p>Approve or reject</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
+          </div>
+        </TooltipProvider>
       </CardContent>
     </Card>
   );

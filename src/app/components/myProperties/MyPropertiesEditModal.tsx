@@ -1,7 +1,6 @@
 import type { SetStateType } from "@/lib/type/common";
 import type {
-  CommonPropertyResults,
-  MyProperties,
+  MemberPropertyActionsType,
   Property,
   PropertyImagesType,
   SellingOptionUnion,
@@ -12,57 +11,42 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import AgentPropertyFormContent from "../AgentPropertyFormContent";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   IMAGES_PATH_INITIAL,
   INITIAL_VIDEO_PATH,
   type PropertyFormInputType,
   type PropertyFormType,
 } from "@/app/data/properties";
-import {
-  sweetErrorHandling,
-  sweetTopSmallSuccessAlert,
-} from "@/lib/sweetAlerts";
 import { SellingTypeEnum } from "@/lib/enums/property.enum";
 import { serverAPI } from "@/lib/config";
-import type { Dispatch } from "@reduxjs/toolkit";
-import { setAgentMyProperties } from "../slice";
-import { retrieveAgentMyProperties } from "../selector";
-import { createSelector } from "reselect";
-import { useDispatch, useSelector } from "react-redux";
-import AgentService from "@/app/services/Agent.service";
-
-// ----------------------------------------- REDUX INTEGRATION --------------------------
-const agentMyPropertiesDispatch = (dispatch: Dispatch) => ({
-  setAgentMyProperties: (data: CommonPropertyResults<MyProperties>) =>
-    dispatch(setAgentMyProperties(data)),
-});
-
-const agentMyPropertieRetriever = createSelector(
-  retrieveAgentMyProperties,
-  (agentMyProperties) => ({ agentMyProperties }),
-);
+import { MyPropertiesModalTitle } from "@/app/components/myProperties/MyPropertiesModalTitle";
+import AgentPropertyFormContent from "@/app/screens/dashboards/agent/AgentPropertyFormContent";
 
 ////////////////////////////////// COMPONENT ///////////////////////
-interface MyPropertiesEditModelType {
-  setOpenModal: SetStateType<boolean>;
+interface MyPropertiesEditModalType {
+  setModal: SetStateType<boolean>;
   fetchedProperty: Property;
   openModal: boolean;
   setFetchedProperty: SetStateType<Property | null>;
-  setSelectedId: SetStateType<string>;
+  setSelectedPropertyId: SetStateType<string | null>;
+  onUpdate?: (values: PropertyFormType) => Promise<void>;
+  onApprove?: () => Promise<void>;
+  onReject?: () => Promise<void>;
+  propertyActions: MemberPropertyActionsType;
 }
 
-export default function MyPropertiesEditModel({
+export default function MyPropertiesEditModal({
   openModal,
   fetchedProperty,
-  setSelectedId,
-  setOpenModal,
+  setModal,
+  setSelectedPropertyId,
   setFetchedProperty,
-}: MyPropertiesEditModelType) {
-  const { setAgentMyProperties } = agentMyPropertiesDispatch(useDispatch());
-  const { agentMyProperties } = useSelector(agentMyPropertieRetriever);
-
+  propertyActions,
+  onApprove,
+  onReject,
+  onUpdate,
+}: MyPropertiesEditModalType) {
   //////////////////////////////////////// PROPERTY FORM INTITIALS ////////////////////////////
   const [propertyImages, setPropertyImages] = useState<PropertyImagesType>({
     image1: `${serverAPI}/${fetchedProperty.images[0]}`,
@@ -87,7 +71,7 @@ export default function MyPropertiesEditModel({
     if (!selling) return null;
 
     if (selling.optionRent?.type === SellingTypeEnum.RENT) {
-      const option = selling?.optionRent;
+      const option = selling.optionRent;
       return {
         type: SellingTypeEnum.RENT,
         monthlyPayment: String(option.monthlyPayment),
@@ -97,7 +81,7 @@ export default function MyPropertiesEditModel({
     }
 
     if (selling.optionSell?.type === SellingTypeEnum.SALE) {
-      const option = selling?.optionSell;
+      const option = selling.optionSell;
 
       return {
         type: SellingTypeEnum.SALE,
@@ -147,46 +131,8 @@ export default function MyPropertiesEditModel({
       ? `${serverAPI}/${fetchedProperty.videos[0]}`
       : "",
   };
-  console.log(fetchedProperty);
 
   ///////////////////////////////////////////////  HANDLERS //////////////////////////////
-  const handleSubmit = useCallback(
-    async (values: PropertyFormType) => {
-      const snaptShot = agentMyProperties;
-      console.log("VALUES: ", values);
-      const agent = new AgentService();
-
-      try {
-        const result = await agent.updatePublisherProperty(
-          fetchedProperty._id,
-          values,
-        );
-        await sweetTopSmallSuccessAlert("Property updated!");
-        setAgentMyProperties({
-          properties: snaptShot.properties.map((property) =>
-            property._id === result._id ? result : property,
-          ),
-          totalPropertiesNumber: snaptShot.totalPropertiesNumber,
-        });
-        setOpenModal(false);
-        setFetchedProperty(null);
-      } catch (error) {
-        console.log("Error in handleSubmit: ", error);
-        await sweetErrorHandling(error!);
-        setAgentMyProperties(snaptShot);
-      } finally {
-        setSelectedId("");
-      }
-    },
-    [
-      setOpenModal,
-      agentMyProperties,
-      setAgentMyProperties,
-      fetchedProperty._id,
-      setFetchedProperty,
-      setSelectedId,
-    ],
-  );
 
   return (
     <Dialog
@@ -194,30 +140,38 @@ export default function MyPropertiesEditModel({
       onOpenChange={(value) => {
         if (value === false) {
           setFetchedProperty(null);
-          setSelectedId("");
+          setSelectedPropertyId(null);
         }
 
-        setOpenModal(value);
+        setModal(value);
       }}
     >
       <DialogContent className="h-5/6 w-11/12 max-w-6xl overflow-auto">
         <DialogHeader>
-          <DialogTitle className="font-jostFont text-slate-800 text-lg text-center">
-            Edit your property here
+          <DialogTitle>
+            <MyPropertiesModalTitle
+              canCheckProperty={propertyActions.canCheckProperty}
+            />
           </DialogTitle>
         </DialogHeader>
-        <AgentPropertyFormContent
-          handleSubmit={handleSubmit}
-          propertyImages={propertyImages}
-          setPropertyImages={setPropertyImages}
-          setImagesPath={setImagesPath}
-          imagesPath={imagesPath}
-          propertiesValues={propertyValues}
-          propertyVideo={propertyVideo}
-          setPropertyVideo={setPropertyVideo}
-          setVideoPath={setVideoPath}
-          videoPath={videoPath}
-        />
+        {
+          <AgentPropertyFormContent
+            propertyUpdate={true}
+            propertyActions={propertyActions}
+            onApprove={onApprove}
+            onReject={onReject}
+            onUpdate={onUpdate}
+            propertyImages={propertyImages}
+            setPropertyImages={setPropertyImages}
+            setImagesPath={setImagesPath}
+            imagesPath={imagesPath}
+            propertiesValues={propertyValues}
+            propertyVideo={propertyVideo}
+            setPropertyVideo={setPropertyVideo}
+            setVideoPath={setVideoPath}
+            videoPath={videoPath}
+          />
+        }
       </DialogContent>
     </Dialog>
   );
