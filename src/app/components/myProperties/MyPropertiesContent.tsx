@@ -12,8 +12,9 @@ import MyPropertiesCard from "./MyPropertiesCard";
 import { PropertyStatus } from "@/lib/enums/property.enum";
 import { MemberType } from "@/lib/enums/agent.enum";
 import type { PropertyFormType } from "@/app/data/properties";
-import { myPropertiesCardWrapper } from "@/app/screens/dashboards/agent/AgentDashboardMyProperties";
 import MyPropertiesEditModal from "./MyPropertiesEditModal";
+import { myPropertiesCardWrapper } from "@/app/screens/dashboards/agency/myProperties/AgencyDashboardMyProperties";
+import MyPropertiesStatus from "@/app/components/myProperties/MyPropertiesStatus";
 
 ///////////////////////////////////// COMPONENT //////////////////
 interface MyPropertiesContentType {
@@ -27,9 +28,10 @@ interface MyPropertiesContentType {
   openModal: boolean;
   setModal: SetStateType<boolean>;
   myProperties: CommonPropertyResults<MyProperties>;
-  myPropertiesInput: CommonInput;
-  setMyPropertiesInput: SetStateType<CommonInput>;
+  myPropertiesInput: CommonInput & { status?: PropertyStatus };
+  setMyPropertiesInput: SetStateType<CommonInput & { status?: PropertyStatus }>;
   authmember: CommonUsers;
+  onChangeStatus: (status: PropertyStatus) => void;
 }
 
 const MyPropertiesContent: React.FC<MyPropertiesContentType> = React.memo(
@@ -47,6 +49,7 @@ const MyPropertiesContent: React.FC<MyPropertiesContentType> = React.memo(
     authmember,
     onApprove,
     onReject,
+    onChangeStatus,
   }) => {
     //////////////////////////////////// RENDER /////////////////////////////
     const propertyActions: MemberPropertyActionsType = useMemo(() => {
@@ -68,11 +71,15 @@ const MyPropertiesContent: React.FC<MyPropertiesContentType> = React.memo(
 
     return (
       <>
+        {myPropertiesInput.status && (
+          <MyPropertiesStatus
+            onChange={onChangeStatus}
+            value={myPropertiesInput.status}
+          />
+        )}
         {myProperties?.properties?.length ? (
           <div className="h-full flex flex-col justify-between gap-4">
-            <div
-              className={`${myPropertiesCardWrapper} bg-white py-2 px-3 rounded-md`}
-            >
+            <div className={myPropertiesCardWrapper}>
               {myProperties.properties.map((property: MyProperties) => (
                 <MyPropertiesCard
                   authmember={authmember}

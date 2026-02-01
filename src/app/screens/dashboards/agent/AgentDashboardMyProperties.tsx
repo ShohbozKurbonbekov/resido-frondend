@@ -20,9 +20,10 @@ import PropertyService from "@/app/services/Property.service";
 import { useGlobals } from "@/app/hooks/useGlobals";
 import { Navigate } from "react-router-dom";
 import type { PropertyFormType } from "@/app/data/properties";
-import { PropertyStatus, SellingTypeEnum } from "@/lib/enums/property.enum";
+import { PropertyStatus } from "@/lib/enums/property.enum";
 import MyPropertiesHeader from "@/app/components/myProperties/MyPropertiesHeader";
 import MyPropertiesContent from "@/app/components/myProperties/MyPropertiesContent";
+import MemberService from "@/app/services/Member.service";
 
 export const myPropertiesCardWrapper = "grid grid-cols-1 gap-y-3";
 
@@ -49,18 +50,22 @@ export default function AgentDashboardMyProperties() {
   const [openModal, setModal] = useState<boolean>(false);
 
   const [loading, setLoading] = useState<boolean>(true);
-  const [agentMyPropertiesInput, setAgentMyPropertiesInput] =
-    useState<CommonInput>({
-      page: 1,
-      limit: 4,
-    });
+  const [agentMyPropertiesInput, setAgentMyPropertiesInput] = useState<
+    CommonInput & { status?: PropertyStatus }
+  >({
+    page: 1,
+    limit: 4,
+    status: PropertyStatus.AVAILABLE,
+  });
 
   // 1 -  Fetch agent properties data
   useEffect(() => {
-    const agent = new AgentService();
+    const member = new MemberService();
     const fetchAgentMyProperties = async () => {
       try {
-        const result = await agent.getAgentMyProperties(agentMyPropertiesInput);
+        const result = await member.dashboardMyProperties(
+          agentMyPropertiesInput,
+        );
         setAgentMyProperties(result);
       } catch (error) {
         console.log("Error in fetchAgentMyProperties: ", error);
@@ -93,81 +98,17 @@ export default function AgentDashboardMyProperties() {
   }, [selectedPropertyId]);
 
   // --------------------------------------- HANDLERS --------------------
-  // const onArchive = useCallback(
-  //   async (id: string) => {
-  //     const oldMyProperties = agentMyProperties;
-  //     const updatedAgentMyProperties = oldMyProperties.properties.map(
-  //       (property) =>
-  //         property._id === id
-  //           ? { ...property, status: PropertyStatus.ARCHIVED }
-  //           : property,
-  //     );
-  //     setAgentMyProperties({
-  //       properties: updatedAgentMyProperties,
-  //       totalPropertiesNumber: [
-  //         {
-  //           total: oldMyProperties.totalPropertiesNumber[0].total || 0,
-  //         },
-  //       ],
-  //     });
-
-  //     const agent = new AgentService();
-  //     try {
-  //       await agent.archiveMyProperty(id);
-  //     } catch (error) {
-  //       console.log("Error in handleArchive: ", error);
-  //       await sweetErrorHandling(error!);
-  //       setAgentMyProperties(oldMyProperties);
-  //     }
-  //   },
-  //   [agentMyProperties, setAgentMyProperties],
-  // );
-  // const onReject = useCallback(async () => {}, []);
   const onUpdate = useCallback(
     async (values: PropertyFormType) => {
       if (!fetchedProperty) return;
 
       const snaptShot = agentMyProperties;
-      const updatedProperties = snaptShot.properties.map((property) =>
-        property._id === fetchedProperty._id
-          ? {
-              ...property,
-              status: PropertyStatus.PENDING_APPROVAL,
-              title: values.title,
-              address: values.address,
-              propertyType: values.propertyType,
-              area: Number(values.area),
-              sellingOption:
-                values.sellingOption.type === SellingTypeEnum.RENT
-                  ? {
-                      optionRent: {
-                        type: SellingTypeEnum.RENT,
-                        monthlyPayment: Number(
-                          values.sellingOption.monthlyPayment,
-                        ),
-                        overalAmount: Number(values.sellingOption.overalAmount),
-                        devidedMonths: Number(
-                          values.sellingOption.devidedMonths,
-                        ),
-                      },
-                    }
-                  : {
-                      optionSell: {
-                        type: SellingTypeEnum.SALE,
-                        overalAmunt: Number(values.sellingOption.overalAmunt),
-                        discount: Number(values.sellingOption.discount),
-                      },
-                    },
-              images:
-                values.images.image1 instanceof File
-                  ? [URL.createObjectURL(values.images.image1)]
-                  : [property.images[0]],
-            }
-          : property,
+      const updatedProperties = snaptShot.properties.filter(
+        (property) => property._id !== fetchedProperty._id,
       );
 
       setAgentMyProperties({
-        properties: updatedProperties as MyProperties[],
+        properties: updatedProperties,
         totalPropertiesNumber: snaptShot.totalPropertiesNumber,
       });
       try {
@@ -179,8 +120,8 @@ export default function AgentDashboardMyProperties() {
         setFetchedProperty(null);
         setSelectedPropertyId(null);
       } catch (error) {
-        console.log("Error in onUpdate: ", error);
         setAgentMyProperties(snaptShot);
+        console.log("Error in onUpdate: ", error);
         throw error;
       }
     },
@@ -194,6 +135,11 @@ export default function AgentDashboardMyProperties() {
     ],
   );
 
+  const onChangeStatus = useCallback((status: PropertyStatus) => {
+    setAgentMyPropertiesInput((prev) => {
+      return { ...prev, status: status };
+    });
+  }, []);
   // --------------------------------------- RENDER --------------------
 
   if (!authmember) {
@@ -217,6 +163,7 @@ export default function AgentDashboardMyProperties() {
           myProperties={agentMyProperties}
           myPropertiesInput={agentMyPropertiesInput}
           setMyPropertiesInput={setAgentMyPropertiesInput}
+          onChangeStatus={onChangeStatus}
         />
       )}
     </div>

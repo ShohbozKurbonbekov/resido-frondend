@@ -1,4 +1,5 @@
 import { serverAPI } from "@/lib/config";
+import type { PropertyStatus } from "@/lib/enums/property.enum";
 import type { CommonInput, CommonUsers, LoginResult } from "@/lib/type/common";
 import type {
   User,
@@ -12,6 +13,7 @@ import type {
   UserNotifications,
 } from "@/lib/type/notification";
 import type { PaymentTariffsType, TarrifOutputType } from "@/lib/type/pricing";
+import type { CommonPropertyResults, MyProperties } from "@/lib/type/property";
 import axios from "axios";
 
 class MemberService {
@@ -226,6 +228,21 @@ class MemberService {
       return result.data;
     } catch (error) {
       console.log("Error in approveAgentRejection service: ", error);
+      throw error;
+    }
+  }
+
+  public async dashboardMyProperties(
+    input: CommonInput & { status?: PropertyStatus },
+  ): Promise<CommonPropertyResults<MyProperties>> {
+    try {
+      const url = `${this.serverApi}/member/dashboard/get/all-properties?page=${input.page}&limit=${input.limit}&status=${input.status}`;
+
+      const result = await axios.get(url, { withCredentials: true });
+
+      return result.data;
+    } catch (error) {
+      console.log("Error in dashboardMyProperties service: ", error);
       throw error;
     }
   }

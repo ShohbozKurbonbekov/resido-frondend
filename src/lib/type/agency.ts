@@ -7,11 +7,10 @@ import type {
 } from "../enums/agency.enum";
 import type { MemberStatus, MemberType } from "../enums/agent.enum";
 import type { BillingCycle, TarrifCurrencyType } from "../enums/pricing.enum";
-import type { SellingTypeEnum } from "../enums/property.enum";
 import type { AgentData } from "./agent";
 import type { CommonInput, Social, TotalCounter } from "./common";
 import type { BillingSnapShotType, TarrifOutputType } from "./pricing";
-import type { CommonPropertyResults, MyProperties, Property } from "./property";
+import type { Property } from "./property";
 
 export interface Agency {
   _id: string;
@@ -130,7 +129,3 @@ export interface AgencySubscriptionInfoType {
   tariffPlans: TarrifOutputType[];
   agencySubscription: AgencySubscription | null;
 }
-
-export type AgencyAllMyProperties = CommonPropertyResults<
-  MyProperties & { propertyListingType: SellingTypeEnum }
->;

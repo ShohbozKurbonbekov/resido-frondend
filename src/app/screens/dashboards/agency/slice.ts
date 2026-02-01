@@ -11,6 +11,10 @@ const initialState: AgencyDashboardPage = {
     agencySubscription: null,
     tariffPlans: [],
   },
+  myAllProperties: {
+    properties: [],
+    totalPropertiesNumber: [{ total: 0 }],
+  },
   agencyNotifications: { notifications: [], metaCounter: [{ total: 0 }] },
 };
 
@@ -31,6 +35,9 @@ const agencyDashboardPageSlice = createSlice({
     setAgencyNotifications: (state, action) => {
       state.agencyNotifications = action.payload;
     },
+    setAgencyMyProperties: (state, action) => {
+      state.myAllProperties = action.payload;
+    },
   },
 });
 
@@ -39,6 +46,7 @@ export const {
   setGetAgencyMessages,
   setAgencySubscriptionInfo,
   setAgencyNotifications,
+  setAgencyMyProperties,
 } = agencyDashboardPageSlice.actions;
 
 const AgencyDashoardPageReducer = agencyDashboardPageSlice.reducer;

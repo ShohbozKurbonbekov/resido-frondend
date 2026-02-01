@@ -627,17 +627,16 @@ export default function AgentPropertyFormContent({
               </div>
             </div>
 
-            {isEditMode ||
-              (!propertyUpdate && (
-                <Button
-                  type="submit"
-                  className="bg-sky-600 hover:bg-sky-800 transition-all duration-200 ease-linear font-jostFont"
-                >
-                  {!propertyUpdate
-                    ? "Submit Property"
-                    : "Update & Submit for Review"}
-                </Button>
-              ))}
+            {(isEditMode || !propertyUpdate) && (
+              <Button
+                type="submit"
+                className="bg-sky-600 hover:bg-sky-800 transition-all duration-200 ease-linear font-jostFont"
+              >
+                {!propertyUpdate
+                  ? "Submit Property"
+                  : "Update & Submit for Review"}
+              </Button>
+            )}
             {isReviewMode && (
               <div className="mt-1 flex gap-4">
                 {onReject && (

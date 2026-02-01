@@ -24,3 +24,8 @@ export const retrieveAgencyNotifications = createSelector(
   selectAgencyDashboardPage,
   (agencyDashboardPage) => agencyDashboardPage.agencyNotifications,
 );
+
+export const retrieveAgencyMyProperties = createSelector(
+  selectAgencyDashboardPage,
+  (agencyDashboardPage) => agencyDashboardPage.myAllProperties,
+);

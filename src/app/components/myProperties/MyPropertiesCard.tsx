@@ -63,13 +63,9 @@ export default function MyPropertiesCard({
     : defaultPropertyAvatar;
 
   return (
-    <Card
-      className={
-        "shadow-none border-slate-200/90 rounded-sm flex flex-row h-auto"
-      }
-    >
+    <Card className={"shadow-none border-slate-300 rounded-md flex flex-row "}>
       <CardHeader className="p-0">
-        <div className="max-h-40 max-w-32 sm:max-w-fit aspect-blogCardRatio overflow-hidden w-full h-full ">
+        <div className="max-h-40 max-w-32 sm:max-w-fit aspect-blogCardRatio overflow-hidden w-full h-full">
           <img
             src={imageUrl}
             alt={property.title}
@@ -77,14 +73,14 @@ export default function MyPropertiesCard({
           />
         </div>
       </CardHeader>
-      <CardContent className="px-4 py-3 font-jostFont flex flex-col justify-between items-start truncate ">
-        <div className="flex flex-col truncate  items-start gap-y-2">
-          <div className="flex flex-row gap-2">
+      <CardContent className="px-4 py-3 font-jostFont flex-1 flex flex-col justify-between items-start  truncate">
+        <div className="flex flex-col   items-start gap-y-2">
+          <div className="flex flex-row gap-2 ">
             <PropertyStatusBadge
               status={property.status}
               contentClasses={tooltipContentClasses}
             />
-            <h5 className="md:text-base text-blue-900 truncate font-semibold w-full text-sm leading-none tracking-tight">
+            <h5 className="md:text-base text-blue-900  font-semibold w-full text-sm leading-none tracking-tight">
               {property.title}
             </h5>
           </div>

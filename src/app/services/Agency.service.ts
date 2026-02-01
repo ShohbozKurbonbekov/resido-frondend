@@ -16,6 +16,8 @@ import type {
   NotificationCreation,
   NotificationsType,
 } from "@/lib/type/notification";
+import type { PropertyStatus } from "@/lib/enums/property.enum";
+import type { Property } from "@/lib/type/property";
 
 class AgencyService {
   private readonly path;
@@ -274,6 +276,24 @@ class AgencyService {
       return result.data;
     } catch (error) {
       console.log("Error in agencyRejectApplication service: ", error);
+      throw error;
+    }
+  }
+
+  public async changeAgencyPropertyStatus(
+    id: string,
+    status: PropertyStatus,
+  ): Promise<Property> {
+    try {
+      const url = `${this.path}/agency/change/property-status/${id}`;
+      const result = await axios.post(
+        url,
+        { status },
+        { withCredentials: true },
+      );
+      return result.data;
+    } catch (error) {
+      console.log("Error in changeAgencyPropertyStatus: ", error);
       throw error;
     }
   }
