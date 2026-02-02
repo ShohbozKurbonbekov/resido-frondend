@@ -19,6 +19,7 @@ import axios from "axios";
 import type { PropertyFormType } from "../data/properties";
 import { SellingTypeEnum } from "@/lib/enums/property.enum";
 import type { AgentApplication } from "@/lib/type/agentApplication";
+import type { AgentStatus } from "@/lib/enums/agent.enum";
 
 class AgentService {
   private readonly path;

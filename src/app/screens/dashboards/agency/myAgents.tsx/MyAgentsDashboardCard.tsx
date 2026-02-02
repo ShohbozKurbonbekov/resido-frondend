@@ -1,6 +1,6 @@
 import type { MyAgentsDashboardType } from "@/lib/type/agent";
 import React from "react";
-import { MoreVertical, ShieldX, Eye } from "lucide-react";
+import { MoreVertical, ShieldX, Eye, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -12,17 +12,18 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { defaultUserAvatar, serverAPI } from "@/lib/config";
+import { AgentStatus } from "@/lib/enums/agent.enum";
 
 // ----------------------------------------- COMPONENT --------------------------
 
 interface MyAgentsDashboardCardType {
   agent: MyAgentsDashboardType;
-  onSuspend: (id: string) => Promise<void>;
-  onViewProperties: (id: string) => Promise<void>;
+  onChangeAgentStatus: (id: string, status: AgentStatus) => Promise<void>;
+  onViewProperties: (id: string) => void;
 }
 
 const MyAgentsDashboardCard: React.FC<MyAgentsDashboardCardType> = React.memo(
-  ({ agent, onSuspend, onViewProperties }) => {
+  ({ agent, onChangeAgentStatus, onViewProperties }) => {
     // ----------------------------------------- RENDER --------------------------
     const agentImgUrl = agent?.avatar
       ? `${serverAPI}/${agent.avatar}`
@@ -74,13 +75,26 @@ const MyAgentsDashboardCard: React.FC<MyAgentsDashboardCardType> = React.memo(
                 View Properties
               </DropdownMenuItem>
 
-              {agent.currentStatus === "available" && (
+              {agent.currentStatus === AgentStatus.AVAILABLE && (
                 <DropdownMenuItem
-                  onClick={() => onSuspend(agent._id)}
+                  onClick={() =>
+                    onChangeAgentStatus(agent._id, AgentStatus.PAUSED)
+                  }
                   className="text-red-400 hover:text-red-700 bg-transparent hover:bg-red-200"
                 >
                   <ShieldX className="w-4 h-4 mr-2" />
                   Suspend Agent
+                </DropdownMenuItem>
+              )}
+              {agent.currentStatus === AgentStatus.PAUSED && (
+                <DropdownMenuItem
+                  onClick={() =>
+                    onChangeAgentStatus(agent._id, AgentStatus.AVAILABLE)
+                  }
+                  className="text-blue-500 hover:text-blue-700 bg-transparent hover:bg-blue-200"
+                >
+                  <ShieldCheck className="w-4 h-4 mr-2" />
+                  Activate Agent
                 </DropdownMenuItem>
               )}
             </DropdownMenuContent>

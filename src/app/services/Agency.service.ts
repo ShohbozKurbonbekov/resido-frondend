@@ -20,6 +20,7 @@ import type { PropertyStatus } from "@/lib/enums/property.enum";
 import type { Property } from "@/lib/type/property";
 import type { AgentStatus } from "@/lib/enums/agent.enum";
 import type {
+  AgentData,
   CommonAgentResults,
   MyAgentsDashboardType,
 } from "@/lib/type/agent";
@@ -312,6 +313,24 @@ class AgencyService {
       return result.data;
     } catch (error) {
       console.log("Error in agencyMyAgents: ", error);
+      throw error;
+    }
+  }
+
+  public async changeAgentStatus(
+    id: string,
+    status: AgentStatus,
+  ): Promise<AgentData> {
+    try {
+      const url = `${this.path}/agency/change/agent/status/${id}`;
+      const result = await axios.post(
+        url,
+        { status },
+        { withCredentials: true },
+      );
+      return result.data;
+    } catch (error) {
+      console.log("Error in changeAgentStatus service: ", error);
       throw error;
     }
   }

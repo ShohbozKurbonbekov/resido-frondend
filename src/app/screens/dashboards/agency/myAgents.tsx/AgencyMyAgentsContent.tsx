@@ -15,8 +15,8 @@ interface AgencyMyAgentsContentType {
   myAgentsInput: CommonInput & { status?: AgentStatus };
   setMyAgentsInput: SetStateType<CommonInput & { status?: AgentStatus }>;
   onStatusChange: (status: AgentStatus) => void;
-  onSuspend: (id: string) => Promise<void>;
-  onViewProperties: (id: string) => Promise<void>;
+  onChangeAgentStatus: (id: string, status: AgentStatus) => Promise<void>;
+  onViewProperties: (id: string) => void;
 }
 
 export default function MyAgentsFrame({
@@ -24,7 +24,7 @@ export default function MyAgentsFrame({
   myAgentsInput,
   myAllAgents,
   setMyAgentsInput,
-  onSuspend,
+  onChangeAgentStatus,
   onViewProperties,
 }: AgencyMyAgentsContentType) {
   const { limit, page, status } = myAgentsInput;
@@ -50,7 +50,7 @@ export default function MyAgentsFrame({
           <div className={myAgentsCardWrapper}>
             {myAllAgents.agents.map((agent: MyAgentsDashboardType) => (
               <MyAgentsDashboardCard
-                onSuspend={onSuspend}
+                onChangeAgentStatus={onChangeAgentStatus}
                 onViewProperties={onViewProperties}
                 agent={agent}
                 key={agent._id}
