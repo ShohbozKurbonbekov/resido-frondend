@@ -18,6 +18,11 @@ import type {
 } from "@/lib/type/notification";
 import type { PropertyStatus } from "@/lib/enums/property.enum";
 import type { Property } from "@/lib/type/property";
+import type { AgentStatus } from "@/lib/enums/agent.enum";
+import type {
+  CommonAgentResults,
+  MyAgentsDashboardType,
+} from "@/lib/type/agent";
 
 class AgencyService {
   private readonly path;
@@ -294,6 +299,19 @@ class AgencyService {
       return result.data;
     } catch (error) {
       console.log("Error in changeAgencyPropertyStatus: ", error);
+      throw error;
+    }
+  }
+
+  public async agencyMyAgents(
+    input: CommonInput & { status?: AgentStatus },
+  ): Promise<CommonAgentResults<MyAgentsDashboardType>> {
+    try {
+      const url = `${this.path}/agency/dashboard/my-agents?page=${input.page}&limit=${input.limit}&status=${input?.status}`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in agencyMyAgents: ", error);
       throw error;
     }
   }

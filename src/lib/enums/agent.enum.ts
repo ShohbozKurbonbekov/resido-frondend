@@ -14,6 +14,7 @@ export enum AgentStatus {
   PENDING = "pending",
   AVAILABLE = "available",
   REJECTED = "rejected",
+  PAUSED = "paused",
 }
 
 export enum AgentPropertyType {

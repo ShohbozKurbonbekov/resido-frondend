@@ -11,8 +11,10 @@ import type {
   AgentProperties,
   AgentsListPage,
   ChosenAgentPageType,
+  CommonAgentResults,
   FeaturedAgentsResult,
   FollowedAgentsType,
+  MyAgentsDashboardType,
 } from "./agent";
 import type { Comment, Comments } from "./comment";
 import type {
@@ -125,4 +127,5 @@ export interface AgencyDashboardPage {
   agencySubscriptionInfo: AgencySubscriptionInfoType;
   agencyNotifications: NotificationsType<NotificationCreation>;
   myAllProperties: CommonPropertyResults<MyProperties>;
+  myAllAgents: CommonAgentResults<MyAgentsDashboardType>;
 }

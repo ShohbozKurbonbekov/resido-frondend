@@ -1,6 +1,7 @@
 import type {
   AgentPropertyType,
   AgentStatus,
+  MemberStatus,
   MemberType,
 } from "../enums/agent.enum";
 import type { CommonInput, TotalCounter } from "./common";
@@ -75,10 +76,11 @@ export interface AgentData {
   updatedDate: string;
 }
 
-export interface AgentsListPage {
-  agents: AgentData[];
+export interface CommonAgentResults<TAgent = AgentData> {
+  agents: TAgent[];
   totalNumbers: TotalCounter[];
 }
+export type AgentsListPage = CommonAgentResults;
 
 export interface AgentProperties {
   agent: AgentData[];
@@ -98,15 +100,7 @@ export interface FollowedAgent {
   avatar?: string;
 }
 
-export interface FollowedAgentsType {
-  agents: FollowedAgent[];
-  totalNumbers: TotalCounter[];
-}
-
-interface CommonAgentResults {
-  agents: AgentData[];
-  totalNumbers: TotalCounter[];
-}
+export type FollowedAgentsType = CommonAgentResults<FollowedAgent>;
 
 export type featuredAgentsInput = CommonInput;
 export type FeaturedAgentsResult = CommonAgentResults;
@@ -125,4 +119,16 @@ export interface AgentDashboardOverviewType {
   totalLikes: TotalCounter;
   totalViews: TotalCounter;
   generatedAt: string | null;
+}
+
+export interface MyAgentsDashboardType {
+  _id: string;
+  userId: string;
+  nickname: string;
+  fullName: string;
+  currentStatus: AgentStatus;
+  memberStatus: MemberStatus;
+  agentMode: boolean;
+  isVerified: boolean;
+  avatar?: string;
 }
