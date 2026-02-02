@@ -109,7 +109,14 @@ export default function AgentDashboardMyProperties() {
 
       setAgentMyProperties({
         properties: updatedProperties,
-        totalPropertiesNumber: snaptShot.totalPropertiesNumber,
+        totalPropertiesNumber: [
+          {
+            total: Math.max(
+              0,
+              (snaptShot.totalPropertiesNumber[0]?.total || 1) - 1,
+            ),
+          },
+        ],
       });
       try {
         const agent = new AgentService();

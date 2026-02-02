@@ -114,7 +114,14 @@ export default function AgencyDashboardMyProperties() {
       );
       setAgencyMyProperties({
         properties: updatedProperties,
-        totalPropertiesNumber: prevProperties.totalPropertiesNumber,
+        totalPropertiesNumber: [
+          {
+            total: Math.max(
+              0,
+              (prevProperties.totalPropertiesNumber[0]?.total || 1) - 1,
+            ),
+          },
+        ],
       });
 
       try {
@@ -137,7 +144,14 @@ export default function AgencyDashboardMyProperties() {
 
     setAgencyMyProperties({
       properties: updatedProperties,
-      totalPropertiesNumber: prevProperties.totalPropertiesNumber,
+      totalPropertiesNumber: [
+        {
+          total: Math.max(
+            0,
+            (prevProperties.totalPropertiesNumber[0]?.total || 1) - 1,
+          ),
+        },
+      ],
     });
 
     try {
@@ -165,7 +179,14 @@ export default function AgencyDashboardMyProperties() {
 
     setAgencyMyProperties({
       properties: updatedProperties,
-      totalPropertiesNumber: prevProperties.totalPropertiesNumber,
+      totalPropertiesNumber: [
+        {
+          total: Math.max(
+            0,
+            (prevProperties.totalPropertiesNumber[0]?.total || 1) - 1,
+          ),
+        },
+      ],
     });
 
     try {
