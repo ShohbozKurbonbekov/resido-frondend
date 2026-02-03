@@ -33,7 +33,7 @@ const StatTile: React.FC<StatTileType> = React.memo(
         </div>
 
         {/* Right side */}
-        <div className="text-3xl font-bold text-slate-700 tabular-nums">
+        <div className="text-3xl font-bold text-slate-700  font-jostFont">
           {amount.total}
         </div>
       </div>

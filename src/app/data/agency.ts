@@ -5,6 +5,7 @@ import {
   CreditCard,
   FilePenLine,
   Gauge,
+  Handshake,
   Home,
   LogOut,
   MessageSquare,
@@ -19,7 +20,12 @@ export const AGENCY_DASHBOARD_FEATURES: DashboardSidebarFeauturesType[] = [
   {
     title: "Notifications",
     Icon: Bell,
-    url: "/dashboard/agency-notifications",
+    url: "/dashboard/agency-my-notifications",
+  },
+  {
+    title: "Transactions",
+    Icon: Handshake,
+    url: "/dashboard/agency-transactions",
   },
 
   {

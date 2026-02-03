@@ -3,6 +3,7 @@ import type {
   AgenciesListPage,
   Agency,
   AgencyAgePropertiesInput,
+  AgencyDashboardOverviewType,
   AgencyPaymentSubmit,
   AgencySubscription,
   AgencySubscriptionInfoType,
@@ -331,6 +332,16 @@ class AgencyService {
       return result.data;
     } catch (error) {
       console.log("Error in changeAgentStatus service: ", error);
+      throw error;
+    }
+  }
+  public async agencyDashboardOverview(): Promise<AgencyDashboardOverviewType> {
+    try {
+      const url = `${this.path}/agency/dashboard/overview`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in agencyDashboardOverview service: ", error);
       throw error;
     }
   }

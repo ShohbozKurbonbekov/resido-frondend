@@ -20,6 +20,7 @@ import type { Comment, Comments } from "./comment";
 import type {
   AgenciesListPage,
   Agency,
+  AgencyDashboardOverviewType,
   AgencySubscriptionInfoType,
   ChosenAgencyTargetItemsType,
 } from "./agency";
@@ -128,4 +129,5 @@ export interface AgencyDashboardPage {
   agencyNotifications: NotificationsType<NotificationCreation>;
   myAllProperties: CommonPropertyResults<MyProperties>;
   myAllAgents: CommonAgentResults<MyAgentsDashboardType>;
+  agencyDashboardOverview: AgencyDashboardOverviewType;
 }

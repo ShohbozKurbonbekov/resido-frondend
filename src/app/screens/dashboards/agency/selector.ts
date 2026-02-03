@@ -34,3 +34,8 @@ export const retrieveAgencyMyAgents = createSelector(
   selectAgencyDashboardPage,
   (agencyDashboardPage) => agencyDashboardPage.myAllAgents,
 );
+
+export const retrieveAgencyDashboardOverview = createSelector(
+  selectAgencyDashboardPage,
+  (agencyDashboardPage) => agencyDashboardPage.agencyDashboardOverview,
+);

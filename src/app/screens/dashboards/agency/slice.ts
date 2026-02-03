@@ -20,6 +20,17 @@ const initialState: AgencyDashboardPage = {
     agents: [],
     totalNumbers: [{ total: 0 }],
   },
+  agencyDashboardOverview: {
+    myAgents: { total: 0 },
+    myBillingInfo: null,
+    myNotifications: { total: 0 },
+    messages: { total: 0 },
+    generatedAt: null,
+    myBlogs: { total: 0 },
+    myProperties: { total: 0 },
+    totalViews: { total: 0 },
+    transactions: { total: 0 },
+  },
 };
 
 const agencyDashboardPageSlice = createSlice({
@@ -46,6 +57,9 @@ const agencyDashboardPageSlice = createSlice({
     setAgencyMyAgents: (state, action) => {
       state.myAllAgents = action.payload;
     },
+    setAgencyDashboardOverview: (state, action) => {
+      state.agencyDashboardOverview = action.payload;
+    },
   },
 });
 
@@ -56,6 +70,7 @@ export const {
   setAgencyNotifications,
   setAgencyMyProperties,
   setAgencyMyAgents,
+  setAgencyDashboardOverview,
 } = agencyDashboardPageSlice.actions;
 
 const AgencyDashoardPageReducer = agencyDashboardPageSlice.reducer;
