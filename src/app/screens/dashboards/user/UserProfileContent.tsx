@@ -22,7 +22,7 @@ import {
 } from "@/lib/sweetAlerts";
 import { useGlobals } from "@/app/hooks/useGlobals";
 import MemberService from "@/app/services/Member.service";
-import { serverAPI } from "@/lib/config";
+import { errorClasses, serverAPI } from "@/lib/config";
 
 const inputClasses =
   "border-slate-300 bg-slate-50 text-slate-800 placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-emerald-600/30 focus-visible:border-emerald-600";
@@ -35,6 +35,7 @@ const rowWrapperClasses =
 interface UserProfileContentType {
   user: User;
 }
+
 const UserProfileContent: React.FC<UserProfileContentType> = React.memo(
   ({ user }) => {
     const [avatarPreview, setAvatarPreview] = React.useState<
@@ -60,7 +61,6 @@ const UserProfileContent: React.FC<UserProfileContentType> = React.memo(
     const onSubmit = useCallback(
       async (values: z.infer<typeof UserProfileSchema>) => {
         try {
-          console.log(values);
           const member = new MemberService();
           const data = await member.updateMember(values);
           setAuthMember(data);
@@ -135,7 +135,7 @@ const UserProfileContent: React.FC<UserProfileContentType> = React.memo(
                           </div>
                         </FormControl>
 
-                        <FormMessage className="text-xs text-rose-600/90" />
+                        <FormMessage className={errorClasses} />
                         <p className="text-xs text-slate-500">
                           JPG, JPEG or PNG. Square images recommended.
                         </p>
@@ -144,6 +144,7 @@ const UserProfileContent: React.FC<UserProfileContentType> = React.memo(
                   />
                 </div>
               </div>
+
               <div className={rowWrapperClasses}>
                 {/* NAME */}
                 <FormField
@@ -155,7 +156,7 @@ const UserProfileContent: React.FC<UserProfileContentType> = React.memo(
                       <FormControl>
                         <Input {...field} className={inputClasses} />
                       </FormControl>
-                      <FormMessage className="text-xs text-rose-600/90" />
+                      <FormMessage className={errorClasses} />
                     </FormItem>
                   )}
                 />
@@ -189,7 +190,7 @@ const UserProfileContent: React.FC<UserProfileContentType> = React.memo(
                           className={inputClasses}
                         />
                       </FormControl>
-                      <FormMessage className="text-xs text-rose-600/90" />
+                      <FormMessage className={errorClasses} />
                     </FormItem>
                   )}
                 />
@@ -204,7 +205,7 @@ const UserProfileContent: React.FC<UserProfileContentType> = React.memo(
                       <FormControl>
                         <Input {...field} className={inputClasses} />
                       </FormControl>
-                      <FormMessage className="text-xs text-rose-600/90" />
+                      <FormMessage className={errorClasses} />
                     </FormItem>
                   )}
                 />

@@ -71,6 +71,58 @@ export const USER_SOCIALS: (
   | "email"
 )[] = ["facebook", "twitter", "instagram", "linkedin", "email"];
 
+export const USER_PROFILE_FIELDS = [
+  {
+    name: "memberName",
+    label: "Name",
+    placeholder: "Enter your name",
+    inputType: "text",
+    elementType: "input",
+  },
+  {
+    name: "memberEmail",
+    label: "Email",
+    placeholder: "email@example.com",
+    inputType: "email",
+    elementType: "input",
+  },
+  {
+    name: "memberPhone",
+    label: "Phone",
+    placeholder: "01012345678",
+    inputType: "text",
+    elementType: "input",
+  },
+  {
+    name: "occupation",
+    label: "Occupation",
+    placeholder: "Frontend Developer",
+    inputType: "text",
+    elementType: "input",
+  },
+  {
+    name: "userFullname",
+    label: "Full Name",
+    placeholder: "John Doe",
+    inputType: "text",
+    elementType: "input",
+  },
+  {
+    name: "memberAddress",
+    label: "Address",
+    placeholder: "Seoul, South Korea",
+    inputType: "text",
+    elementType: "input",
+  },
+  {
+    name: "memberDescription",
+    label: "About",
+    placeholder: "Tell us about yourself...",
+    inputType: "text",
+    elementType: "textarea",
+  },
+] as const;
+
 const nullableUrl = z
   .string()
   .trim()
@@ -124,3 +176,7 @@ export const UserProfileSchema = z.object({
 
   memberSocials: SocialSchema,
 });
+
+export type UserProfileInput = z.input<typeof UserProfileSchema>;
+
+export type UserProfileSubmitType = z.infer<typeof UserProfileSchema>;

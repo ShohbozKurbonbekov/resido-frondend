@@ -5,10 +5,13 @@ import AdminDashboard from "./admin/Index";
 import NoFound from "@/app/components/NoFound";
 import { MemberType } from "@/lib/enums/agent.enum";
 import UserDashboard from "./user/Index";
+import { Navigate } from "react-router-dom";
 
 export default function DashboardRouter() {
   const { authmember } = useGlobals();
-  if (!authmember) return null;
+  if (!authmember) {
+    return <Navigate to="/" replace />;
+  }
 
   switch (authmember?.role) {
     case MemberType.REAL_ESTATE_ADMIN:
