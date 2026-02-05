@@ -65,8 +65,11 @@ export const sweetFailureProvider = async (
   });
 };
 
-export const emptyInputAlert = (msg: string, show_button: boolean = false) => {
-  Swal.fire({
+export const emptyInputAlert = async (
+  msg: string,
+  show_button: boolean = false,
+) => {
+  await Swal.fire({
     icon: "warning",
     title: msg,
     showConfirmButton: show_button,
@@ -74,13 +77,15 @@ export const emptyInputAlert = (msg: string, show_button: boolean = false) => {
   }).then();
 };
 
-export const sweetConfirmHandling = async ( customTexts:SweetConfirmInputsType) => {
+export const sweetConfirmHandling = async (
+  customTexts: SweetConfirmInputsType,
+) => {
   const result = await Swal.fire({
     icon: "warning",
     title: customTexts.title,
     text: customTexts.message,
     showCancelButton: true,
-    confirmButtonText:customTexts.confirmBtnText,
+    confirmButtonText: customTexts.confirmBtnText,
     cancelButtonText: customTexts.cancelBtnText,
     confirmButtonColor: "#111827",
     cancelButtonColor: "#9CA3AF",

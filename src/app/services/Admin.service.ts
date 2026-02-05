@@ -2,8 +2,9 @@ import { serverAPI } from "@/lib/config";
 import type { SortOrder } from "@/lib/enums/blog.enum";
 import type { TarrifStatus } from "@/lib/enums/pricing.enum";
 import type { CommonInput } from "@/lib/type/common";
-import type { PaymentTariffsType } from "@/lib/type/pricing";
+import type { PaymentTariffsType, TarrifOutputType } from "@/lib/type/pricing";
 import axios from "axios";
+import type { AdminSubmitTariffSchemaOutput } from "../data/admin";
 
 class AdminService {
   public readonly path;
@@ -21,6 +22,27 @@ class AdminService {
       return result.data;
     } catch (error) {
       console.log("Error in adminTariffPlans service: ", error);
+      throw error;
+    }
+  }
+
+  public async adminAddTariff(
+    input: AdminSubmitTariffSchemaOutput,
+    features: string[],
+  ): Promise<TarrifOutputType> {
+    try {
+      const url = `${this.path}/admin/add/tariffs`;
+
+      const result = await axios.post(
+        url,
+        { ...input, features },
+        {
+          withCredentials: true,
+        },
+      );
+      return result.data;
+    } catch (error) {
+      console.log("Error in adminAddTariff service: ", error);
       throw error;
     }
   }

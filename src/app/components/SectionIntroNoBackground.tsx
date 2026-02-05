@@ -13,7 +13,7 @@ const SectionIntroNoBackground = ({
           <h2 className="text-white font-bold font-jostFont leading-tight text-3xl capitalize">
             {title}
           </h2>
-          <p className="italic text-lg font-light text-slate-300 leading-tight capitalize">
+          <p className="italic text-lg font-light text-slate-300 leading-tight">
             {subtitle}
           </p>
         </div>

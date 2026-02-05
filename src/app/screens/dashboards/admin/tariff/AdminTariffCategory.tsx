@@ -1,3 +1,4 @@
+import { useGlobals } from "@/app/hooks/useGlobals";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,13 +8,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { MemberType } from "@/lib/enums/agent.enum";
 import { SortOrder } from "@/lib/enums/blog.enum";
 import { TarrifStatus } from "@/lib/enums/pricing.enum";
+import { sweetFailureProvider } from "@/lib/sweetAlerts";
 import type { CommonInput, SetStateType } from "@/lib/type/common";
 import { Plus } from "lucide-react";
+import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 const selectTriggerClasss =
   "w-full focus:ring-slate-200 border py-5 font-jostFont &>span]:line-clamp-4 text-sm md:base";
+
+// ------------------------ Component -----------------------
 interface AdminTariffCategoryType {
   onStatusChange: (status: TarrifStatus) => void;
   onSort: (status: SortOrder) => void;
@@ -27,7 +34,18 @@ export default function AdminTariffCategory({
   onStatusChange,
   onSort,
 }: AdminTariffCategoryType) {
+  const { authmember } = useGlobals();
   const { status, sort } = adminTariffInput;
+  const navivation = useNavigate();
+  // ------------------------ Handlers -----------------------
+  const onAddTariff = useCallback(() => {
+    if (!authmember || authmember?.role !== MemberType.REAL_ESTATE_ADMIN) {
+      return sweetFailureProvider("Access Denied!", true, "/");
+    }
+    navivation("/admin/add/tariff-form");
+  }, [navivation, authmember]);
+
+  // ------------------------ Render -----------------------
   return (
     <div className="grid grid-cols-[2fr_5fr] md:grid-cols-1 gap-1 sm:gap-3 md:gap-5 rounded-md  bg-white">
       <div className="flex flex-col items-center justify-center border border-slate-200 rounded-md p-2 shrink-0">
@@ -40,7 +58,10 @@ export default function AdminTariffCategory({
       </div>
 
       <div className="p-3 md:p-0 space-y-2 shrink">
-        <Button className="flex items-center gap-1 bg-emerald-700 hover:bg-emerald-600 text-white truncate text-ellipsis w-full  text-sm md:base">
+        <Button
+          className="flex items-center gap-1 bg-emerald-700 hover:bg-emerald-600 text-white truncate text-ellipsis w-full  text-sm md:base"
+          onClick={onAddTariff}
+        >
           <Plus className="h-4 w-4 " />
           Add Tariff Plan
         </Button>

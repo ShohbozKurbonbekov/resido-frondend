@@ -13,6 +13,7 @@ import BlogsPage from "./app/screens/blogsPage/Index";
 import PropertiesPage from "./app/screens/propertiesPage/Index";
 import DashboardRouter from "./app/screens/dashboards/Index";
 import MemberPayment from "./app/screens/payment/MemberPayment";
+import AdminFeaturesPage from "./app/screens/AdminFeaturesPage/Index";
 
 // ------------------------------------------ MAIN COMPONENT -------------------------------------
 export default function App() {
@@ -35,6 +36,8 @@ export default function App() {
         <Route path="/Faqs" element={<FaqPage />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/payment" element={<MemberPayment />} />
+        {/* Add Tariff Form */}
+        <Route path="/admin*" element={<AdminFeaturesPage />} />
         <Route path="/" element={<HomePage />} />
       </Routes>
 

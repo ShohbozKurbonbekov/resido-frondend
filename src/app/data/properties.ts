@@ -59,6 +59,11 @@ export const STATUS_META: Record<
     tooltip: "This listing is no longer active",
     variant: "outline",
   },
+  [PropertyStatus.DELETED]: {
+    label: "Deleted",
+    tooltip: "Service is not provided right now!",
+    variant: "default",
+  },
 };
 // ----------------------------------- INITIAL STATES --------------------
 
