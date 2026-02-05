@@ -49,6 +49,7 @@ export interface AppRootState {
   userDashboardPage: UserDashboardPage;
   agentDashboardPage: AgentDashboardPage;
   agencyDashboardPage: AgencyDashboardPage;
+  adminDashboardPage: AdminDashboardPage;
   paymentTariffsPage: PaymentTariffsPage;
 }
 
@@ -130,4 +131,9 @@ export interface AgencyDashboardPage {
   myAllProperties: CommonPropertyResults<MyProperties>;
   myAllAgents: CommonAgentResults<MyAgentsDashboardType>;
   agencyDashboardOverview: AgencyDashboardOverviewType;
+}
+
+// ADMIN DASHBOARD PAGE
+export interface AdminDashboardPage {
+  adminTariffPlans: PaymentTariffsType;
 }

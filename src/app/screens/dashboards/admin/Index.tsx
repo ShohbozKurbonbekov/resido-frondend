@@ -10,8 +10,6 @@ import AdminDashboardComments from "./AdminDashboardComments";
 import AdminDashboardMessages from "./AdminDashboardMessages";
 import AdminDashboardTransactions from "./AdminDashboardTransactions";
 import AdminDashboardTariffs from "./AdminDashboardTariffs";
-import AdminDashboardTeam from "./AdminDashboardTeam";
-import AdminDashboardAddQA from "./AdminDashboardAddQA";
 import AdminDashboardProfile from "./AdminDashboardProfile";
 
 export default function AdminDashboard() {
@@ -51,7 +49,6 @@ export default function AdminDashboard() {
         <Route path="/admin-messages" element={<AdminDashboardMessages />} />
 
         {/* Platform */}
-
         {/* Transactions */}
         <Route
           path="/admin-transactions"
@@ -61,16 +58,7 @@ export default function AdminDashboard() {
         {/* Payment Tariffs */}
         <Route path="/admin-tariffs" element={<AdminDashboardTariffs />} />
 
-        {/* Internal */}
-
-        {/* Team Members */}
-        <Route path="/admin-team" element={<AdminDashboardTeam />} />
-
-        {/* Question & Answers */}
-        <Route path="/admin-add-qa" element={<AdminDashboardAddQA />} />
-
         {/* Account */}
-
         {/* My Profile */}
         <Route path="/admin-profile" element={<AdminDashboardProfile />} />
       </Routes>

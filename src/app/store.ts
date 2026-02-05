@@ -15,6 +15,7 @@ import UserDashoardPageReducer from "./screens/dashboards/user/slice";
 import AgentDashoardPageReducer from "./screens/dashboards/agent/slice";
 import AgencyDashoardPageReducer from "./screens/dashboards/agency/slice";
 import PaymentTariffsPageSliceReducer from "./screens/pricing/slice";
+import AdminDashoardPageReducer from "./screens/dashboards/admin/slice";
 
 // so Middletype says to typescript, trust me logger is a valid Redux middleware
 const logger: Middleware = createLogger();
@@ -34,6 +35,7 @@ export const store = configureStore({
     agentDashboardPage: AgentDashoardPageReducer,
     agencyDashboardPage: AgencyDashoardPageReducer,
     paymentTariffsPage: PaymentTariffsPageSliceReducer,
+    adminDashboardPage: AdminDashoardPageReducer,
   },
 });
 

@@ -10,7 +10,6 @@ import {
   MessageCircle,
   MessageSquare,
   User,
-  UserCog,
   Users,
 } from "lucide-react";
 
@@ -63,12 +62,6 @@ export const ADMIN_DASHBOARD_FEATURES: DashboardSidebarFeauturesType[] = [
     title: "Tariff Plans",
     Icon: CreditCard,
     url: "/dashboard/admin-tariffs",
-  },
-
-  {
-    title: "Team Members",
-    Icon: UserCog,
-    url: "/dashboard/admin-team",
   },
 
   {
