@@ -1,7 +1,4 @@
-import type {
-  BillingCycle,
-  TarrifCurrencyType,
-} from "@/lib/enums/pricing.enum";
+import type { BillingCycle } from "@/lib/enums/pricing.enum";
 import { customLetterCustomise, formatCurrency } from "@/lib/utils";
 
 interface PaymentCardType {
@@ -10,7 +7,7 @@ interface PaymentCardType {
   price: number;
   paymentType: BillingCycle;
   benefits: string[];
-  currency: TarrifCurrencyType;
+  currency: string;
   handleClick: (id: string) => void;
 }
 

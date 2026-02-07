@@ -6,11 +6,7 @@ import type {
   SubscriptionStatus,
 } from "../enums/agency.enum";
 import type { MemberStatus, MemberType } from "../enums/agent.enum";
-import type {
-  BillingCycle,
-  TarrifCurrencyType,
-  TarrifName,
-} from "../enums/pricing.enum";
+import type { BillingCycle } from "../enums/pricing.enum";
 import type { AgentData } from "./agent";
 import type { CommonInput, Social, TotalCounter } from "./common";
 import type { BillingSnapShotType, TarrifOutputType } from "./pricing";
@@ -105,7 +101,7 @@ export interface AgencySubscription {
 
   amount: number;
   billingSnapshot: BillingSnapShotType;
-  currency: TarrifCurrencyType;
+  currency: string;
   paymentProvider: PaymentProvider;
   subscriptionStatus: SubscriptionStatus;
 
@@ -136,7 +132,7 @@ export interface AgencySubscriptionInfoType {
 
 export interface AgencyDashboardBillingOverview {
   subscriptionStatus: SubscriptionStatus;
-  subscriptionPlanType: TarrifName;
+  subscriptionPlanType: string;
 }
 export interface AgencyDashboardOverviewType {
   myProperties: TotalCounter;

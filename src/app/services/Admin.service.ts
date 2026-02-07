@@ -46,6 +46,42 @@ class AdminService {
       throw error;
     }
   }
+
+  public async adminEditTariff(
+    id: string,
+    values: AdminSubmitTariffSchemaOutput,
+    features: string[],
+  ): Promise<TarrifOutputType> {
+    try {
+      const url = `${this.path}/admin/edit/tariffs/${id}`;
+
+      const result = await axios.post(
+        url,
+        { ...values, features },
+        {
+          withCredentials: true,
+        },
+      );
+      return result.data;
+    } catch (error) {
+      console.log("Error in adminEditTariff service: ", error);
+      throw error;
+    }
+  }
+
+  public async adminChangeTariffStatus(
+    id: string,
+    status: TarrifStatus,
+  ): Promise<TarrifOutputType> {
+    try {
+      const url = `${this.path}/admin/change/tariffs/status?id=${id}&status=${status}`;
+      const result = await axios.post(url, {}, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("adminChangeTariffStatus: ", error);
+      throw error;
+    }
+  }
 }
 
 export default AdminService;

@@ -1,9 +1,4 @@
-import type {
-  BillingCycle,
-  TarrifCurrencyType,
-  TarrifName,
-  TarrifStatus,
-} from "../enums/pricing.enum";
+import type { BillingCycle, TarrifStatus } from "../enums/pricing.enum";
 import type { TotalCounter } from "./common";
 
 export interface TarrifLimitsType {
@@ -13,12 +8,12 @@ export interface TarrifLimitsType {
 
 export interface TarrifOutputType {
   _id: string;
-  name: TarrifName;
+  name: string;
   price: number;
   billingCycle: BillingCycle;
   features: string[];
   limits: TarrifLimitsType;
-  currency: TarrifCurrencyType;
+  currency: string;
   durationDays: number;
   status: TarrifStatus;
   createdAt: Date;
@@ -33,5 +28,14 @@ export interface BillingSnapShotType {
   name: string;
   features: string[];
   limit: TarrifLimitsType;
-  usage:TarrifLimitsType
+  usage: TarrifLimitsType;
+}
+
+export interface TariffInputType {
+  name: string;
+  price: number;
+  billingCycle: BillingCycle;
+  features: string[];
+  limits: TarrifLimitsType;
+  currency: string;
 }

@@ -1,7 +1,6 @@
 import { BillingCycle } from "@/lib/enums/pricing.enum";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  ADMIN_TARIFF_FORM_INITIAL,
   adminSubmitTariffSchema,
   adminTariffFormFields,
   type AdminSubmitTariffSchemaInput,
@@ -79,7 +78,7 @@ export default function AdminTariffSubmitForm(
           return await emptyInputAlert("Please give required features!", true);
         }
         await onSubmit(values);
-        form.reset(ADMIN_TARIFF_FORM_INITIAL);
+        form.reset();
       } catch (error) {
         console.log("Error in AdminTarifSubmitForm: ", error);
         await sweetErrorHandling(error!);

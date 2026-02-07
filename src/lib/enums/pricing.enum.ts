@@ -4,12 +4,6 @@ export enum TarrifName {
   PLATINUM = "PLATINUM",
 }
 
-export enum TarrifCurrencyType {
-  USD = "USD",
-  KRW = "KRW",
-  UZS = "UZS",
-}
-
 export enum MemberTarrifStatus {
   ACTIVE = "ACTIVE",
   CANCELLED = "CANCELLED",

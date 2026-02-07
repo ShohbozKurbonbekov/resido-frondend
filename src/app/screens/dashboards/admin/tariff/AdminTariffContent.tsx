@@ -2,11 +2,13 @@ import NoFound from "@/app/components/NoFound";
 import { PaginationCom } from "@/app/components/PaginationCom";
 import type { CommonInput, SetStateType } from "@/lib/type/common";
 import AdminTariffCard from "./AdminTariffCard";
-import type { PaymentTariffsType } from "@/lib/type/pricing";
+import type { PaymentTariffsType, TarrifOutputType } from "@/lib/type/pricing";
 import SpinnerGrids from "@/app/components/loading/SpinnerGrids";
 import AdminTariffCategory from "./AdminTariffCategory";
 import type { TarrifStatus } from "@/lib/enums/pricing.enum";
 import type { SortOrder } from "@/lib/enums/blog.enum";
+import { AdminTariffModal } from "./AdminTariffModal";
+import type { AdminSubmitTariffSchemaOutput } from "@/app/data/admin";
 
 // --------------------- Classes ------------------
 const leftContainerClasses = "md:col-span-8 rounded-md order-4 md:order-0";
@@ -22,6 +24,20 @@ interface AdminTariffContentType {
   adminTariffPlans: PaymentTariffsType;
   onStatusChange: (status: TarrifStatus) => void;
   onSort: (status: SortOrder) => void;
+  onEdit: (values: AdminSubmitTariffSchemaOutput) => Promise<void>;
+  fetchedTariff: TarrifOutputType | null;
+  setFetchedTariff: SetStateType<null | TarrifOutputType>;
+  setTariffId: SetStateType<null | string>;
+  tariffId: string | null;
+  openModal: boolean;
+  setOpenModal: SetStateType<boolean>;
+
+  onAddFeature: () => void;
+  features: string[];
+  onRemoveFeature: (str: string) => void;
+  featureInput: string;
+  setFeatureInput: SetStateType<string>;
+  onAdminStatusChange: (id: string, status: TarrifStatus) => Promise<void>;
 }
 export default function AdminTariffContent({
   adminTariffInput,
@@ -30,6 +46,19 @@ export default function AdminTariffContent({
   loading,
   onStatusChange,
   onSort,
+  fetchedTariff,
+  setFetchedTariff,
+  onEdit,
+  openModal,
+  setOpenModal,
+  setTariffId,
+  tariffId,
+  featureInput,
+  onAddFeature,
+  onRemoveFeature,
+  setFeatureInput,
+  features,
+  onAdminStatusChange,
 }: AdminTariffContentType) {
   return (
     <div className="flex-1 flex flex-col justify-between gap-y-5">
@@ -47,7 +76,12 @@ export default function AdminTariffContent({
             className={`${leftContainerClasses} ${adminTariffWrapperClasses}`}
           >
             {adminTariffPlans.paymentTariffs.map((tariff) => (
-              <AdminTariffCard key={tariff._id} tariff={tariff} />
+              <AdminTariffCard
+                onAdminStatusChange={onAdminStatusChange}
+                key={tariff._id}
+                tariff={tariff}
+                setTariffId={setTariffId}
+              />
             ))}
           </div>
         ) : (
@@ -74,6 +108,22 @@ export default function AdminTariffContent({
           styleclasses="flex flex-row items-center justify-center mt-6 gap-3 "
           currentPage={adminTariffInput.page}
           onPageChange={setAdminTariffInput}
+        />
+      )}
+
+      {fetchedTariff && tariffId && setFetchedTariff && (
+        <AdminTariffModal
+          fetchedTariff={fetchedTariff}
+          onEdit={onEdit}
+          openModal={openModal}
+          setFetchedTariff={setFetchedTariff}
+          setModalOpen={setOpenModal}
+          setTariffId={setTariffId}
+          featureInput={featureInput}
+          onAddFeature={onAddFeature}
+          onRemoveFeature={onRemoveFeature}
+          setFeatureInput={setFeatureInput}
+          features={features}
         />
       )}
     </div>

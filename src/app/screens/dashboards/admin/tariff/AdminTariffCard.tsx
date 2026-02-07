@@ -7,17 +7,33 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Pencil, Power } from "lucide-react";
+import { MoreHorizontalIcon, Pencil } from "lucide-react";
 import type { TarrifOutputType } from "@/lib/type/pricing";
 import React from "react";
 import { customLetterCustomise } from "@/lib/utils";
 import { TarrifStatus } from "@/lib/enums/pricing.enum";
+import type { SetStateType } from "@/lib/type/common";
+import { ButtonGroup } from "@/components/ui/button-group";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { TARIFF_STATUS_ARR } from "@/app/data/mix";
 
 interface AdminTariffCardType {
   tariff: TarrifOutputType;
+  setTariffId: SetStateType<null | string>;
+  onAdminStatusChange: (id: string, status: TarrifStatus) => Promise<void>;
 }
 const AdminTariffCard: React.FC<AdminTariffCardType> = React.memo(
-  ({ tariff }) => {
+  ({ tariff, setTariffId, onAdminStatusChange }) => {
+    const tariffStatus = TARIFF_STATUS_ARR.filter(
+      (obj) => tariff.status !== obj.name,
+    );
+
     return (
       <Card className="flex flex-col  w-full max-w-md bg-white border border-slate-200 rounded-md shadow-sm hover:shadow-lg transition-shadow mx-auto">
         <CardHeader className="pb-3">
@@ -76,19 +92,59 @@ const AdminTariffCard: React.FC<AdminTariffCardType> = React.memo(
 
         <CardFooter className="flex-1 flex-col justify-end">
           <div className="flex flex-row justify-between gap-2 flex-wrap w-full">
-            <Button variant="outline" size="sm" className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex gap-2"
+              onClick={() => setTariffId(tariff._id)}
+            >
               <Pencil className="h-4 w-4" />
               Edit
             </Button>
 
-            <Button
-              size="sm"
-              variant="outline"
-              className="flex gap-2 text-rose-600 border-rose-200 hover:bg-rose-50"
-            >
-              <Power className="h-4 w-4" />
-              Change Status
-            </Button>
+            <ButtonGroup>
+              <Button
+                disabled
+                variant="outline"
+                className="bg-white"
+                onClick={() => {}}
+              >
+                Change status
+              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    aria-label="More Options"
+                  >
+                    <MoreHorizontalIcon />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-40">
+                  <DropdownMenuGroup className="space-y-1">
+                    {}
+                    {tariffStatus.map((t) => {
+                      const { Icon, label, name } = t;
+                      return (
+                        <DropdownMenuItem key={name} asChild>
+                          <Button
+                            onClick={() =>
+                              onAdminStatusChange(tariff._id, name)
+                            }
+                            variant={"outline"}
+                            className=" border hover:bg-green-200 delay-0 w-full flex items-center justify-start"
+                          >
+                            <Icon />
+                            {label}
+                          </Button>
+                        </DropdownMenuItem>
+                      );
+                    })}
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </ButtonGroup>
           </div>
         </CardFooter>
       </Card>
