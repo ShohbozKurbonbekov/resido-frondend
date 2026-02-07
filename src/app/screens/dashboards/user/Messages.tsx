@@ -34,7 +34,6 @@ export default function Messages() {
   const { setGetMemberMessages } = getMemberMessagesDispatch(useDispatch());
   const { getMemberMessages } = useSelector(getMemberMessagesRetriever);
   const [loading, setLoading] = useState<boolean>(true);
-  const [mainPageLoading, setMainPageLoading] = useState<boolean>(false);
   const [getMemberMessagesInput, setGetMemberMessagesInput] =
     useState<CommonInput>({
       page: 1,
@@ -56,8 +55,34 @@ export default function Messages() {
     };
 
     fetchGetMemberMessages();
-  }, [getMemberMessagesInput, mainPageLoading]);
+  }, [getMemberMessagesInput]);
   // --------------------------------------- HANDLERS --------------------
+
+  const handleMarkRead = useCallback(
+    async (id: string) => {
+      const prevMsgs = getMemberMessages;
+      const updatedMsg = prevMsgs.messages.map((msg) =>
+        msg._id === id
+          ? { ...msg, isRead: true, whenIsRead: new Date().toISOString() }
+          : msg,
+      );
+      setGetMemberMessages({
+        messages: updatedMsg,
+        metaCounter: prevMsgs.metaCounter,
+      });
+
+      try {
+        const member = new MemberService();
+        await member.messageRead(id);
+      } catch (error) {
+        console.log("Error in handleMarkRead of Messages: ", error);
+        await sweetErrorHandling(error!);
+        setGetMemberMessages(prevMsgs);
+      }
+    },
+    [getMemberMessages, setGetMemberMessages],
+  );
+
   const handleDeleteMessage = useCallback(
     async (id: string) => {
       const oldMessages = getMemberMessages;
@@ -152,10 +177,10 @@ export default function Messages() {
         <div className="flex flex-col gap-y-5 h-full">
           <MemberMessagesHeader />
           <MemberMessagesContent
+            handleMarkRead={handleMarkRead}
             getMemberMessages={getMemberMessages}
             getMemberMessagesInput={getMemberMessagesInput}
             setGetMemberMessagesInput={setGetMemberMessagesInput}
-            setMainPageLoading={setMainPageLoading}
             handleDeleteMessage={handleDeleteMessage}
             handleSavebtn={handleSavebtn}
             handleReply={handleReply}

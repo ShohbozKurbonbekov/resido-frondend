@@ -9,3 +9,9 @@ export const retrieveAdminTariffPlans = createSelector(
   selectAdminDashboardPage,
   (adminDashboardPage) => adminDashboardPage.adminTariffPlans,
 );
+
+// RETREIVE ADMIN MESSAGES
+export const retrieveAdminMessages = createSelector(
+  selectAdminDashboardPage,
+  (adminDashboardPage) => adminDashboardPage.adminMessages,
+);

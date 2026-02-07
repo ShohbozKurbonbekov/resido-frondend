@@ -136,4 +136,5 @@ export interface AgencyDashboardPage {
 // ADMIN DASHBOARD PAGE
 export interface AdminDashboardPage {
   adminTariffPlans: PaymentTariffsType;
+  adminMessages: MemberMessages;
 }
