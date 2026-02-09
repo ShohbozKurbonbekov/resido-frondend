@@ -7,13 +7,15 @@ import { createSelector } from "reselect";
 import type { AdminGetCommentsType, Comments } from "@/lib/type/comment";
 import { setAdminGetComments } from "../slice";
 import { retrieveAdminGetComments } from "../selector";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AdminDashboardCommentsHeaderContent from "./AdminDashboardCommentsHeaderContent";
 import { CommentStatus } from "@/lib/enums/comment.enum";
 import AdminDashboardFilter from "./AdminCommentsFilter";
 import type { CommonInput } from "@/lib/type/common";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import AdminService from "@/app/services/Admin.service";
+import { useGlobals } from "@/app/hooks/useGlobals";
+import { Navigate } from "react-router-dom";
 
 // -------------------------- Redux integration --------------------
 
@@ -30,6 +32,7 @@ const adminGetCommentsRetriever = createSelector(
 // -------------------------- Component --------------------
 
 export default function AdminDashboardComments() {
+  const { authmember } = useGlobals();
   const { setAdminGetComments } = adminGetCommentsDispatch(useDispatch());
   const { adminGetComments } = useSelector(adminGetCommentsRetriever);
 
@@ -65,7 +68,36 @@ export default function AdminDashboardComments() {
     })();
   }, [commentsInput]);
   // -------------------------- Handlers --------------------
+  const onStatusChange = useCallback(
+    async (id: string, status: CommentStatus) => {
+      const prevComments = adminGetComments;
+      const updatedComments = adminGetComments.comments.filter(
+        (c) => c.id !== id,
+      );
+
+      setAdminGetComments({
+        comments: updatedComments,
+        metaCounter: prevComments.metaCounter,
+      });
+
+      try {
+        const admin = new AdminService();
+        await admin.adminCommentStatusChange(id, status);
+      } catch (error) {
+        setAdminGetComments(prevComments);
+        console.log(
+          "Error in onStatusChange of AdminDashboardComments: ",
+          error,
+        );
+        await sweetErrorHandling(error!);
+      }
+    },
+    [adminGetComments, setAdminGetComments],
+  );
   // -------------------------- Render --------------------
+  if (!authmember) {
+    return <Navigate to={"/"} />;
+  }
   return (
     <div className="flex flex-col gap-7 h-full">
       <AdminDashboardUtilityHeader
@@ -87,6 +119,7 @@ export default function AdminDashboardComments() {
         searchPlaceholder="Search a commenter"
       />
       <AdminDashboardCommentsContent
+        onStatusChange={onStatusChange}
         comments={adminGetComments}
         loading={loading}
         commentsInput={commentsInput}

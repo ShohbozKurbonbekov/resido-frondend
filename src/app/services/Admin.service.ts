@@ -6,7 +6,11 @@ import type { PaymentTariffsType, TarrifOutputType } from "@/lib/type/pricing";
 import axios from "axios";
 import type { AdminSubmitTariffSchemaOutput } from "../data/admin";
 import type { CommentStatus } from "@/lib/enums/comment.enum";
-import type { AdminGetCommentsType, Comments } from "@/lib/type/comment";
+import type {
+  AdminGetCommentsType,
+  Comment,
+  Comments,
+} from "@/lib/type/comment";
 
 class AdminService {
   public readonly path;
@@ -94,6 +98,24 @@ class AdminService {
       return result.data;
     } catch (error) {
       console.log("adminGetComments: ", error);
+      throw error;
+    }
+  }
+
+  public async adminCommentStatusChange(
+    id: string,
+    status: CommentStatus,
+  ): Promise<Comments<Comment>> {
+    try {
+      const url = `${this.path}/admin/comments/status/change/${id}`;
+      const result = await axios.post(
+        url,
+        { status },
+        { withCredentials: true },
+      );
+      return result.data;
+    } catch (error) {
+      console.log("adminCommentStatusChange: ", error);
       throw error;
     }
   }

@@ -15,18 +15,20 @@ interface AdminDashboardCommentsContentType {
   setCommentsInput: SetStateType<
     CommonInput & { status?: CommentStatus; username?: string }
   >;
+  onStatusChange: (id: string, status: CommentStatus) => Promise<void>;
 }
 export default function AdminDashboardCommentsContent({
   comments,
   commentsInput,
   setCommentsInput,
   loading,
+  onStatusChange,
 }: AdminDashboardCommentsContentType) {
   const actions: RowAction<AdminGetCommentsType, CommentStatus>[] = [
     {
       label: "Archive",
       onClick: (row: AdminGetCommentsType) => {
-        console.log("Block comment", row.id);
+        onStatusChange(row.id, CommentStatus.ARCHIVED);
       },
       variant: "secondary",
       btnClasses: "bg-slate-400 hover:bg-slate-600 text-white font-jostFont",
@@ -34,9 +36,8 @@ export default function AdminDashboardCommentsContent({
     },
     {
       label: "Delete",
-      onClick: (row: AdminGetCommentsType) => {
-        console.log("Delete comment", row.id);
-      },
+      onClick: (row: AdminGetCommentsType) =>
+        onStatusChange(row.id, CommentStatus.DELETE),
       variant: "destructive",
       btnClasses: "bg-red-400 hover:bg-red-600 text-white font-jostFont",
       status: CommentStatus.DELETE,
@@ -44,9 +45,8 @@ export default function AdminDashboardCommentsContent({
 
     {
       label: "Activate",
-      onClick: (row: AdminGetCommentsType) => {
-        console.log("Activate comment", row.id);
-      },
+      onClick: (row: AdminGetCommentsType) =>
+        onStatusChange(row.id, CommentStatus.ACTIVE),
       variant: "outline",
       btnClasses: "bg-green-400 hover:bg-green-600 text-white font-jostFont",
       status: CommentStatus.ACTIVE,
