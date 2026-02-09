@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState: AdminDashboardPage = {
   adminTariffPlans: { metaCounter: [{ total: 0 }], paymentTariffs: [] },
   adminMessages: { messages: [], metaCounter: [{ total: 0 }] },
+  adminGetComments: { comments: [], metaCounter: [{ total: 0 }] },
 };
 
 const adminDashboardPageSlice = createSlice({
@@ -17,10 +18,14 @@ const adminDashboardPageSlice = createSlice({
     setAdminMessages: (state, action) => {
       state.adminMessages = action.payload;
     },
+
+    setAdminGetComments: (state, action) => {
+      state.adminGetComments = action.payload;
+    },
   },
 });
 
-export const { setAdminTariffPlans, setAdminMessages } =
+export const { setAdminTariffPlans, setAdminMessages, setAdminGetComments } =
   adminDashboardPageSlice.actions;
 
 const AdminDashoardPageReducer = adminDashboardPageSlice.reducer;

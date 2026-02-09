@@ -4,9 +4,8 @@ import MainContentAdmin from "./MainContentAdmin";
 import AdminDashboardOverview from "./AdminDashboardOverview";
 import AdminDashboardNotifications from "./AdminDashboardNotifications";
 import AdminDashboardMembers from "./AdminDashboardMembers";
-import AdminDashboardProperties from "./AdminDashboardProperties";
 import AdminDashboardBlogs from "./AdminDashboardBlogs";
-import AdminDashboardComments from "./AdminDashboardComments";
+import AdminDashboardComments from "./comment/AdminDashboardComments";
 import AdminDashboardMessages from "./AdminDashboardMessages";
 import AdminDashboardTransactions from "./AdminDashboardTransactions";
 import AdminDashboardTariffs from "./AdminDashboardTariffs";
@@ -34,10 +33,6 @@ export default function AdminDashboard() {
         <Route path="/admin-members" element={<AdminDashboardMembers />} />
 
         {/* Content Moderation */}
-        <Route
-          path="/admin-properties"
-          element={<AdminDashboardProperties />}
-        />
 
         {/* Blogs */}
         <Route path="/admin-blogs" element={<AdminDashboardBlogs />} />

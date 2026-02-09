@@ -16,7 +16,7 @@ import type {
   FollowedAgentsType,
   MyAgentsDashboardType,
 } from "./agent";
-import type { Comment, Comments } from "./comment";
+import type { AdminGetCommentsType, Comment, Comments } from "./comment";
 import type {
   AgenciesListPage,
   Agency,
@@ -137,4 +137,5 @@ export interface AgencyDashboardPage {
 export interface AdminDashboardPage {
   adminTariffPlans: PaymentTariffsType;
   adminMessages: MemberMessages;
+  adminGetComments: Comments<AdminGetCommentsType>;
 }

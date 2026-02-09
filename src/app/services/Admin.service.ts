@@ -5,6 +5,8 @@ import type { CommonInput } from "@/lib/type/common";
 import type { PaymentTariffsType, TarrifOutputType } from "@/lib/type/pricing";
 import axios from "axios";
 import type { AdminSubmitTariffSchemaOutput } from "../data/admin";
+import type { CommentStatus } from "@/lib/enums/comment.enum";
+import type { AdminGetCommentsType, Comments } from "@/lib/type/comment";
 
 class AdminService {
   public readonly path;
@@ -79,6 +81,19 @@ class AdminService {
       return result.data;
     } catch (error) {
       console.log("adminChangeTariffStatus: ", error);
+      throw error;
+    }
+  }
+
+  public async adminGetComments(
+    input: CommonInput & { status?: CommentStatus; username?: string },
+  ): Promise<Comments<AdminGetCommentsType>> {
+    try {
+      const url = `${this.path}/admin/comments/getCommentsForAdmin?status=${input.status}&page=${input.page}&limit=${input.limit}&username=${input.username}`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("adminGetComments: ", error);
       throw error;
     }
   }

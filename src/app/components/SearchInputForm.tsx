@@ -16,7 +16,7 @@ const SearchInputForm: React.FC<SearchInputFormType> = React.memo(
 
         setAgenciesSearchInput(searchInput.trim());
       },
-      [searchInput, setSearchInput]
+      [searchInput, setAgenciesSearchInput],
     );
     return (
       <form
@@ -41,7 +41,7 @@ const SearchInputForm: React.FC<SearchInputFormType> = React.memo(
         </button>
       </form>
     );
-  }
+  },
 );
 
 export default SearchInputForm;

@@ -30,11 +30,18 @@ export interface Comment {
   updatedAt: string;
 }
 
-export interface Comments {
-  comments: Comment[];
+export interface Comments<TComment = Comment> {
+  comments: TComment[];
   metaCounter: TotalCounter[];
 }
 
+export interface AdminGetCommentsType {
+  id: string;
+  content: string;
+  author: string;
+  status: CommentStatus;
+  date: string;
+}
 export interface ChosenItemCommentsInput extends CommonInput {
   commentTarget: CommentTargetType;
 }
@@ -57,4 +64,12 @@ export interface CommentsSearchInput extends CommonInput {
   // limit, page
   sort?: SortOrder;
   category?: CommentTargetType;
+}
+
+export interface CommentRow {
+  id: string;
+  content: string;
+  author: string;
+  status: CommentStatus;
+  date: string;
 }

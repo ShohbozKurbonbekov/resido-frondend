@@ -72,10 +72,23 @@ export interface DashboardSidebarFeauturesType {
   Icon: LucideIcon; // Overview
 }
 
-
 export interface SweetConfirmInputsType {
-  message:string;
+  message: string;
   title: string;
-  confirmBtnText:string;
-  cancelBtnText:string
+  confirmBtnText: string;
+  cancelBtnText: string;
+}
+
+export interface Column<T> {
+  key: keyof T;
+  header: string;
+  render?: (row: T) => React.ReactNode;
+}
+
+export interface RowAction<T, Status extends string> {
+  label: string;
+  onClick?: (row: T) => void;
+  variant?: "default" | "outline" | "destructive" | "secondary";
+  btnClasses: string;
+  status: Status;
 }

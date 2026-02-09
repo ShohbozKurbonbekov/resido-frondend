@@ -15,3 +15,9 @@ export const retrieveAdminMessages = createSelector(
   selectAdminDashboardPage,
   (adminDashboardPage) => adminDashboardPage.adminMessages,
 );
+
+// RETREIVE USER COMMENTS
+export const retrieveAdminGetComments = createSelector(
+  selectAdminDashboardPage,
+  (adminDashboardPage) => adminDashboardPage.adminGetComments,
+);

@@ -8,7 +8,6 @@ import {
   CreditCard,
   Gauge,
   Handshake,
-  Home,
   LogOut,
   MessageCircle,
   MessageSquare,
@@ -39,12 +38,6 @@ export const ADMIN_DASHBOARD_FEATURES: DashboardSidebarFeauturesType[] = [
     title: "Members",
     Icon: Users,
     url: "/dashboard/admin-members",
-  },
-
-  {
-    title: "Properties",
-    Icon: Home,
-    url: "/dashboard/admin-properties",
   },
 
   {
