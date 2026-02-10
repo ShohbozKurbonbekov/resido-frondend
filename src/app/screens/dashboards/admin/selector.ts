@@ -21,3 +21,9 @@ export const retrieveAdminGetComments = createSelector(
   selectAdminDashboardPage,
   (adminDashboardPage) => adminDashboardPage.adminGetComments,
 );
+
+// RETREIVE ADMIN ALL BLOGS
+export const retrieveAdminAllBlogs = createSelector(
+  selectAdminDashboardPage,
+  (adminDashboardPage) => adminDashboardPage.adminAllBlogs,
+);

@@ -97,7 +97,7 @@ const MemberPostBlog: React.FC = () => {
     [tags, form],
   );
   return (
-    <Card className="w-full  border border-slate-200 bg-slate-50">
+    <Card className="w-full  border bg-slate-50 shadow-none overflow-hidden">
       <CardContent className="bg-white rounded-md">
         <Form {...form}>
           <form

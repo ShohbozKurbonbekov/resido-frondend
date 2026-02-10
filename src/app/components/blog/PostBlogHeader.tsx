@@ -9,7 +9,7 @@ export default function PostBlogHeader({
   subtitle = "Write and publish articles to share insights, updates, and expertise with your audience.",
 }: PostBlogHeaderType) {
   return (
-    <div className="flex flex-col gap-4 rounded-lg bg-white px-5 py-6 shadow-sm">
+    <div className="flex flex-col gap-4 rounded-lg bg-white px-5 py-6 shadow-sm border">
       <div className="flex items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-darkBlue/10">
           <PenLine className="h-5 w-5 text-darkBlue" />

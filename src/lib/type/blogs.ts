@@ -59,8 +59,8 @@ export interface BlogSearchInput extends CommonInput {
   search?: BlogSearchType;
 }
 
-export interface BlogsListPage {
-  blogs: Blog[];
+export interface BlogsListPage<TBlog = Blog> {
+  blogs: TBlog[];
   totalBlogsNumber: TotalCounter[];
 }
 
@@ -91,4 +91,14 @@ export interface SavedBlog {
 export interface SavedBlogsOutput {
   blogs: SavedBlog[];
   totalBlogsNumber: TotalCounter[];
+}
+
+export interface AdminAllBlogsType {
+  id: string;
+  status: BlogStatus;
+  authorType: BlogAuthorType;
+  title: string;
+  category: BlogCategory;
+  author: string;
+  date: string;
 }

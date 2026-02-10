@@ -77,7 +77,9 @@ export default function AdminDashboardComments() {
 
       setAdminGetComments({
         comments: updatedComments,
-        metaCounter: prevComments.metaCounter,
+        metaCounter: [
+          { total: Math.max(0, (prevComments.metaCounter[0]?.total || 1) - 1) },
+        ],
       });
 
       try {

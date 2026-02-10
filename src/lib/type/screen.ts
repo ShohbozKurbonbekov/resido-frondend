@@ -25,6 +25,7 @@ import type {
   ChosenAgencyTargetItemsType,
 } from "./agency";
 import type {
+  AdminAllBlogsType,
   BlogsListPage,
   ChosenBlogComments,
   ChosenBlogType,
@@ -138,4 +139,5 @@ export interface AdminDashboardPage {
   adminTariffPlans: PaymentTariffsType;
   adminMessages: MemberMessages;
   adminGetComments: Comments<AdminGetCommentsType>;
+  adminAllBlogs: BlogsListPage<AdminAllBlogsType>;
 }

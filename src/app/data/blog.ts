@@ -1,4 +1,7 @@
+import { customTruncate } from "@/lib/config";
 import { BlogCategory } from "@/lib/enums/blog.enum";
+import type { AdminAllBlogsType } from "@/lib/type/blogs";
+import type { Column } from "@/lib/type/common";
 import {
   EmailIcon,
   EmailShareButton,
@@ -61,3 +64,21 @@ export const BlogFormSchema = z.object({
 
   blogCategory: z.nativeEnum(BlogCategory),
 });
+
+export const blogColumns: Column<AdminAllBlogsType>[] = [
+  {
+    key: "title",
+    header: "Blog Title",
+    render: (row) => customTruncate(row.title, 30),
+  },
+
+  { key: "category", header: "Blog Type" },
+  { key: "authorType", header: "Author Type" },
+  { key: "author", header: "Author" },
+  { key: "status", header: "Status" },
+  {
+    key: "date",
+    header: "Date",
+    render: (row) => new Date(row.date).toLocaleString(),
+  },
+];
