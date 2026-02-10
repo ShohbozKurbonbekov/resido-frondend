@@ -1,5 +1,39 @@
+import type { Column } from "@/lib/type/common";
+import type { AdminGetAgentType } from "@/lib/type/member";
 import z from "zod";
 
+export const agentColumns: Column<AdminGetAgentType>[] = [
+  {
+    key: "name",
+    header: "Username",
+  },
+
+  { key: "type", header: "Member Type" },
+  { key: "status", header: "System Status" },
+  { key: "phone", header: "Phone" },
+  {
+    key: "date",
+    header: "Date",
+    render: (row) => new Date(row.date).toLocaleString(),
+  },
+  {
+    key: "verified",
+    header: "Verified",
+  },
+  {
+    key: "averageRating",
+    header: "Average Rating",
+  },
+
+  {
+    key: "businessStatus",
+    header: "Business Status",
+  },
+  {
+    key: "licenseNumber",
+    header: "License Number",
+  },
+];
 const nullableUrl = z
   .string()
   .trim()

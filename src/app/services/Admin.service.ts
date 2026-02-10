@@ -1,7 +1,7 @@
 import { serverAPI } from "@/lib/config";
 import type { BlogStatus, SortOrder } from "@/lib/enums/blog.enum";
 import type { TarrifStatus } from "@/lib/enums/pricing.enum";
-import type { CommonInput } from "@/lib/type/common";
+import type { CommonInput, CommonUsers } from "@/lib/type/common";
 import type { PaymentTariffsType, TarrifOutputType } from "@/lib/type/pricing";
 import axios from "axios";
 import type { AdminSubmitTariffSchemaOutput } from "../data/admin";
@@ -17,6 +17,8 @@ import type {
   BlogSearchInput,
   BlogsListPage,
 } from "@/lib/type/blogs";
+import type { AdminGetAllMembersType, AdminMembers } from "@/lib/type/member";
+import type { MemberStatus } from "@/lib/enums/agent.enum";
 
 class AdminService {
   public readonly path;
@@ -153,6 +155,37 @@ class AdminService {
       return result.data;
     } catch (error) {
       console.log("adminChangeBlogStatus: ", error);
+      throw error;
+    }
+  }
+
+  public async adminGetAllMembers(
+    input: AdminGetAllMembersType,
+  ): Promise<AdminMembers> {
+    try {
+      const url = `${this.path}/admin/get/all/members`;
+      const result = await axios.post(url, input, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("adminGetAllMembers: ", error);
+      throw error;
+    }
+  }
+
+  public async adminChangeMemberStatus(
+    id: string,
+    status: MemberStatus,
+  ): Promise<CommonUsers> {
+    try {
+      const url = `${this.path}/admin/change/member/status/${id}`;
+      const result = await axios.post(
+        url,
+        { status },
+        { withCredentials: true },
+      );
+      return result.data;
+    } catch (error) {
+      console.log("adminChangeMemberStatus: ", error);
       throw error;
     }
   }

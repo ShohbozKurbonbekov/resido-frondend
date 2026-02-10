@@ -27,3 +27,9 @@ export const retrieveAdminAllBlogs = createSelector(
   selectAdminDashboardPage,
   (adminDashboardPage) => adminDashboardPage.adminAllBlogs,
 );
+
+// RETREIVE ADMIN MEMBERS
+export const retrieveAdminGetAllMembers = createSelector(
+  selectAdminDashboardPage,
+  (adminDashboardPage) => adminDashboardPage.adminGetAllMembers,
+);

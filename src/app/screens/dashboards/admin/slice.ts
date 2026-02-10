@@ -6,6 +6,7 @@ const initialState: AdminDashboardPage = {
   adminMessages: { messages: [], metaCounter: [{ total: 0 }] },
   adminGetComments: { comments: [], metaCounter: [{ total: 0 }] },
   adminAllBlogs: { blogs: [], totalBlogsNumber: [{ total: 0 }] },
+  adminGetAllMembers: { members: [], metaCounter: [{ total: 0 }] },
 };
 
 const adminDashboardPageSlice = createSlice({
@@ -27,6 +28,9 @@ const adminDashboardPageSlice = createSlice({
     setAdminAllBlogs: (state, action) => {
       state.adminAllBlogs = action.payload;
     },
+    setAdminGetAllMembers: (state, action) => {
+      state.adminGetAllMembers = action.payload;
+    },
   },
 });
 
@@ -35,6 +39,7 @@ export const {
   setAdminMessages,
   setAdminGetComments,
   setAdminAllBlogs,
+  setAdminGetAllMembers,
 } = adminDashboardPageSlice.actions;
 
 const AdminDashoardPageReducer = adminDashboardPageSlice.reducer;

@@ -1,4 +1,4 @@
-import type { DashboardSidebarFeauturesType } from "@/lib/type/common";
+import type { Column, DashboardSidebarFeauturesType } from "@/lib/type/common";
 import {
   Bell,
   BookOpen,
@@ -14,6 +14,40 @@ import {
 } from "lucide-react";
 import { z } from "zod";
 import { SocialSchema } from "./agent";
+import type { AdminGetAgencyType } from "@/lib/type/member";
+
+export const agencyColumns: Column<AdminGetAgencyType>[] = [
+  {
+    key: "name",
+    header: "Username",
+  },
+
+  { key: "type", header: "Member Type" },
+  { key: "status", header: "System Status" },
+  { key: "phone", header: "Phone" },
+  {
+    key: "date",
+    header: "Date",
+    render: (row) => new Date(row.date).toLocaleString(),
+  },
+  {
+    key: "verified",
+    header: "Verified",
+  },
+
+  {
+    key: "businessStatus",
+    header: "Business Status",
+  },
+  {
+    key: "licenseNumber",
+    header: "License Number",
+  },
+  {
+    key: "registrationNumber",
+    header: "registration Number",
+  },
+];
 
 export const AGENCY_DASHBOARD_FEATURES: DashboardSidebarFeauturesType[] = [
   { title: "Overview", Icon: Gauge, url: "/dashboard" },

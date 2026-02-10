@@ -39,6 +39,7 @@ import type {
   NotificationsType,
   UserNotifications,
 } from "./notification";
+import type { AdminMembers } from "./member";
 // REACTT APP STATE
 export interface AppRootState {
   homepage: HomePageState;
@@ -140,4 +141,5 @@ export interface AdminDashboardPage {
   adminMessages: MemberMessages;
   adminGetComments: Comments<AdminGetCommentsType>;
   adminAllBlogs: BlogsListPage<AdminAllBlogsType>;
+  adminGetAllMembers: AdminMembers;
 }

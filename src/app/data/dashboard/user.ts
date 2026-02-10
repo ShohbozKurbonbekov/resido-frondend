@@ -1,5 +1,6 @@
-import type { DashboardSidebarFeauturesType } from "@/lib/type/common";
+import type { Column, DashboardSidebarFeauturesType } from "@/lib/type/common";
 import type { UserCardsType } from "@/lib/type/dashboard/user";
+import type { AdminGetUserType } from "@/lib/type/member";
 import {
   Bookmark,
   BookMarked,
@@ -14,6 +15,21 @@ import {
 } from "lucide-react";
 import z from "zod";
 
+export const userColumns: Column<AdminGetUserType>[] = [
+  {
+    key: "name",
+    header: "Username",
+  },
+
+  { key: "type", header: "Member Type" },
+  { key: "status", header: "System Status" },
+  { key: "phone", header: "Phone" },
+  {
+    key: "date",
+    header: "Date",
+    render: (row) => new Date(row.date).toLocaleString(),
+  },
+];
 export const USER_DASHBOARD_FEATURES: DashboardSidebarFeauturesType[] = [
   { title: "Overview", Icon: Gauge, url: "/dashboard" },
   { title: "notifications", Icon: Gauge, url: "/dashboard/notifications" },

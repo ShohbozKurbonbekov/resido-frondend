@@ -13,11 +13,12 @@ import AdminService from "@/app/services/Admin.service";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import AdminDashboardUtilityHeader from "./utility/AdminDashboardUtilityHeader";
 import { SquarePen } from "lucide-react";
-import AdminDashboardBlogsFilter from "./blog/AdminDashboardBlogsFilter";
 import { BlogCategory, BlogStatus, SortOrder } from "@/lib/enums/blog.enum";
 import { useGlobals } from "@/app/hooks/useGlobals";
 import { Navigate } from "react-router-dom";
 import AdminDashboardBlogsContent from "./blog/AdminDashboardBlogsContent";
+import AdminDashboardBlogFilterHeader from "./blog/AdminDashboardBlogFilterHeader";
+import AdminDashboardListFilter from "./utility/AdminDashboardListFilter";
 
 // ---------------------------- Redux Integration --------------------
 const adminAllBlogsDispatch = (dispatch: Dispatch) => ({
@@ -78,7 +79,7 @@ export default function AdminDashboardBlogs() {
     }));
   }, []);
 
-  const onStatusChange = useCallback(
+  const onChangeBlogStatus = useCallback(
     async (id: string, status: BlogStatus) => {
       const prevBlogs = adminAllBlogs;
       const updatedBlogs = prevBlogs.blogs.filter((b) => id !== b.id);
@@ -102,6 +103,38 @@ export default function AdminDashboardBlogs() {
     },
     [adminAllBlogs, setAdminAllBlogs],
   );
+
+  // Toggle category
+  const onCategoryChange = (c: BlogCategory) => {
+    setLoading(true);
+    setSearchInput((prev) => ({
+      ...prev,
+      page: 1,
+      search: {
+        ...prev.search,
+        category: c,
+      },
+    }));
+  };
+
+  // Toggle sort
+  const onSort = (s: SortOrder) => {
+    setLoading(true);
+    setSearchInput((prev) => ({
+      ...prev,
+      sort: s,
+    }));
+  };
+
+  // Toggle status
+  const onStatusChange = (s: BlogStatus) => {
+    setLoading(true);
+    setSearchInput((prev) => ({
+      ...prev,
+      page: 1,
+      status: s,
+    }));
+  };
   // ---------------------------- Render --------------------
   if (!authmember) {
     return <Navigate to={"/"} />;
@@ -113,17 +146,24 @@ export default function AdminDashboardBlogs() {
         subtitle="Manage, review, and control all blog posts across the platform."
         Icon1={<SquarePen className="h-6 w-6 text-blue-600" />}
       />
-      <AdminDashboardBlogsFilter
-        setLoading={setLoading}
-        searchInput={searchInput}
+      <AdminDashboardListFilter<BlogStatus, BlogCategory>
+        onSortChange={onSort}
+        filterHeader={<AdminDashboardBlogFilterHeader />}
+        onCategoryChange={onCategoryChange}
+        onStatusChange={onStatusChange}
         onTextSubmit={onTextSubmit}
-        setSearchInput={setSearchInput}
+        category={searchInput.search?.category}
+        categoryData={Object.keys(BlogCategory) as BlogCategory[]}
+        sort={searchInput.sort}
+        sortData={Object.keys(SortOrder) as SortOrder[]}
+        status={searchInput.status}
+        statusData={Object.keys(BlogStatus) as BlogStatus[]}
       />
 
       <AdminDashboardBlogsContent
         blogs={adminAllBlogs}
         loading={loading}
-        onStatusChange={onStatusChange}
+        onStatusChange={onChangeBlogStatus}
         searchInput={searchInput}
         setSearchInput={setSearchInput}
       />
