@@ -141,7 +141,6 @@ export interface AgencyDashboardOverviewType {
   myAgents: TotalCounter;
   myBlogs: TotalCounter;
   messages: TotalCounter;
-  transactions: TotalCounter;
   totalViews: TotalCounter;
   generatedAt: string | null;
 }

@@ -4,7 +4,11 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle2, Clock, XCircle } from "lucide-react";
 import { dateConverter } from "@/lib/utils";
 import type { SetStateType } from "@/lib/type/common";
-import { AgentNotificationType } from "@/lib/enums/notification.enum";
+import {
+  NotificationEntityType,
+  NotificationType,
+} from "@/lib/enums/notification.enum";
+import { useNavigate } from "react-router-dom";
 
 const actionBtnClasses =
   "bg-gray-500 text-white hover:bg-gray-700 hover:text-white transition-colors duration-150 ease-linear  border";
@@ -22,10 +26,14 @@ export default function UserNotificationCard({
   onReject,
   setCurrentNotificationId,
 }: UserNotificationCardType) {
+  const navigation = useNavigate();
+  const applicationAgent =
+    notification.entityType === NotificationEntityType.AGENT_APPLICATION;
+
   const isApproved =
-    notification.type === AgentNotificationType.AGENT_APPLICATION_APPROVED;
+    notification.type === NotificationType.APPLICATION_APPROVED;
   const isRejected =
-    notification.type === AgentNotificationType.AGENT_APPLICATION_REJECTED;
+    notification.type === NotificationType.APPLICATION_REJECTED;
 
   return (
     <Card className="rounded-xl border bg-white  transition-shadow hover:shadow-md">
@@ -40,10 +48,11 @@ export default function UserNotificationCard({
 
             <div>
               <h3 className="text-sm font-semibold font-jostFont text-gray-800">
-                Agent Application {isApproved ? "Approved" : "Rejected"}
+                {applicationAgent ? "Agent" : "Agency"} Application{" "}
+                {isApproved ? "Approved" : "Rejected"}
               </h3>
               <p className="text-xs text-muted-foreground">
-                {notification.payload?.agencyName || "Uknown"}
+                by {notification.payload?.actorName || "Uknown"}
               </p>
             </div>
           </div>
@@ -64,11 +73,15 @@ export default function UserNotificationCard({
               size="sm"
               className={actionBtnClasses}
               onClick={() => {
-                setDialog(true);
-                setCurrentNotificationId(notification._id);
+                if (applicationAgent) {
+                  setDialog(true);
+                  setCurrentNotificationId(notification._id);
+                } else {
+                  navigation("/payment");
+                }
               }}
             >
-              Activate Agent Account
+              {applicationAgent ? "Activate Agent Account" : "Next step"}
             </Button>
           )}
 

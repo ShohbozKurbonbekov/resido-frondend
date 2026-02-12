@@ -12,7 +12,7 @@ const btnActiveClasses =
   "active:scale-95 transition-transform duration-150 ease-linear";
 // --------------------------------- COMPONENT -------------------------
 const InfoItem = ({ label, value }: { label: string; value: string }) => (
-  <div>
+  <div className="font-jostFont">
     <p className="text-xs text-muted-foreground">{label}</p>
     <p className="text-sm font-medium text-foreground">{value}</p>
   </div>

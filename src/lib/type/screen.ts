@@ -142,4 +142,6 @@ export interface AdminDashboardPage {
   adminGetComments: Comments<AdminGetCommentsType>;
   adminAllBlogs: BlogsListPage<AdminAllBlogsType>;
   adminGetAllMembers: AdminMembers;
+  adminNotifications: NotificationsType<NotificationCreation>;
+  adminMyBlogs: BlogsListPage;
 }

@@ -20,7 +20,7 @@ const AgentDashboardOverviewContent: React.FC<AgentDashboardOverviewContentType>
     const overviewStates = useMemo(() => {
       const generateStates = (arr: string[]) =>
         Object.entries(agentDashboardOverview).filter(([key]) =>
-          arr.includes(key)
+          arr.includes(key),
         );
 
       return {
@@ -29,7 +29,6 @@ const AgentDashboardOverviewContent: React.FC<AgentDashboardOverviewContentType>
           "myBlogs",
           "reviews",
           "messages",
-          "transactions",
         ]),
         staticStates: generateStates(["totalLikes", "totalViews"]),
       };

@@ -40,7 +40,6 @@ const AgencyDashboardOverviewContent: React.FC<AgencyDashboardOverviewContentTyp
           "myAgents",
           "myBlogs",
           "messages",
-          "transactions",
         ]),
         staticStates: generateStates(["totalViews"]),
       };

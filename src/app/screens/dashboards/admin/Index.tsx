@@ -7,9 +7,10 @@ import AdminDashboardMembers from "./AdminDashboardMembers";
 import AdminDashboardBlogs from "./AdminDashboardBlogs";
 import AdminDashboardComments from "./comment/AdminDashboardComments";
 import AdminDashboardMessages from "./AdminDashboardMessages";
-import AdminDashboardTransactions from "./AdminDashboardTransactions";
 import AdminDashboardTariffs from "./AdminDashboardTariffs";
 import AdminDashboardProfile from "./AdminDashboardProfile";
+import DashboardPostBlog from "@/app/components/blog/DashboardPostBlog";
+import AdminDashboardMyBlogs from "./blog/AdminDashboardMyBlogs";
 
 export default function AdminDashboard() {
   const { authmember } = useGlobals();
@@ -37,6 +38,12 @@ export default function AdminDashboard() {
         {/* Blogs */}
         <Route path="/admin-blogs" element={<AdminDashboardBlogs />} />
 
+        {/*My Blogs*/}
+        <Route path="/admin-myBlogs" element={<AdminDashboardMyBlogs />} />
+
+        {/*My Blogs*/}
+        <Route path="/admin-createBlog" element={<DashboardPostBlog />} />
+
         {/* Comments */}
         <Route path="/admin-comments" element={<AdminDashboardComments />} />
 
@@ -44,12 +51,6 @@ export default function AdminDashboard() {
         <Route path="/admin-messages" element={<AdminDashboardMessages />} />
 
         {/* Platform */}
-        {/* Transactions */}
-        <Route
-          path="/admin-transactions"
-          element={<AdminDashboardTransactions />}
-        />
-
         {/* Payment Tariffs */}
         <Route path="/admin-tariffs" element={<AdminDashboardTariffs />} />
 

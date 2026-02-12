@@ -1,8 +1,8 @@
 import { myNotificationsWrapperClasses } from "@/app/screens/dashboards/agency/AgencyDashboardNotifications";
 import type { CommonInput, SetStateType } from "@/lib/type/common";
 import type {
-  AgencyNotifications,
   NotificationCreation,
+  NotificationsType,
 } from "@/lib/type/notification";
 import React from "react";
 import MyNotificationCard from "./MyNotificationCard";
@@ -15,7 +15,7 @@ import AgentReviewContent from "@/app/screens/dashboards/agent/AgentReviewConten
 import AgencyReviewContent from "@/app/screens/dashboards/agency/AgencyReviewContent";
 
 interface MyNotificationsContentType {
-  myNotifications: AgencyNotifications;
+  myNotifications: NotificationsType<NotificationCreation>;
   myNotificationInput: CommonInput;
   setMyNotificationsInput: SetStateType<CommonInput>;
   onReview?: (entityId: string) => void;
@@ -23,8 +23,8 @@ interface MyNotificationsContentType {
   setModalOpen: SetStateType<boolean>;
   agent?: AgentData;
   agency?: Agency;
-  onApprove?: (agentId: string) => Promise<void>;
-  onReject?: (agentId: string) => Promise<void>;
+  onApprove?: (memberId: string) => Promise<void>;
+  onReject?: (memberId: string) => Promise<void>;
 }
 const MyNotificationsContent: React.FC<MyNotificationsContentType> = React.memo(
   ({
@@ -86,7 +86,11 @@ const MyNotificationsContent: React.FC<MyNotificationsContentType> = React.memo(
             modalOpen={modalOpen}
             setModalOpen={setModalOpen}
           >
-            <AgencyReviewContent agency={agency} />
+            <AgencyReviewContent
+              agency={agency}
+              onApprove={onApprove}
+              onReject={onReject}
+            />
           </ReviewApplicationModal>
         )}
       </>

@@ -1,4 +1,5 @@
 import { serverAPI } from "@/lib/config";
+import type { AgentData } from "@/lib/type/agent";
 import type { ReviewNotificationType } from "@/lib/type/notification";
 import axios from "axios";
 
@@ -10,7 +11,7 @@ class NotificationService {
 
   public async reviewNotification(
     entityId: string,
-  ): Promise<ReviewNotificationType> {
+  ): Promise<ReviewNotificationType<AgentData>> {
     try {
       const url = `${this.path}/agency/review/notification/${entityId}`;
       const result = await axios.post(url, {}, { withCredentials: true });

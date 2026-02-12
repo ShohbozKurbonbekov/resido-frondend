@@ -6,7 +6,7 @@ import { sweetFailureProvider } from "@/lib/sweetAlerts";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function AgentRegistration() {
+export default function AgencyRegistration() {
   const { authmember } = useGlobals();
   const navigation = useNavigate();
 
@@ -19,7 +19,7 @@ export default function AgentRegistration() {
       return sweetFailureProvider(
         "You are not eligible to apply for an agency",
         true,
-        "/"
+        "/",
       );
     }
 

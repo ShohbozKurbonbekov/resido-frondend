@@ -115,7 +115,6 @@ export interface AgentDashboardOverviewType {
   myBlogs: TotalCounter;
   reviews: TotalCounter;
   messages: TotalCounter;
-  transactions: TotalCounter;
   totalLikes: TotalCounter;
   totalViews: TotalCounter;
   generatedAt: string | null;

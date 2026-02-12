@@ -24,7 +24,7 @@ export default function ReviewApplicationModal({
   return (
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
       <DialogContent
-        className="h-5/6 w-11/12 max-w-5xl overflow-y-scroll"
+        className="h-5/6 w-11/12 max-w-5xl overflow-y-scroll [&>button]:hidden"
         onInteractOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
       >

@@ -77,11 +77,15 @@ const UserNotificationsContent: React.FC<UserNotificationsContentType> =
               />
             </div>
           ) : (
-            <NoFound title="No blogs found" />
+            <NoFound title="No Notifications found" />
           )}
 
           <Dialog open={dialogOpen} onOpenChange={setDialog}>
-            <DialogContent className="rounded-2xl">
+            <DialogContent
+              className="rounded-2xl [&>button]:hidden"
+              onEscapeKeyDown={(e) => e.preventDefault()}
+              onInteractOutside={(e) => e.preventDefault()}
+            >
               <DialogHeader>
                 <DialogTitle className="font-jostFont text-yellow-500 tracking-wider  inline-flex items-center gap-2 text-lg">
                   <Info className="w-6 h-6 " /> Activate Agent Account
@@ -93,7 +97,13 @@ const UserNotificationsContent: React.FC<UserNotificationsContentType> =
               </DialogHeader>
 
               <DialogFooter className="flex gap-2">
-                <Button variant="outline" onClick={() => setDialog(false)}>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setCurrentNotId(null);
+                    setDialog(false);
+                  }}
+                >
                   Cancel
                 </Button>
                 {onApprove && currentNotId && (

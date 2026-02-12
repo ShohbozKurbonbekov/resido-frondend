@@ -90,7 +90,7 @@ export default function AgencyDashboardNotifications() {
       try {
         const notification = new NotificationService();
         const result = await notification.reviewNotification(entityId);
-        setAgent(result.agent);
+        setAgent(result.member);
         setModalOpen(true);
       } catch (error) {
         setAgencyNotifications(prevNotifications);

@@ -1,13 +1,12 @@
 import type { MemberType } from "../enums/agent.enum";
 import type {
-  AgentNotificationEntityType,
-  AgentNotificationType,
+  NotificationEntityType,
+  NotificationType,
 } from "../enums/notification.enum";
-import type { AgentData } from "./agent";
 import type { TotalCounter } from "./common";
 
 export interface PaylaodType {
-  agencyName?: string;
+  actorName?: string;
   reason?: string;
 }
 
@@ -25,8 +24,8 @@ export interface NotificationCreation {
   _id: string;
   recipientId: string;
   recipientRole: MemberType;
-  type: AgentNotificationType;
-  entityType: AgentNotificationEntityType;
+  type: NotificationType;
+  entityType: NotificationEntityType;
   entityId: string;
   resolvedAt?: string;
   actionRequired: boolean;
@@ -45,7 +44,7 @@ export interface UserNotifications {
   metaCounter: TotalCounter[];
 }
 
-export interface ReviewNotificationType {
-  agent: AgentData;
+export interface ReviewNotificationType<TMember> {
+  member: TMember;
   notification: NotificationCreation;
 }

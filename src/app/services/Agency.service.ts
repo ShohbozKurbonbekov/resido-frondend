@@ -25,6 +25,7 @@ import type {
   CommonAgentResults,
   MyAgentsDashboardType,
 } from "@/lib/type/agent";
+import type { AgencyApplication } from "@/lib/type/agencyApplication";
 
 class AgencyService {
   private readonly path;
@@ -69,7 +70,9 @@ class AgencyService {
     }
   }
 
-  public async registerAgency(input: AgencyFormType): Promise<void> {
+  public async registerAgency(
+    input: AgencyFormType,
+  ): Promise<AgencyApplication> {
     try {
       const agencyForm = new FormData();
       if (input.address) agencyForm.append("address", input.address);

@@ -3,7 +3,6 @@ import MainContentAgent from "./MainContentAgent";
 import AgentDashboardOverview from "./AgentDashboardOverview";
 import AgentDashboardNotifications from "./AgentDashboardNotifications";
 import AgentDashboardMyProperties from "./AgentDashboardMyProperties";
-import AgentDashboardTransactions from "./AgentDashboardTransactions";
 import AgentDashboardReviews from "./AgentDashboardReviews";
 import AgentDashboardMessages from "./AgentDashboardMessages";
 import AgentDashboardCreateProperty from "./AgentDashboardCreateProperty";
@@ -29,11 +28,6 @@ export default function AgentDashboard() {
           path="/agent-my-properties"
           element={<AgentDashboardMyProperties />}
         ></Route>
-        <Route
-          path="/agent-transactions"
-          element={<AgentDashboardTransactions />}
-        ></Route>
-
         <Route
           path="/agent-reviews"
           element={<AgentDashboardReviews />}

@@ -74,7 +74,7 @@ export default function AdminDashboardMembers() {
   }, []);
 
   const onChangeMemberStatus = useCallback(
-    async (id: string, status: MemberStatus) => {
+    async (id: string, type: MemberType, status: MemberStatus) => {
       const prevMembers = adminGetAllMembers;
       const updatedMembers = adminGetAllMembers.members.filter(
         (m) => id !== m.id,
@@ -90,10 +90,10 @@ export default function AdminDashboardMembers() {
       });
       try {
         const admin = new AdminService();
-        await admin.adminChangeMemberStatus(id, status);
+        await admin.adminChangeMemberStatus(id, type, status);
       } catch (error) {
         setAdminGetAllMembers(prevMembers);
-        console.log("Error in onStatusChange of AdminDashboardMembers");
+        console.log("Error in onChangeMemberStatus of AdminDashboardMembers");
         await sweetErrorHandling(error!);
       }
     },
@@ -124,6 +124,7 @@ export default function AdminDashboardMembers() {
 
   // Toggle status
   const onStatusChange = (s: MemberStatus) => {
+    console.group(s);
     setLoading(true);
     setMemberCategory((prev) => ({
       ...prev,
@@ -161,7 +162,7 @@ export default function AdminDashboardMembers() {
         sort={memberCategory.sort}
         sortData={Object.keys(SortOrder) as SortOrder[]}
         status={memberCategory.status}
-        statusData={Object.keys(MemberStatus) as MemberStatus[]}
+        statusData={Object.values(MemberStatus) as MemberStatus[]}
       />
 
       <AdminDashboardMembersContent

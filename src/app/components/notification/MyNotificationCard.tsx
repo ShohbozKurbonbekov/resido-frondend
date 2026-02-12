@@ -43,14 +43,14 @@ export default function MyNotificationCard({
             {name || "unkown"}
           </h3>
 
-          <span className="flex items-center gap-1 text-xs text-gray-500">
+          <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
             <Clock className="h-3.5 w-3.5" />
             {dateConverter(createdAt)}
           </span>
         </div>
 
         <div className="flex flex-wrap items-center gap-3 text-xs text-gray-600">
-          <span className="flex items-center gap-1">
+          <span className="inline-flex items-center gap-1">
             <MapPin className="h-3.5 w-3.5" />
             {address || "Address not provided"}
           </span>
@@ -68,7 +68,7 @@ export default function MyNotificationCard({
             onClick={() => {
               onReview(entityId);
             }}
-            className={`mt-2 inline-flex w-fit items-center gap-2 rounded-lg  px-3 py-1.5 text-xs font-medium text-white transition-all bg-green-600 hover:bg-green-800 `}
+            className={`mt-2 inline-flex w-fit items-center gap-2 rounded-lg  px-3 py-1.5 text-xs font-normal text-white transition-all bg-green-600 hover:bg-green-800  font-jostFont `}
           >
             Review Application
             <ArrowRight className="h-3.5 w-3.5" />

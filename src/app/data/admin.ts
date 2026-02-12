@@ -6,11 +6,12 @@ import {
   Bell,
   BookOpen,
   CreditCard,
+  FileText,
   Gauge,
-  Handshake,
   LogOut,
   MessageCircle,
   MessageSquare,
+  Pen,
   User,
   Users,
 } from "lucide-react";
@@ -41,11 +42,22 @@ export const ADMIN_DASHBOARD_FEATURES: DashboardSidebarFeauturesType[] = [
   },
 
   {
-    title: "Blogs",
+    title: "Member Blogs",
     Icon: BookOpen,
     url: "/dashboard/admin-blogs",
   },
 
+  {
+    title: "My Blogs",
+    Icon: FileText,
+    url: "/dashboard/admin-myBlogs",
+  },
+
+  {
+    title: "Create Blog",
+    Icon: Pen,
+    url: "/dashboard/admin-createBlog",
+  },
   {
     title: "Comments",
     Icon: MessageCircle,
@@ -57,13 +69,6 @@ export const ADMIN_DASHBOARD_FEATURES: DashboardSidebarFeauturesType[] = [
     Icon: MessageSquare,
     url: "/dashboard/admin-messages",
   },
-
-  {
-    title: "Transactions",
-    Icon: Handshake,
-    url: "/dashboard/admin-transactions",
-  },
-
   {
     title: "Tariff Plans",
     Icon: CreditCard,

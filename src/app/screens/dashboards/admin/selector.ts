@@ -33,3 +33,15 @@ export const retrieveAdminGetAllMembers = createSelector(
   selectAdminDashboardPage,
   (adminDashboardPage) => adminDashboardPage.adminGetAllMembers,
 );
+
+// RETREIVE ADMIN NOTIFICATIONNS
+export const retrieveAdminNotifications = createSelector(
+  selectAdminDashboardPage,
+  (adminDashboardPage) => adminDashboardPage.adminNotifications,
+);
+
+// RETREIVE ADMIN  MY BLOGS
+export const retrieveAdminMyBlogs = createSelector(
+  selectAdminDashboardPage,
+  (adminDashboardPage) => adminDashboardPage.adminMyBlogs,
+);

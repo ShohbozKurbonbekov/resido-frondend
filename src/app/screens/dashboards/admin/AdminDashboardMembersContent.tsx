@@ -23,7 +23,11 @@ interface AdminDashboardMembersContentType {
   loading: boolean;
   memberCategory: AdminGetAllMembersType;
   setMemberCategory: SetStateType<AdminGetAllMembersType>;
-  onChangeMemberStatus: (id: string, status: MemberStatus) => Promise<void>;
+  onChangeMemberStatus: (
+    id: string,
+    type: MemberType,
+    status: MemberStatus,
+  ) => Promise<void>;
 }
 export default function AdminDashboardMembersContent({
   loading,
@@ -39,7 +43,7 @@ export default function AdminDashboardMembersContent({
         {
           label: "Blocked",
           onClick: (row: AdminDashboardCommonMember) => {
-            onChangeMemberStatus(row.id, MemberStatus.BLOCKED);
+            onChangeMemberStatus(row.id, row.type, MemberStatus.BLOCKED);
           },
           variant: "secondary",
           btnClasses:
@@ -49,7 +53,7 @@ export default function AdminDashboardMembersContent({
         {
           label: "Deleted",
           onClick: (row: AdminDashboardCommonMember) =>
-            onChangeMemberStatus(row.id, MemberStatus.DELETED),
+            onChangeMemberStatus(row.id, row.type, MemberStatus.DELETED),
           variant: "destructive",
           btnClasses: "bg-red-400 hover:bg-red-600 text-white font-jostFont",
           status: MemberStatus.DELETED,
@@ -58,7 +62,7 @@ export default function AdminDashboardMembersContent({
         {
           label: "Activate",
           onClick: (row: AdminDashboardCommonMember) =>
-            onChangeMemberStatus(row.id, MemberStatus.ACTIVE),
+            onChangeMemberStatus(row.id, row.type, MemberStatus.ACTIVE),
           variant: "outline",
           btnClasses:
             "bg-green-400 hover:bg-green-600 text-white font-jostFont",

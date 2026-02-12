@@ -18,7 +18,13 @@ import type {
   BlogsListPage,
 } from "@/lib/type/blogs";
 import type { AdminGetAllMembersType, AdminMembers } from "@/lib/type/member";
-import type { MemberStatus } from "@/lib/enums/agent.enum";
+import type { MemberStatus, MemberType } from "@/lib/enums/agent.enum";
+import type {
+  NotificationCreation,
+  NotificationsType,
+  ReviewNotificationType,
+} from "@/lib/type/notification";
+import type { Agency } from "@/lib/type/agency";
 
 class AdminService {
   public readonly path;
@@ -174,18 +180,92 @@ class AdminService {
 
   public async adminChangeMemberStatus(
     id: string,
+    type: MemberType,
     status: MemberStatus,
   ): Promise<CommonUsers> {
     try {
       const url = `${this.path}/admin/change/member/status/${id}`;
       const result = await axios.post(
         url,
-        { status },
+        { status, role: type },
         { withCredentials: true },
       );
       return result.data;
     } catch (error) {
       console.log("adminChangeMemberStatus: ", error);
+      throw error;
+    }
+  }
+
+  public async myNotifications(
+    input: CommonInput,
+  ): Promise<NotificationsType<NotificationCreation>> {
+    try {
+      const url = `${serverAPI}/admin/get/notifications?page=${input.page}&limit=${input.limit}`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in  admin myNotifications service: ", error);
+      throw error;
+    }
+  }
+
+  public async reviewNotification(
+    entityId: string,
+  ): Promise<ReviewNotificationType<Agency>> {
+    try {
+      const url = `${this.path}/admin/review/notification/${entityId}`;
+      const result = await axios.post(url, {}, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in reviewNotification: ", error);
+      throw error;
+    }
+  }
+
+  public async adminRejectApplication(
+    agencyId: string,
+  ): Promise<NotificationCreation> {
+    try {
+      const url = `${this.path}/admin/reject/application/${agencyId}`;
+      const result = await axios.post(url, {}, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in adminRejectApplication service: ", error);
+      throw error;
+    }
+  }
+
+  public async adminApproveApplication(
+    agencyId: string,
+  ): Promise<NotificationCreation> {
+    try {
+      const url = `${this.path}/admin/approve/application/${agencyId}`;
+      const result = await axios.post(url, {}, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in adminApproveApplication service: ", error);
+      throw error;
+    }
+  }
+
+  public async myBlogs(input: CommonInput): Promise<BlogsListPage> {
+    try {
+      const url = `${serverAPI}/admin/get/myBlogs?page=${input.page}&limit=${input.limit}`;
+      const result = await axios.get(url, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("Error in  admin myBlogs service: ", error);
+      throw error;
+    }
+  }
+
+  public async deleteMyBlog(id: string): Promise<void> {
+    try {
+      const url = `${this.path}/admin/delete/myBlog/${id}`;
+      await axios.post(url, {}, { withCredentials: true });
+    } catch (error) {
+      console.log("Error in admin deleteMyBlog service: ", error);
       throw error;
     }
   }

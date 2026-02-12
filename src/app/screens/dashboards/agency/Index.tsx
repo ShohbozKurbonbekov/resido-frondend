@@ -10,7 +10,6 @@ import AgencyDashboardMyProfile from "./myProfle/AgencyDashboardMyProfile";
 import AgencyDashboardMyAgents from "./myAgents.tsx/AgencyDashboardMyAgents";
 import AgencyDashboardBilling from "./AgencyDashboardBilling";
 import DashboardPostBlog from "../../../components/blog/DashboardPostBlog";
-import AgencyDashboardTransactions from "./AgencyDashboardTransactions";
 
 export default function AgencyDashboard() {
   const { authmember } = useGlobals();
@@ -27,10 +26,6 @@ export default function AgencyDashboard() {
           element={<AgencyDashboardNotifications />}
         ></Route>
 
-        <Route
-          path="/agency-transactions"
-          element={<AgencyDashboardTransactions />}
-        ></Route>
         <Route
           path="/agency-my-properties"
           element={<AgencyDashboardMyProperties />}
