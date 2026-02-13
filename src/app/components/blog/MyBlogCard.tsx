@@ -18,28 +18,33 @@ import { Link } from "react-router-dom";
 interface MyBlogCardType {
   blog: Blog;
   handleDeleteBlog: (id: string) => Promise<void>;
-  setModelOpen: SetStateType<boolean>;
+  setModalOpen: SetStateType<boolean>;
   setSelectedBlog: SetStateType<null | Blog>;
 }
 const MyBlogCard: React.FC<MyBlogCardType> = ({
   blog,
   handleDeleteBlog,
-  setModelOpen,
+  setModalOpen,
   setSelectedBlog,
 }) => {
   const isEdited =
     new Date(blog.updatedAt).getTime() !== new Date(blog.createdAt).getTime();
-  const imgUrl = blog.blogImage
-    ? `${serverAPI}/${blog.blogImage}`
-    : defaultBlogImage;
 
+  const imageUrl =
+    blog.blogImage &&
+    typeof blog.blogImage === "string" &&
+    blog.blogImage.startsWith("blob")
+      ? blog.blogImage
+      : typeof blog.blogImage === "string"
+        ? `${serverAPI}/${blog.blogImage}`
+        : defaultBlogImage;
   // ----------------------------------- RENDER -----------------------
   return (
     <Card className="overflow-hidden rounded-2xl shadow-sm hover:shadow-lg transition-all bg-white  max-w-md mx-auto flex flex-col">
       <CardHeader className="p-0">
         <div className="h-52 w-full overflow-hidden relative">
           <img
-            src={imgUrl}
+            src={imageUrl}
             alt={blog.blogTitle}
             className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
           />
@@ -86,9 +91,9 @@ const MyBlogCard: React.FC<MyBlogCardType> = ({
           <Button
             size="sm"
             variant="outline"
-            className="gap-1 duration-200 transition-all ease-linear active:scale-105"
+            className="duration-200 transition-all ease-linear active:scale-105"
             onClick={() => {
-              setModelOpen(true);
+              setModalOpen(true);
               setSelectedBlog(blog);
             }}
           >
@@ -98,7 +103,7 @@ const MyBlogCard: React.FC<MyBlogCardType> = ({
           <Button
             size="sm"
             variant="secondary"
-            className={`gap-1 duration-200 transition-colors ease-linear   hover:bg-red-600 bg-red-400 text-white`}
+            className={`duration-200 transition-colors ease-linear   hover:bg-red-600 bg-red-400 text-white`}
             onClick={() => handleDeleteBlog(blog._id)}
           >
             <Trash2 className="h-4 w-4" />

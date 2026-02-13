@@ -55,7 +55,7 @@ class BlogService {
   }
   public async getNeighbouringBlog(
     blogId: string,
-    direction: BlogNeighborings
+    direction: BlogNeighborings,
   ): Promise<Blog> {
     try {
       const url = `${this.path}/blog/${blogId}/neighbour?direction=${direction}`;
@@ -131,12 +131,49 @@ class BlogService {
         formData,
         {
           withCredentials: true,
-        }
+        },
       );
 
       return result.data;
     } catch (error) {
       console.error("Error in createBlog service", error);
+      throw error;
+    }
+  }
+  public async updateMyBlog(input: BlogInput, id: string): Promise<Blog> {
+    try {
+      const formData = new FormData();
+
+      if (input.blogImage instanceof File) {
+        formData.append("blogImage", input.blogImage);
+      }
+
+      if (input.blogCategory)
+        formData.append("blogCategory", input.blogCategory);
+
+      if (input.blogContent) formData.append("blogContent", input.blogContent);
+
+      if (input.blogTags) {
+        formData.append("blogTags", JSON.stringify(input.blogTags));
+      }
+      if (input.blogQuote) formData.append("blogQuote", input.blogQuote);
+
+      if (input.blogShortInfo)
+        formData.append("blogShortInfo", input.blogShortInfo);
+
+      if (input.blogTitle) formData.append("blogTitle", input.blogTitle);
+
+      const result = await axios.post(
+        `${this.path}/blog/update/myBlog/${id}`,
+        formData,
+        {
+          withCredentials: true,
+        },
+      );
+
+      return result.data;
+    } catch (error) {
+      console.error("Error in updateMyBlog service", error);
       throw error;
     }
   }

@@ -1,23 +1,39 @@
 import { myBlogsWrapperClasses } from "@/app/screens/dashboards/agent/blog/AgentDashboardMyBlogs";
 import type { Blog, BlogsListPage } from "@/lib/type/blogs";
 import type { CommonInput, SetStateType } from "@/lib/type/common";
-import React, { useState } from "react";
+import React from "react";
 import { PaginationCom } from "../PaginationCom";
 import NoFound from "../NoFound";
 import MyBlogCard from "./MyBlogCard";
 import UpdateBLogDiolog from "./UpdateBlogDialog";
+import type { BlogSchemaInputsSubmit } from "@/app/data/blog";
 
 interface MyBlogsContentType {
+  handleOnSave: (
+    values: BlogSchemaInputsSubmit,
+    tags: string[],
+  ) => Promise<void>;
+  selectedBlog: null | Blog;
+  setSelectedBlog: SetStateType<Blog | null>;
+  modalOpen: boolean;
+  setModalOpen: SetStateType<boolean>;
   myBlogs: BlogsListPage;
   myBlogsInput: CommonInput;
   setMyBlogsInput: SetStateType<CommonInput>;
   handleDeleteBlog: (id: string) => Promise<void>;
 }
 const MyBlogsContent: React.FC<MyBlogsContentType> = React.memo(
-  ({ myBlogs, myBlogsInput, setMyBlogsInput, handleDeleteBlog }) => {
-    const [isModelOpen, setModelOpen] = useState<boolean>(false);
-    const [selectedBlog, setSelectedBlog] = useState<null | Blog>(null);
-
+  ({
+    myBlogs,
+    myBlogsInput,
+    setMyBlogsInput,
+    handleDeleteBlog,
+    modalOpen,
+    selectedBlog,
+    setModalOpen,
+    setSelectedBlog,
+    handleOnSave,
+  }) => {
     // --------------------------------------- RENDER ------------------------------
     return (
       <>
@@ -28,7 +44,7 @@ const MyBlogsContent: React.FC<MyBlogsContentType> = React.memo(
                 <MyBlogCard
                   blog={blog}
                   handleDeleteBlog={handleDeleteBlog}
-                  setModelOpen={setModelOpen}
+                  setModalOpen={setModalOpen}
                   setSelectedBlog={setSelectedBlog}
                   key={blog._id}
                 />
@@ -36,7 +52,7 @@ const MyBlogsContent: React.FC<MyBlogsContentType> = React.memo(
             </div>
             <PaginationCom
               totalPages={Math.ceil(
-                (myBlogs.totalBlogsNumber[0]?.total ?? 0) / myBlogsInput.limit
+                (myBlogs.totalBlogsNumber[0]?.total ?? 0) / myBlogsInput.limit,
               )}
               styleclasses="flex flex-row items-center justify-center  gap-3"
               currentPage={myBlogsInput.page}
@@ -49,16 +65,17 @@ const MyBlogsContent: React.FC<MyBlogsContentType> = React.memo(
 
         {selectedBlog && (
           <UpdateBLogDiolog
+            handleOnSave={handleOnSave}
             key={selectedBlog._id}
-            isModelOpen={isModelOpen}
-            setModelOpen={setModelOpen}
+            modalOpen={modalOpen}
+            setModalOpen={setModalOpen}
             selectedBlog={selectedBlog}
             setSelectedBlog={setSelectedBlog}
           />
         )}
       </>
     );
-  }
+  },
 );
 
 export default MyBlogsContent;

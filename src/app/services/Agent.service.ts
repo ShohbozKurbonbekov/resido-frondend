@@ -11,7 +11,7 @@ import type {
   FeaturedAgentsResult,
   FollowedAgentsType,
 } from "@/lib/type/agent";
-import type { Blog, BlogsListPage } from "@/lib/type/blogs";
+import type { BlogsListPage } from "@/lib/type/blogs";
 import type { Comments, CommentsSearchInput } from "@/lib/type/comment";
 import type { CommonInput, SellersSearchInput } from "@/lib/type/common";
 import type { MyProperties, Property } from "@/lib/type/property";
@@ -202,44 +202,6 @@ class AgentService {
       return result.data;
     } catch (error) {
       console.log("Error in myBlogs service: ", error);
-      throw error;
-    }
-  }
-
-  public async agentUpdateMyBlog(input: Blog, id: string): Promise<Blog> {
-    try {
-      const formData = new FormData();
-
-      if (input.blogImage instanceof File) {
-        formData.append("blogImage", input.blogImage);
-      }
-
-      if (input.blogCategory)
-        formData.append("blogCategory", input.blogCategory);
-
-      if (input.blogContent) formData.append("blogContent", input.blogContent);
-
-      if (input.blogTags) {
-        formData.append("blogTags", JSON.stringify(input.blogTags));
-      }
-      if (input.blogQuote) formData.append("blogQuote", input.blogQuote);
-
-      if (input.blogShortInfo)
-        formData.append("blogShortInfo", input.blogShortInfo);
-
-      if (input.blogTitle) formData.append("blogTitle", input.blogTitle);
-
-      const result = await axios.post(
-        `${this.path}/agent/update/myBlog/${id}`,
-        formData,
-        {
-          withCredentials: true,
-        },
-      );
-
-      return result.data;
-    } catch (error) {
-      console.error("Error in agentUpdateMyBlog service", error);
       throw error;
     }
   }

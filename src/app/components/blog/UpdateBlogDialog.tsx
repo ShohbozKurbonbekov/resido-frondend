@@ -1,5 +1,5 @@
-import type { Blog, BlogsListPage } from "@/lib/type/blogs";
-import React, { useEffect } from "react";
+import type { Blog } from "@/lib/type/blogs";
+import React from "react";
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import type { SetStateType } from "@/lib/type/common";
 
-import { BlogFormSchema } from "@/app/data/blog";
+import { BlogFormSchema, type BlogSchemaInputsSubmit } from "@/app/data/blog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -32,70 +32,56 @@ import { BlogCategory } from "@/lib/enums/blog.enum";
 import { customLetterCustomise } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MessageCircleWarningIcon } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import type z from "zod";
-import { createSelector } from "reselect";
 import { serverAPI } from "@/lib/config";
-import { retrieveAgentMyBlogs } from "@/app/screens/dashboards/agent/selector";
-import { useDispatch, useSelector } from "react-redux";
-import type { Dispatch } from "@reduxjs/toolkit";
-import { setAgentMyBlogs } from "@/app/screens/dashboards/agent/slice";
-import AgentService from "@/app/services/Agent.service";
 import {
-  sweetErrorHandling,
-  sweetTopSmallSuccessAlert,
-} from "@/lib/sweetAlerts";
+  errorClasses,
+  rowWrapperClasses,
+  inputClasses,
+  textClasses,
+} from "@/lib/config";
 
-// ---------------------------------------- REDUX INTEGRATION --------------------------------------
-const agentMyBlogsRetriever = createSelector(
-  retrieveAgentMyBlogs,
-  (agentMyBlogs) => ({ agentMyBlogs }),
-);
-
-const agentMyBlogsDispatch = (dispatch: Dispatch) => ({
-  setAgentMyBlogs: (data: BlogsListPage) => dispatch(setAgentMyBlogs(data)),
-});
-
-// --------------------------------------- CLASSES ----------------------
-const errorClasses = "text-xs text-rose-600/90";
-const rowWrapperClasses =
-  "grid grid-cols-1 md:grid-cols-2 gap-4 rounded-lg border border-slate-200 p-4 bg-slate-50/40";
-
-const inputClasses =
-  "border-slate-300 bg-slate-50 text-slate-800 placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-emerald-600/30 focus-visible:border-emerald-600";
-const textClasses = "text-sm font-medium text-slate-700 font-jostFont";
+import { sweetErrorHandling } from "@/lib/sweetAlerts";
 
 // --------------------------------------- COMPONENT -----------------------------
 interface UpdateBLogDialog {
-  isModelOpen: boolean;
-  setModelOpen: SetStateType<boolean>;
+  modalOpen: boolean;
+  setModalOpen: SetStateType<boolean>;
   setSelectedBlog: SetStateType<null | Blog>;
   selectedBlog: Blog | null;
+  handleOnSave: (
+    values: BlogSchemaInputsSubmit,
+    tags: string[],
+  ) => Promise<void>;
 }
 const UpdateBLogDialog: React.FC<UpdateBLogDialog> = ({
-  isModelOpen,
-  setModelOpen,
+  modalOpen,
+  setModalOpen,
   selectedBlog,
   setSelectedBlog,
+  handleOnSave,
 }) => {
-  const { agentMyBlogs } = useSelector(agentMyBlogsRetriever);
-  const { setAgentMyBlogs } = agentMyBlogsDispatch(useDispatch());
-
   const [imagePath, setImagePath] = useState<string>("Upload an image");
-
   const [blogImage, setBlogImage] = useState<string | undefined>(
-    selectedBlog?.blogImage
-      ? `${serverAPI}/${selectedBlog?.blogImage}`
-      : undefined,
+    !!selectedBlog &&
+      typeof selectedBlog.blogImage === "string" &&
+      selectedBlog.blogImage.startsWith("blob")
+      ? selectedBlog.blogImage
+      : !!selectedBlog && typeof selectedBlog.blogImage === "string"
+        ? `${serverAPI}/${selectedBlog.blogImage}`
+        : undefined,
   );
 
+  console.log(blogImage);
   const [tags, setTags] = useState<string[]>(selectedBlog?.blogTags || []);
   const [tagInput, setTagInput] = useState("");
+
   const form = useForm<z.input<typeof BlogFormSchema>>({
     resolver: zodResolver(BlogFormSchema),
     defaultValues: {
-      blogImage: `${serverAPI}/${selectedBlog?.blogImage}`,
+      blogImage: selectedBlog?.blogImage,
       blogTitle: selectedBlog?.blogTitle,
       blogShortInfo: selectedBlog?.blogShortInfo,
       blogContent: selectedBlog?.blogContent,
@@ -103,29 +89,6 @@ const UpdateBLogDialog: React.FC<UpdateBLogDialog> = ({
       blogCategory: selectedBlog?.blogCategory,
     },
   });
-
-  useEffect(() => {
-    if (!selectedBlog) return;
-
-    form.reset({
-      blogImage: selectedBlog.blogImage
-        ? `${serverAPI}/${selectedBlog.blogImage}`
-        : undefined,
-      blogTitle: selectedBlog.blogTitle,
-      blogShortInfo: selectedBlog.blogShortInfo,
-      blogContent: selectedBlog.blogContent,
-      blogQuote: selectedBlog.blogQuote,
-      blogCategory: selectedBlog.blogCategory,
-    });
-
-    setTags(selectedBlog.blogTags || []);
-    setBlogImage(
-      selectedBlog.blogImage
-        ? `${serverAPI}/${selectedBlog.blogImage}`
-        : undefined,
-    );
-    setImagePath("Upload an image");
-  }, [selectedBlog, form]);
 
   // ---------------------------------------- HANDLERS ------------------------
   const addTag = () => {
@@ -144,66 +107,25 @@ const UpdateBLogDialog: React.FC<UpdateBLogDialog> = ({
     setTags((prev) => prev.filter((t) => t !== tag));
   };
 
-  const handleSavebtn = useCallback(
-    async (values: z.infer<typeof BlogFormSchema>) => {
-      if (!selectedBlog) return;
-
-      const blogInput = {
-        ...values,
-        ...(values.blogImage instanceof File
-          ? { blogImage: values.blogImage }
-          : {}),
-        blogTags: tags,
-      } as Blog;
-
-      const snapshot = {
-        blogs: [...agentMyBlogs.blogs],
-        totalBlogsNumber: agentMyBlogs.totalBlogsNumber,
-      };
-
-      try {
-        const member = new AgentService();
-        const result = await member.agentUpdateMyBlog(
-          blogInput,
-          selectedBlog._id,
-        );
-        const updatedBlogs = [
-          ...agentMyBlogs.blogs.map((blog) =>
-            blog._id === result._id ? result : blog,
-          ),
-        ];
-        setAgentMyBlogs({
-          blogs: updatedBlogs,
-          totalBlogsNumber: snapshot.totalBlogsNumber,
-        });
-
-        setModelOpen(false);
-        setSelectedBlog(null);
-        await sweetTopSmallSuccessAlert("Successfully updated!");
-      } catch (error) {
-        console.log("Error in handleSaveBtn: ", error);
-        await sweetErrorHandling(error!);
-      }
-    },
-    [
-      agentMyBlogs,
-      selectedBlog,
-      setAgentMyBlogs,
-      tags,
-      setModelOpen,
-      setSelectedBlog,
-    ],
-  );
+  const onSubmit = async (values: BlogSchemaInputsSubmit) => {
+    try {
+      await handleOnSave(values, tags);
+      form.reset();
+    } catch (error) {
+      console.log("Error in onSubmit: ", error);
+      await sweetErrorHandling(error!);
+    }
+  };
 
   return (
     <Dialog
-      open={isModelOpen}
+      open={modalOpen}
       onOpenChange={(open) => {
         if (!open) {
           setSelectedBlog(null);
         }
 
-        setModelOpen(open);
+        setModalOpen(open);
       }}
     >
       <DialogContent className="w-11/12 max-w-7xl overflow-y-auto h-5/6">
@@ -216,7 +138,7 @@ const UpdateBLogDialog: React.FC<UpdateBLogDialog> = ({
           <CardContent className="bg-white rounded-md">
             <Form {...form}>
               <form
-                onSubmit={form.handleSubmit(handleSavebtn)}
+                onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-3 py-5"
               >
                 {/* BLOG IMAGE */}

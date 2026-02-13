@@ -39,7 +39,7 @@ export const CATEGORIES: CATEGORIES_TYPE[] = [
 export const BlogFormSchema = z.object({
   blogImage: z.union([
     z.instanceof(File),
-    z.string().url({ message: "Please give valid url" }),
+    z.string().trim().min(1, { message: "Please upload image" }),
   ]),
 
   blogTitle: z
@@ -82,3 +82,5 @@ export const blogColumns: Column<AdminAllBlogsType>[] = [
     render: (row) => new Date(row.date).toLocaleString(),
   },
 ];
+
+export type BlogSchemaInputsSubmit = z.infer<typeof BlogFormSchema>;
