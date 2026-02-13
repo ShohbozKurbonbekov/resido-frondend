@@ -72,3 +72,26 @@ export interface AdminMembers {
   metaCounter: TotalCounter[];
   members: AdminDashboardCommonMember[];
 }
+
+export interface AdminGlobalStatsType {
+  properties: number;
+  agents: number;
+  users: number;
+  agencies: number;
+  blogs: number;
+  comments: number;
+  tariffs: number;
+}
+
+export interface AdminPersonalStatsType {
+  notifications: number;
+  myBlogs: number;
+  myMessages: number;
+}
+
+export interface AdminDashboardOverviewType {
+  adminId: string;
+  globalStats: AdminGlobalStatsType;
+  personalStats: AdminPersonalStatsType;
+  generatedAt: string;
+}

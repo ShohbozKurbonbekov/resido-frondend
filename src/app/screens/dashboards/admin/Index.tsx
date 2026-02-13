@@ -39,7 +39,7 @@ export default function AdminDashboard() {
         <Route path="/admin-blogs" element={<AdminDashboardBlogs />} />
 
         {/*My Blogs*/}
-        <Route path="/admin-myBlogs" element={<AdminDashboardMyBlogs />} />
+        <Route path="/admin-my-blogs" element={<AdminDashboardMyBlogs />} />
 
         {/*My Blogs*/}
         <Route path="/admin-createBlog" element={<DashboardPostBlog />} />
@@ -48,7 +48,7 @@ export default function AdminDashboard() {
         <Route path="/admin-comments" element={<AdminDashboardComments />} />
 
         {/* Messages (read-only) */}
-        <Route path="/admin-messages" element={<AdminDashboardMessages />} />
+        <Route path="/admin-my-messages" element={<AdminDashboardMessages />} />
 
         {/* Platform */}
         {/* Payment Tariffs */}

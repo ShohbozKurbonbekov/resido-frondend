@@ -144,4 +144,5 @@ export interface AdminDashboardPage {
   adminGetAllMembers: AdminMembers;
   adminNotifications: NotificationsType<NotificationCreation>;
   adminMyBlogs: BlogsListPage;
+  adminOverview: User | null;
 }

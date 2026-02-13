@@ -56,7 +56,7 @@ export default function AdminDashboardListFilter<
           <Search className="h-5 w-5  absolute left-2 top-1/2 -translate-y-1/2 " />
           <Input
             className={`pl-8 text-lg ${actionBtnClasses}`}
-            placeholder="Search by blog title"
+            placeholder="Search By Name..."
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             onKeyDown={(e) => {

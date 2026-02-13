@@ -50,7 +50,7 @@ export const ADMIN_DASHBOARD_FEATURES: DashboardSidebarFeauturesType[] = [
   {
     title: "My Blogs",
     Icon: FileText,
-    url: "/dashboard/admin-myBlogs",
+    url: "/dashboard/admin-my-blogs",
   },
 
   {
@@ -67,7 +67,7 @@ export const ADMIN_DASHBOARD_FEATURES: DashboardSidebarFeauturesType[] = [
   {
     title: "Messages",
     Icon: MessageSquare,
-    url: "/dashboard/admin-messages",
+    url: "/dashboard/admin-my-messages",
   },
   {
     title: "Tariff Plans",

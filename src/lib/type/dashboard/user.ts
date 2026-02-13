@@ -2,6 +2,7 @@ import type { MemberStatus, MemberType } from "@/lib/enums/agent.enum";
 import type { Social, TotalCounter } from "../common";
 import type { UserSavingTargetGroup } from "@/lib/enums/user.enum";
 import type { LucideIcon } from "lucide-react";
+import type { AdminDashboardOverviewType } from "../member";
 
 export interface User {
   _id: string;
@@ -19,6 +20,7 @@ export interface User {
   avatar?: string;
   memberSocials: Social;
   userFullname?: string;
+  adminOverviewStats?: AdminDashboardOverviewType;
 
   createdAt: Date;
   updatedAt: Date;

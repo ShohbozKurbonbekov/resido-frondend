@@ -17,7 +17,6 @@ import { BlogCategory, BlogStatus, SortOrder } from "@/lib/enums/blog.enum";
 import { useGlobals } from "@/app/hooks/useGlobals";
 import { Navigate } from "react-router-dom";
 import AdminDashboardBlogsContent from "./blog/AdminDashboardBlogsContent";
-import AdminDashboardBlogFilterHeader from "./blog/AdminDashboardBlogFilterHeader";
 import AdminDashboardListFilter from "./utility/AdminDashboardListFilter";
 
 // ---------------------------- Redux Integration --------------------
@@ -148,7 +147,6 @@ export default function AdminDashboardBlogs() {
       />
       <AdminDashboardListFilter<BlogStatus, BlogCategory>
         onSortChange={onSort}
-        filterHeader={<AdminDashboardBlogFilterHeader />}
         onCategoryChange={onCategoryChange}
         onStatusChange={onStatusChange}
         onTextSubmit={onTextSubmit}

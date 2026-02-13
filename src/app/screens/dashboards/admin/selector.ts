@@ -45,3 +45,9 @@ export const retrieveAdminMyBlogs = createSelector(
   selectAdminDashboardPage,
   (adminDashboardPage) => adminDashboardPage.adminMyBlogs,
 );
+
+// RETREIVE ADMIN  OVERVIEW
+export const retrieveAdminOverview = createSelector(
+  selectAdminDashboardPage,
+  (adminDashboardPage) => adminDashboardPage.adminOverview,
+);
