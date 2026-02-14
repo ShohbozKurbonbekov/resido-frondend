@@ -129,11 +129,11 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
 
     return (
       <Card
-        className="grid grid-cols-5 items-stretch shadow-none cursor-pointer "
+        className="grid grid-cols-1 sm:grid-cols-5 items-stretch shadow-none cursor-pointer "
         onClick={() => handleChosenProperty(_id)}
       >
         {/* HEADER */}
-        <CardHeader className="col-span-2 p-2 ">
+        <CardHeader className="sm:col-span-2 p-2 ">
           <div className="w-full relative h-full">
             <div className="wrapper h-full">
               <div className="overflow-hidden h-full" ref={carouselRef}>
@@ -207,7 +207,7 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
         {/*END HEADER*/}
 
         {/*CONTENT*/}
-        <CardContent className="col-span-3 pt-2 pr-2 pb-2 pl-0 lg:pl-2 flex flex-col space-y-3">
+        <CardContent className="sm:col-span-3 flex flex-col space-y-3 px-7 sm:px-4 py-4 ">
           <div className="flex flex-row">
             <span className="flex flex-row space-x-1 ">
               <span
@@ -226,7 +226,7 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
               {formatCurrency(Number(priceValue), "USD")}
             </h4>
           </div>
-          <h5 className="font-bold font-jostFont text-blue-900 text-xs md:text-size_10 lg:text-xl">
+          <h5 className="font-bold font-jostFont text-blue-900 text-xs md:text-size_10 lg:text-xl truncate">
             {`${street ?? null}, ${city ?? null}, ${country ?? null},`}
           </h5>
           <p className="truncate text-sm text-darkBlue font-jostFont font-semibold">

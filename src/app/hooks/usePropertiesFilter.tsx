@@ -12,6 +12,17 @@ export function usePropertiesFilter(initalFilter: T) {
     }));
   }, []);
 
+  // -------------------------- WORKING WITH  SEARCH LOCATION ------------------
+  const handleLocation = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setPropertiesFilter((prev) => ({
+        ...prev,
+        propertyLocation: e?.target?.value,
+      }));
+    },
+    [],
+  );
+
   // -------------------------- WORKING WITH CLEARING TYPING INPUT ---------------------
 
   const handleClearInput = useCallback(() => {
@@ -42,7 +53,7 @@ export function usePropertiesFilter(initalFilter: T) {
     (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
       setPropertiesFilter((prev) => ({ ...prev, [key]: e?.target?.value }));
     },
-    []
+    [],
   );
 
   // --------------------------- HANDLE PRICE ---------------------------
@@ -66,6 +77,7 @@ export function usePropertiesFilter(initalFilter: T) {
       };
     });
   }, []);
+
   return {
     propertiesFilter,
     handleInput,
@@ -74,5 +86,6 @@ export function usePropertiesFilter(initalFilter: T) {
     handleAddKeys,
     handlePrice,
     handleAmenitites,
+    handleLocation,
   };
 }

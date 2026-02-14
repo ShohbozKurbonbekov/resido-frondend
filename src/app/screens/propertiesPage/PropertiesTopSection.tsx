@@ -31,12 +31,11 @@ const PropertiesTopSection: React.FC<PropertiesTopSectionType> = React.memo(
     // -------------------------- HANDLERS ---------------
     const totalPages = useMemo(
       () => calculateTotalPages(page, limit, totalProperties),
-      [page, limit, totalProperties]
+      [page, limit, totalProperties],
     );
 
     const { start, end } = totalPages;
 
-    console.log(totalPages);
     // SELECT ORDERS ACCORDINGLY
     const handleSelect = (input: string) => {
       const normalizedInput = input.toLowerCase();
@@ -63,7 +62,7 @@ const PropertiesTopSection: React.FC<PropertiesTopSectionType> = React.memo(
         {
           length: Math.ceil((totalProperties ?? 0) / limit),
         },
-        (_, i) => i + 1
+        (_, i) => i + 1,
       );
     }, [totalProperties, limit]);
 
@@ -123,7 +122,7 @@ const PropertiesTopSection: React.FC<PropertiesTopSectionType> = React.memo(
         </div>
       </section>
     );
-  }
+  },
 );
 
 export default PropertiesTopSection;

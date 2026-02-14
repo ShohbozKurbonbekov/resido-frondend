@@ -48,7 +48,7 @@ class AgencyService {
   }
   public async getAgencyDetail(agencyId: string): Promise<Agency> {
     try {
-      const url = `${this.path}/agency/${agencyId}`;
+      const url = `${this.path}/agency/get/${agencyId}`;
       const result = await axios.get(url, { withCredentials: true });
       return result.data;
     } catch (error) {
@@ -214,7 +214,7 @@ class AgencyService {
     input: CommonInput,
   ): Promise<NotificationsType<NotificationCreation>> {
     try {
-      const url = `${serverAPI}/agency/get/notifications?page=${input.page}&limit=${input.limit}`;
+      const url = `${serverAPI}/agency/notifications?page=${input.page}&limit=${input.limit}`;
       const result = await axios.get(url, { withCredentials: true });
       return result.data;
     } catch (error) {

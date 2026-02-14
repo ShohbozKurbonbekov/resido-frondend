@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import PreviewCard from "./PreviewCard";
 import useEmblaCarousel from "embla-carousel-react";
 import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 import NoFound from "@/app/components/NoFound";
@@ -9,11 +8,12 @@ import { useSelector } from "react-redux";
 import { retrieveLatestComments } from "./selector";
 import type { Comment } from "@/lib/type/comment";
 import { carouselAutoPlayDelay } from "@/lib/config";
+import PreviewCard from "./PreviewCard";
 
 // --------------------- REDUX SELECTOR ----------------------
 const latestCommentsRetriever = createSelector(
   retrieveLatestComments,
-  (latestComments) => ({ latestComments })
+  (latestComments) => ({ latestComments }),
 );
 
 const carouselOptions: EmblaOptionsType = {
@@ -26,11 +26,11 @@ const carouselOptions: EmblaOptionsType = {
 
 const CustomersReview: React.FC = () => {
   const { latestComments } = useSelector(latestCommentsRetriever);
-
   // ------------------- CAROUSEL ------------------------
   const autoPlay = useRef(
-    Autoplay({ delay: carouselAutoPlayDelay, stopOnInteraction: false })
+    Autoplay({ delay: carouselAutoPlayDelay, stopOnInteraction: false }),
   );
+
   const [carouselRef, carouselApi] = useEmblaCarousel(carouselOptions, [
     autoPlay.current,
   ]);
@@ -50,7 +50,7 @@ const CustomersReview: React.FC = () => {
 
   const scrollTo = useCallback(
     (index: number) => carouselApi?.scrollTo(index),
-    [carouselApi]
+    [carouselApi],
   );
 
   const scrollPrev = () => carouselApi?.scrollPrev();
@@ -60,7 +60,7 @@ const CustomersReview: React.FC = () => {
   return (
     <section className="py-20  bg-[url(/img/pattern.png)] bg-slate-200 flex  flex-row justify-center">
       <div className="container flex flex-col gap-10">
-        <div className="max-w-[536px] flex flex-col items-center gap-y-2 text-darkBlue mx-auto">
+        <div className="max-w-xl flex flex-col items-center gap-y-2 text-darkBlue mx-auto">
           <h2 className="font-bold capitalize font-jostFont leading-tight text-3xl">
             Good Reviews by Customers
           </h2>
@@ -73,7 +73,7 @@ const CustomersReview: React.FC = () => {
         {latestComments.length ? (
           <div className="w-full relative">
             <div
-              className="overflow-hidden "
+              className="overflow-hidden"
               ref={carouselRef}
               onMouseEnter={() => autoPlay.current.stop()}
               onMouseLeave={() => autoPlay.current.play()}
@@ -81,7 +81,7 @@ const CustomersReview: React.FC = () => {
               <div className="flex touch-pan-y touch-pinch-zoom ">
                 {latestComments.map((comment: Comment) => (
                   <div className="flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.3333%] xl:flex-[0_0_25%] p-3">
-                    {/* <PreviewCard comment={comment} /> */}
+                    <PreviewCard comment={comment} />
                   </div>
                 ))}
               </div>

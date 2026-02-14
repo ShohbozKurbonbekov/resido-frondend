@@ -17,7 +17,7 @@ import { ErrorMessages } from "@/lib/config";
 // ------------------------------------ REDUX INTEGRATION -----------------------------------
 const featuredPropertiesRetriever = createSelector(
   retrieveFeaturedProperties,
-  (featuredProperties) => ({ featuredProperties })
+  (featuredProperties) => ({ featuredProperties }),
 );
 
 // ------------------------------------------- ADD AGENCY BUTTON -------------------------------------------------
@@ -43,7 +43,7 @@ const AddNewAgent: React.FC<AddNewAgentType> = React.memo(
         return;
       } else {
         navigation(
-          `/agents/become-an-agent?agencyId=${agencyId}&agencyName=${agencyName}`
+          `/agents/become-an-agent?agencyId=${agencyId}&agencyName=${agencyName}`,
         );
         return;
       }
@@ -58,7 +58,7 @@ const AddNewAgent: React.FC<AddNewAgentType> = React.memo(
         Appy to this agency
       </button>
     );
-  }
+  },
 );
 
 // ------------------------------------------- COMPONENT ------------------------------------
@@ -77,7 +77,7 @@ const AgencyDetailMainContent: React.FC<AgencyDetailMainContentType> =
     // ------------------------------------------- RENDER ---------------------------------------------
     return (
       <section className="bg-sky-100">
-        <div className="container  pb-20 grid grid-cols-1 lg:grid-cols-6 gap-5 ">
+        <div className="container  pb-20 grid grid-cols-1 lg:grid-cols-6 gap-5">
           <div className="lg:col-span-4">
             {/* AGENT SOME INFO */}
             <SomeInfoSection
@@ -98,7 +98,7 @@ const AgencyDetailMainContent: React.FC<AgencyDetailMainContentType> =
                 yearOfExperience: agency?.yearOfExperience,
                 memberYear: agency.memberSince,
               }}
-              title={"Agency iNFO"}
+              title={"Agency Information"}
             />
 
             {/*  TOGGLE AGENT PROPERTIES AND AGENTS*/}

@@ -1,7 +1,15 @@
 import PricingDynamicHeaderSection from "@/app/components/PricingDynamicHeaderSection";
+import { confirmAgencyStepOne } from "@/app/data/packages";
+import { useGlobals } from "@/app/hooks/useGlobals";
+import { ErrorMessages } from "@/lib/config";
+import { MemberType } from "@/lib/enums/agent.enum";
+import { sweetConfirmHandling, sweetFailureProvider } from "@/lib/sweetAlerts";
 import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Packages() {
+  const { authmember } = useGlobals();
+  const navigation = useNavigate();
   const pricingHeader = (
     <div className="text-center">
       <h2 className="font-bold capitalize font-jostFont leading-tight text-3xl">
@@ -14,9 +22,21 @@ export default function Packages() {
     </div>
   );
 
-  const handleClick = useCallback((id: string) => {
-    console.log(id);
-  }, []);
+  const handleClick = useCallback(async () => {
+    if (!authmember) {
+      return sweetFailureProvider(ErrorMessages.error2, true, "/");
+    }
+
+    if (authmember.role !== MemberType.USER) {
+      return sweetFailureProvider(
+        "Only common users are allowed for agency position",
+        true,
+      );
+    }
+
+    if (await sweetConfirmHandling(confirmAgencyStepOne))
+      return navigation("/agencies/apply/agency-role");
+  }, [authmember, navigation]);
   return (
     <PricingDynamicHeaderSection
       handleClick={handleClick}

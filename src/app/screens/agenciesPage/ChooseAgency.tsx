@@ -54,6 +54,7 @@ export default function ChooseAgency() {
         const result2 = await property.getFeaturedProperty(
           featuredPropertiesInput,
         );
+
         setFeaturedProperties(result2);
       } catch (error) {
         console.log("Error in fetching ChosenAgencyPage data: ", error);
@@ -72,7 +73,7 @@ export default function ChooseAgency() {
       <>
         <SectionIntroNoBackground
           title="Agency Detail"
-          subtitle={agency?.memberName ?? "N/A"}
+          subtitle={agency?.memberName ?? "Uknown"}
         />
 
         <SectionTopShortInfo

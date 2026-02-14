@@ -31,9 +31,10 @@ const PropertiesFilterPanel: React.FC<PropertiesFilterPanelType> = ({
     handleInput,
     handleSwitch,
     propertiesFilter,
-    handleAddKeys,
+    handleLocation,
     handlePrice,
     handleAmenitites,
+    handleAddKeys,
   } = usePropertiesFilter({
     propertySearch: "",
     propertyVerified: false,
@@ -50,8 +51,8 @@ const PropertiesFilterPanel: React.FC<PropertiesFilterPanelType> = ({
   const searchBtnHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const start: number = Number(propertiesFilter.propertyPriceRange?.min || 0);
-    const end: number = Number(propertiesFilter.propertyPriceRange?.max) || 0;
+    const start = Number(propertiesFilter.propertyPriceRange?.min || 0);
+    const end = Number(propertiesFilter.propertyPriceRange?.max) || 0;
 
     const updated: PropertiesSearchInput = {
       ...propertiesSearch,
@@ -61,7 +62,7 @@ const PropertiesFilterPanel: React.FC<PropertiesFilterPanelType> = ({
         propertyAgentLevel: propertiesFilter.propertyAgentLevel
           ? "superAgent"
           : null,
-        propertyLocation: propertiesFilter.propertyLocation,
+        propertyLocation: propertiesFilter.propertyLocation.trim(),
         propertyType: propertiesFilter.propertyType,
         propertyBedrooms: parseInt(propertiesFilter.propertyBedrooms) || 0, // 1 - 2 - 3 - 4 - 5 - 6
         propertyAmenities: Object.keys(propertiesFilter.propertyAmenities)
@@ -79,10 +80,10 @@ const PropertiesFilterPanel: React.FC<PropertiesFilterPanelType> = ({
     <div className="w-full">
       <form className="flex flex-col gap-y-3">
         {/* --------------------- INPUT SEARCH ELEMENT------------------ */}
-        <div className="w-full border-2  py-1 px-2 bg-sky-50 flex flex-row  items-center gap-2 text-sm rounded-sm ">
-          <Search className="text-sky-600 self-center" />
+        <div className="w-full border-2 focus-within:border-sky-400  py-1 px-2 bg-sky-50 flex flex-row  items-center gap-2 text-sm rounded-sm ">
+          <Search className="text-sky-600 self-center h-4 w-4" />
           <Input
-            className="flex-1 text-slate-400 font-semibold font-jostFont border-none shadow-none outline-none focus-visible:ring-0 border-2 placeholder:text-size_10 ps-0 placeholder:text-slate-400"
+            className="flex-1 text-slate-700 font-semibold font-jostFont border-none shadow-none outline-none focus-visible:ring-0 border-2 placeholder:text-size_10 ps-0 placeholder:text-slate-500"
             name="searchInput"
             placeholder="Search By Name"
             value={propertiesFilter?.propertySearch}
@@ -93,6 +94,28 @@ const PropertiesFilterPanel: React.FC<PropertiesFilterPanelType> = ({
             onClick={handleClearInput}
           />
         </div>
+
+        {/* --------------------- INPUT ADDRESS ELEMENT------------------ */}
+
+        <div className="w-full border-2 py-2 px-3 bg-sky-50 flex items-center gap-2 text-sm rounded-md focus-within:border-sky-400 transition-colors">
+          <Search className="text-sky-600 w-4 h-4" />
+
+          <Input
+            className="flex-1 bg-transparent text-slate-600 font-medium font-jostFont border-none shadow-none outline-none focus-visible:ring-0 ps-0 placeholder:text-xs placeholder:text-slate-500"
+            name="searchInput"
+            placeholder="Search by city, street, or country..."
+            value={propertiesFilter?.propertyLocation}
+            onChange={handleLocation}
+          />
+
+          {propertiesFilter?.propertySearch && (
+            <CircleX
+              className="text-slate-400 hover:text-slate-600 w-4 h-4 cursor-pointer transition-colors duration-200"
+              onClick={handleClearInput}
+            />
+          )}
+        </div>
+
         {/*-------------------- VERIFIED  SWITCH INPUT --------------------- */}
         <div className="w-full border-2  py-3  px-2 bg-white flex flex-row  items-center space-x-1 text-sm rounded-sm">
           <div className="flex-1 text-start flex flex-row space-x-2 items-center">
@@ -108,7 +131,7 @@ const PropertiesFilterPanel: React.FC<PropertiesFilterPanelType> = ({
             name="verifiedInput"
           />
         </div>
-        {/*---------------------  SUPERAGENT SWITCH INPUT ---------------------- */}
+        {/*---------------------  SUPER AGENT SWITCH INPUT ---------------------- */}
         <div className="w-full border-2  py-3  px-2 bg-white flex flex-row  items-center space-x-1 text-sm rounded-sm">
           <div className="flex-1 text-start flex flex-row space-x-2 items-center">
             <BadgeCheck className="h-6 w-6" fill="yellow" stroke="white" />
@@ -123,14 +146,6 @@ const PropertiesFilterPanel: React.FC<PropertiesFilterPanelType> = ({
             onCheckedChange={(checked) => handleSwitch(checked, "isSuperAgent")}
           />
         </div>
-
-        {/*---------------------------- LOCATION OPTION  ---------------------- */}
-        <AccordionCom
-          valueKey="propertyLocation"
-          data={cityList}
-          selected={propertiesFilter.propertyLocation}
-          setSelected={handleAddKeys}
-        />
 
         {/*---------------------- PROPERTY TYPE OPTION ------------------------------------*/}
         <AccordionCom

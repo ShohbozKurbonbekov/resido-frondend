@@ -167,6 +167,7 @@ export default function AgentDashboardMessages() {
     [getAgentMessages, setGetAgentMessages],
   );
 
+  console.log(getAgentMessages);
   // --------------------------------------- RENDER --------------------
   return (
     <div className="h-full">

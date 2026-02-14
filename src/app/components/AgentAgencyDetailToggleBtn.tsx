@@ -43,7 +43,7 @@ const AgentAgencyToggleBtn: React.FC<AgentAgencyToggleType> = React.memo(
       (str: string) => {
         btnToggleUpdater(str);
       },
-      [btnToggleUpdater]
+      [btnToggleUpdater],
     );
 
     const generateCards = useCallback(
@@ -95,12 +95,13 @@ const AgentAgencyToggleBtn: React.FC<AgentAgencyToggleType> = React.memo(
           </div>
         );
       },
-      [role, agencyData, btnStr1, btnStr2, btnToggleState]
+      [role, agencyData, btnStr1, btnStr2, btnToggleState],
     );
 
     const returnTargetItems = useMemo(() => {
       if (role === "agent") {
         if (!agentData?.rent?.length && !agentData?.sale?.length) return null;
+
         if (btnToggleState.type === btnStr1 && agentData?.rent?.length)
           return generateCards(agentData.rent);
 
@@ -188,6 +189,6 @@ const AgentAgencyToggleBtn: React.FC<AgentAgencyToggleType> = React.memo(
         )}
       </div>
     );
-  }
+  },
 );
 export default AgentAgencyToggleBtn;

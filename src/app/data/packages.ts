@@ -1,6 +1,14 @@
 import type { SweetConfirmInputsType } from "@/lib/type/common";
 import z from "zod";
 
+export const confirmAgencyStepOne: SweetConfirmInputsType = {
+  title: "Start Agency Application",
+  message:
+    "You are about to begin the agency application process. This is the first step toward becoming an agency partner. Please note that a payment will be required to complete registration. If you cancel, no action will be taken and no charges will apply.",
+  confirmBtnText: "Proceed to Application",
+  cancelBtnText: "Cancel",
+};
+
 // STYLES
 export const SUBSCRIPTION_STATUS_STYLES: Record<string, string> = {
   ACTIVE: "bg-green-100 text-green-700",
@@ -9,7 +17,12 @@ export const SUBSCRIPTION_STATUS_STYLES: Record<string, string> = {
 };
 
 // RENEW AGENCY PAYMENT STATUS
-export const RENEW_CONFIRM_INPUTS :SweetConfirmInputsType= {cancelBtnText:"No Cancel", confirmBtnText:"Yes, Renew",message:"You are about to update your payment status",title:"Updating pevious payment"}
+export const RENEW_CONFIRM_INPUTS: SweetConfirmInputsType = {
+  cancelBtnText: "No Cancel",
+  confirmBtnText: "Yes, Renew",
+  message: "You are about to update your payment status",
+  title: "Updating pevious payment",
+};
 
 // PAYMENT INPUT SCHEMAS
 export const AGENCY_SUBSCRIPTION_FIELDS = [

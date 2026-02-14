@@ -37,6 +37,7 @@ export default function PropertiesCom() {
     });
 
   const [reLoadProperties, setreLoadProperties] = useState<boolean>(false);
+
   // ------------------------- FETCH DATA ----------------
   useEffect(() => {
     const fetchDataFromDB = () => {

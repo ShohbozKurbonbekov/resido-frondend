@@ -20,7 +20,7 @@ class PropertyService {
 
   // GET RECENT PROPERTY
   public async getRecentRentProperty(
-    input: RecentPropertyForRent
+    input: RecentPropertyForRent,
   ): Promise<RecentPropertyResult> {
     try {
       const url = `${this.path}/property/property-recent-rent`;
@@ -35,11 +35,11 @@ class PropertyService {
 
   // GET FEATURED PROPERTIES
   public async getFeaturedProperty(
-    input: FeaturedPropertyInput
+    input: FeaturedPropertyInput,
   ): Promise<FeaturedPropertyResults> {
     try {
-      const url = `${this.path}/property/featured-property`;
-      const result = await axios.post(url, input, { withCredentials: true });
+      const url = `${this.path}/property/featured-property?page=${input.page}&limit=${input.limit}`;
+      const result = await axios.get(url, { withCredentials: true });
 
       return result.data;
     } catch (error) {
@@ -49,11 +49,10 @@ class PropertyService {
   }
   // GET ALL PROPERTIES
   public async getAllProperties(
-    input: PropertiesSearchInput
+    input: PropertiesSearchInput,
   ): Promise<Properties> {
     try {
       const url = `${this.path}/property/getAll`;
-      console.log("url", url);
       const result = await axios.post(url, input, { withCredentials: true });
       return result.data;
     } catch (error) {

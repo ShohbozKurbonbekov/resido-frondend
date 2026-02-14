@@ -11,10 +11,10 @@ import SocialsNetwork from "./SocialsNetwork";
 // --------------------------------------------------- COMPONENT ------------------------------------
 interface SectionTopShortInfoDataType {
   role: string;
-  avatar: string | undefined;
+  avatar?: string;
   name: string;
   address: string;
-  bioInfo: string;
+  bioInfo?: string;
   totalProperties: number | string;
   socialLinks: Record<SocialsPlatform, string | null>;
 }
@@ -64,16 +64,16 @@ const SectionTopShortInfo: React.FC<SectionTopShortInfoType> = React.memo(
               {/* Agent name */}
               <div className="flex flex-col items-start space-y-1">
                 <h4 className="font-bold text-darkBlue font-jostFont capitalize text-lg">
-                  {name || "N/A"}
+                  {name || "Uknown"}
                 </h4>
                 <span className="text-size_15 text-slate-400 font-light font-jostFont ps-1">
-                  {address || "N/A"}
+                  {address || "No Address Provided"}
                 </span>
               </div>
 
               {/* Agent Description */}
               <p className="leading-7 text-slate-400 text-size_15 font-jostFont">
-                {bioInfo || "N/A"}
+                {bioInfo || "No description yets"}
               </p>
 
               {/* Agent Property Amount */}
@@ -88,7 +88,7 @@ const SectionTopShortInfo: React.FC<SectionTopShortInfoType> = React.memo(
         </div>
       </section>
     );
-  }
+  },
 );
 
 export default SectionTopShortInfo;

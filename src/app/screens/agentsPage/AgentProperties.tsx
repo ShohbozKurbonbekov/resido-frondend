@@ -35,7 +35,7 @@ const chosenAgentPropertiesRetriever = createSelector(
 );
 
 // ------------------------------------------ COMPONENT ----------------------------------------
-const AgentProperties: React.FC = () => {
+export default function AgentProperties() {
   const { setChosenAgentProperties } = actionDispatch(useDispatch());
   const {
     chosenAgentProperties: { agent },
@@ -181,6 +181,4 @@ const AgentProperties: React.FC = () => {
       </div>
     </>
   );
-};
-
-export default AgentProperties;
+}

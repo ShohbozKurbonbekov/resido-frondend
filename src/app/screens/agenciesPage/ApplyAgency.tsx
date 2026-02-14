@@ -40,7 +40,7 @@ export default function ApplyAgency() {
       address: "",
       agencyOwner: "",
       licenseNumber: "",
-      certificate: null,
+      certificate: "",
     },
   });
 
