@@ -29,7 +29,6 @@ const initialState: AgencyDashboardPage = {
     myBlogs: { total: 0 },
     myProperties: { total: 0 },
     totalViews: { total: 0 },
-    transactions: { total: 0 },
   },
 };
 

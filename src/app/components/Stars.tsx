@@ -2,7 +2,7 @@ import Rating from "@mui/material/Rating";
 
 interface StarsType {
   rating: number;
-  size?: string;
+  size?: "large" | "small" | "medium";
 }
 export default function Stars({ rating, size = "small" }: StarsType) {
   return (

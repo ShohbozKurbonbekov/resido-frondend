@@ -8,7 +8,7 @@ class FaqService {
   }
 
   async getFaqData(searchInquery: { search: string }): Promise<T> {
-    console.log(searchInquery);
+    console.log(searchInquery, this.path);
     return {
       search: [{}, {}],
     };

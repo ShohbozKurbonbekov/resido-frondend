@@ -17,7 +17,6 @@ const initialState: AgentDashboardPage = {
     reviews: { total: 0 },
     totalLikes: { total: 0 },
     totalViews: { total: 0 },
-    transactions: { total: 0 },
   },
 };
 

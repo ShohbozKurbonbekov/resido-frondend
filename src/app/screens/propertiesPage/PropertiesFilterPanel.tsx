@@ -2,13 +2,7 @@ import { BadgeCheck, CircleX, Search, ShieldCheck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import AccordionCom from "@/app/components/AccordionCom";
-import {
-  ameneties,
-  bedrooms,
-  cityList,
-  mood,
-  propertyType,
-} from "@/app/data/properties";
+import { ameneties, bedrooms, mood, propertyType } from "@/app/data/properties";
 import AccordionPriceAndAmenetiesCom from "./AccordionPriceAndAmenetiesCom";
 import AccordionPriceAndAmenitiesCom from "./AccordionPriceAndAmenetiesCom";
 import { usePropertiesFilter } from "@/app/hooks/usePropertiesFilter";

@@ -156,6 +156,7 @@ export default function AdminDashboardBlogs() {
         sortData={Object.keys(SortOrder) as SortOrder[]}
         status={searchInput.status}
         statusData={Object.keys(BlogStatus) as BlogStatus[]}
+        filterHeader={null}
       />
 
       <AdminDashboardBlogsContent

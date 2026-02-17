@@ -61,7 +61,7 @@ export default function AgencyProfileContent() {
       agencyOwner: agency.agencyOwner,
       avatar: undefined,
       bioInfo: agency?.bioInfo ? agency.bioInfo : "",
-      certificate: null,
+      certificate: undefined,
       licenseNumber: agency.licenseNumber,
       memberEmail: agency.memberEmail,
       memberName: agency.memberName,
