@@ -54,7 +54,7 @@ export default function FeaturedCard({ property }: FeaturedCardType) {
             {formatCurrency(
               (sellingOption?.optionRent?.overalAmount ??
                 sellingOption?.optionSell?.overalAmunt)!,
-              "USD"
+              "USD",
             )}
           </span>
         </div>
@@ -102,7 +102,7 @@ export default function FeaturedCard({ property }: FeaturedCardType) {
             <img src="/img/svg/map-1.svg" alt="address logo" />
             <span className="truncate lg:w-48">{`${street}, ${city}, ${country}`}</span>
           </p>
-          <Link to={`${serverAPI}/property/${id}`}>
+          <Link to={`/property/${id}`}>
             <button className="font-bold text-sm py-2 px-5 box-content bg-blue-800 rounded text-slate-50 hover:opacity-70 transition-all ease-in-out duration-75">
               View
             </button>

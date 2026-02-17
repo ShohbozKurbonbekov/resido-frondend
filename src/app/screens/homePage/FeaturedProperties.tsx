@@ -9,7 +9,7 @@ import type { Property } from "@/lib/type/property";
 // -------------------- REDUX SELECTOR --------------------
 const featuredPropertiesRetriever = createSelector(
   retrieveFeaturedProperties,
-  (featuredProperties) => ({ featuredProperties })
+  (featuredProperties) => ({ featuredProperties }),
 );
 
 // -------------------- COMPONENT --------------------
