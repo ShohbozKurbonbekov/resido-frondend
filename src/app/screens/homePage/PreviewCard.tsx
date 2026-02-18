@@ -23,7 +23,7 @@ export default function PreviewCard({ comment }: PreviewCardType) {
     items-center h-full p-4"
     >
       <CardHeader>
-        <div className="max-w-20 max-h-20 relative">
+        <div className="max-w-20 max-h-20 relative overflow-hidden">
           <img
             src={imgUrl}
             className="rounded-full"

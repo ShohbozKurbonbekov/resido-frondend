@@ -9,7 +9,7 @@ import { retrieveFeaturedAgents } from "./selector";
 // ------------------------------ REDUX SELECTOR -----------------------------
 const featuredAgentsRetriever = createSelector(
   retrieveFeaturedAgents,
-  (featuredAgents) => ({ featuredAgents })
+  (featuredAgents) => ({ featuredAgents }),
 );
 
 // ------------------------------- COMPONENT -----------------------------
@@ -21,8 +21,8 @@ export default function FeaturedAgents() {
   return (
     <section className="py-20 flex flex-row justify-center">
       <div className="container flex flex-col gap-10">
-        <div className="max-w-[536px] flex flex-col items-center gap-y-2 text-darkBlue mx-auto">
-          <h2 className="font-bold capitalize font-jostFont leading-tight text-3xl">
+        <div className="max-w-lg flex flex-col items-center gap-y-2 text-darkBlue mx-auto">
+          <h2 className="font-bold capitalize font-jostFont leading-tight text-3xl text-center">
             Explore Featured Agents
           </h2>
           <p className="mb-2 leading-onePointEight text-center">

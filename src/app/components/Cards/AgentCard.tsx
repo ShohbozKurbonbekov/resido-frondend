@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { defaultUserAvatar, serverAPI } from "@/lib/config";
 import type { AgentData } from "@/lib/type/agent";
-import { MailQuestionMark } from "lucide-react";
+import { SquareArrowUpRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface AgentCardType {
@@ -37,7 +37,7 @@ export default function AgentCard({ agent }: AgentCardType) {
   // ------------------------ RENDER ----------------------------
   return (
     <Card
-      className=" flex flex-col shadow-cardShadow cursor-pointer"
+      className=" flex flex-col shadow-cardShadow cursor-pointer max-w-md mx-auto w-full"
       onClick={() => handleClick(id)}
     >
       {/*HEADER*/}
@@ -73,8 +73,8 @@ export default function AgentCard({ agent }: AgentCardType) {
         </div>
 
         <div>
-          <button className="bg-rose-300 p-2 rounded hover:opacity-70 transition-all duration-200 ease-in-out text-blue-800 hover:text-slate-50 hover:scale-110 hover:bg-blue-600">
-            <MailQuestionMark />
+          <button className="rounded-full bg-slate-100 p-2  transition-all duration-200 ease-in-out text-blue-800  hover:scale-110 hover:bg-slate-200">
+            <SquareArrowUpRight className="h-5 w-5" />
           </button>
         </div>
       </CardFooter>

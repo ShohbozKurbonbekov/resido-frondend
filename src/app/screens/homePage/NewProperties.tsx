@@ -15,7 +15,7 @@ import type { Property } from "@/lib/type/property";
 // -------------------- REDUX SELECTOR --------------------
 const recentRentPropertiesRetriever = createSelector(
   retrieveRecentRentProperties,
-  (recentRentProperties) => ({ recentRentProperties })
+  (recentRentProperties) => ({ recentRentProperties }),
 );
 
 // -------------------- EMBLA OPTIONS --------------------
@@ -49,7 +49,7 @@ export default function NewProperties() {
 
   const scrollTo = useCallback(
     (index: number) => emblaApi?.scrollTo(index),
-    [emblaApi]
+    [emblaApi],
   );
 
   const scrollPrev = () => emblaApi?.scrollPrev();
@@ -60,11 +60,11 @@ export default function NewProperties() {
     <section className="pt-0 pb-20">
       <div className="container flex flex-col gap-12 items-center">
         {/* TITLE */}
-        <div className="max-w-[536px] flex flex-col items-center gap-y-2 text-darkBlue">
-          <h2 className="font-bold capitalize font-jostFont leading-tight text-3xl">
+        <div className="max-w-lg flex flex-col items-center gap-y-2 text-darkBlue">
+          <h2 className="font-bold capitalize font-jostFont leading-tight text-3xl text-center">
             Recent Properties for Rent
           </h2>
-          <p className="mb-2 leading-[1.8] text-center">
+          <p className="mb-2 leading-onePointEight text-center">
             Find your next home from our most recent listings and Don't regret
             with havig it later
           </p>
@@ -86,13 +86,13 @@ export default function NewProperties() {
                       className="
                         flex-[0_0_100%]
                         sm:flex-[0_0_50%]
-                        lg:flex-[0_0_33.333%]
-                        p-3
+                        lg:flex-[0_0_33.333%] p-1
+                      
                       "
                     >
                       <PropertyCard property={property} />
                     </div>
-                  )
+                  ),
                 )}
               </div>
             </div>

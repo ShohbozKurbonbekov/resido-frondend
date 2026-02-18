@@ -61,7 +61,7 @@ const CustomersReview: React.FC = () => {
     <section className="py-20  bg-[url(/img/pattern.png)] bg-slate-200 flex  flex-row justify-center">
       <div className="container flex flex-col gap-10">
         <div className="max-w-xl flex flex-col items-center gap-y-2 text-darkBlue mx-auto">
-          <h2 className="font-bold capitalize font-jostFont leading-tight text-3xl">
+          <h2 className="font-bold capitalize font-jostFont leading-tight text-3xl text-center">
             Good Reviews by Customers
           </h2>
           <p className="mb-2 leading-onePointEight text-center">

@@ -21,7 +21,7 @@ export default function FeaturedProperties() {
     <section className="flex flex-row justify-center py-20 bg-slate-200">
       <div className="container flex-col gap-12 items-center">
         <div className="max-w-[536px] flex flex-col items-center gap-y-2 text-darkBlue mb-12 mx-auto">
-          <h2 className="font-bold capitalize font-jostFont leading-tight text-3xl">
+          <h2 className="font-bold capitalize font-jostFont leading-tight text-3xl text-center">
             Featured Property For Sale
           </h2>
           <p className="mb-2 leading-onePointEight text-center">

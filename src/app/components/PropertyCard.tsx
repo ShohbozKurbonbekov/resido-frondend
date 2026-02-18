@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
-import { Bed, Copy, Hotel } from "lucide-react";
+import { Bed, Copy, Hotel, SquareArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 import { useCallback, useEffect, useState } from "react";
@@ -48,7 +48,7 @@ const PropertyCard: React.FC<PropertyCardType> = React.memo(({ property }) => {
 
   const scrollTo = useCallback(
     (index: number) => emblaApi && emblaApi.scrollTo(index),
-    [emblaApi]
+    [emblaApi],
   );
 
   useEffect(() => {
@@ -60,19 +60,19 @@ const PropertyCard: React.FC<PropertyCardType> = React.memo(({ property }) => {
   }, [emblaApi, onSelect]);
 
   return (
-    <Card className="h-full w-full shadow-none" key={id} id={id}>
+    <Card className="flex flex-col gap-2 shadow-none max-w-md mx-auto" key={id}>
       {/* Header images */}
-      <CardHeader className="pb-3">
-        <div className=" flex flex-col  max-h-[260px] relative">
+      <CardHeader className="p-2 sm:p-4">
+        <div className="relative">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex">
               {images.map((image: string, index: number) => {
                 const imageUrl: string = `${serverAPI}/${image}`;
                 return (
-                  <div className="flex-[0_0_100%]" key={index}>
+                  <div className="flex-[0_0_100%] p-1" key={index}>
                     <img
                       src={imageUrl}
-                      className="h-full rounded-md"
+                      className="h-full rounded-lg aspect-blogCardRatio"
                       alt={title}
                     />
                   </div>
@@ -80,12 +80,14 @@ const PropertyCard: React.FC<PropertyCardType> = React.memo(({ property }) => {
               })}
             </div>
           </div>
-          <div className="card-header-description flex flex-row  gap-2 top-5 left-4  absolute">
+          <div className="flex flex-row  gap-2 top-5 left-4  absolute">
             {/* verified sign  */}
-            <span className="bg-[#009868] py-1 px-3 rounded-md text-slate-50 font-bold flex flex-row gap-1 items-center">
+            <span className="bg-green-500 py-1 px-3 rounded-md text-slate-50 font-bold flex flex-row gap-1 items-center">
               <img src="/img/svg/verified.svg" className="" alt="" />
-              <span className="text-[10px] tracking-wide">
-                {property.author?.rank}
+              <span className="text-size_10 tracking-wide">
+                {(property.author?.rank ?? "Unknown")
+                  .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+                  .trim()}
               </span>
             </span>
 
@@ -117,45 +119,36 @@ const PropertyCard: React.FC<PropertyCardType> = React.memo(({ property }) => {
 
       {/* Main Content Part */}
       <CardContent className="flex flex-col items-start justify-center">
-        <div className="flex flex-row w-full gap-4 font-jostFont mb-1">
+        <div className="flex flex-row w-full gap-2 font-jostFont mb-1">
           <span className="py-1 px-3 bg-[#0098681A] text-darkBlue text-xs rounded-sm font-bold ">
             {sellingOption.optionRent?.type ?? sellingOption.optionSell?.type}
           </span>
-          <span className="py-1 px-3 bg-[#3846411a] text-blue-600 text-xs rounded-sm font-bold ">
+          <span className="py-1 px-3 bg-[#3846411a] text-blue-600 text-size_10 rounded-sm font-bold ">
             {propertyType.toUpperCase()}
           </span>
         </div>
-        <h3 className="text-darkBlue font-bold font-jostFont text-xl mb-1">
+        <h3 className="text-darkBlue font-bold font-jostFont text-xl mb-1 line-clamp-2">
           {title}
         </h3>
-        <p className="text-stone-400 flex flex-row  items-center gap-1 mb-2">
+        <p className="text-stone-400 flex flex-row  items-center gap-1 mb-2 text-sm sm:text-base font-jostFont">
           <img src="/img/svg/map-1.svg" alt="map logo" />
           {`${address?.street}, ${address?.city}, ${address?.country}`}
         </p>
-        <div className=" w-full flex flex-row justify-between items-center text-stone-400 text-sm font-jostFont mb-3">
+        <div className=" w-full flex flex-row justify-between items-center text-stone-400 text-xs sm:text-sm font-jostFont mb-3">
           <span className="flex flex-row gap-1 items-center">
-            <Hotel
-              size="20px"
-              className="bg-blue-100 box-content p-2 rounded-full border-2"
-            />
-            <span>
+            <Hotel className="bg-blue-100 box-content h-4 w-4 p-1 rounded-full border-2" />
+            <span className="text-xs">
               {bedrooms}B{hall}H{kitchen}K
             </span>
           </span>
 
           <span className="flex flex-row gap-1 items-center">
-            <Bed
-              size="20px"
-              className="bg-blue-100 box-content p-2 rounded-full border-2"
-            />
-            <span>{bedrooms} Beds</span>
+            <Bed className="bg-blue-100 box-content p-1 w-4 h-4 rounded-full border-2" />
+            <span className="text-xs">{bedrooms} Beds</span>
           </span>
 
           <span className="flex flex-row gap-1 items-center">
-            <Copy
-              size="20px"
-              className="bg-blue-100 box-content p-2 rounded-full border-2"
-            />
+            <Copy className="bg-blue-100 box-content  p-1 w-4 h-4 rounded-full border-2" />
             <span className="">{formatPropertyArea(area)}</span>
           </span>
         </div>
@@ -164,11 +157,11 @@ const PropertyCard: React.FC<PropertyCardType> = React.memo(({ property }) => {
             {formatCurrency(
               (sellingOption?.optionRent?.overalAmount ??
                 sellingOption?.optionSell?.overalAmunt)!,
-              "USD"
+              "USD",
             )}
           </span>
           <Link to={`/property/${id}`}>
-            <img src="/img/svg/send.svg" alt="reference" />
+            <SquareArrowUpRight className="h-5 w-5 rounded-full bg-slate-100 p-2  transition-all duration-200 ease-in-out text-blue-800  hover:scale-110 hover:bg-slate-200 box-content" />
           </Link>
         </div>
       </CardContent>
