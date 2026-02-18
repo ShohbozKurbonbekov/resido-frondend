@@ -1,31 +1,52 @@
 import type { Property } from "@/lib/type/property";
 import React from "react";
 
-// ------------------------------- COMPONENT ------------------------------
 interface ChosenPropertyNearbyPlacesType {
   property: Property;
 }
+
 const ChosenPropertyNearbyPlaces: React.FC<ChosenPropertyNearbyPlacesType> =
   React.memo(({ property }) => {
     const { nearBySchools, nearByTransports } = property;
+
     const transport_school = [
-      { text: "a school nearby", value: nearBySchools },
-      { text: "a transport nearby", value: nearByTransports },
+      { label: "Nearby School", value: nearBySchools },
+      { label: "Nearby Transport", value: nearByTransports },
     ];
-    // ---------------------------- HANDLERS -----------------------------
-    // ---------------------------- RENDERS ------------------------------
+
     return (
-      <div className="flex flex-col gap-y-3 mt-3 ">
-        {transport_school.map((el) => (
-          <div className="grid grid-cols-6 text-base md:text-lg font-jostFont text-slate-500 items-center capitalize">
-            <p className="col-span-2">{el.text}</p>
-            <span className="col-span-3 h-0.5 bg-slate-400"></span>
-            <p className="underline text-end col-span-1">
-              {el.value ? "Yes" : "No"}
-            </p>
-          </div>
-        ))}
+      <div className="mt-6 bg-white rounded-xl shadow-sm border border-slate-100 p-5">
+        <h3 className="text-lg font-semibold font-jostFont text-slate-800 mb-4">
+          Nearby Facilities
+        </h3>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {transport_school.map((el, index) => (
+            <div
+              key={index}
+              className="flex items-center justify-between bg-slate-50 rounded-lg px-4 py-3 border border-slate-100"
+            >
+              <span className="text-sm md:text-base font-medium text-slate-700 capitalize">
+                {el.label}
+              </span>
+
+              <span
+                className={`
+                  text-xs md:text-sm font-semibold px-3 py-1 rounded-full
+                  ${
+                    el.value
+                      ? "bg-emerald-100 text-emerald-700"
+                      : "bg-rose-100 text-rose-600"
+                  }
+                `}
+              >
+                {el.value ? "Available" : "Not Available"}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     );
   });
+
 export default ChosenPropertyNearbyPlaces;

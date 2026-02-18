@@ -31,7 +31,7 @@ const ChosenPropTopIntro: React.FC<ChosenPropTopIntroType> = React.memo(
     } = property;
     const iconWrapperClasses = "flex flex-row gap-1 items-center";
     const iconClasses = "h-4 w-4 text-slate-400";
-    const iconTitleClasses = "text-slate-500 font-jostFont";
+    const iconTitleClasses = "text-slate-500 font-jostFont text-xs sm:text-sm";
 
     // ----------------------------------- HANDLERS --------------------------------
     const updatePropertyAddress = useMemo(
@@ -59,10 +59,10 @@ const ChosenPropTopIntro: React.FC<ChosenPropTopIntroType> = React.memo(
             ? sellingOption.optionRent?.type
             : sellingOption?.optionSell?.type}
         </span>
-        <h4 className="text-darkBlue capitalize font-bold text-2xl lg-text-3xl font-jostFont">
+        <h4 className="text-darkBlue capitalize font-bold text-xl lg-text-3xl font-jostFont">
           {title}
         </h4>
-        <p className="text-slate-400 font-jostFont capitalize">
+        <p className="text-slate-400 font-jostFont capitalize text-sm sm:text-base">
           {updatePropertyAddress}
         </p>
         <p className="text-blue-600 font-semibold text-xl lg:text-2xl">
@@ -75,10 +75,10 @@ const ChosenPropTopIntro: React.FC<ChosenPropTopIntroType> = React.memo(
                 sellingOption.optionSell?.overalAmunt ?? 0,
                 "USD",
               )}{" "}
-          <sub className="leading-none text-slate-400  text-sm font-normal">
+          <sub className="leading-none text-slate-400  text-xs sm:text-sm font-normal">
             {sellingOption.optionRent?.type === "RENT"
-              ? "/Month"
-              : `/Discount ${sellingOption.optionSell?.discount ?? 0}%`}
+              ? "/ Month"
+              : `/ Discount ${sellingOption.optionSell?.discount ?? 0}%`}
           </sub>
         </p>
         <div className="flex items-center flex-row justify-start gap-3">

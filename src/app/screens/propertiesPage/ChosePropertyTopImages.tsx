@@ -7,7 +7,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import React, { useRef } from "react";
 
 const options: EmblaOptionsType = {
-  duration: 40,
+  duration: 50,
   loop: true,
   align: "start",
 };
@@ -20,7 +20,7 @@ const ChosePropertyTopImages: React.FC<ChosePropertyTopImagesType> = React.memo(
   ({ mainProperty }: ChosePropertyTopImagesType) => {
     const { images, title } = mainProperty;
     const autoPlay = useRef(
-      Autoplay({ stopOnInteraction: false, delay: carouselAutoPlayDelay })
+      Autoplay({ stopOnInteraction: false, delay: carouselAutoPlayDelay }),
     );
 
     const [carouselRef, carouselApi] = useEmblaCarousel(options, [
@@ -41,11 +41,11 @@ const ChosePropertyTopImages: React.FC<ChosePropertyTopImagesType> = React.memo(
             {images.map((image) => {
               const imageUrl = `${serverAPI}/${image}`;
               return (
-                <div className="flex-[0_0_50%]">
+                <div className="flex-[0_0_100%] sm:flex-[0_0_50%] aspect-blogCardRatio">
                   <img
                     src={imageUrl}
                     alt={title}
-                    className="w-full  h-full object-cover max-h-[540px]  border-t-0 border-l-0 border-r-0 border-b-sky-300 border-2"
+                    className="w-full  h-full object-cover border-t-0 border-l-0 border-r-0 border-b-sky-300 border-2"
                   />
                 </div>
               );
@@ -55,7 +55,7 @@ const ChosePropertyTopImages: React.FC<ChosePropertyTopImagesType> = React.memo(
             <div className="embla__buttons">
               <button
                 className={
-                  "absolute top-[calc(50%-2.5px)] md:left-10 p-2 rounded-md bg-white/40 hover:bg-white/60 transition-all duration-150 ease-linear left-5"
+                  "absolute top-1/2 -translate-y-1/2 md:left-10 p-2  rounded-md bg-white/40 hover:bg-white/60 transition-all duration-150 ease-linear left-3"
                 }
                 type="button"
                 onClick={scrollPrev}
@@ -74,7 +74,7 @@ const ChosePropertyTopImages: React.FC<ChosePropertyTopImagesType> = React.memo(
         </div>
       </div>
     );
-  }
+  },
 );
 
 export default ChosePropertyTopImages;

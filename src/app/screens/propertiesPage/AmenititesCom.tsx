@@ -17,7 +17,7 @@ const AmenitiesCom: React.FC<AmenitiesComType> = React.memo(
     }, [amenitites]);
 
     return (
-      <ul className={"grid  grid-cols-3 gap-5"}>
+      <ul className={"grid  grid-cols-2 sm:grid-cols-3 gap-5"}>
         {!totalAmenities.length ? (
           <p className="w-full  py-2 text-slate-400 text-lg font-jostFont ">
             No amenities available
@@ -41,7 +41,7 @@ const AmenitiesCom: React.FC<AmenitiesComType> = React.memo(
         )}
       </ul>
     );
-  }
+  },
 );
 
 export default AmenitiesCom;

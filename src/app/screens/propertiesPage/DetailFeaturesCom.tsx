@@ -8,15 +8,22 @@ interface DetailFeaturesComType {
 
 const DetailFeaturesCom: React.FC<DetailFeaturesComType> = React.memo(
   ({ property }) => {
-    const rowColumnClasses = "flex flex-col gap-4";
+    const wrapperClasses =
+      "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full";
+
+    const itemClasses =
+      "flex justify-between items-start gap-3 border-b border-slate-100 pb-2";
+
     const textClasses =
-      "font-bold text-sm font-jostFont text-blue-800 capitalize";
-    const valuesClasses = "text-slate-400 text-sm capitalize";
+      "font-semibold text-sm font-jostFont text-blue-800 capitalize";
+
+    const valuesClasses =
+      "text-slate-500 text-sm capitalize break-words text-right";
 
     // --------------------------- COLUMN 1 -------------------
     const column1 = useMemo(() => {
       const { bedrooms, garageSpace, status, kitchen, floors, mood } = property;
-      const updated = [
+      return [
         { title: "bedrooms", subtitle: "beds", value: bedrooms },
         { title: "Garage", subtitle: "", value: garageSpace },
         { title: "status", subtitle: "", value: status },
@@ -24,13 +31,12 @@ const DetailFeaturesCom: React.FC<DetailFeaturesComType> = React.memo(
         { title: "floors", subtitle: "", value: floors },
         { title: "mood", subtitle: "", value: mood },
       ];
-      return updated;
     }, [property]);
 
     const column2 = useMemo(() => {
       const { bathrooms, propertyType, cooling, hall, firePlace } = property;
 
-      const updated = [
+      return [
         { title: "Bathrooms", subtitle: "Baths", value: bathrooms },
         { title: "Property Type", subtitle: "", value: propertyType },
         { title: "Cooling", subtitle: "", value: cooling },
@@ -41,37 +47,32 @@ const DetailFeaturesCom: React.FC<DetailFeaturesComType> = React.memo(
           value: firePlace ? "Yes" : "No",
         },
       ];
-      return updated;
     }, [property]);
 
     const column3 = useMemo(() => {
       const { area, yearBuilt, heating, furnished, security } = property;
 
-      const updated = [
+      return [
         { title: "Areas", value: formatPropertyArea(area) },
         { title: "Year", value: yearBuilt },
         { title: "Heating Type", value: heating },
         { title: "Furnitured", value: furnished },
         { title: "Security", value: security },
       ];
-      return updated;
     }, [property]);
+    const allFeatures = [...column1, ...column2, ...column3];
 
     return (
-      <>
-        {[column1, column2, column3].map((col, index) => (
-          <ul className={rowColumnClasses} key={index}>
-            {col.map((el, index) => (
-              <li key={index}>
-                <span className={textClasses}>{el.title}:</span>
-                <span className={valuesClasses}> {el.value ?? "N/A"}</span>
-              </li>
-            ))}
-          </ul>
+      <ul className={wrapperClasses}>
+        {allFeatures.map((el, index) => (
+          <li key={index} className={itemClasses}>
+            <span className={textClasses}>{el.title}:</span>
+            <span className={valuesClasses}>{el.value ?? "N/A"}</span>
+          </li>
         ))}
-      </>
+      </ul>
     );
-  }
+  },
 );
 
 export default DetailFeaturesCom;
