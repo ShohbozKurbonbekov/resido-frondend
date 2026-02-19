@@ -201,7 +201,7 @@ class AgencyService {
 
   public async myBlogs(input: CommonInput): Promise<BlogsListPage> {
     try {
-      const url = `${serverAPI}/agency/get/myBlogs?page=${input.page}&limit=${input.limit}`;
+      const url = `${serverAPI}/agency/fetch/myBlogs?page=${input.page}&limit=${input.limit}`;
       const result = await axios.get(url, { withCredentials: true });
       return result.data;
     } catch (error) {
