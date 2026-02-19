@@ -77,7 +77,7 @@ export default function Login({ btnClasses, btnTitle }: LoginType) {
           {btnTitle}
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-11/12 max-w-xl pb-8 ">
+      <DialogContent className="w-11/12 max-w-xl pb-8  h-5/6 overflow-auto rounded-md">
         <div className="flex flex-col items-center justify-center">
           <h3 className="text-darkBlue text-3xl font-jostFont font-bold capitalize">
             Login ?

@@ -28,6 +28,7 @@ import { useGlobals } from "../hooks/useGlobals";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registrationInputClasses } from "./Login";
+import { textClasses } from "@/lib/config";
 // ✅ Validation schema with Zod
 
 const FormSchema = z.object({
@@ -109,7 +110,7 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
           {btnTitle}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[698px] pb-8">
+      <DialogContent className="sm:max-w-2xl overflow-auto pb-8 h-5/6 w-11/12 rounded-md">
         <DialogHeader className="flex flex-col items-center justify-center">
           <img src="/img/logo.svg" className="h-20 w-20" alt="signup logo " />
           <DialogTitle className="text-darkBlue text-2xl font-jostFont font-bold capitalize">
@@ -126,7 +127,7 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
                   name="memberName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Name</FormLabel>
+                      <FormLabel className={textClasses}>Name</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter your name"
@@ -145,7 +146,7 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
                   name="memberEmail"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel className={textClasses}>Email</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter your email"
@@ -164,10 +165,10 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
                   name="memberPhone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Phone</FormLabel>
+                      <FormLabel className={textClasses}>Phone</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="+821012345678"
+                          placeholder="01012345678"
                           {...field}
                           className={registrationInputClasses}
                         />
@@ -186,7 +187,7 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
                   name="memberPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel className={textClasses}>Password</FormLabel>
                       <FormControl>
                         <Input
                           type="password"
@@ -206,7 +207,7 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
                   name="occupation"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Occupation</FormLabel>
+                      <FormLabel className={textClasses}>Occupation</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Developer, Student..."
@@ -225,7 +226,9 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
                   name="role"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Being registered as</FormLabel>
+                      <FormLabel className={textClasses}>
+                        Being registered as
+                      </FormLabel>
                       <Input
                         placeholder="User"
                         {...field}

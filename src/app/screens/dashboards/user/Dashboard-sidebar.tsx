@@ -5,7 +5,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 const wrapperClasses =
-  "w-full mb-7 pt-14 p-6 flex flex-col gap-y-7 bg-white rounded-md shadow-md shadow-slate-200 box-border items-center";
+  "w-full mb-7 pt-14 p-3 lg:p-6  flex flex-col gap-y-7 bg-white rounded-md shadow-md shadow-slate-200 box-border items-center";
 
 const featuresClasses = "flex flex-col list-none  w-full gap-y-1";
 
@@ -31,7 +31,7 @@ const DashboardSideBar: React.FC<DashboardSideBarType> = React.memo(
           <img
             src={imgUrl}
             alt={name}
-            className="max-w-44 rounded-full object-cover mb-2 "
+            className="max-w-44 max-h-44 rounded-full object-cover mb-2 "
           />
           <h3 className="text-lg lg:text-xl mt-2.5 mb-1 text-darkBlue font-bold font-jostFont capitalize text-center leading-tight line-clamp-2">
             {name}
@@ -53,7 +53,7 @@ const DashboardSideBar: React.FC<DashboardSideBarType> = React.memo(
                 end={overview}
                 onClick={title === "Logout" ? logout : undefined}
                 className={({ isActive }) =>
-                  `w-full flex items-center gap-3 px-4 py-2.5 rounded-md text-sm md:text-base font-jostFont font-semibold transition-colors duration-200 border border-gray-200
+                  `w-full flex items-center gap-3 px-4 py-2.5 rounded-md text-base md:text-base font-jostFont font-semibold transition-colors duration-200 border border-gray-200
     ${
       isActive
         ? "bg-sky-600 text-white border-transparent shadow-sm"
@@ -71,7 +71,7 @@ const DashboardSideBar: React.FC<DashboardSideBarType> = React.memo(
         </ul>
       </div>
     );
-  }
+  },
 );
 
 export default DashboardSideBar;

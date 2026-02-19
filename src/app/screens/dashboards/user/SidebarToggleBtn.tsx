@@ -19,7 +19,7 @@ const SidebarToggleBtn: React.FC<SidebarToggleBtnType> = React.memo(
             <CircleGauge className="h-4 w-4  group-active:rotate-90    transition-transform duration-200 ease-linear" />
             dashboard
           </SheetTrigger>
-          <SheetContent side={"left"} className="p-0 w-[70%] overflow-y-auto">
+          <SheetContent side={"left"} className="p-0  w-3/4 overflow-y-auto ">
             <DashboardSideBar
               name={name}
               avatar={avatar}
@@ -30,7 +30,7 @@ const SidebarToggleBtn: React.FC<SidebarToggleBtnType> = React.memo(
         </Sheet>
       </div>
     );
-  }
+  },
 );
 
 export default SidebarToggleBtn;

@@ -82,7 +82,7 @@ const UserProfileCard: React.FC<UserProfileCardType> = React.memo(
           </CardTitle>
         </CardHeader>
 
-        <CardContent className="bg-white">
+        <CardContent className="bg-white p-3 sm:p-4">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleSubmit)}
@@ -90,7 +90,7 @@ const UserProfileCard: React.FC<UserProfileCardType> = React.memo(
             >
               {/*Your profile image*/}
               <div className="flex sm:flex-row flex-col items-center gap-6 rounded-lg border border-slate-200 bg-slate-50/50 p-4">
-                <div className="h-24 w-24 shrink-0 overflow-hidden rounded-full border border-slate-300 bg-slate-100 ">
+                <div className="h-40 w-40 shrink-0 overflow-hidden rounded-full border border-slate-300 bg-slate-100 ">
                   {avatarPreview ? (
                     <Avatar className="h-full w-full object-cover">
                       <AvatarImage src={avatarPreview} alt={user.memberName} />
@@ -146,7 +146,7 @@ const UserProfileCard: React.FC<UserProfileCardType> = React.memo(
                 </div>
               </div>
               {/* Single input fields*/}
-              <div className={rowWrapperClasses}>
+              <div className={"grid grid-cols-1 sm:grid-cols-2 gap-2"}>
                 {USER_PROFILE_FIELDS.map(
                   ({ elementType, inputType, label, name, placeholder }) => (
                     <FormField
@@ -173,7 +173,7 @@ const UserProfileCard: React.FC<UserProfileCardType> = React.memo(
                           );
                         }
                         return (
-                          <FormItem className="grid col-span-2">
+                          <FormItem className="grid sm:col-span-2">
                             <FormLabel className={textClasses}>
                               {label}
                             </FormLabel>
