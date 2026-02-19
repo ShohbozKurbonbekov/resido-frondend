@@ -15,10 +15,10 @@ export default function MisionWork({ title, subtitle }: CommonSectionType) {
       sectionTitle={
         <div className="container">
           <div className="flex flex-col space-y-2 items-center mb-12">
-            <h2 className="text-3xl font-jostFont text-darkBlue font-bold leading-tight capitalize">
+            <h2 className="text-3xl font-jostFont text-darkBlue font-bold leading-tight capitalize text-center">
               {title}
             </h2>
-            <p className="leading-onePointEight mb-1 capitalize font-jostFont">
+            <p className="leading-onePointEight mb-1 capitalize font-jostFont text-center">
               {subtitle}
             </p>
           </div>

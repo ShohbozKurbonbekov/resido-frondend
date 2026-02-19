@@ -28,6 +28,7 @@ import {
   sweetTopSmallSuccessAlert,
 } from "@/lib/sweetAlerts";
 import React from "react";
+import { inputClasses, textClasses } from "@/lib/config";
 
 // ✅ Validation schema with Zod
 const FormSchema = z.object({
@@ -46,10 +47,6 @@ const FormSchema = z.object({
 //------------------------------------------ ELEMENTS CLASSES ---------------------------------
 const formRowWrapper = "grid grid-cols-1";
 const formRow = "flex flex-col gap-y-1 items-start justify-start w-full";
-const formTextClasses =
-  "text-base leading-tight text-blue-950 capitalize font-jostFont";
-const formInputClasses =
-  "bg-slate-100  py-6 focus-visible:ring-slate-300 text-xs text-slate-500 font-semibold border-0 rounded-sm";
 const infoWrapperClasses = "mb-3 flex flex-row items-start justify-start gap-2";
 const infoIconClasses = "h-10 w-10 stroke-blue-800";
 const textIconwWrapper = "flex-1 flex flex-col items-start";
@@ -137,7 +134,12 @@ const MainContent: React.FC<MainContentType> = React.memo(({ adminData }) => {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleSubmit)}
-              className="flex flex-col space-y-4"
+              className=" w-full  bg-transparent
+      border 
+      border-slate-200 
+      rounded-2xl 
+      p-6 sm:p-8 
+      space-y-6"
             >
               {/* // email */}
               <div className={formRowWrapper}>
@@ -146,11 +148,11 @@ const MainContent: React.FC<MainContentType> = React.memo(({ adminData }) => {
                   name="email"
                   render={({ field }) => (
                     <FormItem className={formRow}>
-                      <FormLabel className={formTextClasses}>Email</FormLabel>
+                      <FormLabel className={textClasses}>Email</FormLabel>
                       <FormControl>
                         <Input
                           type="email"
-                          className={formInputClasses}
+                          className={inputClasses}
                           {...field}
                         />
                       </FormControl>
@@ -167,9 +169,9 @@ const MainContent: React.FC<MainContentType> = React.memo(({ adminData }) => {
                   name="phone"
                   render={({ field }) => (
                     <FormItem className={formRow}>
-                      <FormLabel className={formTextClasses}>Phone</FormLabel>
+                      <FormLabel className={textClasses}>Phone</FormLabel>
                       <FormControl>
-                        <Input className={formInputClasses} {...field} />
+                        <Input className={inputClasses} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -183,9 +185,9 @@ const MainContent: React.FC<MainContentType> = React.memo(({ adminData }) => {
                   name="subject"
                   render={({ field }) => (
                     <FormItem className={formRow}>
-                      <FormLabel className={formTextClasses}>Subject</FormLabel>
+                      <FormLabel className={textClasses}>Subject</FormLabel>
                       <FormControl>
-                        <Input className={formInputClasses} {...field} />
+                        <Input className={inputClasses} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -200,10 +202,10 @@ const MainContent: React.FC<MainContentType> = React.memo(({ adminData }) => {
                   name="message"
                   render={({ field }) => (
                     <FormItem className={formRow}>
-                      <FormLabel className={formTextClasses}>Message</FormLabel>
+                      <FormLabel className={textClasses}>Message</FormLabel>
                       <FormControl>
                         <Textarea
-                          className={formInputClasses}
+                          className={inputClasses}
                           rows={5}
                           {...field}
                         />
