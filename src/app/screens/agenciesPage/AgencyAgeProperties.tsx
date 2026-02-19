@@ -108,7 +108,9 @@ export default function AgencyAgeProperties() {
     }
     if (agencyItemsSearch.agencyTarget === AgencyTargetType.PROPERTIES) {
       return agency?.paginatedProperties?.map((property) => (
-        <PropertyCard property={property} key={property?._id} />
+        <div className="w-full truncate">
+          <PropertyCard property={property} key={property?._id} />
+        </div>
       ));
     }
   }, [agencyItemsSearch, agency]);

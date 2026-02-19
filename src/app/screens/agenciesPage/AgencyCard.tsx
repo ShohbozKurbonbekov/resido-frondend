@@ -24,7 +24,7 @@ const AgencyCard: React.FC<AgencyCardType> = React.memo(({ agency }) => {
           <Link to={`/agencies/${_id}`}>
             <img
               src={imgUrl}
-              className=" max-w-[350px] w-full md:w-[230px] md:h-auto  lg:w-[130px] lg:h-[117px] rounded-md  hover:opacity-60 duration-100 transition-opacity ease-linear"
+              className=" max-w-[350px] aspect-blogCardRatio w-full md:w-[230px] md:h-auto  lg:w-[130px] lg:h-[117px] rounded-md  hover:opacity-60 duration-100 transition-opacity ease-linear"
               alt={memberName ?? "agency picture"}
               loading="lazy"
             />

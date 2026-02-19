@@ -72,7 +72,9 @@ export default function AgentProperties() {
   const propertiesList = useMemo(() => {
     if (agent[0]?.limitedProperties) {
       return agent[0].limitedProperties.map((card) => (
-        <PropertyCard property={card} key={card._id} />
+        <div className="w-full truncate">
+          <PropertyCard property={card} key={card._id} />
+        </div>
       ));
     }
   }, [agent]);
