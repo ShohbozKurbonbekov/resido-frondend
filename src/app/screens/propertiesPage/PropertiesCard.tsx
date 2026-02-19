@@ -143,7 +143,7 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
                     const imageUrl = `${serverAPI}/${image}`;
                     return (
                       <div
-                        className="flex-[0_0_100%] max-h-56 min-h-36"
+                        className="flex-[0_0_100%] max-h-56 aspect-blogCardRatio min-h-36"
                         key={imageUrl}
                       >
                         <img
@@ -158,7 +158,7 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
               </div>
 
               {/* // DOTS */}
-              <div className="absolute bottom-1 flex justify-center w-full mt-4 gap-1">
+              <div className="absolute bottom-2 flex justify-center w-full mt-4 gap-1">
                 {AllSlideNumbers.map((_, index) => (
                   <button
                     key={index}
@@ -208,21 +208,21 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
 
         {/*CONTENT*/}
         <CardContent className="sm:col-span-3 flex flex-col space-y-3 px-7 sm:px-4 py-4 ">
-          <div className="flex flex-row">
+          <div className="flex flex-row items-start">
             <span className="flex flex-row space-x-1 ">
               <span
-                className="text-sm  sm:text-xs md:text-size_10 lg:text-sm py-2 px-3 md:py-1 md:mx-2 lg:py-2 lg:px-3 bg-green-100 text-green-600 lowercase rounded-sm font-bold "
+                className="text-xs py-1 px-2 bg-green-100 text-green-600 capitalize rounded-sm "
                 style={{ margin: 0 }}
               >
                 For{" "}
                 {sellingOption?.optionRent?.type ??
                   sellingOption?.optionSell?.type}
               </span>
-              <span className="text-sm sm:text-xs md:text-size_10 lg:text-sm py-2 px-3 md:py-1 md:mx-2 lg:py-2 lg:px-3 capitalize bg-blue-100 text-blue-600 rounded-sm font-bold">
+              <span className="text-xs py-1 px-2 bg-green-100 text-green-600 capitalize rounded-sm">
                 {propertyType}
               </span>
             </span>
-            <h4 className="font-bold text-blue-900 text-xs md:text-sm font-jostFont flex-1 lg:text-2xl text-end">
+            <h4 className="font-bold text-blue-900 text-base md:text-lg font-jostFont flex-1 lg:text-2xl text-end">
               {formatCurrency(Number(priceValue), "USD")}
             </h4>
           </div>
@@ -233,7 +233,7 @@ const PropertiesCard: React.FC<PropertiesCardType> = React.memo(
             {title}
           </p>
 
-          <div className=" w-full flex flex-row justify-between items-center text-stone-400 text-sm font-jostFont my-3">
+          <div className=" w-full flex flex-row justify-between items-center text-stone-400 text-xs font-jostFont my-3">
             <span className={propertyIconWrapperClasses}>
               <Hotel className={propertyIconClasses} />
               <span>

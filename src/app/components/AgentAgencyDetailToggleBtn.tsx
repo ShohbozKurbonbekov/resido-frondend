@@ -54,10 +54,12 @@ const AgentAgencyToggleBtn: React.FC<AgentAgencyToggleType> = React.memo(
           content = (
             <>
               {cardsArr.slice(0, 4).map((property) => (
-                <PropertyCard
-                  property={property as Property}
-                  key={property._id}
-                />
+                <div className="w-full truncate">
+                  <PropertyCard
+                    property={property as Property}
+                    key={property._id}
+                  />
+                </div>
               ))}
             </>
           );
@@ -83,7 +85,9 @@ const AgentAgencyToggleBtn: React.FC<AgentAgencyToggleType> = React.memo(
             content = (
               <>
                 {agencyData.properties.slice(0, 4).map((property) => (
-                  <PropertyCard property={property} />
+                  <div className="w-full truncate">
+                    <PropertyCard property={property} />
+                  </div>
                 ))}
               </>
             );

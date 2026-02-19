@@ -1,3 +1,4 @@
+import { Input } from "@/components/ui/input";
 import { MapPin } from "lucide-react";
 import React, { useCallback, useState } from "react";
 
@@ -20,14 +21,14 @@ const SearchInputForm: React.FC<SearchInputFormType> = React.memo(
     );
     return (
       <form
-        className="flex flex-col md:items-center items-stretch md:flex-row gap-y-1  p-2.5 rounded-md bg-white shadow-agentSearchForm mb-10 relative -mt-7 max-w-screen-lg w-full mx-auto"
+        className="flex flex-col md:items-center items-stretch md:flex-row gap-y-2  p-2.5 rounded-md bg-white shadow-agentSearchForm mb-10 relative -mt-7 max-w-screen-lg w-full mx-auto"
         onSubmit={handleSubmit}
       >
         <div className="md:flex-1 flex flex-row items-center  px-1 gap-1">
           <MapPin className="stroke-sky-300 h-5 w-5" />
-          <input
+          <Input
             type="text"
-            className="border-0 bg-transparent py-2 pe-6  text-base text-slate-400  shadow-none focus:ring-0 focus:outline-0 flex-1  font-jostFont  font-semibold placeholder:text-slate-300"
+            className="border-0 bg-transparent py-2 pe-6  text-base text-gray-800  shadow-none  flex-1  focus-visible:ring-emerald-600 font-jostFont  placeholder:text-gray-600"
             placeholder={placeholderInput}
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}

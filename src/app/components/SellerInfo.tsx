@@ -65,20 +65,20 @@ const SellerInfo: React.FC<SellerInfoType> = React.memo(
 
     return (
       <div className="bg-white rounded-md  p-[15px_40px_40px] flex flex-col space-y-3 items-stretch">
-        <div className="border-s-0 border-t-0 border-e-0 border-b-slate-200 border-2 pb-2 mb-4 h-auto flex flex-row items-center justify-between">
-          <h4 className="text-base font-bold leading-onePointEight text-darkBlue font-jostFont capitalize ">
+        <div className="border-s-0 border-t-0 border-e-0 border-b-slate-200 border-2 pb-2 mb-4 h-auto flex  flex-col  sm:flex-row  items-center justify-between">
+          <h4 className="text-xl text-center font-bold leading-onePointEight text-darkBlue font-jostFont capitalize mb-3">
             {title}
           </h4>
           {extraFeature}
         </div>
 
-        <ul className="py-1 list-none grid grid-cols-2 items-start justify-items-start leading-normal  gap-y-3 rounded-sm">
+        <ul className="py-1 list-none grid  flex-col sm:grid-cols-2 items-start justify-items-start leading-normal  gap-y-3 rounded-sm">
           {infoList.map(({ key, value }) => (
             <li className="flex flex-col" key={value}>
               <strong className="text-darkBlue font-bold font-jostFont text-size_15 capitalize">
                 {key}
               </strong>
-              <span className="text-size_15 text-blue-500 font-light font-jostFont capitalize">
+              <span className="text-size_15 text-blue-500 font-light font-jostFont">
                 {value}
               </span>
             </li>

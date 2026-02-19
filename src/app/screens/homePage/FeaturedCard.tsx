@@ -26,7 +26,7 @@ export default function FeaturedCard({ property }: FeaturedCardType) {
   } = property;
   return (
     <Card
-      className="w-full flex flex-col sm:flex-row gap-3 p-3 shadow-none bg-slate-50 font-jostFont max-w-md sm:max-w-max"
+      className="w-full flex flex-col sm:flex-row gap-3 p-3 shadow-none bg-slate-50 font-jostFont max-w-md sm:max-w-max truncate"
       key={id}
       id={id}
     >

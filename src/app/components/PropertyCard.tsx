@@ -60,7 +60,10 @@ const PropertyCard: React.FC<PropertyCardType> = React.memo(({ property }) => {
   }, [emblaApi, onSelect]);
 
   return (
-    <Card className="flex flex-col gap-2 shadow-none max-w-md mx-auto" key={id}>
+    <Card
+      className="flex flex-col gap-2 shadow-none max-w-md mx-auto truncate"
+      key={id}
+    >
       {/* Header images */}
       <CardHeader className="p-2 sm:p-4">
         <div className="relative">
@@ -130,7 +133,7 @@ const PropertyCard: React.FC<PropertyCardType> = React.memo(({ property }) => {
         <h3 className="text-darkBlue font-bold font-jostFont text-xl mb-1 w-full truncate">
           {title}
         </h3>
-        <p className="text-stone-400 flex flex-row  items-center gap-1 mb-2 text-sm sm:text-base font-jostFont">
+        <p className="text-stone-400 flex flex-row  items-center gap-1 mb-2 text-sm sm:text-base font-jostFont truncate">
           <img src="/img/svg/map-1.svg" alt="map logo" />
           {`${address?.street}, ${address?.city}, ${address?.country}`}
         </p>

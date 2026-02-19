@@ -52,7 +52,7 @@ const AddNewAgent: React.FC<AddNewAgentType> = React.memo(
     return (
       <button
         type="button"
-        className="list-none text-base text-white capitalize font-jostFont py-2.5 px-5 rounded-md bg-green-800 leading-tight hover:bg-green-700 active:scale-95 transition-all duration-300 ease-linear"
+        className="list-none text-sm text-white capitalize font-jostFont py-2.5 px-3 rounded-md bg-green-800 leading-tight hover:bg-green-700 active:scale-95 transition-all duration-300 ease-linear self-end max-w-40"
         onClick={handleClick}
       >
         Appy to this agency

@@ -13,6 +13,7 @@ import type { SellersSearchInput } from "@/lib/type/common";
 import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import AgentService from "@/app/services/Agent.service";
 import { PaginationCom } from "@/app/components/PaginationCom";
+import { Input } from "@/components/ui/input";
 
 // ----------------------------------------- REDUX INTEGRATION ------------------------------
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -83,15 +84,15 @@ export default function AgentsList() {
         <div className="container">
           {/* // Searching Input Element for the agents list */}
           <form
-            className="flex flex-col md:items-center items-stretch md:flex-row gap-y-1  p-2.5 rounded-md bg-white shadow-agentSearchForm mb-10 relative -mt-8 max-w-screen-lg w-full mx-auto
+            className="flex flex-col md:items-center items-stretch md:flex-row gap-y-2  p-2.5 rounded-md bg-white shadow-agentSearchForm mb-10 relative -mt-8 max-w-screen-lg w-full mx-auto 
             "
             onSubmit={handleSearch}
           >
             <div className="md:flex-1 flex flex-row items-center  px-1 gap-1">
               <MapPin className="stroke-sky-300 h-5 w-5" />
-              <input
+              <Input
                 type="text"
-                className="border-0 bg-transparent py-2 pe-6  text-base text-slate-400  shadow-none focus:ring-0 focus:outline-0 flex-1  font-jostFont  font-semibold placeholder:text-slate-300"
+                className="border-0 bg-transparent py-2 pe-6  text-base text-gray-800  shadow-none focus-visible:ring-emerald-600 flex-1  font-jostFont   placeholder:text-gray-600"
                 autoFocus
                 placeholder="Search by a location"
                 value={agentLocation}

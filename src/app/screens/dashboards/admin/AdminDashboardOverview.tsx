@@ -13,6 +13,7 @@ import AdminOverviewHeader from "./overview/AdminOverviewHeader";
 import AdminOverviewContent from "./overview/AdminOverviewContent";
 import { Navigate } from "react-router-dom";
 import NoFound from "@/app/components/NoFound";
+import { LayoutDashboard } from "lucide-react";
 
 export const agencyDashboardOverviewWrapper =
   "grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-7  mt-5 px-2";
@@ -62,7 +63,11 @@ export default function AdminOverview() {
         <SpinnerGrids columns={agencyDashboardOverviewWrapper} count={3} />
       ) : (
         <div className="flex flex-col gap-y-5 h-full">
-          <AdminOverviewHeader />
+          <AdminOverviewHeader
+            title="Admin Overview"
+            subtitle="Monitor platform performance and system activity"
+            icon={LayoutDashboard}
+          />
           {adminOverview?.adminOverviewStats ? (
             <AdminOverviewContent admin={adminOverview} />
           ) : (
