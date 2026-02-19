@@ -5,10 +5,6 @@ import { createSelector } from "reselect";
 import { retrieveBlogsListPage } from "./selector";
 import { useDispatch, useSelector } from "react-redux";
 
-const activeBtn = "bg-blue-700 shadow-pagesActiveButtons";
-const defaultBtn = "hover:bg-blue-700 py-5 font-jostFont capitalize";
-const inputClasses = "text-slate-500 font-jostFont text-base ";
-
 // ----------------------------------------- REDUX INTEGRATION ------------------------------
 const actionDispatch = (dispatch: Dispatch) => ({
   setBlogsListPage: (data: BlogsListPage) => dispatch(setBlogsListPage(data)),
@@ -124,55 +120,64 @@ export default function BlogLists() {
       <section className="py-20 bg-sky-100">
         <div className="container  flex flex-col gap-8 mx-auto">
           {/* TOP SECTION */}
-          <div className="w-full flex flex-col gap-2 text-center  p-7 rounded-md border">
-            <h2 className="text-3xl font-bold text-darkBlue font-jostFont capitalize">
-              Explore Our Blogs
-            </h2>
-            <p className="text-lg text-slate-500 font-semibold font-jostFont">
-              Read the latest news, humor, tech insights, and more from our
-              writers.
-            </p>
-          </div>
 
           {/* SEARCH INPUT */}
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-3 lg:flex-row lg:items-center bg-white p-7 lg:p-10 rounded-md"
+            className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-6  sm:px-6 sm:py-8 flex flex-col gap-4 sm:flex-row sm:items-end
+      "
           >
-            {/* SEARCH INPUT */}
-            <input
-              placeholder="Search by title name..."
-              value={search}
-              onChange={handleSearch}
-              className={`flex-1 border-blue-400 border rounded-md py-2 px-5   focus:ring-0 outline-none  ${inputClasses}`}
-              autoFocus
-            />
+            {/* Search Input */}
+            <div className="flex-1 flex flex-col gap-1">
+              <label className="text-basse font-medium text-gray-700 sm:text-lg font-jostFont">
+                Search
+              </label>
+              <input
+                type="text"
+                placeholder="Search by title..."
+                value={search}
+                onChange={handleSearch}
+                autoFocus
+                className="h-11 w-full rounded-lg border border-slate-300 bg-slate-100 px-4 text-sm text-gray-800 focus:outline-none focus:ring-2
+            focus:ring-slate-200 focus:border-slate-400 transition
+          "
+              />
+            </div>
 
-            {/* Select input */}
-            <div className="wrapper flex flex-col sm:flex-row  sm:justify-between gap-5 ">
-              <Select
-                value={blogsSearchInput?.sort}
-                onValueChange={(value: SortOrder) => handleSort(value)}
-              >
+            <div className="max-w-sm ml-auto sm:max-w-max w-full grid   grid-cols-2 items-start gap-4">
+              {/* Sort Select */}
+
+              <Select value={blogsSearchInput?.sort} onValueChange={handleSort}>
                 <SelectTrigger
-                  className={`focus:ring-blue-400 py-5 ${inputClasses} focus:outline-none focus:ring-0 border-blue-400 min-w-44`}
+                  className="h-11 rounded-lg border border-slate-300 bg-slate-100 focus:ring-2 focus:ring-slate-200 focus:border-slate-400 w-auto
+          "
                 >
-                  <SelectValue placeholder={blogsSearchInput?.sort} />
+                  <SelectValue placeholder="Newest" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value={SortOrder.DESC} className={inputClasses}>
-                    New
+                <SelectContent className="text-gray-700 font-jostFont">
+                  <SelectItem
+                    value={SortOrder.DESC}
+                    className="text-gray-700 font-jostFont"
+                  >
+                    Newest First
                   </SelectItem>
-                  <SelectItem value={SortOrder.ASC} className={inputClasses}>
-                    Old
+                  <SelectItem
+                    value={SortOrder.ASC}
+                    className="text-gray-700 font-jostFont"
+                  >
+                    Oldest First
                   </SelectItem>
                 </SelectContent>
               </Select>
 
-              {/* Search button */}
+              {/* Submit Button */}
               <Button
                 type="submit"
-                className="bg-blue-400 py-5 hover:bg-blue-700 transition-all ease-linear duration-200 active:scale-95 px-10"
+                className="h-11 px-6 rounded-lg bg-slate-300 text-black font-jostFont hover:bg-slate-400
+          transition
+          font-medium
+        
+        "
               >
                 Search
               </Button>
@@ -182,23 +187,32 @@ export default function BlogLists() {
           {/* MAIN CONTENT */}
           <div className="flex flex-col lg:flex-row gap-6">
             {/* LEFT SIDE: Categories */}
-            <div className="lg:w-1/4 flex flex-col gap-4">
-              {/* Categories */}
-
-              <div className="flex flex-col gap-3 bg-white p-7 rounded-md border">
-                <h3 className="font-semibold text-xl lg:text-lg text-darkBlue font-jostFont">
+            <div className="lg:w-1/4 w-full flex flex-col gap-6">
+              {/* Card */}
+              <div className="bg-slate-50 border border-slate-300 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-gray-800 mb-4 font-jostFont">
                   Categories
                 </h3>
-                {Object.keys(BlogCategory).map((cat) => (
-                  <Button
-                    type="button"
-                    key={cat}
-                    onClick={() => handleCategory(cat as BlogCategory)}
-                    className={`${cat === blogsSearchInput?.search?.category ? activeBtn : "bg-slate-400"} ${defaultBtn}`}
-                  >
-                    {customLetterCustomise(cat)}
-                  </Button>
-                ))}
+
+                <div className="grid grid-cols-1 gap-2 font-jostFont">
+                  {Object.keys(BlogCategory).map((cat) => (
+                    <Button
+                      key={cat}
+                      type="button"
+                      onClick={() => handleCategory(cat as BlogCategory)}
+                      className={`
+                p-5 rounded-md font-medium text-sm transition hover:bg-slate-700 hover:text-white
+                ${
+                  blogsSearchInput.search?.category === cat
+                    ? "bg-slate-700"
+                    : "bg-slate-200 text-slate-800"
+                }
+              `}
+                    >
+                      {customLetterCustomise(cat)}
+                    </Button>
+                  ))}
+                </div>
               </div>
             </div>
 

@@ -44,11 +44,11 @@ const BlogTags: React.FC<BlogTagsType> = React.memo(({ tags }) => {
 
   const handleActiveTag = useCallback((tag: string) => {
     setActiveTag(tag);
-    setLoading(true);
   }, []);
 
   useEffect(() => {
     if (!activeTag) return;
+    setLoading(true);
     const fetchTags = async () => {
       const blog = new BlogService();
       try {
@@ -57,6 +57,7 @@ const BlogTags: React.FC<BlogTagsType> = React.memo(({ tags }) => {
       } catch (error) {
         console.log("Error in fetching tags: ", error);
         await sweetErrorHandling(error!);
+        // setActiveTag(normalizedBlogTag[0]);
       } finally {
         setLoading(false);
       }
@@ -72,7 +73,7 @@ const BlogTags: React.FC<BlogTagsType> = React.memo(({ tags }) => {
       </h4>
 
       {normalizedBlogTag.length ? (
-        <>
+        <div className="w-full">
           <ul className="flex flex-row flex-wrap gap-4">
             {normalizedBlogTag.map((tag) => (
               <button
@@ -86,7 +87,7 @@ const BlogTags: React.FC<BlogTagsType> = React.memo(({ tags }) => {
           </ul>
 
           {loading ? (
-            <SpinnerGrids columns={tagContainerClasses} count={3} />
+            <SpinnerGrids count={3} columns={tagContainerClasses} />
           ) : relatedTags.length ? (
             <>
               <div className={tagContainerClasses}>
@@ -138,7 +139,7 @@ const BlogTags: React.FC<BlogTagsType> = React.memo(({ tags }) => {
           ) : (
             <NoFound title="no related tag found" />
           )}
-        </>
+        </div>
       ) : (
         <div className={`w-full`}>
           <NoFound />

@@ -21,6 +21,7 @@ import SaveShareCom from "../propertiesPage/SaveShareCom";
 import { serverAPI } from "@/lib/config";
 import { UserSavingTargetGroup } from "@/lib/enums/user.enum";
 import BlogTags from "./BlogTags";
+import NoFound from "@/app/components/NoFound";
 
 const sectionClasses = "bg-white p-5 rounded-md border-2";
 // ---------------------------------------------- REDUX INTEGRATION ---------------------------------------
@@ -63,6 +64,7 @@ export default function BlogDetail() {
       page: 1,
       commentTarget: CommentTargetType.BLOG,
     });
+
   const [reloadMainPage, setReloadMainPage] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
@@ -95,7 +97,7 @@ export default function BlogDetail() {
     return chosenBlogComments?.metaCounter[0]?.total ?? 0;
   }, [chosenBlogComments]);
   // ---------------------------------------------- RENDER ---------------------------------------
-  return loading || !mainBlog ? (
+  return loading ? (
     <DetailPageLoading />
   ) : (
     <>
@@ -103,7 +105,7 @@ export default function BlogDetail() {
         title="Blog detail"
         subtitle="See our latest articles and news"
       />
-      {mainBlog && (
+      {mainBlog ? (
         <section className="py-20 bg-sky-100">
           <div className="container mb-4 grid grid-cols-1 gap-y-10 gap-x-5 lg:grid-cols-12">
             <div className="lg:col-span-8 flex flex-col gap-y-7">
@@ -150,6 +152,8 @@ export default function BlogDetail() {
             </div>
           </div>
         </section>
+      ) : (
+        <NoFound title="No Blog Found!" />
       )}
     </>
   );

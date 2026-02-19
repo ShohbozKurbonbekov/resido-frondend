@@ -10,11 +10,14 @@ import { Heart, Quote } from "lucide-react";
 import React, { useCallback, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+const blogTitleContentMain = "px-3 py-1 border bg-slate-100 rounded-lg";
 const commonBtnClasses =
   "p-4 w-full text-center  md:w-auto py-4 rounded-md text-white capitalize";
 const disabledBtnClasses = "cursor-not-allowed bg-slate-300";
 const activeBtnClasses =
   "bg-slate-500 hover:bg-slate-700 duration-300 transition-all ease-linear active:scale-95";
+const blogTitleContentWrapper =
+  "text-slate-400 font-jostFont mt-3 text-base leading-onePointEight border border-slate-200 rounded-lg p-2 flex flex-col bg-slate-50 sm:gap-2 tracking-tighter items-start";
 // ------------------------------------------------------- COMPONENT -------------------------------------------
 interface BlogDetailDescriptionType {
   blog: Blog;
@@ -47,7 +50,7 @@ const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
       } else if (blogAuthorType === BlogAuthorType.AGENT) {
         url = `/agents/${blogAuthorId}`;
       } else {
-        url = `/admin/detail`;
+        url = ``;
       }
       return url;
     }, [blogAuthorId, blogAuthorType]);
@@ -112,58 +115,64 @@ const BlogDetailDescription: React.FC<BlogDetailDescriptionType> = React.memo(
 
         {/*AUTHOR NAME AND COMMENTS COUNT*/}
         <div className="flex flex-row space-x-5 items-center ps-2">
-          <Link
-            to={`${blogAuthoUrl}`}
-            className="text-blue-600 font-normal font-jostFont text-size_15 leading-tight capitalize underline"
-          >
-            By {blogAuthor?.authorName ?? "Unknown"}
-          </Link>
+          {blogAuthorType === BlogAuthorType.ADMIN ? (
+            <span className="text-size_15 leading-tight text-blue-600 capitalize">
+              By Admin
+            </span>
+          ) : (
+            <Link
+              to={`${blogAuthoUrl}`}
+              className="text-blue-600 font-normal font-jostFont text-size_15 leading-tight capitalize underline"
+            >
+              By {blogAuthor?.authorName ?? "Unknown"}
+            </Link>
+          )}
           <p className="text-slate-600 font-normal font-jostFont text-size_15 leading-tight capitalize">
             {totalComments ?? 0} Comments
           </p>
         </div>
 
         {/*BLOG TITLE*/}
-        <h3 className="font-bold leading-normal mt-1 text-3xl  text-darkBlue font-jostFont capitalize">
+        <h3 className="font-bold leading-normal mt-1 text-xl sm:text-3xl  text-darkBlue font-jostFont capitalize">
           {safeValue(blogTitle)}
         </h3>
 
         {/*BLOG SHORT*/}
-        <p className="text-slate-400 font-jostFont mt-3 text-base leading-onePointEight">
-          <span className="underline capitalize">Short description</span>
-          {": "}
+        <div className={blogTitleContentWrapper}>
+          <p className={blogTitleContentMain}>Short description</p>
           {customTruncate(blogShortInfo, 150)}
-        </p>
+        </div>
 
         {/*QUOTE*/}
-        <blockquote className="my-5 relative py-7 pe-7 ps-24 bg-sky-50 rounded-sm border-0  italic flex flex-col space-y-3">
-          {blogQuote ? (
-            <>
-              <span className="text-lg font-jostFont  text-slate-500 font-semibold capitalize">
-                the quote of the year - ( {blogAuthor?.authorName ?? "Unknown"}{" "}
-                )
-              </span>
-              <p className="text-slate-400 text-base  leading-onePointEight">
-                "{safeValue(blogQuote)}"
+        {blogQuote && (
+          <blockquote className="my-5 relative py-7 pe-7 ps-24 bg-sky-50 rounded-sm border-0  italic flex flex-col space-y-3">
+            {blogQuote ? (
+              <>
+                <span className="text-lg font-jostFont  text-slate-500 font-semibold capitalize">
+                  the quote of the year - ({" "}
+                  {blogAuthor?.authorName ?? "Unknown"} )
+                </span>
+                <p className="text-slate-400 text-base  leading-onePointEight">
+                  "{safeValue(blogQuote)}"
+                </p>
+              </>
+            ) : (
+              <p className="text-slate-500 text-lg italics">
+                There is no quote by author
               </p>
-            </>
-          ) : (
-            <p className="text-slate-500 text-lg italics">
-              There is no quote by author
-            </p>
-          )}
+            )}
 
-          <span className="absolute  top-1/2 -translate-y-full leading-none left-12 ">
-            <Quote className="fill-blue-700 border-0 rotate-180 text-blue-700" />
-          </span>
-        </blockquote>
+            <span className="absolute  top-1/2 -translate-y-full leading-none left-12 ">
+              <Quote className="fill-blue-700 border-0 rotate-180 text-blue-700" />
+            </span>
+          </blockquote>
+        )}
 
         {/*DESCRIPTION*/}
-        <p className="text-slate-400 font-jostFont text-base leading-onePointEight">
-          <span className="underline capitalize">Blog Content</span>
-          {": "}
+        <div className={blogTitleContentWrapper}>
+          <p className={blogTitleContentMain}>Content </p>
           {safeValue(blogContent)}
-        </p>
+        </div>
 
         <Divider
           height={"2px"}
