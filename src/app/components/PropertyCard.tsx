@@ -118,7 +118,7 @@ const PropertyCard: React.FC<PropertyCardType> = React.memo(({ property }) => {
       </CardHeader>
 
       {/* Main Content Part */}
-      <CardContent className="flex flex-col items-start justify-center">
+      <CardContent className="flex flex-col items-stretch justify-center">
         <div className="flex flex-row w-full gap-2 font-jostFont mb-1">
           <span className="py-1 px-3 bg-[#0098681A] text-darkBlue text-xs rounded-sm font-bold ">
             {sellingOption.optionRent?.type ?? sellingOption.optionSell?.type}
@@ -127,7 +127,7 @@ const PropertyCard: React.FC<PropertyCardType> = React.memo(({ property }) => {
             {propertyType.toUpperCase()}
           </span>
         </div>
-        <h3 className="text-darkBlue font-bold font-jostFont text-xl mb-1 line-clamp-2">
+        <h3 className="text-darkBlue font-bold font-jostFont text-xl mb-1 w-full truncate">
           {title}
         </h3>
         <p className="text-stone-400 flex flex-row  items-center gap-1 mb-2 text-sm sm:text-base font-jostFont">
