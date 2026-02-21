@@ -2,6 +2,7 @@ import type { Column, DashboardSidebarFeauturesType } from "@/lib/type/common";
 import type { UserCardsType } from "@/lib/type/dashboard/user";
 import type { AdminGetUserType } from "@/lib/type/member";
 import {
+  Bell,
   Bookmark,
   BookMarked,
   Edit3,
@@ -32,7 +33,7 @@ export const userColumns: Column<AdminGetUserType>[] = [
 ];
 export const USER_DASHBOARD_FEATURES: DashboardSidebarFeauturesType[] = [
   { title: "Overview", Icon: Gauge, url: "/dashboard" },
-  { title: "notifications", Icon: Gauge, url: "/dashboard/notifications" },
+  { title: "notifications", Icon: Bell, url: "/dashboard/notifications" },
 
   {
     title: "Saved Properties",
