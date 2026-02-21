@@ -14,9 +14,9 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import { useGlobals } from "../hooks/useGlobals";
-import { sweetErrorHandling } from "@/lib/sweetAlerts";
 import MemberService from "../services/Member.service";
 import { useState } from "react";
+import FormCustomError from "./FormCustomError";
 
 export const registrationInputClasses =
   "w-full px-4 py-5 text-gray-900 placeholder-gray-400 text-base font-medium rounded-sm border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition-all duration-200 ease-linear";
@@ -42,7 +42,10 @@ const FormSchema = z.object({
     .regex(/[0-9]/, "Must include a number")
     .regex(/[^A-Za-z0-9]/, "Must include a special character"),
 });
+
+const inputErrorClasses = "border-red-500 focus-visible:ring-red-500";
 export default function Login({ btnClasses, btnTitle }: LoginType) {
+  const [error, setError] = useState<null | string>(null);
   const navigation = useNavigate();
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
@@ -57,6 +60,7 @@ export default function Login({ btnClasses, btnTitle }: LoginType) {
   const onSubmit = async (input: z.infer<typeof FormSchema>) => {
     try {
       const memberService = new MemberService();
+      setError(null);
       const { member } = await memberService.login(input);
       localStorage.setItem("memberData", JSON.stringify(member));
       setAuthMember(member);
@@ -65,8 +69,8 @@ export default function Login({ btnClasses, btnTitle }: LoginType) {
 
       navigation("/dashboard");
     } catch (error) {
+      setError("No member found!. Please check your credentials");
       console.log("Error in Login: ", error);
-      await sweetErrorHandling(error!);
     }
   };
 
@@ -77,7 +81,7 @@ export default function Login({ btnClasses, btnTitle }: LoginType) {
           {btnTitle}
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-11/12 max-w-xl pb-8  h-5/6 overflow-auto rounded-md">
+      <DialogContent className="w-11/12 max-w-xl pb-8  overflow-auto rounded-md">
         <div className="flex flex-col items-center justify-center">
           <h3 className="text-darkBlue text-3xl font-jostFont font-bold capitalize">
             Login ?
@@ -97,7 +101,9 @@ export default function Login({ btnClasses, btnTitle }: LoginType) {
                     <FormControl>
                       <Input
                         {...field}
-                        className={registrationInputClasses}
+                        className={
+                          error ? inputErrorClasses : registrationInputClasses
+                        }
                         placeholder="Your Email"
                       />
                     </FormControl>
@@ -114,7 +120,9 @@ export default function Login({ btnClasses, btnTitle }: LoginType) {
                     <FormControl>
                       <Input
                         {...field}
-                        className={registrationInputClasses}
+                        className={
+                          error ? inputErrorClasses : registrationInputClasses
+                        }
                         placeholder="Your Password"
                         type="password"
                       />
@@ -123,22 +131,9 @@ export default function Login({ btnClasses, btnTitle }: LoginType) {
                   </FormItem>
                 )}
               />
-            </div>
 
-            {/* <div className="grid grid-cols-2 mt-3">
-              <div className="flex flex-row gap-2 items-center">
-                <Checkbox className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-slate-50 data-[state=checked]:shadow-[0_0_0.3rem_0.2rem_rgba(0,0,0,0.1)] " />
-                <Label
-                  htmlFor="savePassword"
-                  className="text-lg text-darkBlue font-semibold font-jostFont"
-                >
-                  Save Password
-                </Label>
-              </div>
-              <p className="text-lg text-rose-600 font-semibold font-jostFont capitalize text-end hover:opacity-60 transition-opacity duration-100 ease-in">
-                <Link to="/">Forgot password ?</Link>
-              </p>
-            </div> */}
+              {error && <FormCustomError message={error} />}
+            </div>
 
             <Button
               className="bg-blue-900 w-full py-6 hover:bg-sky-700 text-base  font-semibold font-jostFont focus-visible:ring-0 mt-5 transition-all duration-200 active:scale-95"
