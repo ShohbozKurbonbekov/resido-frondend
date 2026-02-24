@@ -17,7 +17,7 @@ const disabledBtnClasses = "cursor-not-allowed bg-slate-300";
 const activeBtnClasses =
   "bg-slate-500 hover:bg-slate-700 duration-300 transition-all ease-linear active:scale-95";
 const blogTitleContentWrapper =
-  "text-slate-400 font-jostFont mt-3 text-base leading-onePointEight border border-slate-200 rounded-lg p-2 flex flex-col bg-slate-50 sm:gap-2 tracking-tighter items-start";
+  "block overflow-hidden text-slate-400 font-jostFont mt-3 text-base leading-onePointEight border border-slate-200 rounded-lg p-2 flex flex-col bg-slate-50 sm:gap-2 tracking-tighter items-start";
 // ------------------------------------------------------- COMPONENT -------------------------------------------
 interface BlogDetailDescriptionType {
   blog: Blog;
