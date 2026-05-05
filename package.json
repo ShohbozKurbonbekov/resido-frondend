@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "start:prod": "vite preview",
+    "start:prod": "vite preview --host",
     "lint": "eslint .",
     "preview": "vite preview"
   },

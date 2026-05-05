@@ -1,0 +1,21 @@
+services:
+  resido-react:
+    container_name: resido-react
+    restart: always
+    image: node:20.20.2
+    ports:
+      - 3003:4173
+    environment:
+      - PORT=5173
+    volumes:
+      - ./:/usr/src/resido-react
+    working_dir: /usr/src/resido-react
+
+    networks:
+      - resido-react_network
+
+    command: bash -c "yarn && yarn run build && yarn run start:prod"
+
+networks:
+  resido-react_network:
+    driver: bridge
