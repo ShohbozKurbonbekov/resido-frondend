@@ -31,7 +31,7 @@ const DashboardSideBar: React.FC<DashboardSideBarType> = React.memo(
           <img
             src={imgUrl}
             alt={name}
-            className="max-w-44 max-h-44 rounded-full object-cover mb-2 "
+            className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-44 lg:h-44 rounded-full object-cover mb-2 "
           />
           <h3 className="text-lg lg:text-xl mt-2.5 mb-1 text-darkBlue font-bold font-jostFont capitalize text-center leading-tight line-clamp-2">
             {name}
