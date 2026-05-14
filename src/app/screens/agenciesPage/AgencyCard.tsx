@@ -35,7 +35,7 @@ const AgencyCard: React.FC<AgencyCardType> = React.memo(({ agency }) => {
         <span className="py-1 px-3 rounded-sm bg-green-600 text-xs font-jostFont font-normal text-white capitalize">
           {agentsTotalNumber ?? 0} Agent{agentsTotalNumber > 1 ? "s" : ""}
         </span>
-        <h5 className="text-xl text-darkBlue capitalize font-bold font-jostFont hover:text-blue-700 transition-colors duration-100 ease-linear">
+        <h5 className="text-xl text-darkBlue capitalize font-bold font-jostFont hover:text-blue-700 transition-colors duration-100 ease-linear line-clamp-1">
           <Link to={`/agencies/${_id}`}>{memberName ?? "N/A"}</Link>
         </h5>
         <p className="text-slate-400 text-size_15 capitalize font-light font-jostFont">
