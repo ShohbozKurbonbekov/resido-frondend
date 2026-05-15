@@ -57,7 +57,6 @@ export default function HomePage() {
           limit: 12,
         })
         .then((data) => {
-          console.log("RESUT, ----------", data);
           setRecentRentProperties(data);
         })
         .catch((error) => {
@@ -103,7 +102,7 @@ export default function HomePage() {
     fetchDataFromDB();
   }, []);
   return (
-    <div className="home-page">
+    <div>
       <Hero />
       <Achievement />
       <NewProperties />

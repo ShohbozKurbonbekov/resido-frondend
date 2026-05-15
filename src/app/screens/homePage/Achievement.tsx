@@ -11,7 +11,7 @@ export default function Achievement() {
           <h2 className="text-3xl font-bold font-jostFont">Achievements</h2>
 
           <p className="leading-onePointEight ">
-            See and teach with our achievements
+            Discover what we’ve accomplished{" "}
           </p>
         </div>
 

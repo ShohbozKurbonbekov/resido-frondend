@@ -52,6 +52,9 @@ export default function NewProperties() {
     [emblaApi],
   );
 
+  const width = window.innerWidth;
+  const visibleCards = width >= 1024 ? 3 : width >= 640 ? 2 : 1;
+  const shouldScroll = recentRentProperties.properties.length > visibleCards;
   const scrollPrev = () => emblaApi?.scrollPrev();
   const scrollNext = () => emblaApi?.scrollNext();
 
@@ -84,10 +87,7 @@ export default function NewProperties() {
                     <div
                       key={index}
                       className="
-                        flex-[0_0_100%]
-                        sm:flex-[0_0_50%]
-                        lg:flex-[0_0_33.333%] p-1 truncate 
-                      
+                       min-w-0 shrink-0 grow-0 basis-full sm:basis-1/2 lg:basis-1/3 p-1 truncate
                       "
                     >
                       <PropertyCard property={property} />
@@ -98,60 +98,66 @@ export default function NewProperties() {
             </div>
 
             {/* DOTS */}
-            <div className="flex justify-center mt-6 gap-3">
-              {scrollSnaps.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => scrollTo(index)}
-                  className={`h-3 w-3 rounded-full transition-all duration-300 ${
-                    index === selectedIndex
-                      ? "bg-gray-800 scale-110 shadow-md"
-                      : "bg-gray-400 hover:bg-gray-500"
-                  }`}
-                ></button>
-              ))}
-            </div>
+            {shouldScroll && (
+              <div className="flex justify-center mt-6 gap-3">
+                {scrollSnaps.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => scrollTo(index)}
+                    className={`h-3 w-3 rounded-full transition-all duration-300 ${
+                      index === selectedIndex
+                        ? "bg-gray-800 scale-110 shadow-md"
+                        : "bg-gray-400 hover:bg-gray-500"
+                    }`}
+                  ></button>
+                ))}
+              </div>
+            )}
 
             {/* ARROWS */}
-            <button
-              onClick={scrollPrev}
-              className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white rounded-full shadow-md p-2 hidden sm:flex"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5"
-                fill="none"
-                stroke="black"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
+            {shouldScroll && (
+              <button
+                onClick={scrollPrev}
+                className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white rounded-full shadow-md p-2 hidden sm:flex"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="black"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
+            )}
 
-            <button
-              onClick={scrollNext}
-              className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white rounded-full shadow-md p-2 hidden sm:flex"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5"
-                fill="none"
-                stroke="black"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
+            {shouldScroll && (
+              <button
+                onClick={scrollNext}
+                className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white rounded-full shadow-md p-2 hidden sm:flex"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="black"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+            )}
           </div>
         ) : (
           <NoFound />
