@@ -9,6 +9,7 @@ import { retrieveLatestComments } from "./selector";
 import type { Comment } from "@/lib/type/comment";
 import { carouselAutoPlayDelay } from "@/lib/config";
 import PreviewCard from "./PreviewCard";
+import { handleCarouselCards } from "@/lib/utils";
 
 // --------------------- REDUX SELECTOR ----------------------
 const latestCommentsRetriever = createSelector(
@@ -34,6 +35,7 @@ const CustomersReview: React.FC = () => {
   const [carouselRef, carouselApi] = useEmblaCarousel(carouselOptions, [
     autoPlay.current,
   ]);
+
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
 
@@ -52,6 +54,10 @@ const CustomersReview: React.FC = () => {
     (index: number) => carouselApi?.scrollTo(index),
     [carouselApi],
   );
+
+  const width = window.innerWidth;
+  const visibleCards = handleCarouselCards(Number(width));
+  const shouldScroll = latestComments.length > visibleCards;
 
   const scrollPrev = () => carouselApi?.scrollPrev();
   const scrollNext = () => carouselApi?.scrollNext();
@@ -80,7 +86,7 @@ const CustomersReview: React.FC = () => {
             >
               <div className="flex touch-pan-y touch-pinch-zoom ">
                 {latestComments.map((comment: Comment) => (
-                  <div className="flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.3333%] xl:flex-[0_0_25%] p-3">
+                  <div className="min-w-0 shrink-0 grow-0 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 p-3">
                     <PreviewCard comment={comment} />
                   </div>
                 ))}
@@ -88,60 +94,66 @@ const CustomersReview: React.FC = () => {
             </div>
 
             {/* DOTS */}
-            <div className="flex justify-center mt-6 gap-3">
-              {scrollSnaps.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => scrollTo(index)}
-                  className={`h-3 w-3 rounded-full transition-all duration-300 ${
-                    index === currentIndex
-                      ? "bg-gray-800 scale-110 shadow-md"
-                      : "bg-gray-400 hover:bg-gray-500"
-                  }`}
-                ></button>
-              ))}
-            </div>
+            {shouldScroll && (
+              <div className="flex justify-center mt-6 gap-3">
+                {scrollSnaps.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => scrollTo(index)}
+                    className={`h-3 w-3 rounded-full transition-all duration-300 ${
+                      index === currentIndex
+                        ? "bg-gray-800 scale-110 shadow-md"
+                        : "bg-gray-400 hover:bg-gray-500"
+                    }`}
+                  ></button>
+                ))}
+              </div>
+            )}
 
             {/* ARROWS */}
-            <button
-              onClick={scrollPrev}
-              className="absolute left-2 top-1/2 -translate-y-[70%] bg-white/70 hover:bg-white rounded-full shadow-md p-2 hidden sm:flex"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5"
-                fill="none"
-                stroke="black"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
+            {shouldScroll && (
+              <button
+                onClick={scrollPrev}
+                className="absolute left-2 top-1/2 -translate-y-[70%] bg-white/70 hover:bg-white rounded-full shadow-md p-2 hidden sm:flex"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="black"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
+            )}
 
-            <button
-              onClick={scrollNext}
-              className="absolute right-2 top-1/2 -translate-y-[70%] bg-white/70 hover:bg-white rounded-full shadow-md p-2 hidden sm:flex"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5"
-                fill="none"
-                stroke="black"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
+            {shouldScroll && (
+              <button
+                onClick={scrollNext}
+                className="absolute right-2 top-1/2 -translate-y-[70%] bg-white/70 hover:bg-white rounded-full shadow-md p-2 hidden sm:flex"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="black"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+            )}
           </div>
         ) : (
           <NoFound />

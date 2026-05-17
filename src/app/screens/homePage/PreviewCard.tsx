@@ -23,10 +23,10 @@ export default function PreviewCard({ comment }: PreviewCardType) {
     items-center h-full p-4"
     >
       <CardHeader>
-        <div className="max-w-20 max-h-20 relative overflow-hidden">
+        <div className="w-20 h-20 relative overflow-hidden">
           <img
             src={imgUrl}
-            className="rounded-full"
+            className="rounded-full w-full h-full"
             alt={senderData?.memberName ?? "Unknown"}
           />
           <span className="absolute right-0 bottom-0 h-7 w-7 rounded-full bg-blue-700 flex items-center justify-center">

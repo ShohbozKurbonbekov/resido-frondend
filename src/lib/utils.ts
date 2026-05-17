@@ -127,3 +127,15 @@ export const customizePropertyPrice = (option: SellingType) => {
   }
   return null;
 };
+
+export const handleCarouselCards = (width: number) => {
+  if (width >= 1280) {
+    return 4;
+  } else if (width >= 1024) {
+    return 3;
+  } else if (width >= 768) {
+    return 2;
+  } else {
+    return 1;
+  }
+};

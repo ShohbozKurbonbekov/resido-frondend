@@ -19,7 +19,6 @@ export default function AgencyRegistration() {
       return sweetFailureProvider(
         "You are not eligible to apply for an agency",
         true,
-        "/",
       );
     }
 
