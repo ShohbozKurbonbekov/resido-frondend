@@ -1,8 +1,8 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
-import { Bed, Copy, Hotel, SquareArrowUpRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Bed, Copy, Hotel } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 import { useCallback, useEffect, useState } from "react";
 import { formatCurrency, formatPropertyArea } from "@/lib/utils";
@@ -35,6 +35,7 @@ const PropertyCard: React.FC<PropertyCardType> = React.memo(({ property }) => {
     area,
   } = property;
 
+  const navigation = useNavigate();
   const [emblaRef, emblaApi] = useEmblaCarousel(carouselOptions, [
     Autoplay({ delay: carouselAutoPlayDelay, stopOnInteraction: false }),
   ]);
@@ -51,6 +52,9 @@ const PropertyCard: React.FC<PropertyCardType> = React.memo(({ property }) => {
     [emblaApi],
   );
 
+  const goPropertyPage = () => {
+    return navigation(`/property/${id}`);
+  };
   useEffect(() => {
     if (!emblaApi) return;
 
@@ -61,8 +65,10 @@ const PropertyCard: React.FC<PropertyCardType> = React.memo(({ property }) => {
 
   return (
     <Card
-      className="flex flex-col gap-2 shadow-none max-w-md mx-auto truncate"
-      key={id}
+      className="flex flex-col gap-2 shadow-none max-w-md mx-auto truncate  group
+  relative overflow-hidden transition-all duration-300 ease-out hover:border-neutral-300 hover:scale-[1.01] active:scale-[0.99]
+  active:duration-200 will-change-transform cursor-pointer"
+      onClick={goPropertyPage}
     >
       {/* Header images */}
       <CardHeader className="p-2 sm:p-4">
@@ -75,7 +81,7 @@ const PropertyCard: React.FC<PropertyCardType> = React.memo(({ property }) => {
                   <div className="flex-[0_0_100%] p-1" key={index}>
                     <img
                       src={imageUrl}
-                      className="h-full rounded-lg aspect-blogCardRatio"
+                      className="h-full rounded-lg aspect-blogCardRatio object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                       alt={title}
                     />
                   </div>
@@ -163,9 +169,6 @@ const PropertyCard: React.FC<PropertyCardType> = React.memo(({ property }) => {
               "USD",
             )}
           </span>
-          <Link to={`/property/${id}`}>
-            <SquareArrowUpRight className="h-5 w-5 rounded-full bg-slate-100 p-2  transition-all duration-200 ease-in-out text-blue-800  hover:scale-110 hover:bg-slate-200 box-content" />
-          </Link>
         </div>
       </CardContent>
     </Card>

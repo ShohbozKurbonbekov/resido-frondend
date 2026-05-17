@@ -160,7 +160,7 @@ export default function NewProperties() {
             )}
           </div>
         ) : (
-          <NoFound />
+          <NoFound title="No Recent Properties" />
         )}
       </div>
     </section>

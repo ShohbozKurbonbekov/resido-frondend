@@ -156,7 +156,7 @@ const CustomersReview: React.FC = () => {
             )}
           </div>
         ) : (
-          <NoFound />
+          <NoFound title="No Comments Yet" />
         )}
       </div>
     </section>
