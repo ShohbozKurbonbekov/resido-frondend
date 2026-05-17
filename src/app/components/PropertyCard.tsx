@@ -81,7 +81,7 @@ const PropertyCard: React.FC<PropertyCardType> = React.memo(({ property }) => {
                   <div className="flex-[0_0_100%] p-1" key={index}>
                     <img
                       src={imageUrl}
-                      className="h-full rounded-lg aspect-blogCardRatio object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                      className="h-full rounded-lg aspect-blogCardRatio"
                       alt={title}
                     />
                   </div>
@@ -91,9 +91,9 @@ const PropertyCard: React.FC<PropertyCardType> = React.memo(({ property }) => {
           </div>
           <div className="flex flex-row  gap-2 top-5 left-4  absolute">
             {/* verified sign  */}
-            <span className="bg-green-500 py-1 px-3 rounded-md text-slate-50 font-bold flex flex-row gap-1 items-center">
+            <span className="bg-green-500 py-1 px-3 rounded-md text-white font-bold flex flex-row gap-1 items-center">
               <img src="/img/svg/verified.svg" className="" alt="" />
-              <span className="text-size_10 tracking-wide">
+              <span className="text-size_10 tracking-wide capitalize">
                 {(property.author?.rank ?? "Unknown")
                   .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
                   .trim()}
@@ -102,9 +102,11 @@ const PropertyCard: React.FC<PropertyCardType> = React.memo(({ property }) => {
 
             {/* new sign */}
             {daysSinceCreated <= 7 && (
-              <span className="bg-[#a70a29] py-1 px-3 rounded-md text-slate-50 font-bold flex flex-row gap-1 items-center">
+              <span className="bg-[#a70a29] py-1 px-3 rounded-md text-white font-bold flex flex-row gap-1 items-center">
                 <img src="/img/svg/moon.svg" alt="" />
-                <span className="text-size_10 tracking-wide">new</span>
+                <span className="text-size_10 tracking-wide capitalize">
+                  new
+                </span>
               </span>
             )}
           </div>
