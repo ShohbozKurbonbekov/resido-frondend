@@ -81,7 +81,7 @@ const PropertyCard: React.FC<PropertyCardType> = React.memo(({ property }) => {
                   <div className="flex-[0_0_100%] p-1" key={index}>
                     <img
                       src={imageUrl}
-                      className="h-full rounded-lg aspect-blogCardRatio"
+                      className="rounded-lg aspect-blogCardRatio"
                       alt={title}
                     />
                   </div>
