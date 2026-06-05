@@ -18,8 +18,8 @@ export interface UserMemberInput {
   memberPhone: string;
   memberEmail: string;
   memberPassword: string;
-  role: MemberType | string;
   occupation: string;
+  role?: MemberType | string;
   memberStatus?: MemberStatus;
   memberAddress?: string;
   memberDescription?: string;

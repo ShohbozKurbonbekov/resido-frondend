@@ -139,3 +139,4 @@ export const handleCarouselCards = (width: number) => {
     return 1;
   }
 };
+

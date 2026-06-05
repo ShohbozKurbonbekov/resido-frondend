@@ -6,17 +6,19 @@ import Login from "../Login";
 import { useGlobals } from "@/app/hooks/useGlobals";
 import { navbarPages } from "@/app/data/navbar";
 
+const navbarToggleBtnClasses =
+  "w-full text-white bg-slate-600 p-2 rounded-md hover:bg-slate-400 transition-colors duration-200 ease-linear";
+
+const registerBtnClasses =
+  "text-white bg-slate-600  px-8 hover:no-underline hover:bg-slate-400 transtion-colors duration-200 ease-linear";
+
 interface NavbarToggleBtnProps {
   btn: React.ReactNode;
 }
 
 export default function NavbarToggleBtn({ btn }: NavbarToggleBtnProps) {
-  const navbarToggleBtnClasses =
-    "w-full text-white bg-slate-600 p-2 rounded-md hover:bg-slate-400 transition-colors duration-200 ease-linear";
   const navigation = useNavigate();
   const { authmember, logout } = useGlobals();
-  const registerBtnClasses =
-    "text-white bg-slate-600  px-8 hover:no-underline hover:bg-slate-400 transtion-colors duration-200 ease-linear";
   const [isActive, setIsActive] = useState<string>("");
 
   return (

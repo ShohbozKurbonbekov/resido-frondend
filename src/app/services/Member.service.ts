@@ -6,7 +6,7 @@ import type {
   UserDashboardOverviewType,
   UserUpdate,
 } from "@/lib/type/dashboard/user";
-import type { LoginInput, UserMemberInput } from "@/lib/type/member";
+import type { LoginInput } from "@/lib/type/member";
 import type { MemberMessages, Message, MessageInput } from "@/lib/type/message";
 import type {
   NotificationCreation,
@@ -15,6 +15,7 @@ import type {
 import type { PaymentTariffsType, TarrifOutputType } from "@/lib/type/pricing";
 import type { CommonPropertyResults, MyProperties } from "@/lib/type/property";
 import axios from "axios";
+import type { SIGNUP_SUBMIT } from "../data/navbar";
 
 class MemberService {
   private readonly serverApi;
@@ -77,7 +78,7 @@ class MemberService {
     }
   }
 
-  public async signup(input: UserMemberInput): Promise<CommonUsers> {
+  public async signup(input: SIGNUP_SUBMIT): Promise<CommonUsers> {
     try {
       const url = `${this.serverApi}/member/signup`;
       const result = await axios.post(url, input, { withCredentials: true });

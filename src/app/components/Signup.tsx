@@ -7,7 +7,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import z from "zod";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -23,41 +23,18 @@ import {
   sweetTopSmallSuccessAlert,
 } from "@/lib/sweetAlerts";
 import MemberService from "../services/Member.service";
-import { MemberType } from "@/lib/enums/agent.enum";
 import { useGlobals } from "../hooks/useGlobals";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registrationInputClasses } from "./Login";
 import { textClasses } from "@/lib/config";
+import {
+  FORM_SCHEMA,
+  SIGNUP_FORM_FIELDS,
+  type SIGNUP_INPUT,
+  type SIGNUP_SUBMIT,
+} from "../data/navbar";
 // ✅ Validation schema with Zod
-
-const FormSchema = z.object({
-  memberName: z.string().trim().min(1, { message: "Name is required" }),
-  memberEmail: z
-    .string()
-    .trim()
-    .min(1, { message: "Email is required" })
-    .email({ message: "Invalid email address" }),
-  memberPhone: z
-    .string()
-    .trim()
-    .regex(/^\d{7,14}$/, {
-      message: "Phone number must between 7 and 14 lengths",
-    }),
-  memberPassword: z
-    .string()
-    .trim()
-    .min(8, "Password must be at least 8 characters long")
-    .regex(/[A-Z]/, "Must include uppercase letter")
-    .regex(/[a-z]/, "Must include lowercase letter")
-    .regex(/[0-9]/, "Must include a number")
-    .regex(/[^A-Za-z0-9]/, "Must include a special character"),
-  occupation: z.string().trim().min(1, { message: "Occupation is required" }),
-  role: z
-    .enum([MemberType.USER, MemberType.AGENCY])
-    .or(z.literal(""))
-    .refine((val) => val !== "", { message: "Please select a valid role" }),
-});
 
 // ------------------------------------------------------------ COMPONENT ----------------------------------------------
 type SignUpType = {
@@ -69,40 +46,35 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
   const navigation = useNavigate();
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const { setAuthMember } = useGlobals();
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+
+  const form = useForm<SIGNUP_INPUT>({
+    resolver: zodResolver(FORM_SCHEMA),
     defaultValues: {
       memberName: "",
       memberEmail: "",
       memberPhone: "",
       memberPassword: "",
       occupation: "",
-      role: MemberType.USER,
     },
   });
 
-  const onSubmit = async (input: z.infer<typeof FormSchema>) => {
+  const onSubmit = async (input: SIGNUP_SUBMIT) => {
     const member = new MemberService();
+    setDialogOpen(false);
 
     try {
-      if (input.role === MemberType.AGENCY) {
-        return navigation("/register-agency");
-      }
-
       const result = await member.signup(input);
       await sweetTopSmallSuccessAlert("You have successfully signed up!");
-
       form.reset();
       // SAVING FOR DATA
       setAuthMember(result);
-      setDialogOpen(false);
       navigation("/dashboard");
     } catch (error) {
-      setDialogOpen(false);
       console.log("Error in sign up process: ", error);
       await sweetErrorHandling(error!);
     }
   };
+
   return (
     <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <DialogTrigger asChild>
@@ -110,7 +82,7 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
           {btnTitle}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-2xl overflow-auto pb-8 h-5/6 w-11/12 rounded-md">
+      <DialogContent className="sm:max-w-2xl overflow-auto pb-8 h-5/6 w-[85%] rounded-md">
         <DialogHeader className="flex flex-col items-center justify-center">
           <img src="/img/logo.svg" className="h-20 w-20" alt="signup logo " />
           <DialogTitle className="text-darkBlue text-2xl font-jostFont font-bold capitalize">
@@ -119,130 +91,32 @@ export default function SignUp({ btnClasses, btnTitle }: SignUpType) {
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div className="flex flex-col  gap-y-2">
-                {/* Name*/}
+            <div className="grid grid-cols-1  gap-3">
+              {SIGNUP_FORM_FIELDS.map((input) => (
                 <FormField
+                  key={input.name}
                   control={form.control}
-                  name="memberName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className={textClasses}>Name</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter your name"
-                          {...field}
-                          className={registrationInputClasses}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* EMAIL */}
-                <FormField
-                  control={form.control}
-                  name="memberEmail"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className={textClasses}>Email</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter your email"
-                          {...field}
-                          className={registrationInputClasses}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* PHONE */}
-                <FormField
-                  control={form.control}
-                  name="memberPhone"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className={textClasses}>Phone</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="01012345678"
-                          {...field}
-                          className={registrationInputClasses}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              {/*COLUMN - 2*/}
-              <div className="flex flex-col gap gap-y-2">
-                {/* PASSWORD */}
-                <FormField
-                  control={form.control}
-                  name="memberPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className={textClasses}>Password</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="password"
-                          placeholder="Password"
-                          className={registrationInputClasses}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* OCCUPATION */}
-                <FormField
-                  control={form.control}
-                  name="occupation"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className={textClasses}>Occupation</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Developer, Student..."
-                          {...field}
-                          className={registrationInputClasses}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* ROLE SELECT */}
-                <FormField
-                  control={form.control}
-                  name="role"
+                  name={input.name}
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className={textClasses}>
-                        Being registered as
+                        {input.label}
                       </FormLabel>
-                      <Input
-                        placeholder="User"
-                        {...field}
-                        className={registrationInputClasses}
-                        disabled={true}
-                      />
-
+                      <FormControl>
+                        <Input
+                          type={input.type}
+                          placeholder={input.placeholder}
+                          {...field}
+                          className={registrationInputClasses}
+                        />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-              </div>
+              ))}
             </div>
-            <div className="flex flex-row  mt-4">
+            <div className="flex flex-row mt-4">
               <Button
                 className="bg-blue-900 w-full py-6 hover:bg-sky-700 text-lg  font-semibold font-jostFont focus-visible:ring-0"
                 type="submit"
