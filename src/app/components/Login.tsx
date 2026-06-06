@@ -17,6 +17,8 @@ import { useGlobals } from "../hooks/useGlobals";
 import MemberService from "../services/Member.service";
 import { useState } from "react";
 import FormCustomError from "./FormCustomError";
+import { LOGIN_FORM_SCHEMA } from "../data/navbar";
+import { errorClasses, ErrorMessages } from "@/lib/config";
 
 export const registrationInputClasses =
   "w-full px-4 py-5 text-gray-900 placeholder-gray-400 text-base font-medium rounded-sm border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition-all duration-200 ease-linear";
@@ -26,50 +28,30 @@ interface LoginType {
   btnTitle: string;
 }
 
-// ✅ Validation schema with Zod
-const FormSchema = z.object({
-  memberEmail: z
-    .string()
-    .trim()
-    .min(1, { message: "Email is required" })
-    .email({ message: "Invalid email address" }),
-  memberPassword: z
-    .string()
-    .trim()
-    .min(8, "Password must be at least 8 characters long")
-    .regex(/[A-Z]/, "Must include uppercase letter")
-    .regex(/[a-z]/, "Must include lowercase letter")
-    .regex(/[0-9]/, "Must include a number")
-    .regex(/[^A-Za-z0-9]/, "Must include a special character"),
-});
-
-const inputErrorClasses = "border-red-500 focus-visible:ring-red-500";
 export default function Login({ btnClasses, btnTitle }: LoginType) {
   const [error, setError] = useState<null | string>(null);
   const navigation = useNavigate();
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const { setAuthMember } = useGlobals();
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.input<typeof LOGIN_FORM_SCHEMA>>({
+    resolver: zodResolver(LOGIN_FORM_SCHEMA),
     defaultValues: {
       memberEmail: "",
       memberPassword: "",
     },
   });
-  const onSubmit = async (input: z.infer<typeof FormSchema>) => {
+  const onSubmit = async (input: z.infer<typeof LOGIN_FORM_SCHEMA>) => {
     try {
       const memberService = new MemberService();
-      setError(null);
       const { member } = await memberService.login(input);
       localStorage.setItem("memberData", JSON.stringify(member));
       setAuthMember(member);
       setDialogOpen(false);
       form.reset();
-
       navigation("/dashboard");
     } catch (error) {
-      setError("No member found!. Please check your credentials");
+      setError(ErrorMessages.error9);
       console.log("Error in Login: ", error);
     }
   };
@@ -86,7 +68,7 @@ export default function Login({ btnClasses, btnTitle }: LoginType) {
           <h3 className="text-darkBlue text-3xl font-jostFont font-bold capitalize">
             Login ?
           </h3>
-          <img src="/img/logo.svg" className="h-16 w-16" alt="signup logo " />
+          <img src="/img/logo.svg" className="h-16 w-16" alt="login-logo " />
         </div>
 
         {/* ----------------------------------------- FORM -------------------------------- */}
@@ -102,7 +84,7 @@ export default function Login({ btnClasses, btnTitle }: LoginType) {
                       <Input
                         {...field}
                         className={
-                          error ? inputErrorClasses : registrationInputClasses
+                          error ? errorClasses : registrationInputClasses
                         }
                         placeholder="Your Email"
                       />
@@ -121,7 +103,7 @@ export default function Login({ btnClasses, btnTitle }: LoginType) {
                       <Input
                         {...field}
                         className={
-                          error ? inputErrorClasses : registrationInputClasses
+                          error ? errorClasses : registrationInputClasses
                         }
                         placeholder="Your Password"
                         type="password"

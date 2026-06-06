@@ -75,3 +75,19 @@ export const SIGNUP_FORM_FIELDS = [
     type: "text",
   },
 ] as const;
+
+export const LOGIN_FORM_SCHEMA = z.object({
+  memberEmail: z
+    .string()
+    .trim()
+    .min(1, { message: "Email is required" })
+    .email({ message: "Invalid email address" }),
+  memberPassword: z
+    .string()
+    .trim()
+    .min(8, "Password must be at least 8 characters long")
+    .regex(/[A-Z]/, "Must include uppercase letter")
+    .regex(/[a-z]/, "Must include lowercase letter")
+    .regex(/[0-9]/, "Must include a number")
+    .regex(/[^A-Za-z0-9]/, "Must include a special character"),
+});

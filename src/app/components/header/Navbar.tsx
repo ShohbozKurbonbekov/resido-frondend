@@ -126,10 +126,10 @@ export default function Navbar() {
                     navbarScrolled ? "text-darkBlue" : "text-stone-50"
                   } rounded-md`}
                 >
-                  <Avatar>
+                  <Avatar className="shadow-lg">
                     <AvatarImage
                       src={
-                        authmember.avatar
+                        authmember?.avatar
                           ? `${serverAPI}/${authmember.avatar}`
                           : defaultUserAvatar
                       }

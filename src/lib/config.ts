@@ -9,6 +9,7 @@ export const ErrorMessages = {
   error6: "Only common users are allowed to the agent here",
   error7: "Only Common users are allowed to apply for an agent position",
   error8: "Your agent application is under review, Please wait!",
+  error9: "No member found!. Please check your credentials",
 };
 
 export const customTruncate = (text: string, limit: number) => {
