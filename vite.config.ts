@@ -13,6 +13,9 @@ export default defineConfig({
   //     external: ["leaflet"],
   //   },
   // },
+  preview: {
+    allowedHosts: ["resido-estate.cloud"],
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
